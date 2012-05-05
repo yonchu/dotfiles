@@ -42,8 +42,9 @@
 
   # show
   sh  = show
-  shr = remote -v           # リモートリポジトリの一覧(URL付き)
-  sho = remote show origin  # リモートリポジトリの詳細表示
+  shr = remote -v            # リモートリポジトリの一覧(URL付き)
+  shro = remote show origin  # リモートリポジトリの詳細表示(origin)
+  shrg = remote show github  # リモートリポジトリの詳細表示(github)
 
   # ls-files
   ls-fu = ls-files -u       # コンフリクトしたファイルの一覧
@@ -150,6 +151,8 @@
   d4 = diff HEAD~~~~         # HEADから4つ前とdiff
   d5 = diff HEAD~~~~~        # HEADから5つ前とdiff
   d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
+  dro = diff master origin/master  # リモートリポジトリ(origin)とのdiff
+  drg = diff master github/master  # リモートリポジトリ(github)とのdiff
 
   # edit関連
   # modified or untrackedなファイルを編集する
