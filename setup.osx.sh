@@ -113,12 +113,14 @@ done
 # $ git clone https://github.com/gmarik/vundle.git
 #
 # $ vim -c BundleInstall -c quit
+# $ vim test.py BundleInstall -c quit
 #
 # vimprocのコンパイル
 # $ cd ~/.vim/bundle/vimproc/
 # $ make -f make_mac.mak
 #
 # vim-powerlineの個別変更(キャラコード/文字数(マルチ文字対応))
+# :PowerLineClearCache
 # フォントのインストール
 #  Ricty,  Envy Code R, うにフォント, あずきフォント
 #
