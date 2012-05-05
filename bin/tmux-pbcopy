@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# http://d.hatena.ne.jp/koseki2/20110816/TmuxCopy
+
+COPY=`tmux save-buffer -`
+echo "$COPY" | pbcopy
+
+# メッセージ表示
+LINES=`echo "$COPY" | wc -l | tr -d ' '`
+#HEAD=`head -1 $COPY`
+#TAIL=`tail -1 $COPY`
+#tmux display-message "Copy:  $HEAD  -  $TAIL"
+tmux display-message "Copy: $LINES lines"

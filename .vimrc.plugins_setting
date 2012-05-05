@@ -1,0 +1,491 @@
+"-------------------------------------------------------------------------------
+" プラグインごとの設定 plugins
+"-------------------------------------------------------------------------------
+
+"------------------------------------
+" autodate.vim
+"  タイムスタンプの挿入 - 形式 Last Change:ドット
+"  Kaoriya版ではデフォルト有効
+"------------------------------------
+" フォーマット
+let autodate_format="%Y/%m/%d %H:%M:%S"
+
+
+"------------------------------------
+" matchit.vim
+"  %コマンドによる対応括弧ジャンプ機能の拡張
+"------------------------------------
+runtime macros/matchit.vim
+" 対応する括弧を追加
+"let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
+
+
+"------------------------------------
+" YankRing.vim
+"------------------------------------
+" 通常版のvimでは以下の設定にしないとペースト時にエラーが出る
+if ! has("kaoriya")
+  let g:yankring_manual_clipboard_check = 0
+endif
+" 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
+let g:yankring_history_file = ".yankring_history"
+" Yankの履歴参照
+nmap ,y :YRShow<CR>
+" ヤンク履歴についかする最少文字数(1文字は対象外)
+let g:yankring_min_element_length = 2
+
+
+"------------------------------------
+" MiniBufExplorer
+"------------------------------------
+" set minibfexp
+let g:miniBufExplMapWindowNavVim=1 "hjklで移動
+let g:miniBufExplSplitBelow=0  " Put new window above
+let g:miniBufExplMapWindowNavArrows=1
+let g:miniBufExplMapCTabSwitchBufs=1
+let g:miniBufExplModSelTarget=1
+let g:miniBufExplSplitToEdge=1
+let g:miniBufExplMaxSize = 10
+
+" :MtでMiniBufExplorerの表示トグル
+command! Mt :TMiniBufExplorer
+
+
+"------------------------------------
+" NERDTree
+"  ツリー型ファイルエクスプローラ
+"  http://blog.livedoor.jp/kumonopanya/archives/51048805.html
+"------------------------------------
+" F5でツリー表示をトグル
+"nmap <F5> :TMiniBufExplorer<CR>:NERDTreeToggle<CR>:TMiniBufExplorer<CR>
+nmap <F5> :NERDTreeToggle<CR>
+
+" ツリー表示幅
+"let g:NERDTreeWinSize=31
+
+" 無視するファイルを設定
+" \ エスケープ記号
+" $ ファイル名の最後
+let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
+
+" 隠しファイル表示
+let g:NERDTreeShowHidden=1
+" ツリー上部のヘルプ表示(0:表示)
+let g:NERDTreeMinimalUI=0
+" ツリーに矢印などを表示するか(0:表示)
+let g:NERDTreeDirArrows=0
+
+"マウス操作方法
+" 1 : ファイル、ディレクトリ両方共ダブルクリックで開く(default)
+" 2 : ディレクトリのみシングルクリックで開く
+" 3 : ファイル、ディレクトリ両方共シングルクリックで開く
+let g:NERDTreeMouseMode=1
+
+
+"------------------------------------
+" VTreeExplorer
+"  ツリー状にファイルやディレクトリの一覧を表示
+"  NERDTreeを使用するので削除
+"------------------------------------
+" 縦分割で表示
+"let g:treeExplVertical=1
+" <Leader>t<Space>でディレクトリツリー表示
+"noremap <Leader>t<Space> :VSTreeExplore<CR>
+" 分割したウィンドウのサイズ
+"let g:treeExplWinSize=30
+" 隠しファイルを表示
+"let g:treeExplHidden=1
+
+
+"------------------------------------
+" nerd_commenter.vim
+"------------------------------------
+" コメントの間にスペースを空ける
+let nerdspacedelims=1
+"<leader>xでコメントをトグル(nerd_commenter.vim)
+map <leader>x, c<space>
+""未対応ファイルタイプのエラーメッセージを表示しない
+let nerdshutup=1
+
+
+"------------------------------------
+" toggle.vim
+"------------------------------------
+"imap <C-A> <Plug>ToggleI
+nmap <C-A> <Plug>ToggleN
+vmap <C-A> <Plug>ToggleV
+
+let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'yes':'no', 'no':'yes', 'enable':'disable', 'disable':'enable', 'pick':'reword', 'reword':'fixup', 'fixup':'squash', 'squash':'edit', 'edit':'exec', 'exec':'pick' }
+
+
+"------------------------------------
+" grep.vim
+"------------------------------------
+" MacのxargsではRgrepがエラーになる
+if has('mac')
+  if system('which gxargs')
+    :let Grep_Xargs_Path = 'gxargs'
+  else
+    :let Grep_Find_Use_Xargs = 0
+  endif
+endif
+
+" :Gb <args> でGrepBufferする
+command! -nargs=1 Gb :GrepBuffer <args>
+" カーソル下の単語をGrepBufferする
+nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
+
+" :Gr <args>でカレントディレクトリ以下を再帰的にgrepする
+command! -nargs=1 Gr :Rgrep <args> *<Enter><CR>
+" カーソル下の単語をgrepする
+nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
+
+" デフォルトで設定されるオプション
+"  -i 大文字小文字を区別しない
+"  -n 各行の先頭にファイルの行番号を表示します
+"  -H ファイル名を表示
+"  -E オプションは、拡張正規表現を使用する場合に指定
+"     fgrep 正規表現を使わない検索
+"     egrep 正規表現を使った検索 -E と同じ
+"  -I バイナリ検索除外
+:let Grep_Default_Options = '-niE'
+
+" 検索外のディレクトリ、ファイルパターン
+let Grep_Skip_Dirs = '.svn .git .hg'
+let Grep_Skip_Files = '*.bak *~'
+
+
+"------------------------------------
+" eregex.vim
+"  検索/置換にRubyやPerlの正規表現が使用できる
+"  うまく動作しないので不可
+"------------------------------------
+"nnoremap / :M/
+"nnoremap ? :M?
+"nnoremap ,/ /
+"nnoremap ,? ?
+
+
+"------------------------------------
+" surround.vim
+"------------------------------------
+" s, ssで選択範囲を指定文字でくくる
+"nmap S <Plug>Ysurround
+"nmap SS <Plug>Yssurround
+"let g:surround_{char2nr('e')} = "begin \r end"
+"let g:surround_{char2nr('d')} = "do \r end"
+"let g:surround_{char2nr("-")} = ":\r"
+
+
+"------------------------------------
+" gundo.Vim
+"  undo履歴表示
+"------------------------------------
+nmap U :<C-u>GundoToggle<CR>
+" 移動と同時にプレビューを表示しない
+" r を押すとプレビュー表示
+" 履歴表示が遅い場合に設定すると良い
+"let g:gundo_auto_preview = 0
+
+
+"------------------------------------
+" Fugitive.vim
+"------------------------------------
+" 現在のソースの変更点をvimdiffで表示
+nnoremap <Space>gd :<C-u>Gdiff<Enter>
+" 新しい窓を作ってgit statusを表示
+nnoremap <Space>gs :<C-u>Gstatus<Enter>
+" gitlogを表示
+nnoremap <Space>gl :<C-u>Glog<Enter>
+" 現在開いているソースをgit add
+nnoremap <Space>ga :<C-u>Gwrite<Enter>
+" staged なファイルがあれば git commit なければ git status
+nnoremap <Space>gc :<C-u>Gcommit -v<Enter>
+" git commit --amend
+nnoremap <Space>gC :<C-u>Git commit -v --amend<Enter>
+" 現在のソースをgit blame。vimが色づけしてくれる
+nnoremap <Space>gb :<C-u>Gblame<Enter>
+
+
+"------------------------------------
+" Gitv
+"------------------------------------
+" ブラウザモードで開く場合の画面分割方向
+let g:Gitv_OpenHorizontal = 0
+" Gitvを起動
+nmap <leader>gv :<C-u>Gitv --all<cr>
+nmap <leader>gV :<C-u>Gitv! --all<cr>
+vmap <leader>gV :<C-u>Gitv! --all<cr>
+
+
+"------------------------------------
+" sudo.vim
+"  root権限でファイルを編集、保存
+"------------------------------------
+" root権限で今開いているファイルを開き直す
+command! ES :e sudo:%<CR><C-^>:bd!
+" root権限で保存
+command! WS :w sudo:%
+
+
+"------------------------------------
+" vim-indent-guides
+"  インデント量の違いをハイライト表示
+"------------------------------------
+" インデントガイドをトグルするキーバインド
+nnoremap <silent> <Space>id :<C-u>IndentGuidesToggle<Enter>
+" vim起動時の自動実行
+let g:indent_guides_enable_on_vim_startup = 0
+" 自動色付け
+let g:indent_guides_auto_colors = 0
+" インデントガイドの表示を開始するインデントレベル
+let g:indent_guides_start_level = 1
+" インデントガイドのサイズ(幅)
+let g:indent_guides_guide_size = 1
+" グラデーション設定(gvim only)
+let g:indent_guides_color_change_percent = 30
+if 'dark' == &background
+  "hi IndentGuidesOdd  ctermbg=black
+  "hi IndentGuidesEven ctermbg=darkgrey
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray ctermbg=gray
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkred
+else
+  "hi IndentGuidesOdd  ctermbg=white
+  "hi IndentGuidesEven ctermbg=lightgrey
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray ctermbg=gray
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkred
+endif
+
+
+"------------------------------------
+" open-browser.vim
+" カーソルの下のURLを開くor単語を検索エンジンで検索
+"------------------------------------
+" カーソル下のURLをブラウザで開く
+" URLがない場合は単語を検索する
+nmap <Leader>ob <Plug>(openbrowser-smart-search)
+vmap <Leader>ob <Plug>(openbrowser-smart-search)
+
+" カーソル下のURLをブラウザで開く
+"nmap <Leader>fu <Plug>(openbrowser-open)
+"vmap <Leader>fu <Plug>(openbrowser-open)
+" カーソル下のキーワードをググる
+" nnoremap <Leader>fs :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+
+
+"------------------------------------
+" smooth_scroll
+"  スクロールをスムーズに
+"------------------------------------
+" <PageDown>と<PageUp>もスムーズスクロール
+" Macだと正常に動かない
+"nnoremap <PageDown> <C-f>
+"nnoremap <PageUp> <C-b>
+" スクロール速度
+"let g:scroll_factor=20000
+
+
+"------------------------------------
+" vim-quickrun
+"------------------------------------
+" デフォルトのキーマップを無効
+let g:quickrun_no_default_key_mappings = 1
+" 通常実行
+nmap <Leader>r <Plug>(quickrun)
+" 実行後フォーカスをQuickFixへ
+nmap <Leader>R <Plug>(quickrun)<C-w><C-w>
+" 引数付き実行
+command! -nargs=+ QR :QuickRun '-args' <q-args>
+
+" q/ESCでウィンドウを閉じる
+autocmd FileType quickrun nnoremap <buffer> q :q<CR>
+autocmd FileType quickrun nnoremap <buffer> <ESC> :q<CR>
+
+" コンフィグ設定
+"   横分割で開く
+"   markdownの実行コマンドを指定
+let g:quickrun_config = {
+      \   '_': {
+      \     'split': '',
+      \   },
+      \ }
+
+" markdownについて
+"  htmlを開くデフォルトアプリケーションがブラウザの場合は
+"   'outputter': 'multi:buffer:browser'
+"  とすることでブラウザにて開くことができる
+if has("mac")
+  let g:quickrun_config = {
+        \   '_': {
+        \     'split': '',
+        \   },
+        \   'markdown': {
+        \     'type': executable('markdown') ? 'markdown/markdown': '',
+        \   },
+        \   'markdown/markdown': {
+        \     'split': winwidth(0) < winheight(0) * 3  ? "" : "vertical",
+        \     'command': 'markdown',
+        \     'cmdopt': '--html4tags',
+        \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
+        \     'outputter': 'multi:buffer',
+        \   },
+        \ }
+endif
+
+
+"------------------------------------
+" vim-ref
+"------------------------------------
+" PHPマニュアルのパスを指定
+let g:ref_phpmanual_path = $HOME . '/work/dev/docs/php-chunked-xhtml'
+
+" Javadocのパスを指定
+let g:ref_javadoc_path = $HOME . '/work/dev/docs/java6_ja_apidocs'
+
+" jqueryリファレンスのパスを指定
+let g:ref_jquery_doc_path = $HOME . '/work/dev/docs/jqapi-latest'
+
+" javascriptリファレンスのパスを指定
+let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
+
+" ref-sourcesにてキャッシュを有効
+let g:ref_use_cache = 1
+
+
+"------------------------------------
+" vim-hier
+"------------------------------------
+" エラーを赤字の波線で
+" 警告を青字の波線で
+highlight qf_error_ucurl gui=undercurl guisp=red ctermfg=none cterm=undercurl
+highlight qf_warning_ucurl gui=undercurl guisp=blue ctermfg=none cterm=undercurl
+
+let g:hier_highlight_group_qf  = "qf_error_ucurl"
+let g:hier_highlight_group_qfw = "qf_warning_ucurl"
+
+" ハイライト箇所を更新
+nnoremap <silent> <Leader>hiu :HierUpdate<CR>
+" ハイライトを削除
+nnoremap <silent> <Leader>hic :HierClear<CR>
+
+" Escの2回押しでハイライト消去
+nmap <silent> <ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
+
+
+"------------------------------------
+" Syntastic
+"------------------------------------
+" シンタックスチェックを実行
+nnoremap <silent> <Leader>s :SyntasticCheck<CR>
+" シンタックスチェックのモードをトグル(active/passive)
+nnoremap <silent> <Leader>S :SyntasticToggleMode<CR>
+" QuickFixによるエラー一覧表示
+nnoremap <silent> <Leader>e :Errors<CR>
+
+" エラー行をsignで表示
+let g:syntastic_enable_signs = 1
+" エラーバルーン表示
+let g:syntastic_enable_balloons =1
+" エラーhighligt表示
+let g:syntastic_enable_highlighting = 1
+
+let g:syntastic_mode_map = { 'mode': 'passive',
+      \ 'active_filetypes': ['python', 'ruby', 'php', 'perl'],
+      \ 'passive_filetypes': [] }
+
+
+"------------------------------------
+" unite.vim
+"------------------------------------
+" The prefix key.
+nnoremap    [unite]   <Nop>
+nmap    f [unite]
+
+" 入力モードで開始する
+let g:unite_enable_start_insert = 1
+
+" Uniteを開く時、垂直分割で開く
+let g:unite_enable_split_vertically=1
+
+"nnoremap [unite]u  :<C-u>Unite -no-split<Space>
+
+" 全部乗せ
+nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+" 常用セット
+nnoremap <silent> [unite]u  :<C-u>Unite buffer file_mru<CR>
+" ファイル一覧
+nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
+" ファイル一覧 (現在のバッファのカレントディレクトリ配下)
+nnoremap <silent> [unite]d  :<C-u>UniteWithBufferDir file<CR>
+" バッファ一覧
+nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
+" 最近使用したファイル一覧 (カレントディレクトリ)
+"nnoremap <silent> [unite]m  :<C-u>UniteWithBufferDir file_mru<CR>
+
+" nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+  " Overwrite settings.
+
+  " ESCキーを2回押すと終了する
+  nmap <buffer> <ESC>      <Plug>(unite_exit)
+  nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
+  " 入力モードを抜ける
+  imap <buffer> jj      <Plug>(unite_insert_leave)
+  " 入力モード時のプレビュー
+  nnoremap <silent><buffer> <C-p> :<C-u>call unite#mappings#do_action('preview')<CR>
+  " 単語単位からパス単位で削除するように変更
+  imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+  " ファイルを開く(ウィンドウ横分割)
+  nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
+  inoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
+
+  " ファイルを開く(ウィンドウ縦分割)
+  nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+  inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+endfunction"}}}
+
+" 最近使ったファイルの数
+let g:unite_source_file_mru_limit = 200
+
+
+" ----- unite-plugins -----
+" unite-line
+" uniteでバッファ内検索//
+"  <C-u> 余計な文字が入っていた場合に行頭まで削除することで正常に動作させる
+command! UL :Unite -buffer-name=search -start-insert -no-quit line
+
+
+" unite-grep
+"  Targetに-Rを入れることで再帰検索可能
+" キーマップ
+command! UG :Unite -no-start-insert -buffer-name=search -no-quit grep
+" grepデフォルトオプション
+"  -i 大文字小文字を区別しない
+"  -n 各行の先頭にファイルの行番号を表示します
+"  -H ファイル名を表示
+"  -E オプションは、拡張正規表現を使用する場合に指定
+"     fgrep 正規表現を使わない検索
+"     egrep 正規表現を使った検索 -E と同じ
+"  -R ディレクトリを再帰的にたどる
+"  -I バイナリ検索除外
+"  -w 単語マッチ
+let g:unite_source_grep_default_opts="-niE --color=never"
+
+
+" unite-help
+command! UH :Unite help
+" カーソル上の単語をunite-helpで検索
+command! UHW :UniteWithCursorWord help
+
+
+" unite-outline
+command! UO :Unite -no-start-insert -winwidth=40 -no-quit outline
+
+
+" unite-colorscheme
+command! UC :Unite -auto-preview -no-start-insert -winwidth=15 colorscheme

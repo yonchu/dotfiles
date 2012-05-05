@@ -1,0 +1,110 @@
+#*******************************************************************************
+#
+# .profile.osx
+#   環境変数などを設定(MacOSX限定, bash/zsh共通)
+#
+#*******************************************************************************
+
+#
+# MacVim-KaoriYa
+#  デフォルトエディタに設定
+#
+if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+    export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+    export VISUAL=/Applications/MacVim.app/Contents/MacOS/Vim
+
+    # Gitでコミット時に起動するエディタを指定
+    # 未指定だとコミット時にエラーになる(絶対パス必須)
+    export GIT_EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+fi
+
+
+#
+# PATH =========================================================================
+#  PATHの追加はここより後に行うこと
+#
+PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share:$PATH
+PATH=$PATH:/usr/X11/bin
+export PATH
+
+MANPATH=/usr/local/share/man:/opt/local/share/man:/usr/local/jman:/usr/share/man:/usr/X11/man:$MANPATH
+export MANPATH
+
+INFOPATH=/usr/local/share/info:/usr/share/info:$INFOPATH
+export INFOPATH
+
+
+#
+# Java
+#
+#export JAVA_HOME='/System/Library/Frameworks/JavaVM.framework/Home'
+export JAVA_HOME='/Library/Java/Home'
+export PATH=$JAVA_HOME/bin:$PATH
+export CATALINA_HOME='/usr/local/Cellar/tomcat6/6.0.35/libexec'
+# デフォルトエンコーディングSJISをUTF-8へ
+export JAVA_OPTS='-Dfile.encoding=UTF-8'
+
+
+#
+# Maven
+#
+export MAVEN_VERSION='2.2.1'
+export MAVEN_HOME=/usr/local/Cellar/maven2/$MAVEN_VERSION/libexec
+#export PATH=$MAVEN_HOME/bin:$PATH
+export MAVEN_OPTS=-Xmx1024M
+
+
+#
+# MySQL
+#
+export MYSQL_HOME=/usr/local/mysql
+export PATH=$MYSQL_HOME/bin:$PATH
+
+
+#
+# Python
+#
+# easy_install/pip/pipでインストールしたコマンドにパスを通す
+export PYTHON_SHARE=/usr/local/share/python
+export PATH=$PYTHON_SHARE:$PATH
+
+# pythonbrewの仮想環境でdistributeを使用(not setuptools)
+export VIRTUALENV_USE_DISTRIBUTE=true
+
+# VirtualEnv使用時にプロンプトを変更しない
+export VIRTUAL_ENV_DISABLE_PROMPT=true
+
+# pythonbrew: デフォルトで使用するPythonのバージョン
+export DEFAULT_PYTHON_VERSION="2.7.2"
+# pythonbrew: デフォルトで使用するVirtualEnv
+export DEFAULT_PYTHON_VENV="py272"
+
+# virtualenv setting
+#if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
+   #export WORKON_HOME=$HOME/.virtualenvs
+   #VIRTUALENVWRAPPER_PYTHON=py2.7.2
+   #source /usr/local/share/python/virtualenvwrapper.sh
+#fi
+
+# virtualenv setting for pythonbrew
+#if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
+   #VIRTUALENVWRAPPER_PYTHON=py2.7.2
+   #source ~/.pythonbrew/bin/virtualenvwrapper.sh
+#fi
+
+# Startupスクリプトを設定
+#  Pythonをインタラクティブモードで起動した場合に自動実行される
+export PYTHONSTARTUP=~/.pythonstartup
+
+# Pythonの外部ライブラリを指定
+#export PYTHONPATH=~/lib/python:./lib:.
+
+# http://d.hatena.ne.jp/jbking/20071222/readline_on_leopard
+# alias python='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib python'
+# alias ipython='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib ipython'
+
+
+#
+# Coreutils
+#  GNU版Coreutilsの使用
+#export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH

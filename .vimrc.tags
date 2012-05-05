@@ -1,0 +1,70 @@
+"-------------------------------------------------------------------------------
+" タグ関連 Tags
+"-------------------------------------------------------------------------------
+
+" 解説
+"  http://archiva.jp/web/tool/vim_ctags.html#
+"  ctagsはMacデフォルトのものは機能不足のため使用しない
+"  Homebrewでインストールしたものか、MacVim-Kaoriya付属の物を使用する
+"
+" 使い方
+"  $ ctags *.c
+"   カレントディレクトリの*.cファイルからタグファイルを生成
+"
+"  $ ctags -f ~/.tags -R /home/xxx/
+"   「/home/www/」以下の全てのファイルから、「~/.tags」にタグファイルを生成
+"   -f 生成ファイルを指定
+"   -R 解析対象ディレクトリを指定
+"
+"  :set tags=~/.tags,/home/user/commontags
+"   使用するタグファイルを指定。「,」で複数指定可能
+"   .vimrcに記述しておけば、「vim -t tag」で起動時にタグまでジャンプできる
+"
+" キーバインド
+"  C-]     カーソル位置の単語をタグとみなしてジャンプ。
+"  C-t     直前のタグに戻る。
+"  g C-]   複数候補がある場合に選択→ジャンプ。
+"  C-w }   カーソル位置の単語の定義を、プレビューウィンドウで開く。
+"  C-w C-z プレビューウィンドウを閉じる。(:pcと同じ)
+"
+" その他
+"  :tselect  現在のタグの一覧を表示
+"  :tfirst （タグが重複している場合）最初のタグへ
+"  :tn （タグが重複している場合）次のタグへ
+"  :tp （タグが重複している場合）前のタグへ
+"  :tlast  （タグが重複している場合） 最後のタグへ
+"  :tags 移動経路を確認
+"  :tag  タグリストの前方にジャンプ。(:3tagなども可)
+"  :tag [タグ名] 指定したタグにジャンプ。(:taと同じ)
+"  :ptag [タグ名]  [タグ名]の定義をプレビューウィンドウで開く。
+
+
+" set tags
+if has("autochdir")
+  " 編集しているファイルのディレクトリに自動で移動
+  set autochdir
+  set tags=tags;
+else
+  set tags=./tags,./../tags,./*/tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags
+endif
+
+set notagbsearch
+
+"tab pagesを使い易くする(Vim 7)
+nnoremap <C-t>  <Nop>
+nnoremap <C-t>n  :<C-u>tabnew<CR>
+nnoremap <C-t>c  :<C-u>tabclose<CR>
+nnoremap <C-t>o  :<C-u>tabonly<CR>
+nnoremap <C-t>j  :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
+nnoremap <C-t>k  gT
+
+"tags-and-searchesを使い易くする
+nnoremap t  <Nop>
+"「飛ぶ」
+nnoremap tt  <C-]>
+"「進む」
+nnoremap tj  :<C-u>tag<CR>
+"「戻る」
+nnoremap tk  :<C-u>pop<CR>
+"履歴一覧
+nnoremap tl  :<C-u>tags<CR>

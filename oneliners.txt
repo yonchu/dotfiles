@@ -1,0 +1,52 @@
+# .svnを消す
+rm -rf `find ./ -type d -name .svn ! -regex \.svn/. -print`
+rm -rf `find ./ -type d -name __MACOSX ! -regex __MACOSX/. -print`
+rm -rf `find ./ -type f -name vssver2.scc ! -regex vssver2\.scc -print`
+rm -rf `find ./ -type f -name .DS_Store ! -regex \.DS_Store -print`
+
+# hogehoge.txtより最終更新日が新しい/path/to/dir以下のファイル名を表示
+find /path/to/dir -type f -newer hogehoge.txt
+
+# hogehoge.txtより最終更新日が古い/path/to/dir以下のファイル名を表示
+find /path/to/dir -type f ! -newer hogehoge.txt
+
+# 最終更新日が2008年3月1日0時より新しい、/path/to/dir以下のファイル名を表示
+1. touch -m -d '2008/03/01 00:00:00' hogehoge
+2. find /path/to/dir -type f -newer hogehoge
+
+# 最終更新日が2008年3月1日0時より古い、/path/to/dir以下のファイルを削除
+1. touch -m -d '2008/03/01 00:00:00' hogehoge
+2. find /path/to/dir -type f ! -newer hogehoge -exec rm {} \;
+
+# /path/to/dir以下の.svnディレクトリを一括削除
+find /path/to/dir -type d -name '.svn' | xargs rm -rvf
+
+# 指定した二つのディレクトリ内で、異なっているファイルがないか調べる。
+diff -brtBEq /path/to/dir1 /path/to/dir2
+
+# findとsedでディレクトリ内のファイルからある文字列を一括置換する
+#  b、t、B、Eで、タブ、スペース、空行の違いが無視されます。
+#  rは再帰的に、qはファイル名だけ表示するオプションです
+find . -name "*.hbm.xml" -exec sed -i 's/hibernate-mapping-2.0/hibernate-mapping-3.0/g' {} \;
+
+# 文字コード・改行変換
+find . -name '*.sql' | xargs nkf --overwrite -w -Lu
+ iconv -s -f SHIFT_JIS -t UTF-8
+
+find . -name '*.java' | xargs nkf --overwrite -w -Lu --ic=EUC-JP --oc=UTF-8
+
+
+# Findで見つかった全ファイルをディレクトリ構造ごとコピーする
+find ./ -type f -mtime -1 | cpio -pd ../banner
+find ./ -type f -mtime -2 -name "*.scala" | cpio -pd
+find ./ -type f -mtime -2 -name "*.pdf" | cpio -pd ../pdf
+# ../work Subversion の .svn や Mac 固有の .DS_Store, ._* を含めず zip アーカイブを作成する
+
+
+# zip -r [アーカイブ名] [アーカイブ対象ディレクトリ] -x *.svn* *.DS_Store* *._*
+# svnでディレクトリ全体をignoreをかけるコマンド
+svn propset svn:ignore ‘*’ [ディレクトリ名]/
+# svn statusで変更があったファイルのみディレクトリ構造毎別なディレクトリにコピーする
+svn status | cut -d ' ' -f8 | cpio -pd ../work
+
+# vim: ft=sh sw=2 sts=2 ts=2 et

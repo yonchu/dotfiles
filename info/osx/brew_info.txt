@@ -1,0 +1,57 @@
+2012年 5月 5日 土曜日 18時33分32秒 JST
+===== brew list --versions =====
+ack 1.96
+apachetop 0.12.6
+autoconf 2.68 2.69
+bdw-gc 7.2alpha6
+binutils 2.22
+bsdmake 24
+cairo 1.10.2
+coreutils 8.16
+ctags 5.8
+findutils 4.4.2
+fontforge 20110222
+gdbm 1.10
+gettext 0.18.1.1
+git 1.7.10
+git-now 0.1.0.9
+glib 2.30.3 2.32.1
+gnu-getopt 1.1.4
+gnu-sed 4.2.1
+grep 2.11
+libevent 2.0.17 2.0.18
+libffi 3.0.10 3.0.11
+lv 4.51
+markdown 1.0.1
+maven2 2.2.1
+multitail 5.2.8
+ncftp 3.2.5
+ngrep 1.45
+nkf 2.1.2
+nmap 5.51
+pango 1.28.4 1.30.0
+pcre 8.30
+pixman 0.24.4
+pkg-config 0.25
+potrace 1.10
+proctools 0.4pre1
+pstree 2.33
+python 2.7.2 2.7.3
+readline 6.2.2
+reattach-to-user-namespace dadea0
+sqlite 3.7.10
+tig 0.18
+tmux 1.6
+tomcat6 6.0.35
+tree 1.6.0
+w3m 0.5.3
+wget 1.13.4
+xz 5.0.3
+z 1.1
+zsh 4.3.17
+
+===== brew tap =====
+adamv/alt
+homebrew/boneyard
+homebrew/dupes
+homebrew/versions

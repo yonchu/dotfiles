@@ -1,0 +1,12 @@
+-i
+--ignore-dir=tmp
+--ignore-dir=bak
+--ignore-dir=old
+--ignore-dir=.vim/bundle
+--ignore-dir=.vim/dict
+--ignore-dir=zsh-completions
+--sort-files
+--nogroup
+--type-add=ruby=.rake,rakefile,Rakefile,.builder
+--type-add=php=.inc
+--type-set=tags=tags

@@ -1,0 +1,52 @@
+#*******************************************************************************
+#
+# .inputrc
+#   readlineの設定ファイル
+#
+#*******************************************************************************
+
+# キーバインド
+#  vi
+#  emacs (デフォルト)
+set editing-mode emacs
+#set keymap vi-insert
+
+# チルダをタブにより展開
+#  on 展開する
+#  off 展開しない(デフォルト)
+set expand-tilde off
+
+# 日本語関係
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# タブ補完時、大文字小文字無視
+#  on 無視
+#  off 無視しない
+set completion-ignore-case on
+
+# コンソールへの入力文字が画面の右端よりオーバー時の動作
+#  on コマンドラインが横にスクロールされる
+#  off コマンドラインは次の行にまたがって継続される(デフォルト)
+#  2行以上入力した時に表示が崩れるのでOFF
+set horizontal-scroll-mode off
+
+# ヒストリー補完機能を Ctrl+N, Ctrl+P に割り当てる
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
+# ビープ音を鳴らすかどうか
+#  audible ビープ音を鳴らす(デフォルト)
+#  none 鳴らさない
+#  visible 鳴らさない代わりに画面を点滅
+set bell-style visible
+
+# MySQL
+$if mysql
+    "\C-xd": "show databases;"
+    "\C-xt": "show tables;"
+    "\C-xu": "select user,host,password from mysql.user order by user,host;"
+    "\C-xb": "select user,host,db       from mysql.db   order by user,host;"
+    "\C-xc": "show create table TN\\G"
+$endif

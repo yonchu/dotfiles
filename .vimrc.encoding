@@ -1,0 +1,65 @@
+"-------------------------------------------------------------------------------
+" エンコーディング関連 Encoding
+"  http://d.hatena.ne.jp/ka-nacht/20080220/1203433500
+"  http://www.kawaz.jp/pukiwiki/?vim#cb691f26
+"  http://d.hatena.ne.jp/over80/20080907/1220794834
+"
+"  encoding
+"   vim内部で使用する文字コード
+"   バッファ/レジスタ/vimスクリプトなどの文字列に適用される
+"   vim全体で共通のグローバルオプション
+"   新規ファイル作成時にfileencodingが未指定の場合にも使用される
+"
+"  fileencoding
+"   新規ファイル作成時またはバッファ保存時に使用される文字コード
+"   (ファイルの文字コードと言えばこの値を指す)
+"   バッファ毎に指定可能なバッファローカルオプション
+"   encodingと異なる場合は保存時にfileencodingへ変換される
+"   fileencodingを変更したい場合は setlocal にて変更する必要がある
+"   set にて変更した場合はグローバル値が変更されるため、以降に新規作成される
+"   バッファの保存時に適用される文字コードが変わってしまう
+"
+"  fileencodings
+"   文字コードの自動判別優先順位
+"   カンマ区切りで指定され、左側の設定が優先される
+"   判別方法は左から順に変換を行い最初に成功した値が適用される
+"   変換途中にencodingまたはfileencodingと同じ値を発見した場合は判定を中断し
+"   その値を適用する
+"   自動判別に失敗した場合は encoding の値が適用される
+"
+"  fileformat
+"   改行コード(unix=LF, dos=CRLF, mac=CR)
+"
+"  fileformats
+"   改行コードの自動判別優先順位
+"
+"-------------------------------------------------------------------------------
+
+set encoding=utf-8
+set fileformats=unix,dos,mac
+
+" □や◯文字があってもカーソル位置がずれないように
+" Win版Kaoriyaではautoが使用可能
+if &ambiwidth !=# 'auto'
+  set ambiwidth=double
+endif
+
+if has("kaoriya")
+  " Kaoriya版ではguess指定で独自の自動判別が可能
+  set fileencodings=guess,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
+endif
+" Kaoriya版以外では banyan/recognize_charcode.vim にて文字コードを判定
+" https://github.com/banyan/recognize_charcode.vim
+
+
+" ワイルドカードで表示するときに優先度を低くする拡張子
+set suffixes=.bk,.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+
+" 指定文字コードで強制的にファイルを開く
+"  -bang !付きで実行可能
+command! -bang -nargs=? Cp932 edit<bang> ++enc=cp932 <args>
+command! -bang -nargs=? Eucjp edit<bang> ++enc=euc-jp <args>
+command! -bang -nargs=? Iso2022jp edit<bang> ++enc=iso-2022-jp <args>
+command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8 <args>
+command! Jis Iso2022jp
+command! Sjis Cp932

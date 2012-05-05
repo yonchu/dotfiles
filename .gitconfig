@@ -1,0 +1,212 @@
+[user]
+  name = yonchu
+  email = yonchu3434@gmail.com
+[color]
+  # color設定
+  # 自動で色をつけるコマンドを設定
+  status = auto
+  diff = auto
+  branch = auto
+  interactive = auto
+  grep = auto
+[push]
+  # defaultのpush先はtrackingしているリポジトリ
+  # git push はデフォルトでは、同じブランチ名がリモート上にあるならそれらを全てpushしてしまう
+  # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
+  # tracking=upstream
+  default = tracking
+[core]
+  excludesfile = ~/.gitignore
+  autocrlf = input             # CRLFを自動変換
+  editor = /usr/bin/vim        # 絶対パス指定必須
+  quotepath = false            # 日本語のファイル名表示に対応
+[diff]
+  tool = vimdiff
+  #external = p4diff
+[merge]
+  tool = vimdiff
+[mergetool "p4merge"]
+  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  keepTemporaries = false
+  trustExitCode = false
+  keepBackup = false
+[alias]
+  # config
+  cfl  = config --list          # グローバルConfigを参照
+  cfll = config --local --list  # ローカルConfigを参照
+
+  # status
+  s   = status -sb          # シンプル表示, ブランチ情報も表示
+  st  = status
+  si  = status --ignored    # .gitignoreで無視されたファイルも表示
+
+  # show
+  sh  = show
+  shr = remote -v           # リモートリポジトリの一覧(URL付き)
+  sho = remote show origin  # リモートリポジトリの詳細表示
+
+  # ls-files
+  ls-fu = ls-files -u       # コンフリクトしたファイルの一覧
+
+  # ls-tree
+  ls-th = ls-tree HEAD      # treeを表示
+
+  # etch
+  ft  = fetch
+  ftp = fetch --prune
+
+  # pull
+  plr = pull --rebase       # 不必要なマージコミットを作りたくない場合
+
+  # push
+  po  = push origin         # push先はorigin
+  #pof = push -f origin      # 強制push
+  pou = push -u origin      # pushと同時に追跡ブランチを設定
+
+  # rebase
+  rbm = rebase master
+  rbc = rebase --continue   # rebase継続(次のコミットへ)
+  rba = rebase --abort      # rebase中止
+  # コミット履歴の書き換え
+  rbi  = rebase -i
+  rbi1 = rebase -i HEAD^
+  rbi2 = rebase -i HEAD^^
+  rbi3 = rebase -i HEAD^^^
+  rbi4 = rebase -i HEAD^^^^
+  rbi5 = rebase -i HEAD^^^^^
+
+  # merge
+  mn  = merge --no-ff       # FFでもマージコミットを強制作成
+  mergetool-def = mergetool -y  # デフォルトのマージツールでマージ
+  mergetool-p4 = mergetool --tool=p4merge  # p4mergeでマージ
+
+  # add
+  ad  = add
+  addall = add -A           # 全てadd：add . && add -u
+
+  # commit
+  c   = commit -v             # diffも表示
+  ca  = commit -a -v          # add + coimmit
+  cam = commit -a -v --amend  # 直前のcommitを修正
+
+  # checkout
+  ch  = checkout            # WorkingTreeをIndexの状態に戻す
+  chh = checkout HEAD       # WorkingTreeとIndexをRepositoryの状態に戻す
+  chb  = checkout -b        # branch切ってcheckoutする
+  cht  = checkout --track   # remoteのbranchを追跡
+  chm  = checkout master    # masterブランチへ切り替え
+
+  # branch関連
+  br  = branch
+  bra  = branch -a           # originも含めた全てのbranchを表示
+  brm  = branch --merged     # merge済みのbranchを表示
+  brn  = branch --no-merged  # mergeしてないbranchを表示
+  brr = branch -r            # remote branchを表示
+
+  # log関連
+  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
+  wc  = whatchanged         # logに変更されたファイルも一緒に出す
+  ls  = log --stat          # logに変更されたファイルも一緒に出す
+  lp  = log -p              # diffも一緒に出す
+  lr  = log origin          # originのlog
+  ranking = shortlog -s -n --no-merges
+  # onelineログ
+  oneline = log --pretty=oneline
+  lo  = log --oneline --decorate --graph
+  ll  = log --date=iso --pretty=format:'%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
+  # logをgraph表示
+  llg = log --graph --date=iso --pretty='%x09%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
+  # 指定ブランチの変更点のみ抽出(分岐元:master) 最後にブランチ名を指定すること
+  #  --reverse 逆順表示
+  log-branch = log --oneline --decorate master..
+
+  # reset
+  rh   = reset HEAD              # addを取り消す
+  rhs  = reset --soft HEAD       # Repositoryのみコミット前の状態に戻す
+  rhs1 = reset --soft HEAD~
+  rhs2 = reset --soft HEAD~~
+  rhs3 = reset --soft HEAD~~~
+  rhs4 = reset --soft HEAD~~~~
+  rhs5 = reset --soft HEAD~~~~~
+  rhh  = reset --hard HEAD       # Repository/Index/WorkingTreeをコミット前の状態に戻す
+  rhh1 = reset --hard HEAD~
+  rhh2 = reset --hard HEAD~~
+  rhh3 = reset --hard HEAD~~~
+  rhh4 = reset --hard HEAD~~~~
+  rhh5 = reset --hard HEAD~~~~~
+
+  # diff関連
+  d = diff
+  di = diff
+  dif = diff
+  dm = diff master           # masterとのdiff
+  dw = diff --color-words    # 単語単位でいろつけてdiff
+  dc = diff --cached         # addされているものとのdiff
+  ds = diff --staged         # 同上(1.6.1移行)
+  dh = diff HEAD             # HEADとdiff
+  d1 = diff HEAD~            # HEADから1つ前とdiff
+  d2 = diff HEAD~~           # HEADから2つ前とdiff
+  d3 = diff HEAD~~~          # HEADから3つ前とdiff
+  d4 = diff HEAD~~~~         # HEADから4つ前とdiff
+  d5 = diff HEAD~~~~~        # HEADから5つ前とdiff
+  d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
+
+  # edit関連
+  # modified or untrackedなファイルを編集する
+  edit = "!f() { git status -s | cut -b 4- | grep -v '\\/$' | uniq ; }; vim `f`"
+  # mergeの際にconflictが起きたファイルを編集
+  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
+  # mergeの際にconflictが起きたファイルをadd
+  add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+  delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
+
+  # grep関連
+  gr = grep
+  gn = grep -n
+
+  # submodule
+  #  status記号について
+  #   -：まだ初期化されていない状態
+  #      => git submodule update --init
+  #   +：indexのcommit hashと異なる場合
+  #      => git submodule update
+  #
+  sm = submodule
+  sms = submodule status
+  smu = submodule update
+  smui = submodule update --init
+  # submoduleの更新
+  smupdate = submodule foreach "git checkout master; git pull"
+
+  # stash
+  #sl = stash list
+  #sp = stash pop
+  #ss = stash save
+
+  # tag
+  tl = tag -l -n    # タグ一覧(説明付き)
+  tc = tag -a       # タグ作成
+  ptg = push --tags         # tagをpush
+  #ptgd = push origin :refs/tags/  # リモートのタグ削除
+
+  search-near-tag = name-rev --name-only  # 指定したコミットが番近いタグからどの位置にあるか表示
+  search-branch = branch --contains  # 指定したコミットがどのブランチに含まれるか表示
+  show-cherry = cherry -v master  # コミット毎に上流ブランチに既に存在している変更かどうかを見る
+
+  chpk = cherry-pick # 特定のコミットを取り込む
+
+[http]
+  sslVerify = false
+
+[gui]
+  # gitkの文字エンコード
+  encoding = utf-8
+
+[tig "bind"]
+  # tig
+  #generic = g move-first-line
+  generic = G move-last-line
+  generic = ^F move-page-down
+  generic = ^B move-page-up
+
+# vim: sw=2 sts=2 ts=2 et

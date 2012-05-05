@@ -1,0 +1,219 @@
+"-------------------------------------------------------------------------------
+" vunlde.vimで管理してるpluginを読み込む
+"
+" http://vim-users.jp/2011/04/hack215/
+" http://shu-cream.blogspot.com/2011/04/2011vimvundle.html
+"
+"  インストールディレクトリ
+"   Vundle本体：~/.vim/vundle.git
+"   プラグイン：~/.vim/bundle
+"
+"  書き方
+"   Github 上のリポジトリから取得する場合
+"    Github のユーザ名とリポジトリ名を指定します。
+"    Bundle 'user_name/repository_name'
+"
+"   vim-scripts 上のリポジトリから取得する場合
+"    plugin の名前を指定します。
+"    Bundle 'script_name'
+"
+"   それ以外の git リポジトリから取得する場合
+"    Git リポジトリ のフルパスを指定します。
+"    Bundle 'git://repository_url'
+"
+"  plugin管理方法
+"   インストール
+"    :BundleInstall
+"   アップデート
+"    :BundleInstall!
+"   使用していないプラグインを削除
+"    :BundleClean
+"   プラグイン検索
+"    :BundleSearch
+"   ヘルプ
+"    :help vundle
+"
+"-------------------------------------------------------------------------------
+
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+
+" Encording {{{
+  " 文字コード判定(要icnov)
+  if ! has("kaoriya")
+    " Kaoriya版以外の文字コード判定
+    "Bundle 'banyan/recognize_charcode.vim'
+  endif
+" }}}
+
+
+" Edit {{{
+  " NERD_commenter.vim :最強コメント処理 (<Leader>c<space>でコメントをトグル)
+  Bundle 'scrooloose/nerdcommenter.git'
+
+  " surround.vim : テキストを括弧で囲む／削除する
+  Bundle 'tpope/vim-surround'
+
+  " repeat.vim : surround.vimの操作を.で繰り返す
+  Bundle 'tpope/vim-repeat'
+
+  " visually indent guide
+  Bundle 'nathanaelkane/vim-indent-guides'
+
+  " YankRing.vim : ヤンクの履歴を管理し、順々に参照、出力できるようにする
+  " Pythonが必要 (:echo has('python')で1が返ってくればOK)
+  Bundle 'YankRing.vim'
+
+  " undo履歴を追える
+  "
+  Bundle 'Gundo'
+
+  " <C-a>でtrue/false切替。他色々
+  Bundle 'taku-o/vim-toggle'
+" }}}
+
+
+" Completion {{{
+  " 補完 neocomplcache.vim : 究極のVim的補完環境
+  Bundle 'Shougo/neocomplcache'
+
+  " neocomplcacheのsinpet補完
+  Bundle 'Shougo/neocomplcache-snippets-complete'
+" }}}
+
+
+" Searching/Moving {{{
+  " smooth_scroll.vim : スクロールを賢く
+  Bundle 'Smooth-Scroll'
+
+  " <Leader><Leader>w/fなどで、motion先をhilightする
+  Bundle 'EasyMotion'
+
+  " grep.vim : 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
+  Bundle 'grep.vim'
+
+  " eregex.vim : vimの正規表現をrubyやperlの正規表現な入力でできる
+  " 検索/置換に対応
+  " うまく動作にしないので不可
+  "Bundle 'eregex.vim'
+
+  " open-browser.vim : カーソルの下のURLを開くor単語を検索エンジンで検索
+  Bundle 'tyru/open-browser.vim'
+" }}}
+
+
+" Programming {{{
+  " vim-quickrun : 編集中のファイルを簡単に実行できるプラグイン
+  Bundle 'thinca/vim-quickrun'
+
+  " vim-ref : リファレンスをvim上で参照
+  "  alc/clojure/erlang/man/perldoc/phpmanual/pydoc/refe
+  "  実行 :Ref <リファレス名> キーワード
+  "  カーソル下の単語を検索 K
+  "  キャッシュ削除 :call ref#rmcache('pydoc')
+  Bundle 'thinca/vim-ref'
+
+  " vim-refのjavadoc用ソース
+  Bundle 'pekepeke/ref-javadoc'
+
+  " vim-refのjavascript/jquery用ソース
+  Bundle 'mojako/ref-sources.vim'
+
+  " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
+  Bundle 'quickfixstatus.vim'
+
+  " vim-hier : quickfix の該当箇所をハイライト
+  Bundle 'jceb/vim-hier'
+
+  " Python用入力補完
+  " after/ftplugin/python.vim にて実行
+  "Bundle 'Pydiction'
+" }}}
+
+" Syntax {{{
+  " syntastic : 多言語対応のシンタックスチェックツール
+  "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+  Bundle 'scrooloose/syntastic'
+" }}}
+
+" Buffer {{{
+  " minibufexpl.vim : タブエディタ風にバッファ管理ウィンドウを表示
+  Bundle 'minibufexpl.vim'
+
+  " NERDTree : ツリー型エクスプローラ
+  " grep_menuitem.vim:別途インストール
+  "  https://gist.github.com/414375
+  Bundle 'The-NERD-tree'
+
+  " vtreeexplorer.vim : ツリー状にファイルやディレクトリの一覧を表示
+  " NERDTreeを使用するので削除
+  "Bundle 'vtreeexplorer'
+" }}}
+
+
+" Utility {{{
+  " vimproc : vimから非同期実行。vimshelleで必要
+  " neocomplcacheのキャッシュ作成が早くなる
+  " BundleInstall後コンパイルが必要
+  " http://www.karakaram.com/vim/windows-vimshell/
+  Bundle 'Shougo/vimproc.git'
+
+  " ステータスラインをカッコよくする
+  Bundle 'Lokaltog/vim-powerline'
+
+  " vimからGitを操作する
+  " vim-powerlineでステータス行にブランチ名を表示
+  Bundle 'tpope/vim-fugitive'
+
+  " vimからGitを操作する
+  " :Gitv, :Gitv --all, :Gitv!
+  Bundle "gregsexton/gitv"
+
+  " renamer.vim : 複数ファイルのりネーム
+  " http://nanasi.jp/articles/vim/renamer_vim.html
+  "  起動 :Renamer
+  "  完了 :Ren
+  "  元に戻す F5
+  "  オリジナルファイル名を表示(トグル) T
+  "  ファイル削除 <C-delete>
+  Bundle 'renamer.vim'
+
+  " sudo.vim : root権限でファイルを編集、保存
+  Bundle 'sudo.vim'
+" }}}
+
+
+" ColorScheme {{{
+  Bundle 'altercation/vim-colors-solarized'
+  "Bundle 'Railscasts-Theme-GUIand256color'
+
+  "Bundle 'desert256.vim'
+  "Bundle 'mrkn256.vim'
+  "Bundle 'tomasr/molokai'
+  "Bundle 'Lucius'
+  "Bundle 'Zenburn'
+" }}}
+
+
+" Unite {{{
+  " Unite本体
+  Bundle 'Shougo/unite.vim'
+
+  " vimヘルプを全文インクリメンタルサーチ
+  Bundle 'tsukkee/unite-help'
+
+  " ファイルタイプに応じたアウトラインを表示
+  Bundle 'h1mesuke/unite-outline'
+
+  " Uniteでカラースキーマを気軽に変更
+  Bundle 'ujihisa/unite-colorscheme'
+"}}}
+
+
+" Vundleをvundleで管理
+Bundle 'gmarik/vundle'
+
+
+filetype plugin indent on

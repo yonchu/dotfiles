@@ -1,0 +1,41 @@
+# -*- encoding: utf-8 -*-
+# Pythonスタートアップ
+
+# ヒストリファイル名
+HISTORY_FILE=".pythonhistory"
+
+# よく使うものをインストール
+import sys, os, cmath
+
+# readlineの補完用
+import rlcompleter, readline, atexit
+try:
+    # ヒストリファイルのパスを取得
+    histfile = os.path.join(os.environ['HOME'], HISTORY_FILE)
+
+    # Tab補完を有効
+    readline.parse_and_bind("tab: complete")
+
+    # 日本語関係の設定
+    readline.parse_and_bind("set input-meta on")
+    readline.parse_and_bind("set convert-meta off")
+    readline.parse_and_bind("set output-meta on")
+
+    # ヒストリファイルのサイズ
+    readline.set_history_length(10000)
+
+    try:
+        f = open(histfile, "a")
+        f.close()
+        readline.read_history_file(histfile)
+    except IOError:
+        pass
+    try:
+        atexit.register(lambda: readline.write_history_file(histfile))
+    except:
+        pass
+except:
+    pass
+
+del f, HISTORY_FILE
+# vim: ft=python sw=4 sts=4 ts=4 et

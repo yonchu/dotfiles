@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -x /Applications/p4merge.app/Contents/MacOS/p4merge ]; then
+    P4MERGE=/Applications/p4merge.app/Contents/MacOS/p4merge
+else
+    exit 1
+fi
+[ $# -eq 7 ] && ${P4MERGE} "$2" "$5"

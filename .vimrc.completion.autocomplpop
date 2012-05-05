@@ -1,0 +1,63 @@
+" 現在非使用中
+
+" 真なら vim 開始時から自動ポップアップが有効になります。
+let g:acp_enableAtStartup = 1
+
+" キーワード補完の自動ポップアップを行うのに必要なカーソルの直前のキーワ
+" ード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorKeywordLength = 2
+
+" キーワード補完のコマンド。このオプションには普通 "\<C-n>" か "\<C-p>"
+" を設定します。
+let g:acp_behaviorKeywordCommand = "\<C-p>"
+
+" ファイル名補完の自動ポップアップを行うのに必要なカーソルの直前のキーワ
+" ード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorFileLength = 3
+
+" メソッド補完のための、Ruby オムニ補完の自動ポップアップを行うのに必要
+" なカーソルの直前のキーワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorRubyOmniMethodLength = 2
+
+" シンボル補完のための、Ruby オムニ補完の自動ポップアップを行うのに必要
+" なカーソルの直前のキーワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorRubyOmniSymbolLength = 2
+
+" Python オムニ補完の自動ポップアップを行うのに必要なカーソルの直前のキ
+" ーワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorPythonOmniLength = 2
+
+" Perl オムニ補完の自動ポップアップを行うのに必要なカーソルの直前のキー
+" ワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorPerlOmniLength = 2
+
+" HTML オムニ補完の自動ポップアップを行うのに必要なカーソルの直前のキー
+" ワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorHtmlOmniLength = 3
+
+" プロパティ補完のための、CSS オムニ補完の自動ポップアップを行うのに必要
+" なカーソルの直前のキーワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorCssOmniPropertyLength = 2
+
+" 値補完のための、CSS オムニ補完の自動ポップアップを行うのに必要なカーソ
+" ルの直前のキーワード文字数。負数ならこの補完は行われません。
+let g:acp_behaviorCssOmniValueLength = 2
+
+" <c-space>でomni補完
+" imap <c-space> <c-x><c-o>
+
+" " -- tabでオムニ補完
+function! InsertTabWrapper()
+  if pumvisible()
+    return "\<c-n>"
+  endif
+  let col = col('.') - 1
+  if !col || getline('.')[col -1] !~ '\k\|<\|/'
+    return "\<tab>"
+  elseif exists('&omnifunc') && &omnifunc == ''
+    return "\<c-n>"
+  else
+    return "\<c-x>\<c-o>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>

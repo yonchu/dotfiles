@@ -1,0 +1,729 @@
+#*******************************************************************************
+#
+# .alias
+#
+#   現在設定されているaliasを調べる
+#    $ alias [コマンド名]
+#   typeコマンドでもaliasが表示される
+#    $ type [-a] <コマンド名>
+#   aliasを無効にして実行
+#    $ \cmd
+#   全てのシェル変数を表示
+#    $ declare
+#   関数の名前/定義を表示
+#    $ declare -f <関数名>
+#
+#*******************************************************************************
+
+#
+# 基本エイリアス ----------------------------------------------
+#
+alias where="command -v"
+alias jl="jobs -l"
+
+# Exit
+alias cl='clear'
+alias quit='exit';
+
+
+#
+# ls
+#  glsを使用
+#  -l 詳細な情報の表示
+#  -G ls:カラー有効, gls:グループを非表示。
+#  -a 隠しファイルを表示
+#  -h サイズをkB, MB, GBとかで表示
+#  -d ディレクトリ自体の情報を表示
+#  -t ファイルの変更日時でソート(古い順:最新が上にくる)
+#  -r 逆順ソート
+#  -F ファイルタイプを示す文字を表示
+#      * 実行可能ファイル
+#      / ディレクトリ
+#      @ シンボリックリンク
+#  -v natural sort of (version) numbers within text (gls only)
+#  -w 非印字文字を強制表示(Linux ls only)
+#  -v 非印字文字を強制表示(Mac ls only)
+#  -T タイムスタンプを年月日時分秒まで表示 (Mac Linux ls only)
+#  -time-style=STYLE タイムスタンプの表示スタイル (gls only)
+#
+# ls alias setting
+case "${OSTYPE}" in
+freebsd*|darwin*)
+    if which gls > /dev/null 2>&1; then
+        # -F ファイルタイプを示す文字を表示
+        # -v natural sort of (version) numbers within text
+        alias gls="gls -v --color"
+        alias ls="gls -ahF"
+        alias ll='ls -l --time-style=long-iso '
+    else
+        # -G カラー表示
+        # -v 非印字文字を強制表示
+        alias ls="ls -avhGF"
+        alias ll='ls -l'
+    fi
+    ;;
+linux*)
+    # -v natural sort of (version) numbers within text
+    # -w 非印字文字を強制表示
+    alias ls="ls -avhwF --color"
+    alias ll='ls -l'
+    ;;
+esac
+
+alias lld='ls -d'
+alias llt='ll -tr'
+alias lll='ll | less'
+
+
+#
+# cd
+#  -P シンボリックリンクをたどらず実ディレクトリに移動
+#  -L シンボリックリンクをたどったディレクトリに移動
+#
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias cdp='cd -P'
+alias cdl='cd -L'
+
+
+#
+# pwd
+#  -P シンボリックリンクをたどらず実ディレクトリを表示
+#  -L シンボリックリンクをたどったディレクトリを表示
+alias pwd='pwd -P'
+
+
+#
+# df du
+#
+alias df='df -h'
+alias du='du -h'
+alias dus='du -s'
+
+
+#
+# mv rm cp
+#  確認つきファイル操作
+#  rm, mv, cp などのあぶない操作を確認つきにする
+#
+alias mv='mv -i'
+alias rm='rm -i'
+alias cp='cp -ir'
+
+alias mvi='mv -i'
+alias rmi='rm -i'
+alias cpi='cp -ir'
+
+
+#
+# cp
+#  -p コピー元の所有者、所有者・グループ・アクセス権・アクセス時刻などを維持
+#  -a コピー元の所有者などの属性、パーミッション 、ディレクトリ構造、
+#     シンボリックリンクなど、「コピー可能なファイルでコピー可能なものを、
+#     可能な限りコピー元の情報をそのままるコピーする」-dpR と同じ
+alias cpa='cp -a'
+
+
+#
+# grep
+#  -i 大文字小文字を区別しない
+#  -n 各行の先頭にファイルの行番号を表示します
+#  -H ファイル名を表示
+#  -E オプションは、拡張正規表現を使用する場合に指定
+#     fgrep 正規表現を使わない検索
+#     egrep 正規表現を使った検索 -E と同じ
+#  -R, -r, --recursive ディレクトリを再帰的にたどる
+#  -I バイナリ検索除外(--binary-files=without-match)
+#  -w 単語マッチ
+#  -color=xxx : auto  always:パイプ使用時に強制的にカラーコードをつける
+#  --directories=recurse grep対象にディレクトリを指定し場合再帰grep(ver2.5.4 or later)
+#  -q, --quiet, --silent 通常の出力を抑止
+#  -s, --no-messages ファイルが存在しないことや読み込みできないことを示すエラーメッセージを抑止
+#
+#  環境変数GREP_OPTIONSにデフォルトオプションを設定
+#
+#  e.g.
+#   & grep -r searchword --include'*.txt' .
+#
+if grep --help | grep -q -- --exclude-dir; then
+    # svn/gitディレクトリを無視
+    alias grep='grep -niE --exclude-dir=.svn --exclude-dir=.git'
+else
+    alias grep='grep -niE'
+fi
+alias grepr='grep -R'
+
+# grepの結果をviで表示(gfやgFでカーソル下のファイルへジャンプ)
+grepv () {
+    grep "$@" | vim -R -
+}
+
+
+#
+# find
+#
+#alias find=gfind
+alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
+alias findmod='find . -type f -mmin -10'
+
+#  e.g.
+#   find -name '*' -exec grep -n 'name' {} /dev/null ¥;
+#   find . -name \*.c -print0 | xargs -0 grep hogehoge /dev/null
+#   find . -name "*hoge" -type f | grep -v '\.svn' | xargs grep piyopiyo
+#   find . -name \( -name "*.c" -o -name "*.cpp" -o -name "*.h" \) | xargs grep hoge
+#
+# xargs -0 :  空白と改行ではなくヌル文字 (``\0'') を区切りとするように xargs に指示
+#             find(1) の -print0 とともに使用
+# -print0   :  デリミタ文字 (シングルクォート 、ダブルクォート、バックスラッシュ 、
+#              スペース、タブ、改行) が含まれるファイル名でも正常に動くHL
+#
+# ディレクトリ名やファイル名にスペースを含んでいる場合、 find と xargs を
+# そのまま実行すると、スペースの前後で別々にxargsの引数として処理され、
+# 正常に動作しない。
+# そこで、スペースを区切り文字にするのではなく(null)を区切り文字にするとで
+# 問題なく正常に動作できる
+
+
+#
+# history
+#
+alias h='history 32'
+# 全履歴を表示
+history_all() { history -E 1 | less; }
+
+
+#
+# od
+#  16進数でのバイナリダンプコマンド
+#  -tx1 1バイトごとに区切って表示
+#  -Ax アドレスを16進数表示
+#  -v 連続する0をスキップしない
+#
+alias od='od -tx1 -Ax -v'
+# 改行コード判定に使用
+alias oc='od -c'
+
+#
+# chmod
+#  644 rw-r--r--  ユーザ専用ファイル
+#  755 rwxr-xr-x  ディレクトリ
+#
+alias 644='chmod 644'
+alias 755='chmod 755'
+
+
+#
+# ps
+#  a すべてのユーザを対象にする
+#  u 実行したユーザを表示
+#  x デーモンを表示
+#  f fork(フォーク：分岐)-プロセスの親子関係を表示(Mac非対応)
+#  w 表示幅をオーバしても改行して表示する
+#
+alias psa='ps auxw'
+
+
+#
+# top (for FreeBSD/Mac)
+#  -o rsize メモリ使用量でソートして表示
+#  -o cpu CPU使用率順に表示
+#  -O time セカンダリソートを実行時間
+#  -u "-o cpu -O time"と同じ
+#  -R -F topコマンドの負荷軽減
+#
+alias topm='top -o rsize'
+alias topc='top -R -F -u'
+
+
+#
+# diff
+#  -r ディクレクトリの再帰検索
+#  -t 入力ファイルでのタブによる位置あわせを保存するため、 出力のタブをスペースに展開
+#  -b 空白・タブの数の違いを無視
+#  -B 空行の有無を無視
+#  -E タブ展開によるスペースの変更を無視する
+#  -a テキストファイルとして比較
+#  -q 差分があるかどうかだけを報告し詳細を報告しない
+#  -u unified diff形式で出力
+#
+alias diff='diff -tbBE'
+alias diffr='diff -rq'
+
+
+#
+# curl
+#  -O ファイルはローカルに保存
+#  -L リダイレクトを有効
+#  --max-redirs=10 リダイレクト回数の上限(デフォルト:50) -Z <回数> と同様
+#  -k 安全ではないSSLを許可
+#  -f サーバーエラー時に何も出力しない(エラーページなどをDLしない) 代わりににエラー番号22を返す
+#  -s プログレスメータやエラーメッセージを出力しない(silent)
+#  -S -sと併用、失敗時にエラーメッセージを出力
+#  -# プログレスバー表示(DL詳細は見えなくなる)
+#  -v 詳細表示
+#
+alias cur='curl -OLv'
+
+
+#
+# rsync
+#  -a 属性、タイムスタンプ等を保存
+#  -v 情報の詳細表示
+#  -z 転送時に圧縮
+#  -u 更新
+#
+alias rsync='rsync -avzu'
+
+
+#
+# screen
+#  -U utf-8で起動(文字化けする場合に有効)
+#  -ls or -list screenリスト
+#  -S <name> セッション名指定
+#  -r <name> アタッチ(再接続)
+#  -D -RR 既存のセッションを強制デタッチして再接続(なければ新規作成)
+#         再接続するならとりあえずこれ使っとけばOK
+#
+alias s='screen -U'
+alias sc='screen -U'
+alias sl='screen -ls'
+alias ssm='screen -U -S main'
+alias srm='screen -U -r main'
+alias srr='screen -U -D -RR'
+
+# SSHコマンドはscreenで実行
+#  ssh_sc <server>
+#
+function ssh_sc(){
+    local svr
+    svr=$1
+    shift
+    ssh -t $svr screen -rx || screen -D -RR
+}
+
+# ssh先に対してscreenを起動してコマンドを実行
+#  ssh_sc_cmd <server> <cmd>
+#
+ssh_sc_cmd() {
+    local svr
+    svr=$1
+    shift
+    # $*のほうがいい？
+    ssh $svr screen -d -m $@
+}
+
+
+#
+# Japanese env
+#  ロケールに関する環境変数をすばやく切替えるためのエイリアス
+#
+alias utf='export LANG=ja_JP.UTF-8; export LANGUAGE=ja_JP.UTF-8; export LC_ALL=ja_JP.UTF-8'
+alias en='export LANG=en; export LANGUAGE=en; export LC_ALL=en'
+
+
+#
+# エイリアス(その他) -----------------------------------------------------
+#
+#
+# iptables
+alias liptables='iptables -L -n --line-numbers'
+
+# sudo スーパーユーザへ
+alias ssu='sudo -s'
+
+#
+# PATHを改行区切りで表示
+#
+printpath() {
+    echo "$PATH" | sed 's/:/\
+/g'
+}
+
+#
+# homebrew
+#
+if type brew >/dev/null 2>&1; then
+    alias b='brew'
+    alias bs='brew search'
+    alias bi='brew info'
+    alias bl='brew list -version'
+    alias be='brew edit'
+    alias bopt='brew options'
+    alias bins='brew install -v'
+    alias bout='brew outdated'
+    alias bup='brew update'
+    alias bdoc='brew doctor'
+    alias bdep='brew uses --installed'
+    alias cdbr='pushd $(brew --prefix)/'
+
+    brew_detail() {
+        if [ $# -eq 0 ]; then
+            echo "===== brew --config ====="
+            brew --config
+            echo
+            echo "===== brew --env ====="
+            brew --env
+            echo
+            echo "===== brew info ====="
+            brew info
+            echo
+            echo "===== brew list ====="
+            brew list
+            echo
+            echo "===== brew tap ====="
+            brew tap
+            echo
+            echo "===== brew doctor ====="
+            brew doctor
+            echo
+            echo "===== brew outdated ====="
+            brew outdated
+        else
+            echo "===== brew info ====="
+            brew info "$1"
+            if [ $? -eq 0 ]; then
+                echo
+                echo "===== brew options ====="
+                brew options "$1"
+            else
+                echo
+                echo "===== brew search ====="
+                brew search "$1"
+            fi
+        fi
+    }
+    alias br='brew_detail'
+fi
+
+
+#
+# lv
+#
+# -c カラー表示対応
+# -l 行番号表示
+alias lv='lv -cl'
+
+
+#
+# tree
+#
+# -N 日本語文字化け対応
+alias tree='tree -N'
+
+
+#
+# jman
+#  日本語man
+#
+if type jman >/dev/null 2>&1; then
+    alias man='env LANG=ja_JP.UTF-8 jman'
+    alias eman='/usr/bin/man'
+fi
+
+# ~/work/usr/local配下のコマンドのman
+alias wman='/usr/bin/man -M ~/work/usr/local/share/man'
+
+
+#
+# ack
+#  高機能検索(find + grep)
+#  -a 全てのファイルから検索(拡張子無しも含む) ただし--TYPEが無効
+#  -i 大文字小文字区別なし
+#  --pager 結果を開くPAGER(less,vim)
+#  --TYPE or --type=TYPE プログラミング言語に応じたタイプ指定
+#      参照：$ ack --help-type
+#  --nogroup 検索結果をファイルごとにグループ化しない
+#  -f ファイル検索(find)
+#  -w 単語検索
+#  -G filter 検索対象のファイルパスを正規表現指定
+#  -g filter ファイル検索(find)(正規表現)(-f -G に同じ)
+#  -C n 一致した行の前後n行を表示
+#  -B n 前n行を表示
+#  -A n 後n行を表示
+#  -l 一致したファイル名のみ出力
+#  -L 一致していないファイル名を出力
+#  -n 再帰検索しない
+#  ※デフォルトオプション: ~/.ackrc
+#   e.g.
+#    $ ack 'pattern' -G .*\.txt
+#    $ ack hoge -G "\.(c|cpp|h)$"
+#
+alias acka='ack -a'
+alias ackn='ack -n'
+
+# ackの結果をviで表示(gfやgFでカーソル下のファイルへジャンプ)
+ackv () {
+    ack "$@" | vim -R -
+}
+
+
+#
+# nkf
+#  -g 文字コード判定
+#  $$: シェル自身のプロセスID
+#  >!: 強制上書き
+#
+# 文字コードを判定
+alias nkfg='nkf -g'
+
+# utf-8-LFに変換
+utf8() {
+    for i in "$@"; do
+        nkf -w -Lu $i >! /tmp/euc.$$
+        mv -f /tmp/utf8.$$ $i
+    done
+}
+# euc-LFに変換
+euc() {
+    for i in "$@"; do
+        nkf -e -Lu $i >! /tmp/euc.$$
+        mv -f /tmp/euc.$$ $i
+    done
+}
+
+# sjis-CRLF
+sjis() {
+    for i in "$@"; do
+        nkf -s -Lw $i >! /tmp/euc.$$
+        mv -f /tmp/euc.$$ $i
+    done
+}
+
+
+#
+# Vim
+#
+
+if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
+    # MacVim-Kaoriya
+    alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+    alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+    alias vimm='/usr/bin/vim'
+    #alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags "$@"'
+fi
+alias view='vim -R'
+
+# vim起動時にUniteをオープン
+alias viu='vim -c "Unite -no-start-insert -no-split file_mru buffer file"'
+
+# vimをlessとして使う
+if [ -x /Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh ]; then
+    alias vless='/Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh'
+elif [ -x /usr/share/vim/vim73/macros/less.sh ]; then
+    alias vless='/usr/share/vim/vim73/macros/less.sh'
+fi
+
+# 全てのvimrcをviで編集
+alias Ev='vi ~/dotfiles/.vimrc*'
+
+# GTDを編集
+gtd() {
+    if [ "$TMUX" ]; then
+        # tmux実行時はタイトルを変更
+        tmux rename-window "GTD"
+    fi
+    vim ~/Dropbox/Repos/markdown/gtd.txt
+}
+
+
+#
+# git
+#
+alias gitst='git status'
+
+gits() {
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+        echo 'Error: Not a git repository' 2>&1
+        return 1
+    fi
+    git status -sb
+    (
+        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+        echo -e '## \033[0;34msubmodule\033[0;39m'
+        git submodule status
+    )
+}
+
+# DropBoxからgit clone
+gitclone-dropbox() {
+    if [ $# -ge 1 -a $# -le 2 ]; then
+        git clone ~/Dropbox/Repos/git/$1 $2
+    else
+        echo "arguments error: 1 or 2 arguments is required" 1>&2
+        echo "usage: $(basename $0) <repository> [directory]" 1>&2
+        return 1
+    fi
+}
+
+
+#
+# tmux
+#
+if type tmuxx >/dev/null 2>&1; then
+    # pbcoopy対応のtmux
+    alias tmx='tmuxx'
+fi
+alias tm='tmux'
+# セッション名mainで新規作成
+alias tmm='tmux new-session -s main'
+# セッション名mainにアタッチ
+alias tmam='tmux attach -t main'
+# 最後に作成されたセッションにアタッチ
+alias tma='tmux attach'
+# 指定セッションをデタッチ後にアタッチ
+alias tmad='tmux attach -d -t'
+# セッションリストを表示
+alias tml='tmux list-sessions'
+# ウィンドウリストを表示
+alias tmw='tmux list-window'
+# クライアントリストを表示
+alias tmc='tmux list-clients'
+# ウィンドウタイトル変更
+alias tmrw='tmux rename-window'
+
+
+#
+# MySQL
+#  データベース一覧 mysqlshow -uroot -p
+#  --auto-rehash テーブル名/カラム名などの補完を有効
+#  --no-auto-rehash テーブル名/カラム名などの補完を無効(SQL補完有効)
+#
+alias mysqlr='mysql --auto-rehash'
+alias mysqlnr='mysql --auto-rehash'
+alias mysql_show_variables='mysql -uroot -p -e "show variables"'
+alias mysql_show_user='mysql -uroot -p -e "select User, Host from mysql.user"'
+alias mysql_show_mysql_tables='mysqlshow -uroot -p mysql'
+
+#
+# pbcopy
+#
+alias pbc='pbcopy'
+
+# 直前のコマンドをクリップボードへ
+#  第１引数：何個前のコマンドか(改行のみは除外されるはず)
+copy_prev_cmd_to_clipboard () {
+    if [ -n "$1" ] && ! expr "$1" : '[0-9]*' > /dev/null ; then
+        echo "error: non-numeric argument" 1>&2
+        return 1
+    fi
+    local num=${1:-1};
+    num=$((num + 1))
+    tail "-$num" "$HISTFILE" | perl -e '<> =~  m/;(.+)/; print $1;' | pbcopy
+}
+alias pbcc='copy_prev_cmd_to_clipboard'
+
+
+#
+# open
+#  Macのアプリケーションを起動
+#
+alias finder='open -a finder'
+alias gvim='open -a MacVim'
+alias chrome='open -a Google\ Chrome'
+alias edit='open -a CotEditor'
+
+
+#
+# extract
+#  万能解凍コマンド
+#  http://d.hatena.ne.jp/jeneshicc/20110215/1297778049
+#
+simple_extract () {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1    ;;
+            *.tar.gz)    tar xvzf $1    ;;
+            *.tar.xz)    tar xvJf $1    ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar x $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xvf $1     ;;
+            *.tbz2)      tar xvjf $1    ;;
+            *.tgz)       tar xvzf $1    ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *.lzma)      lzma -dv $1    ;;
+            *.xz)        xz -dv $1      ;;
+            *)           echo "don't know how to extract '$1'..." ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+alias ex='simple_extract'
+
+
+#
+# Goolge検索
+#
+google() {
+    local str opt
+    local open_cmd
+    local google_url='http://www.google.co.jp'
+    if [ $# != 0 ]; then
+        for i in $*; do
+            # 検索ワードを+記号でつなぐ(and検索)
+            # URLエンコード
+            #$i=$(echo "$i" | nkf -wMQ | tr = %)
+            str="$str${str:++}$i"
+        done
+        opt='search?num=100&hl=ja&lr=lang_ja'
+        opt="${opt}&q=${str}"
+    fi
+
+    case "${OSTYPE}" in
+        darwin*)
+            open_cmd='open'
+            ;;
+        linux*)
+            if type w3m >/dev/null 2>&1; then
+                open_cmd='w3m'
+            fi
+            ;;
+    esac
+    if [ -z "$open_cmd" ]; then
+        echo "error: command for open is not found" 2>&1
+        return 1
+    fi
+    $open_cmd "$google_url"/$opt
+}
+
+
+# ゴミ箱の中身を確認
+alias showtrash="echo ~/.Trash ;ls -lah ~/.Trash"
+
+#
+# 削除する代わりにゴミ箱へ
+#
+trash(){
+    for file in "$@"; do
+       __trash_single_file $file
+    done
+}
+
+__trash_single_file(){
+    if ! [ -d ~/.Trash/ ]; then
+        command /bin/mkdir ~/.Trash
+    fi
+
+    if ! [ $# -eq 1 ]; then
+        echo "__trash_single_file: 1 argument required but $# passed."
+        return 1
+    fi
+
+    if [ -e $1 ]; then
+        local BASENAME=$(basename $1)
+        local NAME=$BASENAME
+        local COUNT=0
+        while [ -e ~/.Trash/$NAME ]; do
+            COUNT=$(($COUNT+1))
+            NAME="$BASENAME.$COUNT"
+        done
+        command /bin/mv $1 ~/.Trash/$NAME
+    else
+        echo "No such file or directory: $file"
+    fi
+}
+# vim: ft=sh sw=4 sts=4 ts=4 et

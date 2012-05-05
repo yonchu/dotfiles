@@ -1,0 +1,173 @@
+#*******************************************************************************
+#
+# .zshrc.alias
+#   zsh固有alias
+#
+#   現在設定されているaliasを調べる
+#    $ alias [コマンド名]
+#   typeコマンドでもaliasが表示される
+#    $ type [-a] <コマンド名>
+#   aliasを無効にして実行
+#    $ \cmd
+#
+#*******************************************************************************
+
+## 設定ファイルのリロード
+alias reload='source ~/.zprofile && source ~/.zshrc'
+
+#
+# グローバルエイリアス
+#  e.x. dmesg G CPU
+#
+# 標準出力を表示しない
+alias -g NL='> /dev/null'
+# 標準出力/標準エラー出力を表示しない
+alias -g NLL='> /dev/null 2>&1'
+# 標準出力を標準エラー出力へ
+alias -g ER='1>&2'
+
+alias -g G='| grep'
+alias -g L='| $PAGER'
+alias -g W='| wc'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g S='| sed'
+alias -g V='| vim -R -'
+
+# クリップボード用
+#  http://d.hatena.ne.jp/mollifier/20100317/p1
+if which pbcopy >/dev/null 2>&1; then
+    # Mac
+    alias -g P='| pbcopy'
+elif which xsel >/dev/null 2>&1; then
+    # Linux
+    alias -g P='| xsel --input --clipboard'
+elif which putclip >/dev/null 2>&1; then
+    # Cygwin
+    alias -g P='| putclip'
+fi
+
+
+# pushd/popd
+alias pd="pushd"
+alias po="popd"
+
+# history時間表示
+alias history="history -i"
+
+#
+# fpathを表示
+#
+printfpath() {
+    echo $fpath | sed 's/ /\
+/g'
+}
+
+
+#
+# zmv
+#   簡単に複数ファイルのリネームが可能
+#   http://d.hatena.ne.jp/mollifier/20101227/p1
+#     noglob *などのパス展開を行わない(""で''で囲わなくても良い)
+#     -n 確認内容を出力
+#     -C mvの代わりにcpを実行
+#     -L mvの代わりにlnを実行
+#     $ noglob zmv -w hoge-*.*.*.tar.gz hoge-$1--$2--$3.tar.gz
+#     $ noglob zmv -W hoge-*.*.*.tar.gz hoge-*--*--*.tar.gz
+#     ゼロパティング
+#     $ (n=1; zmv -n '*.jpg' '${(l:3::0:)$((n++))}.jpg')
+#     変数フラグ U:大文字 L:小文字 C:キャピタルケース
+#     $ zmv '(*).txt' '${(U)1}.txt'
+#     変数置換 ${1//pattern/repl} ## は1回以上の繰り返し
+#     $ zmv '(*)' '${1// /_}'
+#     $ zmv '(*)' '${1// ##/_}'
+#     バックアップ
+#     $ noglob zmv -W -C '(*.c)' '$1.bak'
+#     シンボリックリンク作成
+#     $ noglob zmv -w -L -s 'dotfiles/.(*)' '.$1'
+#     再帰変換
+#     $ zmv '(**/)makefile' '$1Makefile'
+#
+#     ヘルプ
+#     $ man zshcontrib
+#     $ man zsh-lovers
+#
+#
+autoload -Uz zmv
+alias zmv="noglob zmv"
+alias zmvn="zmv -n"
+alias zmvw="zmv -w"
+alias zmvW="zmv -W"
+
+
+#
+# 拡張子に対応したエイリアス設定
+#
+
+# Pagerで開く
+for target in java c h C cpp txt xml; do
+    alias -s ${target}=zsh_pager
+done
+
+# ブラウザで開く
+for target in html xhtml; do
+    alias -s ${target}=zsh_wevbbrowser
+done
+
+# 画像を開く
+for target in gif jpg jpeg png bmp; do
+    alias -s ${target}=zsh_imageviewer
+done
+
+# 音楽ファイルを開く
+for target in mp3 m4a ogg; do
+    alias -s ${target}=zsh_audioplayer
+done
+
+# 動画ファイルを開く
+for target in mpg mpeg avi mp4v; do
+    alias -s ${target}=zsh_movieplayer
+done
+
+
+zsh_pager(){
+    $(zsh_commandselector "${PAGER} lv less more cat") ${@+"$@"}
+}
+
+zsh_wevbbrowser(){
+    $(zsh_commandselector "chrome firefox opera konqueror epiphany less") ${@+"$@"}
+}
+
+zsh_imageviewer(){
+    $(zsh_commandselector "gthumb imageviewer gqview kview eog display") ${@+"$@"}
+}
+
+zsh_audioplayer() {
+    $(zsh_commandselector "amarok audacious beep-media-player xmms2 xmms noatun") ${@+"$@"}
+}
+
+zsh_movieplayer() {
+    $(zsh_commandselector "svlc gmplayer totem xine realplay") ${@+"$@"}
+}
+
+zsh_commandselector() {
+    for command in $(echo ${1}); do
+        if type "${command}" > /dev/null 2>&1; then
+            echo "${command}"
+            break
+        fi
+    done
+}
+
+
+#
+# OS固有のalias設定
+#
+case "${OSTYPE}" in
+    # Mac(Unix)
+    darwin*)
+    ;;
+    # Linux
+    linux*)
+    ;;
+esac

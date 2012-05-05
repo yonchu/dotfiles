@@ -1,0 +1,11 @@
+#compdef gitclone-dropbox
+
+# リポジトリ格納配列
+local -a repos
+
+local ret=1
+repos=($(find ~/Dropbox/Repos/git/* -type d -maxdepth 0 -exec basename '{}' ';'))
+_describe -t repository 'Repository' repos && ret=0
+return ret;
+
+# vim: ft=zsh sw=4 sts=4 ts=4 et

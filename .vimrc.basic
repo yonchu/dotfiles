@@ -1,0 +1,80 @@
+"-------------------------------------------------------------------------------
+" 基本的な設定
+"-------------------------------------------------------------------------------
+"set shortmess+=I                " 起動時のメッセージを表示しない
+set nocompatible                 " viとの互換性をとらない(vimの独自拡張機能を使う為)
+let mapleader = ","              " キーマップリーダー
+set scrolloff=5                  " スクロール時の余白確保
+set textwidth=0                  " 入力されているテキストの最大幅 (0指定で折り返し表示を無効)
+set wrap                         " ウィンドウの幅より長い行は折り返し表示
+set autoread                     " 他で書き換えられたら自動で読み直す
+set noswapfile                   " スワップファイル作らない
+
+" 編集中でも他のファイルを開けるようにする(バッファを切替えてもundoの効力を失わない)
+set hidden
+
+" バックスペースキーで削除できるものを指定
+"  indent  : 行頭の空白
+"  eol     : 改行
+"  start   : 挿入モード開始位置より手前の文字
+set backspace=indent,eol,start   " バックスペースでなんでも消せるように
+
+set formatoptions=lmoq           " テキスト整形オプション，マルチバイト系を追加
+set vb t_vb=                     " ビープ音を鳴らさない
+set browsedir=buffer             " Exploreの初期ディレクトリ
+"set whichwrap=b,s,h,l,<,>,[,]    " カーソルを行頭、行末で止まらないようにする
+set viminfo='50,<1000,s100,\"50  " viminfoファイルの設定
+
+" モードライン
+" 末尾にモードライン以外の文字を含めない場合
+"  # vim: ft=sh sw=4 sts=4 ts=4 et
+" 末尾にモードライン以外の文字を含める場合
+"  /* vim: set ft=c sw=4 sts=4 ts=4 et: */
+set modeline                     " モードラインを有効
+set modelines=2                  " モードラインを認識する行数
+
+" OSのクリップボードを使用 ヤンクした文字をクリップボードへ
+set clipboard+=unnamedplus,unnamed
+
+" xではクリップボードに入れない
+" http://vivi.dyndns.org/SPR/SPR.phtml?project=ViVi210xx&sprID=40
+" YankRingがあるとこの設定はできない
+" ClipMenuの除外対象APL+YankRingの最少文字数で対応
+"nnoremap <silent>x "_x
+
+" ターミナルでマウスを使用できるようにする
+" http://vim-users.jp/2009/12/hack107/
+set mouse=a
+" 通常版vimではマウス選択によるビジュアルモード機能を無効にする
+if ! has("kaoriya")
+  set mouse-=a
+endif
+set ttymouse=xterm2              " screenでもマウスを使用できるように
+
+" 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるようにする "
+"imap <C-k>  <ESC>"*pa
+
+" vimrcの編集と反映
+command! Ev edit $MYVIMRC
+command! Sv source $MYVIMRC
+nnoremap <Space>. :<C-u>edit $MYVIMRC<Enter>
+nnoremap <Space>s. :<C-u>source $MYVIMRC<Enter>
+
+" ファイルタイプ判定をon
+filetype plugin on
+
+
+"-------------------------------------------------------------------------------
+"" バックアップ関係
+"-------------------------------------------------------------------------------
+set nobackup                     " バックアップをとらない
+" ファイルの上書きの前にバックアップを作る
+" (ただし、backup がオンでない限り、バックアップは上書きに成功した後削除される)
+set writebackup
+
+" " バックアップをとる場合
+" "set backup
+" " バックアップファイルを作るディレクトリ
+" "set backupdir=~/backup
+" " スワップファイルを作るディレクトリ
+" "set directory=~/swap

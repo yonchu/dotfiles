@@ -1,0 +1,122 @@
+## 文字コード
+defkanji utf-8
+defencoding utf-8
+encoding utf-8 utf-8
+
+# 起動メッセージを表示しない
+startup_message off
+# ハングアップ時に自動デタッチ
+autodetach on
+# ベルの時はメッセージ（＋音）を出す(^GはvimでC-v C-gで入力する)
+bell_msg "^G"
+# スクロールバッファ
+defscrollback 10000
+# バックグラウンドスクリーンの監視
+defmonitor on
+# 背景色消去
+defbce "on"
+# 太字には明るい色を使う
+ attrcolor b ".I"
+# 可視ベルOFF
+vbell off
+# 別画面サポート(Vimやless使うときに便利
+altscreen on
+
+## ログ機能
+# ログファイル
+#logfile "$HOME/.screen/screen-%Y%m%d-%n.log"
+# 標準でログをとる
+# deflog on
+
+
+# コマンド未実行状態の時に表示するシェルタイトル
+#  $ 自分のプロンプトに合わせること
+shelltitle '$ |shell'
+
+
+## Hardstatus/Caption
+#   %n 現在のwindow番号
+#   %t 現在のwindow名
+#   %-w 現在のウインドウより前のwindow番号とwindow名
+#   %+w 現在のウインドウより後のwindow番号とwindow名
+#   %= スペース
+#   %` Substitute with the output of a 'backtick' command
+#   %l ロードアベレージ
+#   %y 年 (西暦の下二桁)
+#   %m 月
+#   %d 日
+#   %c 時分 (%02c:24時間表示)
+#   %s 秒
+#
+#   %?...%? if文
+#   %F ウィンドウがアクティブなら真
+#   %: else文
+#
+#   %{-} 前回指定された色に戻す
+#   %{=} 色リセット
+#   %{+} 属性追加
+#   %{.} 色を継承
+#   %{=bu bw} 効果と色設定: b(bold) u(underline) blue(バックグラウンド) white(フォアグラウンド)
+#     attribute: b(bold) u(underline) r(reverse)
+#     color: d(default) k(black) r(red) g(green) y(yellow) b(blue) m(magenta) c(cyan) w(white)
+#
+
+## Hardstatus
+hardstatus alwayslastline "%{= wk} %{= gk}%-w%{=bu bw}%n %t%{= wk}%+w %= %{=b wk}[%0`] %{=b wk}[$LANG] %{=b wk}(%l) %{=b wk}%y/%m/%d %02c:%s"
+
+## Caption
+caption splitonly "%{= wk} %?%F%{= wk}%:%{=b Wk}%? %t (screen #%n) %= [$PWD]"
+
+## Screenが出すメッセージ(縦分割時の分割線の色など)
+sorendition "+rb .w"
+
+backtick 0 0 0 echo ${ttyname}
+
+## 256color対応
+# screen起動時 alternate screen を使わないで起動
+termcapinfo xterm* ti@:te@
+# "^["はエスケープ文字: Vimの場合"Ctrl+V ESC"
+#termcapinfo xterm-256color 'is=^[r^[m^[2J^[H^[?7h^[?1;4;6l'
+#termcapinfo xterm-256color 'is=rm2JH?7h?1;4;6l'
+# $TERMをxterm-256colorに設定
+term xterm-256color
+
+
+#
+# key bind
+#
+# エスケープキー
+#escape ^Tt
+escape ^Oo
+
+bind n  screen
+bind h  prev
+bind j  prev
+bind k  next
+bind l  next
+bind w  windowlist
+bind x  remove
+bind s  split
+# 縦分割
+bind v  split -v
+
+
+#
+# unbind key
+#
+# <C-k> kill 現在のウィンドウ破棄
+#bind k
+bind ^k
+# <C-.> dumptermcap抑制
+bind .
+# <C-\> 全ウィンドウ破棄
+bind ^\
+bind \\
+# <C-h> ハードコピー書込み
+bind ^h
+#bind h
+# 端末ロック
+#bind s
+bind ^s
+#bind x
+bind ^x
