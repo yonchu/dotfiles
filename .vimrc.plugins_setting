@@ -124,9 +124,9 @@ let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'ye
 " MacのxargsではRgrepがエラーになる
 if has('mac')
   if system('which gxargs')
-    :let Grep_Xargs_Path = 'gxargs'
+    let Grep_Xargs_Path = 'gxargs'
   else
-    :let Grep_Find_Use_Xargs = 0
+    let Grep_Find_Use_Xargs = 0
   endif
 endif
 
