@@ -501,12 +501,12 @@ chpwd() {
             CMD_LS="ls -avwF --color"
             ;;
     esac
-    # ファイル量が多い場合,表示するファイルを制限
-    if [ 150 -le $(eval "$CMD_LS" |wc -l) ]; then
+    # ファイル数が多い場合は表示するファイルを制限
+    if [ 150 -le $(\ls -A |wc -l) ]; then
         eval "$CMD_LS" -C | head -n 5
         echo '...'
         eval "$CMD_LS" -C | tail -n 5
-        echo "$(eval "$CMD_LS" | wc -l | tr -d ' ') files exist"
+        echo "$(\ls -A | wc -l | tr -d ' ') files exist"
     else
         eval "$CMD_LS"
     fi
