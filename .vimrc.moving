@@ -113,3 +113,22 @@ endfunction
 
 " insert mode でjjでesc
 inoremap jj <Esc>
+
+
+" vimのカレントディレクトリを現在編集中のファイルのディレクトリに変更
+" http://vim-users.jp/2009/09/hack69/
+command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+  if a:directory == ''
+    lcd %:p:h
+  else
+    execute 'lcd' . a:directory
+  endif
+
+  if a:bang == ''
+    pwd
+  endif
+endfunction
+
+" Change current directory.
+nnoremap <silent> <Space>cd :<C-u>CD<CR>
