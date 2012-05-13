@@ -26,4 +26,5 @@ augroup SkeletonAu
   autocmd BufNewFile *.html 0r $HOME/.vim/my_templates/skel.html
   autocmd BufNewFile *.sh 0r $HOME/.vim/my_templates/skel.sh
   autocmd BufNewFile *.py 0r $HOME/.vim/my_templates/skel.py
+  autocmd BufNewFile *.user.js 0r $HOME/.vim/my_templates/skel.user.js
 augroup END
