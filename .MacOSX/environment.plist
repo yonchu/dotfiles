@@ -10,6 +10,10 @@
     -->
     <key>JAVA_HOME</key>
     <string>/Library/Java/Home</string>
+    <!--
+    <key>_JAVA_OPTIONS</key>
+    <string>-Dfile.encoding=UTF-8</string>
+    -->
     <key>MAVEN_HOME</key>
     <string>/usr/local/Cellar/maven2/2.2.1/libexec</string>
 </dict>

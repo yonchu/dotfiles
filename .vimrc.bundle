@@ -194,6 +194,7 @@ call vundle#rc()
   "Bundle 'tomasr/molokai'
   "Bundle 'Lucius'
   "Bundle 'Zenburn'
+  "Bundle 'nanotech/jellybeans.vim'
 " }}}
 
 
