@@ -265,12 +265,12 @@ setopt bang_hist
 #  https://github.com/zsh-users/zsh-completions.git
 fpath=(~/.zsh/functions/Completion/zsh-completions(N-/) ${fpath})
 # /usr/local 配下
-fpath=(/usr/local/share/zsh/functions(N-/) /usr/local/share/zsh/site-functions(N-/) ${fpath})
+#fpath=(/usr/local/share/zsh/functions(N-/) /usr/local/share/zsh/site-functions(N-/) ${fpath})
 # homebrewでインストールしたコマンドの補完関数
-if type brew >/dev/null 2>&1; then
-    BREW_PREFIX=$(brew --prefix)
-    fpath=($BREW_PREFIX/share/zsh/functions(N-/) $BREW_PREFIX/share/zsh/site-functions(N-/) ${fpath})
-fi
+#if type brew >/dev/null 2>&1; then
+    #BREW_PREFIX=$(brew --prefix)
+    #fpath=($BREW_PREFIX/share/zsh/functions(N-/) $BREW_PREFIX/share/zsh/site-functions(N-/) ${fpath})
+#fi
 # ユーザ固有の補完関数
 fpath=(~/.zsh/functions/Completion(N-/) ${fpath})
 
