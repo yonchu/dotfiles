@@ -6,16 +6,11 @@ if [ "$DEBUG" = "yes" ]; then
     set -x
 fi
 
-## vm_stat コマンドのチェック
-if ! type vm_stat > /dev/null 2>&1; then
-    exit 1
-fi
-
 #
-# メモリ使用率(%)を求める
+# vm_statコマンドを使用してメモリ使用率(%)を求める
 #   精度は小数点第1位までとする
 #
-calculate_used_mem() {
+calculate_used_mem_vm_stat() {
     # vm_stat
     #  page size of 4096 bytes
     #  http://qz.tsugumi.org/man_vm_stat.html
@@ -49,6 +44,35 @@ calculate_used_mem() {
     return 0
 }
 
+#
+# freeコマンドを使用してメモリ使用率(%)を求める
+#   精度は小数点第1位までとする
+#
+calculate_used_mem_free() {
+    FREE=$(free)
+
+    # 空きメモリ
+    FREE_MEM=$(echo "$FREE" | awk '/-\/\+ buffers\/cache/ {print $4}')
+
+    # 使用中メモリ
+    USED_MEM=$(echo "$FREE" | awk '/-\/\+ buffers\/cache/ {print $3}')
+    USED_MEM_GB=$(echo "$(($USED_MEM / 1024 ))" | sed -e 's/\(.*\)\([0-9]\{3\}\)/\1.\2/' -e 's/\(.*\)\.\([0-9]\{1\}\).*/\1.\2/' -e 's/^\./0./' )
+
+    # 合計
+    TOTAL_MEM=$(($FREE_MEM + $USED_MEM))
+    TOTAL_MEM_GB=$(echo "$(($TOTAL_MEM / 1024 ))" | sed -e 's/\(.*\)\([0-9]\{3\}\)/\1.\2/' -e 's/\(.*\)\.\([0-9]\{1\}\).*/\1.\2/' -e 's/^\./0./' )
+
+
+    # 使用中メモリ(%)
+    #  小数点第1位まで求めて後から小数点文字(ドット)を挿入
+    USED_MEM_PERCENT=$(echo "$(($USED_MEM * 1000 / $TOTAL_MEM))" | sed -e 's/\(.*\)\([0-9]\)/\1.\2/' -e 's/^\./0./')
+    echo "${USED_MEM_PERCENT}%(${USED_MEM_GB}G/${TOTAL_MEM_GB}G)"
+
+    # RET
+    return 0
+}
+
+
 # Debug
 debug() {
     if [ "$DEBUG" = "yes" ]; then
@@ -78,8 +102,16 @@ debug() {
 
 RET=0
 ## メイン処理 -----
-calculate_used_mem
-RET=$?
+if type vm_stat > /dev/null 2>&1; then
+    calculate_used_mem_vm_stat
+    RET=$?
+elif type free > /dev/null 2>&1; then
+    calculate_used_mem_free
+    RET=$?
+else
+    RET=1
+    exit $RET
+fi
 
 ## デバッグ -----
 #DEBUG=yes debug
