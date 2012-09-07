@@ -31,7 +31,7 @@ endif
 "  (.bashrcや.zshrcなどに設定する)
 "  http://d.hatena.ne.jp/ksmemo/20110214/p1
 "  http://www.akamoz.jp/you/uni/shellscript.htm
-inoremap  <C-q> <ESC>xa
+inoremap  <C-q> <ESC>xi
 
 " Cmdモードのキーバインドをemacs風に
 cnoremap  <C-a> <HOME>
