@@ -426,6 +426,11 @@ nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 
 " nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
+" dotfiles以下のファイルを表示
+command! UFD :Unite file:~/dotfiles -input=. -no-start-insert -winwidth=60
+
+call unite#custom_filters('file_rec', ['converter_relative_word', 'matcher_default', 'sorter_default', 'converter_relative_abbr'])
+
 autocmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
   " Overwrite settings.

@@ -511,6 +511,9 @@ alias view='vim -R'
 # vim起動時にUniteをオープン
 alias viu='vim -c "Unite -no-start-insert -no-split file_mru buffer file"'
 
+# vim起動時にUnite(file=dotfiles)オープン
+alias viud='vim -c "Unite -input=$HOME/dotfiles/. -no-start-insert -no-quit -winwidth=60 file"'
+
 # vimをlessとして使う
 if [ -x /Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh ]; then
     alias vless='/Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh'
