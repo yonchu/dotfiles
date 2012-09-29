@@ -49,4 +49,7 @@ svn propset svn:ignore ‘*’ [ディレクトリ名]/
 # svn statusで変更があったファイルのみディレクトリ構造毎別なディレクトリにコピーする
 svn status | cut -d ' ' -f8 | cpio -pd ../work
 
+# for文で一括処理
+for i in {08..16}; do; tar czf test$i.tar.gz test$i; done
+
 # vim: ft=sh sw=2 sts=2 ts=2 et
