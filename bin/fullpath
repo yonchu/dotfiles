@@ -3,7 +3,31 @@
 # 絶対パスをクリップボードへ
 #  第1引数: 対象のファイル or ディレクトリ
 #    引数未指定の場合はカレントディレクトリの絶対パスをコピー
+#
+#  オプション
+#   -a : ホームディレクトリのパスを~に変換
 
+usage() {
+  echo "Usage: ${0} [-a] [target]"
+  echo '  -a : convert home directory path into ~'
+}
+
+# オプション解析
+while getopts a option; do
+    case $option in
+        a)
+            opt_a="true"
+            ;;
+        :|\?)
+            usage
+            exit 1
+            ;;
+    esac
+done
+shift `expr ${OPTIND} - 1`
+
+
+# 絶対パスを取得
 if [ -z "$1" ]; then
     fullpath=$(pwd)
 elif ! [ -e "$1" ]; then
@@ -12,4 +36,14 @@ elif ! [ -e "$1" ]; then
 else
     fullpath=$(cd $(dirname "$1") && pwd)/$(basename "$1")
 fi
+
+
+# $HOMEを~に変換
+if [ "$opt_a" = "true" ]; then
+    fullpath_del_home=${fullpath#$HOME}
+    if [ "$fullpath" != "$fullpath_del_home" ]; then
+        fullpath='~'"${fullpath_del_home:-/}"
+    fi
+fi
+
 echo "$fullpath"

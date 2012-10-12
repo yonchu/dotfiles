@@ -622,7 +622,7 @@ alias pbcc='copy_prev_cmd_to_clipboard'
 
 # フルパスをクリップボードへ
 fullpath_to_clipboard () {
-    fullpath "$@" && printf $(fullpath "$@") | pbcopy
+    fullpath -a "$@" && printf $(fullpath -a "$@") | pbcopy
 }
 alias fpc='fullpath_to_clipboard'
 
