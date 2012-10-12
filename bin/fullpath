@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# 絶対パスをクリップボードへ
+#  第1引数: 対象のファイル or ディレクトリ
+#    引数未指定の場合はカレントディレクトリの絶対パスをコピー
+
+if [ -z "$1" ]; then
+    fullpath=$(pwd)
+elif ! [ -e "$1" ]; then
+    echo "error: file not found" 1>&2
+    exit 1
+else
+    fullpath=$(cd $(dirname "$1") && pwd)/$(basename "$1")
+fi
+echo "$fullpath"
