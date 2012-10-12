@@ -521,6 +521,17 @@ log
 
 
 #
+# zsh-syntax-highlighting
+#  https://github.com/zsh-users/zsh-syntax-highlighting
+#
+if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    #(main brackets pattern cursor)
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
+fi
+
+
+#
 # pythonbrew
 #  pythonbrewの自動起動
 #
