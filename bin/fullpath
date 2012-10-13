@@ -6,17 +6,22 @@
 #
 #  オプション
 #   -a : ホームディレクトリのパスを~に変換
+#   -s : シンボリックリンクを解決(実体パスを取得)
 
 usage() {
   echo "Usage: ${0} [-a] [target]"
   echo '  -a : convert home directory path into ~'
+  echo '  -s : resolve all symbolic links'
 }
 
 # オプション解析
-while getopts a option; do
+while getopts as option; do
     case $option in
         a)
             opt_a="true"
+            ;;
+        s)
+            opt_s="true"
             ;;
         :|\?)
             usage
@@ -26,15 +31,28 @@ while getopts a option; do
 done
 shift `expr ${OPTIND} - 1`
 
+target=$1
 
 # 絶対パスを取得
-if [ -z "$1" ]; then
+if [ -z "$target" ]; then
     fullpath=$(pwd)
-elif ! [ -e "$1" ]; then
+elif ! [ -e "$target" ]; then
     echo "error: file not found" 1>&2
     exit 1
 else
-    fullpath=$(cd $(dirname "$1") && pwd)/$(basename "$1")
+    # シンボリックリンクを解決
+    if [ "$opt_s" = "true" -a -h "$target" ]; then
+        sym_dir=$(cd $(dirname "$target") && pwd)
+        sym_dir=${sym_dir%/}
+        target="$sym_dir"/$(readlink -n "$target")
+    fi
+    dir=$(cd $(dirname "$target") && pwd)
+    dir=${dir%/}
+    base=$(basename "$target")
+    base=${base%/}
+    fullpath="$dir"/"$base"
+
+    #fullpath=$(cd $(dirname "$target") && pwd)/$(basename "$target")
 fi
 
 
