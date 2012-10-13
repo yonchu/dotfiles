@@ -544,12 +544,21 @@ gits() {
         echo 'Error: Not a git repository' 2>&1
         return 1
     fi
+    echo "===== git status -sb ====="
     git status -sb
     (
         cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+        echo "===== git submodule status ====="
         echo -e '## \033[0;34msubmodule\033[0;39m'
         git submodule status
     )
+    echo
+    echo "===== git remote -v ====="
+    git remote -v
+    echo "===== git branch -av ====="
+    git branch -av
+    echo "===== git stash list ====="
+    git stash list
 }
 
 # DropBoxからgit clone
