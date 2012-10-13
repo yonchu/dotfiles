@@ -168,8 +168,8 @@ alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias findmod='find . -type f -mmin -10'
 
 
-alias lsthumbs='find . -name 'Thumbs.db' -print0 | gxargs -0 ls -a'
-alias delthumbs='find . -name 'Thumbs.db' -print0 | gxargs -0 rm -f'
+alias lsthumbs='find . -type f -name 'Thumbs.db' -print0 | gxargs -0 ls -a'
+alias delthumbs='find . -type f -name 'Thumbs.db' -print0 | gxargs -0 rm -f'
 
 #  e.g.
 #   find -name '*' -exec grep -n 'name' {} /dev/null ¥;
@@ -597,6 +597,19 @@ alias tmw='tmux list-window'
 alias tmc='tmux list-clients'
 # ウィンドウタイトル変更
 alias tmrw='tmux rename-window'
+
+# tmuxの接続情報一覧
+tmux_list () {
+    echo "===== tmux list-clients ====="
+    tmux list-clients
+    echo
+    echo "===== list-sessions ====="
+    tmux list-sessions
+    echo
+    echo "===== list-window ====="
+    tmux list-window
+}
+alias tmll='tmux_list'
 
 
 #
