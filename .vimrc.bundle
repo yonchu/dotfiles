@@ -182,6 +182,9 @@ call vundle#rc()
 
   " sudo.vim : root権限でファイルを編集、保存
   Bundle 'sudo.vim'
+
+  " ShowMarks7 : マークを表示
+  Bundle 'ShowMarks7'
 " }}}
 
 

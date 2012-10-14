@@ -228,6 +228,38 @@ command! ES :e sudo:%<CR><C-^>:bd!
 command! WS :w sudo:%
 
 
+"----------------------------------------------------
+" showmarks.vim
+"  <Leader>mt ON/OFFトグル
+"  <Leader>mo Forces ShowMarks on.
+"  <Leader>mm 次の使えるマークを使ってマーク
+"  <Leader>mh カレント行ののマークを削除
+"  <Leader>ma カレントバッファのマークを全部削除
+"----------------------------------------------------
+" Enable ShowMarks
+let showmarks_enable = 1
+" Show which marks
+let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+" マークを表示しない
+"   - h : Help
+"   - m : Non-modifiable
+"   - p : Preview
+"   - q : Quickfix
+"   - r : Readonly
+let showmarks_ignore_type = "hmq"
+
+" Hilight lower & upper marks
+"let showmarks_hlline_lower = 1
+"let showmarks_hlline_upper = 1
+
+" Highlighting
+highlight ShowMarksHLl cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLu cterm=NONE ctermfg=blue ctermbg=lightyellow gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLo cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black gui=NONE gui=bold guifg=blue guibg=black
+
+
 "------------------------------------
 " vim-indent-guides
 "  インデント量の違いをハイライト表示

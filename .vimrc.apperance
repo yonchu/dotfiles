@@ -78,6 +78,7 @@ highlight LineNr cterm=underline ctermfg=2 gui=underline
 " 折り返し幅を示すラインの色
 highlight ColorColumn guibg=#444444 ctermbg=darkgray
 
+highlight SignColumn ctermfg=Cyan ctermbg=Black guifg=Cyan guibg=Black
 
 "------------------------------------------------------------------------------
 " カーソル行ハイライト
