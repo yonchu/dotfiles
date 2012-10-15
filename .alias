@@ -725,6 +725,8 @@ google() {
     $open_cmd "$google_url"/$opt
 }
 
+# ゴミ箱へ
+alias rmt='rmtrash'
 
 # ゴミ箱の中身を確認
 alias showtrash="echo ~/.Trash ;ls -lah ~/.Trash"
