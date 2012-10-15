@@ -1,6 +1,6 @@
 [user]
-  name = yonchu
-  email = yonchu3434@gmail.com
+  #name = xxxxx
+  #email = xxxxx
 [color]
   # color設定
   # 自動で色をつけるコマンドを設定
@@ -20,6 +20,8 @@
   autocrlf = input             # CRLFを自動変換
   editor = /usr/bin/vim        # 絶対パス指定必須
   quotepath = false            # 日本語のファイル名表示に対応
+[include]
+  path = ~/.gitconfig.local    # ローカル設定(git 1.7.10 or later)
 [diff]
   tool = vimdiff
   #external = p4diff
