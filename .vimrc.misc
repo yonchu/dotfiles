@@ -5,17 +5,23 @@
 "-------------------------------------------------------------------------------
 " ショートカット KeyMap
 "-------------------------------------------------------------------------------
-" 編集中のファイルをブラウザ(Chrome)で開く(Mac Only)
-"  %:p 現在編集中のファイルの絶対パス
-command! OB :silent call s:open_browser()
-function! s:open_browser()
-  try
-    execute '!open -a Google\ Chrome %:p'
-  finally
-    " 画面を消去して再描画
-    execute 'redraw!'
-  endtry
-endfunction
+
+if has("mac")
+  " 編集中のファイルをブラウザ(Chrome)で開く(Mac Only)
+  "  %:p 現在編集中のファイルの絶対パス
+  command! OB :silent call s:open_browser()
+  function! s:open_browser()
+    try
+      execute '!open -a Google\ Chrome %:p'
+    finally
+      " 画面を消去して再描画
+      execute 'redraw!'
+    endtry
+  endfunction
+
+  " MarkdownをMarked.appで開く
+  :nnoremap <leader>om :silent !open -a Marked.app '%:p'<cr>:redraw!<cr>
+endif
 
 
 "-------------------------------------------------------------------------------
