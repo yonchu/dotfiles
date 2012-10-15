@@ -485,20 +485,21 @@ chpwd() {
     local CMD_LS="ls -a -v -F"
     case "${OSTYPE}" in
         freebsd*|darwin*)
-            # -G カラー表示
             # -F ファイルタイプを示す文字を表示
             if type gls > /dev/null 2>&1; then
+                # -b 非印字文字を強制表示
                 # -v natural sort of (version) numbers within text
-                CMD_LS="gls -avF --color"
+                CMD_LS="gls -abvF --color"
             else
                 # -v 非印字文字を強制表示
-                CMD_LS="ls -avGF"
+                # -G カラー表示
+                CMD_LS="ls -avFG"
             fi
             ;;
         linux*)
+            # -b 非印字文字を強制表示
             # -v natural sort of (version) numbers within text
-            # -w 非印字文字を強制表示
-            CMD_LS="ls -avwF --color"
+            CMD_LS="ls -abvF --color"
             ;;
     esac
     # ファイル数が多い場合は表示するファイルを制限
