@@ -5,12 +5,15 @@ Usage
 -----
 Clone from github
 
-git@github.com:yonchu/dotfiles.git
+    $ cd
+    $ git clone https://github.com/yonchu/dotfiles.git
 
 ### Mac OS
-Please refer to setup.osx.sh
+Create symbolic links.
+
+    $ setup.osx.sh
 
 See also
 ---------------
 
-* [よんちゅBlog](http://d.hatena.ne.jp/yonchu/)
+* [よんちゅBlog](http://yonchu.hatenablog.com/)
