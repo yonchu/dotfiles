@@ -32,10 +32,12 @@ fi
 #    http://d.hatena.ne.jp/ruedap/20110706/mac_terminal_git_branch_name
 #
 if type __git_ps1 >/dev/null 2>&1; then
-    export PS1='[\[\033[032m\]\u@\h\[\033[00m\]:\[\033[36m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]]\$ '
+    PS1='[\[\033[032m\]\u@\h\[\033[00m\]:\[\033[36m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]]\$ '
 else
-    export PS1='[\[\033[032m\]\u@\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]]\$ '
+    PS1='[\[\033[032m\]\u@\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]]\$ '
 fi
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
+export PS1
 
 
 #
