@@ -198,15 +198,17 @@ case ${UID} in
             # statusをシンプル表示で取得
             git_status=$(git status -s 2> /dev/null)
             # git status -s の先頭が??で始まる行がない場合、Untrackedなファイルは存在しない
-            if ! echo "$git_status" | grep "^??" > /dev/null 2>&1; then
+            if ! echo "$git_status" | grep -q "^??"; then
                 untracked=""
             fi
 
             # stagedstrを取得
             zstyle -s ":vcs_info:git:*" stagedstr stagedstr
-            # git status -s の先頭がAで始まる行があればstagedと判断
-            if [ -n "$stagedstr" ] && ! printf "$staged_unstaged" | grep "$stagedstr" > /dev/null 2>&1 \
-                && echo "$git_status" | grep "^A" > /dev/null 2>&1; then
+            # stagedな新規ファイルがvcs_infoで検出されない(only Initial commit)
+            #  git status -s で先頭がAで始まる行がstagedな新規ファイル
+            if [ -n "$stagedstr" ] \
+                && ! printf "$staged_unstaged" | fgrep -q "$stagedstr" \
+                && echo "$git_status" | grep -q "^A"; then
                 staged_unstaged=${staged_unstaged}${stagedstr}
             fi
 
