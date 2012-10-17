@@ -85,6 +85,7 @@
 
   # add
   ad  = add
+  adp = add -p              # ハンク毎にadd
   addall = add -A           # 全てadd：add . && add -u
 
   # commit
