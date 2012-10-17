@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # Prints the LANG.
 
-echo $LANG
+echo "$LANG"
 
 exit 0
