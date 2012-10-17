@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # http://d.hatena.ne.jp/koseki2/20110816/TmuxCopy
 
@@ -7,11 +7,11 @@ if ! type pbcopy >/dev/null 2>&1 || ! type reattach-to-user-namespace >/dev/null
     exit 0
 fi
 
-COPY=`tmux save-buffer -`
+COPY=$(tmux save-buffer -)
 echo "$COPY" | reattach-to-user-namespace pbcopy
 
 # メッセージ表示
-LINES=`echo "$COPY" | wc -l | tr -d ' '`
+LINES=$(echo "$COPY" | wc -l | tr -d ' ')
 #HEAD=`head -1 $COPY`
 #TAIL=`tail -1 $COPY`
 #tmux display-message "Copy:  $HEAD  -  $TAIL"
