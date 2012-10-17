@@ -420,14 +420,15 @@ expand-to-home-or-insert () {
 # ls alias setting
 case "${OSTYPE}" in
     freebsd*|darwin*)
-        # -G カラー表示
         # -F ファイルタイプを示す文字を表示
         if which gls > /dev/null 2>&1; then
+            # -b 非印字文字を強制表示
             # -v natural sort of (version) numbers within text
-            alias ls="gls -avhF --color"
+            alias ls="gls -abhvF --color=auto"
         else
             # -v 非印字文字を強制表示
-            alias ls="ls -avhGF"
+            # -G カラー表示
+            alias ls="ls -avhFG"
         fi
         # ~/を別キーに割り当て
         # http://vim-users.jp/2010/01/hack118/
@@ -435,9 +436,9 @@ case "${OSTYPE}" in
         #bindkey "@"  expand-to-home-or-insert
         ;;
     linux*)
+        # -b 非印字文字を強制表示
         # -v natural sort of (version) numbers within text
-        # -w 非印字文字を強制表示
-        alias ls="ls -avhwF --color"
+        alias ls="ls -abhvF --color=auto"
         ;;
 esac
 
@@ -489,7 +490,7 @@ chpwd() {
             if type gls > /dev/null 2>&1; then
                 # -b 非印字文字を強制表示
                 # -v natural sort of (version) numbers within text
-                CMD_LS="gls -abvF --color"
+                CMD_LS="gls -abvF --color=auto"
             else
                 # -v 非印字文字を強制表示
                 # -G カラー表示
@@ -499,7 +500,7 @@ chpwd() {
         linux*)
             # -b 非印字文字を強制表示
             # -v natural sort of (version) numbers within text
-            CMD_LS="ls -abvF --color"
+            CMD_LS="ls -abvF --color=auto"
             ;;
     esac
     # ファイル数が多い場合は表示するファイルを制限

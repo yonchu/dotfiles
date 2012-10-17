@@ -52,7 +52,7 @@ freebsd*|darwin*)
     if which gls > /dev/null 2>&1; then
         # -F ファイルタイプを示す文字を表示
         # -v natural sort of (version) numbers within text
-        alias gls="gls -v --color"
+        alias gls="gls -v --color=auto"
         alias ls="gls -ahF"
         alias ll='ls -l --time-style=long-iso '
     else
@@ -65,7 +65,7 @@ freebsd*|darwin*)
 linux*)
     # -v natural sort of (version) numbers within text
     # -w 非印字文字を強制表示
-    alias ls="ls -avhwF --color"
+    alias ls="ls -avhwF --color=auto"
     alias ll='ls -l'
     ;;
 esac
@@ -136,7 +136,10 @@ alias cpa='cp -a'
 #  -R, -r, --recursive ディレクトリを再帰的にたどる
 #  -I バイナリ検索除外(--binary-files=without-match)
 #  -w 単語マッチ
-#  -color=xxx : auto  always:パイプ使用時に強制的にカラーコードをつける
+#  --color=[WHEN]
+#     always: パイプ使用時に強制的にカラーコードをつける
+#     auto : 出力先に応じて判断 - パイプ時などはカラーコードをつけない
+#     never : カラーコードOFF
 #  --directories=recurse grep対象にディレクトリを指定し場合再帰grep(ver2.5.4 or later)
 #  -q, --quiet, --silent 通常の出力を抑止
 #  -s, --no-messages ファイルが存在しないことや読み込みできないことを示すエラーメッセージを抑止

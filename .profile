@@ -127,7 +127,10 @@ export VISUAL=vim
 #  -R, -r, --recursive ディレクトリを再帰的にたどる
 #  -I バイナリ検索除外
 #  -w 単語マッチ
-#  -color=xxx auto  always:パイプ使用時に強制的にカラーコードをつける
+#  --color=[WHEN]
+#     always: パイプ使用時に強制的にカラーコードをつける
+#     auto : 出力先に応じて判断 - パイプ時などはカラーコードをつけない
+#     never : カラーコードOFF
 #  --directories=skip ディレクトリを無視
 #
 # GREP_OPTIONS
