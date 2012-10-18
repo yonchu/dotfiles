@@ -1,6 +1,6 @@
 #*******************************************************************************
 #
-# .zshrc.alias
+# .zalias
 #   zsh固有alias
 #
 #   現在設定されているaliasを調べる
@@ -13,7 +13,7 @@
 #*******************************************************************************
 
 ## 設定ファイルのリロード
-alias reload='source ~/.zprofile && source ~/.zshrc'
+alias reload='source ~/.zshenv && source ~/.zsh/.zprofile && source ~/.zsh/.zshrc && source ~/.zsh/.zlogin'
 
 #
 # グローバルエイリアス

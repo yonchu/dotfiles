@@ -1,7 +1,8 @@
 #*******************************************************************************
 #
-# .profile
-#   環境変数などを設定(OS共通, bash/zsh共通)
+#  .profile
+#
+#    環境変数などの設定(OS共通, bash/zsh共通)
 #
 #*******************************************************************************
 
@@ -157,7 +158,7 @@ export BLOCKSIZE=k
 # rsync
 #  RSYNC_PASSWORDを使うと、自動でパスワードを入力できる
 #  便利だけど危険
-#  rsync では ssh を使う。
+#  rsync では ssh を使う
 #
 #export RSYNC_PASSWORD=xxxx
 export RSYNC_RSH=ssh
@@ -172,7 +173,7 @@ export LC_CTYPE='ja_JP.UTF-8'
 
 #
 # CVS
-#  cvs では ssh を使う。
+#  cvs では ssh を使う
 #
 export CVS_RSH=ssh
 export CVSROOT=~/CVSROOT
