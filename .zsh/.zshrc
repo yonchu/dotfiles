@@ -274,9 +274,8 @@ fpath=(~/.zsh/functions/Completion(N-/) ${fpath})
 
 autoload -U compinit
 # -u : 安全ではないファイルを補完しようとした場合に警告を表示しない
-compinit -u
-# .zcompdumpの場所
-compinit -d ~/.zcompdump
+# -d : .zcompdumpの場所
+compinit -u -d ~/.zcompdump
 
 # 補完候補リストを詰めて表示
 setopt list_packed
