@@ -7,6 +7,7 @@
 # 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the number "12796587"
 
 # Tokyo,JP
+# http://weather.yahoo.com/japan/tokyo-prefecture/tokyo-26235342/
 location="26235342"
 
 # Can be any of {c,f,k}.

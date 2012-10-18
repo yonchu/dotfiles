@@ -1,7 +1,11 @@
 #*******************************************************************************
 #
-# .zshrc
-#   シェル起動時に毎回読み込まれる
+#  .zshrc
+#
+#  (in $ZDOTDIR : default $HOME)
+#
+#  initial setup file for only interective zsh
+#  This file is read after .zprofile file is read.
 #
 #   zshマニュアル(日本語)
 #    http://www.ayu.ics.keio.ac.jp/~mukai/translate/zshoptions.html
@@ -26,19 +30,10 @@
 #
 #*******************************************************************************
 
-## 重複パスを登録しない
-typeset -U path cdpath fpath manpath
-
-## sudo用pathを設定
-typeset -xT SUDO_PATH sudo_path
-typeset -U sudo_path
-sudo_path=({/usr/local,/usr,}/sbin(N-/))
-
-
-## Set prompt
+## Setup prompt
 #
-if [ -f ~/dotfiles/.zshrc.prompt ]; then
-    source ~/dotfiles/.zshrc.prompt
+if [ -f ~/.zsh/.zprompt ]; then
+    source ~/.zsh/.zprompt
 fi
 
 
@@ -261,8 +256,11 @@ setopt bang_hist
 #
 
 # 補完関数のパス(fpath)を登録
-# zsh-completions
-#  https://github.com/zsh-users/zsh-completions.git
+#
+# 重複パスを登録しない
+typeset -U fpath
+#  zsh-completions
+#   https://github.com/zsh-users/zsh-completions.git
 fpath=(~/.zsh/functions/Completion/zsh-completions(N-/) ${fpath})
 # /usr/local 配下
 #fpath=(/usr/local/share/zsh/functions(N-/) /usr/local/share/zsh/site-functions(N-/) ${fpath})
@@ -276,7 +274,8 @@ fpath=(~/.zsh/functions/Completion(N-/) ${fpath})
 
 autoload -U compinit
 # -u : 安全ではないファイルを補完しようとした場合に警告を表示しない
-compinit -u
+# -d : .zcompdumpの場所
+compinit -u -d ~/.zcompdump
 
 # 補完候補リストを詰めて表示
 setopt list_packed
@@ -314,6 +313,14 @@ setopt numeric_glob_sort
 # 補完で末尾に補われた / をスペース挿入で自動的に削除
 setopt auto_remove_slash
 
+# sudo用pathを設定
+# typeset -T は重複実行できないため一度環境変数を削除する
+# (Reloadで失敗しないようにするため)
+unset SUDO_PATH
+typeset -xT SUDO_PATH sudo_path
+typeset -U sudo_path
+sudo_path=({/usr/local,/usr,}/sbin(N-/))
+export SUDO_PATH
 # sudo時の補完対象の設定
 zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
 
@@ -334,8 +341,10 @@ zstyle ':completion:*' use-cache true
 # 詳細な情報を使う。
 zstyle ':completion:*' verbose true
 
-# カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補
+# カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補にする
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+# 重複パスを登録しない
+typeset -U cdpath
 cdpath=($HOME{,/dotfiles.local/links}(N-/))
 
 # 補完方法毎にグループ化し、グループ名に説明を付加
@@ -361,8 +370,9 @@ zstyle ':completion:*' completer \
 # cdr <TAB> (最近移動したディレクトリ履歴からcd)
 autoload -U chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
-zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":chpwd:*" recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-file ~/.chpwd-recent-dirs
+zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":completion:*" recent-dirs-insert both
 zstyle ":completion:*:*:cdr:*:*" menu select=2
 
@@ -534,6 +544,13 @@ fi
 
 
 #
+# rvm
+#
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+
+#
 # pythonbrew
 #  pythonbrewの自動起動
 #
@@ -576,8 +593,8 @@ fi
 #
 # alias設定(zsh固有)
 #
-if [ -f ~/dotfiles/.zshrc.alias ]; then
-    source ~/dotfiles/.zshrc.alias
+if [ -f ~/.zsh/.zalias ]; then
+    source ~/.zsh/.zalias
 fi
 
 #
@@ -588,6 +605,12 @@ if [ -f ~/dotfiles.local/.shrc.local ]; then
 fi
 
 
-## complete message
-echo ".zshrc load completed..."
-echo "Now zsh version $ZSH_VERSION start! (」・ω・)」うー！(／・ω・)／にゃー！"
+# 重複パスを強制削除
+typeset -U path
+path=($path)
+
+
+### Complete Messages
+echo "Loading .zshrc completed!!"
+echo "Now zsh version $ZSH_VERSION starting!!"
+echo '(」・ω・)」うー！(／・ω・)／にゃー！'

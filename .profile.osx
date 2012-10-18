@@ -1,7 +1,8 @@
 #*******************************************************************************
 #
-# .profile.osx
-#   環境変数などを設定(MacOSX限定, bash/zsh共通)
+#  .profile.osx
+#
+#   環境変数などの設定(Mac OS X 固有, bash/zsh共通)
 #
 #*******************************************************************************
 
@@ -21,10 +22,11 @@ fi
 
 #
 # PATH =========================================================================
+#
 #  PATHの追加はここより後に行うこと
 #
+
 PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share:$PATH
-PATH=$PATH:/usr/X11/bin
 export PATH
 
 MANPATH=/usr/local/share/man:/opt/local/share/man:/usr/local/jman:/usr/share/man:/usr/X11/man:$MANPATH
@@ -102,6 +104,13 @@ export PYTHONSTARTUP=~/.pythonstartup
 # http://d.hatena.ne.jp/jbking/20071222/readline_on_leopard
 # alias python='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib python'
 # alias ipython='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib ipython'
+
+
+#
+# rvm
+#
+# Add RVM to PATH for scripting
+export PATH=$HOME/.rvm/bin:$PATH
 
 
 #
