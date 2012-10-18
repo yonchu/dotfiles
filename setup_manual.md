@@ -76,6 +76,36 @@ dotfilesをgithubより取得
     $ ~/dotfiles/setup.osx.sh
 
 
+
+## /etc/zshenv を /etc/zprofile に変更 (OS X 10.7)
+
+OS X が10.7にアップデートした時に誤って,
+/etc/zprofile を /etc/zshenv にしてしまったらしい。
+
+
+zshをサブシェルとして実行するとPATHの設定がおかしくなってしまう。
+また、zshでスクリプトを実行した場合もPATHがおかしくなってしまう。
+
+    $ brew info zsh
+    ….
+    If you have administrator privileges, you must fix an Apple miss
+    configuration in Mac OS X 10.7 Lion by renaming /etc/zshenv to
+    /etc/zprofile, or Zsh will have the wrong PATH when executed
+    non-interactively by scripts.
+
+    Alternatively, install Zsh with /etc disabled:
+
+      brew install --disable-etcdir zsh
+
+よって以下のように変更する
+
+    $ ls -l /etc/zshenv
+    -r--r--r--   1 root wheel  126 2012-04-06 03:56 zshenv
+    $ sudo mv /etc/zshenv /etc/zprofile
+    $ ls -l /etc/zprofile
+    -r--r--r--   1 root wheel  126 2012-04-06 03:56 zprofile
+
+
 ## bash/zsh の設定ファイルについて
 
  - zsh
