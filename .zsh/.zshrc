@@ -314,6 +314,9 @@ setopt numeric_glob_sort
 setopt auto_remove_slash
 
 # sudo用pathを設定
+# typeset -T は重複実行できないため一度環境変数を削除する
+# (Reloadで失敗しないようにするため)
+unset SUDO_PATH
 typeset -xT SUDO_PATH sudo_path
 typeset -U sudo_path
 sudo_path=({/usr/local,/usr,}/sbin(N-/))
