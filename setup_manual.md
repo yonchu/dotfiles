@@ -76,6 +76,30 @@ dotfilesをgithubより取得
     $ ~/dotfiles/setup.osx.sh
 
 
+## bash/zsh の設定ファイルについて
+
+ - zsh
+    - ~/.zshenv
+    - ZDOTDIR/.zprofile
+        - \-> ~/dotfiles/.profile
+        - \-> ~/dotfiles/.profile.osx
+    - ZDOTDIR/.zshrc
+        - \-> ~/.zsh/.zprompt
+        - \-> ~/dotfiles/.alias
+        - \-> ~/.zsh/.zalias
+        - \-> ~/dotfiles/.shrc.local
+    - ZDOTDIR/.login
+
+
+ - bash
+    - ~/.bash_profile
+        - \-> ~/dotfiles/.profile
+        - \-> ~/dotfiles/.profile.osx
+    - ~/.bashrc
+        - \-> ~/dotfiles/.alias
+        - \-> ~/dotfiles/.shrc.local
+
+
 ## Homebrew 導入
 
 参考
