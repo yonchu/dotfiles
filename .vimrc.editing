@@ -35,14 +35,14 @@ nnoremap vy viwy
 nnoremap vp viwpviwy
 
 " yeでそのカーソル位置にある単語をレジスタに追加
-nmap ye :let @"=expand("<cword>")<CR>
+nmap <silent>ye :let @"=expand("<cword>")<CR>
 " Visualモードでのpで選択範囲をレジスタの内容に置き換える
-vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
+"vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><ESC>gvy
 
 " ヤンクした文字列でカーソル位置の単語を置換
-nnoremap <silent> cy ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
-vnoremap <silent> cy c<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
-nnoremap <silent> ciy ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+nnoremap <silent>cy ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+vnoremap <silent>cy c<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
+nnoremap <silent>ciy ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
 " コンマの後に自動的にスペースを挿入
 "inoremap , ,<Space>
@@ -97,8 +97,8 @@ map <Leader>j !python -m json.tool<CR>
 
 
 " 線を引く (挿入モードで入力)
-inoremap <expr> ,r* repeat('*', 81 - col('.'))
-inoremap <expr> ,r# repeat('#', 81 - col('.'))
-inoremap <expr> ,r+ repeat('+', 81 - col('.'))
-inoremap <expr> ,r- repeat('-', 81 - col('.'))
-inoremap <expr> ,r= repeat('=', 81 - col('.'))
+inoremap <expr> ,r* repeat('*', 80 - col('.'))
+inoremap <expr> ,r# repeat('#', 80 - col('.'))
+inoremap <expr> ,r+ repeat('+', 80 - col('.'))
+inoremap <expr> ,r- repeat('-', 80 - col('.'))
+inoremap <expr> ,r= repeat('=', 80 - col('.'))
