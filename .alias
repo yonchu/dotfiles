@@ -536,6 +536,9 @@ gtd() {
     vim ~/Dropbox/Repos/markdown/gtd.txt
 }
 
+# vim snippets 編集(Global)
+alias snip='vi ~/.vim/snippets/_.snip'
+
 
 #
 # git

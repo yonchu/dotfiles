@@ -1,0 +1,61 @@
+#
+#  Global snippets
+#
+#    コマンド実行
+#       snippet     date
+#           `strftime("%d %b %Y")`
+#
+#      * 使用可能なコマンドは eval を参照 (C-iで単語ヘルプ)
+#
+################################################################################
+
+
+### common {{{
+# ======================================
+
+# (c) holds no legal value ;)
+snippet     copyright
+abbr        Copyright
+    Copyright `&enc[:2] == "utf" ? "©" : "(c)"` `strftime("%Y")` ${1:author}. All Rights Reserved.${2}
+
+
+# }}}
+
+
+### Line {{{
+# ======================================
+
+snippet     line1
+abbr        Line : - - -
+prev_word   '^'
+    ---------- ---------- ----------
+
+snippet     line2
+abbr        Half Line : ===(40chars)
+prev_word   '^'
+    " ======================================
+
+# }}}
+
+
+### vim {{{
+# ======================================
+
+snippet     vim1
+abbr        vim-modeline : # vim: fdm=marker fen fdl=0
+prev_word   '^'
+    # vim: fdm=marker fen fdl=0
+
+snippet     vim2
+abbr        vim-modeline : # vim: ft=...
+prev_word   '^'
+    # vim: ft=${1} ${2:sw=4} ${3:sts=4} ${4:ts=4} ${5:et}
+
+snippet     vim3
+abbr        vim-modeline : /* vim: set ft=...: */
+prev_word   '^'
+    /* vim: set ft=${1} ${2:sw=4} ${3:sts=4} ${4:ts=4} ${5:et}: */
+
+# }}}
+
+# vim: fdm=marker fen fdl=99:
