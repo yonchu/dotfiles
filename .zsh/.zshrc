@@ -173,7 +173,7 @@ bindkey "^N" history-beginning-search-forward-end
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 
-## Command Line Stack [Esc]-[q]
+# Command Line Stack [Esc]-[q]  -a: viins
 bindkey -a 'q' push-line
 
 # HELP読み出し
@@ -181,6 +181,25 @@ bindkey -a 'q' push-line
 [ $(alias run-help) ] && unalias run-help
 autoload run-help
 bindkey '^@' run-help
+
+# 右プロンプトの表示/非表示
+unsetopt-transient-rprompt(){ unsetopt transient_rprompt; }
+zle -N unsetopt-transient-rprompt
+bindkey '^XR' unsetopt-transient-rprompt
+setopt-transient-rprompt(){ setopt transient_rprompt; }
+zle -N setopt-transient-rprompt
+bindkey '^Xr' setopt-transient-rprompt
+
+# Command Line Stack の改良版
+push_line_and_show_buffer_stack() {
+    POSTDISPLAY="
+stack: $LBUFFER"
+    zle push-line-or-edit
+}
+zle -N push_line_and_show_buffer_stack
+bindkey '^[Q' push_line_and_show_buffer_stack
+bindkey '^[q' push_line_and_show_buffer_stack
+
 
 # ^でcd ..する
 # http://shakenbu.org/yanagi/d/?date=20120301
