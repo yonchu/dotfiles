@@ -1,0 +1,36 @@
+# snippets for making snipmate's snippets
+delete      snippet
+delete      snip
+
+snippet     snippet
+abbr        snippet abbr prev_word <snippet code>
+prev_word   '^'
+    snippet     ${1:trigger}
+    abbr        ${2:abbr}
+    prev_word   '^'
+        ${3:snippet code}
+
+snippet     msnip
+abbr        snimate's snippets
+prev_word   '^'
+        ${3:snippet code}
+    snippet ${1:trigger}
+        ${2}
+
+snippet     msnipd
+abbr        snipmates's snippets (with description)
+prev_word   '^'
+    snippet ${1:trigger} ${2:description}
+        ${3}
+
+
+### Additional snippets
+snippet     abbr
+abbr        abbr : snippet's description
+prev_word   '^'
+    abbr        ${1:abbr}
+
+snippet     prev_word
+abbr        prev_word : snippet's previous word
+prev_word   '^'
+    prev_word   '${1:^}'

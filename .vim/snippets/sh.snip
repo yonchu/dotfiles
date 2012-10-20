@@ -1,0 +1,16 @@
+# Shebang. Executing sh.
+snippet #!/bin/sh
+abbr    Shebang: #!/bin/sh
+prev_word   '^'
+    #!/bin/sh
+
+# Shebang. Executing bash via /usr/bin/env makes scripts more portable.
+snippet #!/usr
+abbr    Shebang: #!/usr/bin/env bash
+prev_word   '^'
+    #!/usr/bin/env bash
+
+# Set SCRIPT_DIR variable to directory script is located.
+snippet sdir
+abbr    Set script directory
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )

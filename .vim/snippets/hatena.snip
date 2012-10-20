@@ -1,0 +1,24 @@
+# init
+snippet init
+    *[${1:tag1}] ${2:title}
+
+    **${3:subtitle}
+    ${4}
+# title
+snippet title
+    *[${1:tag1}] ${2:title}
+# code
+snippet pre
+    >|${1:format}|
+    ${2}
+    ||<
+# notes
+snippet notes
+    ((${1:notes}))
+# link
+snippet link
+    -<a href="${1:url}">${2:caption}</a>
+# table
+snippet table
+    |*header1|*header2|*header3|
+    |item1|item2|item3|
