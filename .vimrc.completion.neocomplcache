@@ -1,12 +1,32 @@
-"------------------------------------
-" neocomplecache.vim
+" neocomplcache.vim
+"  https://github.com/Shougo/neocomplcache
 "  http://www.karakaram.com/vim/neocomplcache/
 "  http://d.hatena.ne.jp/thinca/20091026/1256569191
 "  http://vim-users.jp/2010/11/hack185/
-"------------------------------------
+"  http://d.hatena.ne.jp/cooldaemon/20090807/1249644264
+"
+"  補完候補のPrefix
+"    abbrev_complete            -> [A]
+"    filename_complete          -> [F] {filename}
+"    dictionary_complete        -> [D] {words}
+"    member_complete            -> [M] member
+"    buffer_complete            -> [B] {buffername}
+"    syntax_complete            -> [S] {syntax-keyword}
+"    include_complete           -> [FI] or [I]
+"    snippets_complete          -> [Snip] (none placeholders) or
+                                  "<Snip> (contains placeholders)
+"    vim_complete               -> [vim] type
+"    omni_complete              -> [O]
+"    tags_complete              -> [T]
+"    other plugin sources       -> [plugin-name-prefix]
+"    other completefunc sources -> [plugin-name-prefix]
+"    other ftplugin sources     -> [plugin-name-prefix]
+"
+"##############################################################################
 
-" 表示行単位で移動(snippet展開対策済み)
-" プレースホルダの移動後の入力がうまくできない場合
+
+" j,k の移動を表示行単位にする
+" スニペット展開後のプレースホルダ移動がうまく行かない場合に設定
 "nnoremap j gj
 "onoremap j gj
 "xnoremap j gj
@@ -15,152 +35,224 @@
 "xnoremap k gk
 
 
+" 基本設定 {{{
+" ======================================
+
+let g:neocomplcache_enable_prefetch = 0
+
 " AutoComplPopを無効にする
 let g:acp_enableAtStartup = 0
 " NeoComplCacheを有効にする
 let g:neocomplcache_enable_at_startup = 1
 
-" 補完が自動で開始される文字数
-let g:neocomplcache_auto_completion_start_length = 3
+" 自動補完が開始される文字数(default:2)
+let g:neocomplcache_auto_completion_start_length = 2
+" 手動補完が開始される文字数(default:0)
+let g:neocomplcache_manual_completion_start_length = 0
+
+" source毎の補完呼び出し文字数
+"   buffer_complete
+"   member_complete
+"   tags_complete
+"   syntax_complete
+"   include_complete
+"   vim_complete
+"   dictionary_complete
+"   filename_complete
+"   omni_complete
+"   abbrev_complete
+let g:neocomplcache_source_completion_length = {
+  \ 'snippets_complete' : 2
+  \ }
 
 " 補完候補検索時に大文字・小文字を無視する
 let g:neocomplcache_enable_ignore_case = 1
-" smarrt case有効化。 大文字が入力されるまで大文字小文字の区別を無視する
+" 大文字が入力されるまで大文字小文字の区別を無視する
 let g:neocomplcache_enable_smart_case = 1
 
-" camle caseを有効化。大文字を区切りとしたワイルドカードのように振る舞う
+" CamelCase の補完を有効化
 let g:neocomplcache_enable_camel_case_completion = 1
+
 " _(アンダーバー)区切りの補完を有効化
 let g:neocomplcache_enable_underbar_completion = 1
 
-" 手動補完時に補完を行う入力数を制御。値を小さくすると文字の削除時に重くなる
-let g:neocomplcache_manual_completion_start_length = 3
-
-" バッファや辞書ファイル中で、補完の対象となるキーワードの最小長さ。初期値:4
+" 補完キャッシュの対象となるキーワードの最小文字長 (default:4)
 let g:neocomplcache_min_keyword_length = 4
-" シンタックスをキャッシュするときの最小文字長 初期値:4
+" 補完キャッシュの対象となるシンタックスの最小文字長 (default:4)
 let g:neocomplcache_min_syntax_length = 3
 
-" neocomplcacheを自動的にロックするバッファ名のパターン
-" ku.vimやfuzzyfinderなど、neocomplcacheと相性が悪いプラグインを使用する場合に設定。
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" 補完キャッシュ対象となる最大ファイルサイズ (default:500000)
+"   それ以上のファイルは :NeoComplCacheCachingBuffer で手動実行する必要がる
+"let g:neocomplcache_caching_limit_file_size = 1000000
 
 " -入力による候補番号の表示
 let g:neocomplcache_enable_quick_match = 1
 
 " 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 0
 
-" ポップアップメニューで表示される候補の数。初期値は100
+" ポップアップメニューで表示される最大候補数 (default:100)
 let g:neocomplcache_max_list = 20
 
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scala' : $HOME.'/.vim/bundle/vim-scala/dict/scala.dict',
-    \ 'java' : $HOME.'/.vim/dict/java.dict',
-    \ 'c' : $HOME.'/.vim/dict/c.dict',
-    \ 'cpp' : $HOME.'/.vim/dict/cpp.dict',
-    \ 'javascript' : $HOME.'/.vim/dict/javascript.dict',
-    \ 'ocaml' : $HOME.'/.vim/dict/ocaml.dict',
-    \ 'perl' : $HOME.'/.vim/dict/perl.dict',
-    \ 'php' : $HOME.'/.vim/dict/php.dict',
-    \ 'scheme' : $HOME.'/.vim/dict/scheme.dict',
-    \ 'vim' : $HOME.'/.vim/dict/vim.dict'
-    \ }
+" neocomplcacheを自動的にロックするバッファ名のパターン
+" ku.vimやfuzzyfinderなど、neocomplcacheと相性が悪いプラグインを使用する場合に設定
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
 
 " 補完するためのキーワードパターンを指定
 if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
 endif
 " 日本語を補完候補として取得しないようにする
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+let g:neocomplcache_keyword_patterns['default'] = '[\h,]\w*'
+
 
 " 関数を補完するための区切り文字パターン
 if !exists('g:neocomplcache_delimiter_patterns')
   let g:neocomplcache_delimiter_patterns = {}
 endif
 let g:neocomplcache_delimiter_patterns['php'] = ['->', '::', '\']
+let g:neocomplcache_delimiter_patterns.vim = ['#']
+let g:neocomplcache_delimiter_patterns.cpp = ['::']
 
-" カーソルより後のキーワードパターンを認識。
-" h|geとなっている状態(|はカーソル)で、hogeを補完したときに後ろのキーワードを認識してho|geと補完する機能。
-" 修正するときにかなり便利。
-" 分からないときはいじらないほうが良い
+
+" カーソルより後のキーワードパターンを認識
 if !exists('g:neocomplcache_next_keyword_patterns')
   let g:neocomplcache_next_keyword_patterns = {}
 endif
-" よく分からない場合は未設定のほうがよいとのことなので、ひとまずコメントアウト
 "let g:neocomplcache_next_keyword_patterns['php'] = '\h\w*>'
 
 
 " zencoding連携
 "let g:use_zen_complete_tag = 1
 
+" }}}
 
-"---------- キーマップ ----------
+
+" キーマップ {{{
+" ======================================
+
 " NeoComplCacheを無効
-nnoremap <Space>ned :NeoComplCacheDisable
+nnoremap <Space>neod :NeoComplCacheDisable
 " NeoComplCacheを有効
-nnoremap <Space>nee :NeoComplCacheEnable
+nnoremap <Space>neoe :NeoComplCacheEnable
+
+" 補完候補が出ていたら確定、なければ改行
+inoremap <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup() : "<CR>"
+
+" Enter
+" スニペット展開が可能なら展開、通常補完なら補完確定、それ以外は改行
+"imap <expr><CR> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 
 
-" スニペット展開
-" ユーザー定義スニペット保存ディレクトリ
-let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets'
-" スニペット展開のキーマップ
-" smapも同時に設定しないと、デフォルト値が選択されているときに展開やジャンプがされません。
-imap <C-y> <Plug>(neocomplcache_snippets_expand)
-smap <C-y> <Plug>(neocomplcache_snippets_expand)
-" スニペットを展開する。スニペットが関係しないところでは行末まで削除
-"imap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
-"smap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
-" スニペットファイルを編集する
-nnoremap <Space>nes :NeoComplCacheEditSnippets
-" 標準のスニペット群
-" ~/.vim/bundle/neocomplcache-snippets-complete/autoload/neocomplcache/sources/snippets_complete
-
-
-" 補完を選択しpopupを閉じる
-" inoremap <expr><C-y> neocomplcache#close_popup()
-" 補完をキャンセルしpopupを閉じる
-" inoremap <expr><C-e> neocomplcache#cancel_popup()
-"
-" TABで補完できるようにする
+" TABで補完候補を選択
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<Up>" : "\<S-TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" <C-l> : 補完候補の共通部分までを補完する
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+" <C-h>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+
+" <BS>: close popup and cancel completing.
+inoremap <expr><BS> neocomplcache#cancel_popup()."\<C-h>"
 
 " undo
 inoremap <expr><C-g> neocomplcache#undo_completion()
 
-" 補完候補の共通部分までを補完する
-inoremap <expr><C-s> neocomplcache#complete_common_string()
+" C-nでneocomplcache補完
+inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
+" C-pでkeyword補完 (vim内蔵)
+"inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
 
-" SuperTab like snippets behavior.
-" スニペットが展開可能なら展開を、補完中なら次の候補を選択、そうでなければ<Tab>を挿入
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+" ファイル名補完
+inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+
 
 " C-kを押すと行末まで削除
 " inoremap <C-k> <C-o>D
 
-" C-nでneocomplcache補完
-inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
-" C-pでkeyword補完
-inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+" }}}
 
-" 補完候補が出ていたら確定、なければ改行
-inoremap <expr><CR>  pumvisible() ? neocomplcache#close_popup() : "<CR>"
 
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" 辞書補完 {{{
+" ======================================
+
+" vimのデフォルト辞書を指定
+"   neocomplcacheで "_" が指定されている場合は無視される
+set dictionary+=~/.vim/dict/_.dict,~/dotfiles.local/.vim/dict/_.dict
+
+
+if !exists('g:neocomplcache_dictionary_patterns')
+  let g:neocomplcache_dictionary_patterns = {}
+endif
+"let g:neocomplcache_dictionary_patterns.default = '\h\w\*'
+
+
+" 辞書ファイルの指定
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ '_'          : $HOME.'/.vim/dict/_.dict,'.$HOME.'/dotfiles.local/.vim/dict/_.dict',
+    \ 'default'    : '',
+    \ 'vimshell'   : $HOME.'/.vimshell_hist',
+    \ 'scala'      : $HOME.'/.vim/bundle/vim-scala/dict/scala.dict',
+    \ 'java'       : $HOME.'/.vim/dict/java.dict',
+    \ 'c'          : $HOME.'/.vim/dict/c.dict',
+    \ 'cpp'        : $HOME.'/.vim/dict/cpp.dict',
+    \ 'javascript' : $HOME.'/.vim/dict/javascript.dict',
+    \ 'ocaml'      : $HOME.'/.vim/dict/ocaml.dict',
+    \ 'perl'       : $HOME.'/.vim/dict/perl.dict',
+    \ 'php'        : $HOME.'/.vim/dict/php.dict',
+    \ 'scheme'     : $HOME.'/.vim/dict/scheme.dict',
+    \ 'vim'        : $HOME.'/.vim/dict/vim.dict'
+    \ }
+
+"let g:neocomplcache_same_filetype_lists = {
+  \ 'perl'    : 'man',
+  \ 'erlang'  : 'man',
+  \ 'objc'    : 'c',
+  \ 'tt2html' : 'html,perl'
+  \ }
+
+" }}}
+
+
+"  インクルード補完 {{{
+" ======================================
+
+" インクルードパスを指定
+let g:neocomplcache_include_paths = {
+  \ 'cpp'  : '.,/opt/local/include/gcc46/c++,/opt/local/include,/usr/include',
+  \ 'c'    : '.,/usr/include',
+  \ 'ruby' : '.,$HOME/.rvm/rubies/**/lib/ruby/1.8/',
+  \ }
+
+"インクルード文のパターンを指定
+let g:neocomplcache_include_patterns = {
+  \ 'cpp' : '^\s*#\s*include',
+  \ 'ruby' : '^\s*require',
+  \ 'perl' : '^\s*use',
+  \ }
+
+"インクルード先のファイル名の解析パターン
+let g:neocomplcache_include_exprs = {
+  \ 'ruby' : substitute(v:fname,'::','/','g')
+  \ }
+
+" ファイルを探す際に、この値を末尾に追加したファイルも探す。
+let g:neocomplcache_include_suffixes = {
+  \ 'ruby' : '.rb',
+  \ 'haskell' : '.hs'
+  \ }
+
+" }}}
+
+
+" オムニ補完 {{{
+" ======================================
 
 " オムニ補完の手動呼び出し
 inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcache#manual_omni_complete()
-
-
-" buffer開いたらneoconでcache
-autocmd BufReadPost,BufEnter,BufWritePost :NeoComplCacheCachingBuffer <buffer>
 
 " FileType毎のOmni補完を設定
 autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
@@ -189,24 +281,86 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
   " \ 'include_complete' : 1
 " \ }
 
-"インクルードパスの指定
-let g:neocomplcache_include_paths = {
-  \ 'cpp'  : '.,/opt/local/include/gcc46/c++,/opt/local/include,/usr/include',
-  \ 'c'    : '.,/usr/include',
-  \ 'ruby' : '.,$HOME/.rvm/rubies/**/lib/ruby/1.8/',
-  \ }
-"インクルード文のパターンを指定
-let g:neocomplcache_include_patterns = {
-  \ 'cpp' : '^\s*#\s*include',
-  \ 'ruby' : '^\s*require',
-  \ 'perl' : '^\s*use',
-  \ }
-"インクルード先のファイル名の解析パターン
-let g:neocomplcache_include_exprs = {
-  \ 'ruby' : substitute(v:fname,'::','/','g')
-  \ }
-" ファイルを探す際に、この値を末尾に追加したファイルも探す。
-let g:neocomplcache_include_suffixes = {
-  \ 'ruby' : '.rb',
-  \ 'haskell' : '.hs'
-  \ }
+" }}}
+
+
+" スニペット補完 {{{
+" ======================================
+
+" ユーザー定義スニペット保存ディレクトリ
+let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets,'.$HOME.'/dotfiles.local/.vim/snippets'
+
+"### キーマッピング
+" スニペット展開
+imap <C-y> <Plug>(neocomplcache_snippets_expand)
+smap <C-y> <Plug>(neocomplcache_snippets_expand)
+
+" スニペット展開
+" (スニペットが関係しないところでは行末まで削除)
+"imap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
+"smap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
+
+" TABによるスニペット展開
+" スニペットが展開可能なら展開、補完中なら次の候補を選択、そうでなければ<Tab>を挿入
+"   有効にする場合は, 基本キーマップのTABをOFF
+"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+"smap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Uniteでスニペットを表示
+imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
+
+" スニペットの編集
+nnoremap <Space>nes :NeoComplCacheEditSnippets<cr>
+"command! -nargs=* <Space>nes NeoComplCacheEditSnippets
+
+" 使用可能なスニペット一覧を表示
+nnoremap <Space>nps NeoComplCachePrintSnippets
+
+
+" 標準のスニペット群
+" ~/.vim/bundle/neocomplcache-snippets-complete/autoload/neocomplcache/sources/snippets_complete
+
+" }}}
+
+
+" ユーティリティ {{{
+" ======================================
+
+" ファイル名を取得
+"   http://d.hatena.ne.jp/cooldaemon/searchdiary?word=snippets
+fun! Filename(...)
+  let filename = expand('%:t:r')
+  if filename == '' | return a:0 == 2 ? a:2 : '' | endif
+  return !a:0 || a:1 == '' ? filename : substitute(a:1, '$1', filename, 'g')
+endf
+
+" }}}
+
+
+" キャッシュ作成の自動起動 {{{
+" ======================================
+
+" bufferを開いたらキャッシュ
+autocmd BufReadPost,BufEnter,BufWritePost :NeoComplCacheCachingBuffer <buffer>
+
+" manpageview のキーワードをキャッシュ
+"autocmd BufFilePost Manpageview* silent execute ":NeoComplCacheCachingBuffer"
+
+" Insertモードでキャッシュ
+"  http://d.hatena.ne.jp/basyura/20120318/p1
+"autocmd InsertEnter * call s:neco_pre_cache()
+"function! s:neco_pre_cache()
+  "if exists('b:neco_pre_cache')
+    "return
+  "endif
+  "let b:neco_pre_cache = 1
+  "if bufname('%') =~ g:neocomplcache_lock_buffer_name_pattern
+    "return
+  "endif
+  ":NeoComplCacheCachingBuffer
+  "":NeoComplCacheCachingDictionary
+"endfunction
+
+" }}}
+
+" vim: fdm=marker fen fdl=0:
