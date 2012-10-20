@@ -539,6 +539,9 @@ gtd() {
 # vim snippets 編集(Global)
 alias snip='vi ~/.vim/snippets/_.snip'
 
+# vim dict 編集
+alias dict='vi ~/.vim/dict/_.dict'
+
 
 #
 # git
