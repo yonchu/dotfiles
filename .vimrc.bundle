@@ -132,11 +132,13 @@ call vundle#rc()
   "Bundle 'Pydiction'
 " }}}
 
+
 " Syntax {{{
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   Bundle 'scrooloose/syntastic'
 " }}}
+
 
 " Buffer {{{
   " minibufexpl.vim : タブエディタ風にバッファ管理ウィンドウを表示
@@ -221,3 +223,5 @@ Bundle 'gmarik/vundle'
 
 
 filetype plugin indent on
+
+" vim: fdm=marker fen fdl=0:

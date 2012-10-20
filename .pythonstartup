@@ -38,4 +38,4 @@ except:
     pass
 
 del f, HISTORY_FILE
-# vim: ft=python sw=4 sts=4 ts=4 et
+# vim: ft=python et
