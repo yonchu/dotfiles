@@ -4,6 +4,13 @@
 autoload -Uz colors
 colors
 
+# $WINDOWなどの環境変数をプロンプトに設定するために使用
+setopt prompt_subst
+
+## コマンド実行後右プロンプトを消す
+#setopt transient_rprompt
+
+
 #
 # Color定義(あとで変更しやすいように)
 #
@@ -23,9 +30,6 @@ MAGENTA="%{${fg[magenta]}%}"
 BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
 
-
-## コマンド実行後右プロンプトを消す
-#setopt transient_rprompt
 
 ## Set prompt for zsh
 #
@@ -78,14 +82,6 @@ case ${UID} in
     ## 一般ユーザの場合
     #
 
-    # $WINDOWなどの環境変数をプロンプトに設定するために使用
-    setopt prompt_subst
-
-    # フック
-    #  precmdなどの関数を複数登録することができる
-    #  http://d.hatena.ne.jp/kiririmode/20120327/p1
-    autoload -Uz add-zsh-hook
-
     # SSH接続時
     #  HostのIPを環境変数に設定
     #  http://d.hatena.ne.jp/kakurasan/20070611/p1
@@ -108,11 +104,19 @@ case ${UID} in
     }
     add-zsh-hook precmd _set_tmux_window
 
+
+    ## For zsh-git-prompt
+    if [ -f ~/.zsh/zsh-git-prompt/zshrc.sh ]; then
+        source ~/.zsh/zsh-git-prompt/zshrc.sh
+    fi
+
+
     #
     # Prompt
     #
     DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${GREEN}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[white].$fg[red])%}$ ${RESET}'
 
+    # For tmux-powerline
     DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
 
     VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${YELLOW}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[white].$fg[red])%}$ ${RESET}'
@@ -174,6 +178,13 @@ case ${UID} in
     fi
 
     function _update_vcs_info_msg() {
+        # zsh-git-prompt
+        if type git_super_status >/dev/null 2>&1; then
+            RPROMPT="${RESET}$(git_super_status)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
+            return 0
+        fi
+
+        # zsh-git-promptが使用できない場合
         psvar=()
         LANG=en_US.UTF-8 vcs_info
         local _vcs_name _status  _branch_action
@@ -252,3 +263,5 @@ case ${UID} in
     }
     ;;
 esac
+
+# vim: ft=zsh
