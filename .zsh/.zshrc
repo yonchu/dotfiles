@@ -30,8 +30,14 @@
 #
 #*******************************************************************************
 
+## hook
+#  precmdなどの関数を複数登録することができる
+#  http://d.hatena.ne.jp/kiririmode/20120327/p1
+autoload -Uz add-zsh-hook
+
+
 ## Setup prompt
-#
+#   require add-zsh-hook before source this file
 if [ -f ~/.zsh/.zprompt ]; then
     source ~/.zsh/.zprompt
 fi
@@ -190,6 +196,7 @@ setopt-transient-rprompt(){ setopt transient_rprompt; }
 zle -N setopt-transient-rprompt
 bindkey '^Xr' setopt-transient-rprompt
 
+
 # Command Line Stack の改良版
 push_line_and_show_buffer_stack() {
     POSTDISPLAY="
@@ -221,6 +228,7 @@ cdup() {
 zle -N cdup
 bindkey '^' cdup
 
+
 # 表示されているコマンドをクリップボード
 #  http://d.hatena.ne.jp/hiboma/20120315/1331821642
 pbcopy-buffer(){
@@ -231,6 +239,7 @@ pbcopy-buffer(){
 }
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
+
 
 ## History configuration
 #
@@ -244,11 +253,11 @@ if [ $UID = 0 ]; then
     SAVEHIST=0
 fi
 
-
 # 登録済コマンド行は古い方を削除
 setopt hist_ignore_all_dups
-# historyの共有
+# historyの共有 (悩みどころ)
 setopt share_history
+#unsetopt share_history
 # 余分な空白は詰める
 setopt hist_reduce_blanks
 # add history when command executed.
@@ -378,11 +387,12 @@ zstyle ':completion:*:descriptions' format '%F{white}%B%d:%b%f'
 #  _oldlist 前回の補完結果を再利用
 #  _complete: 補完
 #  _match: globを展開しないで候補の一覧から補完
-#  _history: ヒストリのコマンドも補完候補
-#  _ignored: 補完候補にださないと指定したものも補完候補
-#  _approximate: 似ている補完候補も補完候補
+#  _history: ヒストリのコマンドから補完
+#  _ignored: 補完候補にださないと指定したものもから補完
+#  _approximate: 似ている候補を補完
+#  _correct: 綴り修正(入力を終えた部分のみ修正)
 #  _prefix: カーソル以降を無視してカーソル位置までで補完
-#   _correct, _list, expand, etc
+#  _list, expand, etc
 zstyle ':completion:*' completer \
     _oldlist _complete _match _history _ignored _approximate _prefix
 
@@ -395,6 +405,7 @@ zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":completion:*" recent-dirs-insert both
 zstyle ":completion:*:*:cdr:*:*" menu select=2
 
+
 #
 # cdd
 #  http://m4i.hatenablog.com/entry/2012/01/26/064329
@@ -406,6 +417,7 @@ zstyle ":completion:*:*:cdr:*:*" menu select=2
 if [ -f ~/.zsh/cdd ];then
     source ~/.zsh/cdd
 fi
+
 
 #
 # Z.sh
