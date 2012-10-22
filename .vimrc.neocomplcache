@@ -212,6 +212,8 @@ let g:neocomplcache_dictionary_filetype_lists = {
     \ }
 
 "let g:neocomplcache_same_filetype_lists = {
+  \ 'zsh'     : 'sh',
+  \ 'bash'    : 'sh',
   \ 'perl'    : 'man',
   \ 'erlang'  : 'man',
   \ 'objc'    : 'c',

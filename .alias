@@ -508,8 +508,13 @@ if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
     alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
     alias vimm='/usr/bin/vim'
     #alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags "$@"'
+    alias view='vim -R'
+elif type vim > /dev/null 2>&1; then
+    alias vi='vim'
+    alias view='vim -R'
+else
+    alias vim='vi'
 fi
-alias view='vim -R'
 
 # vim起動時にUniteをオープン
 alias viu='vim -c "Unite -no-start-insert -no-split file_mru buffer file"'
@@ -633,6 +638,7 @@ alias mysql_show_variables='mysql -uroot -p -e "show variables"'
 alias mysql_show_user='mysql -uroot -p -e "select User, Host from mysql.user"'
 alias mysql_show_mysql_tables='mysqlshow -uroot -p mysql'
 
+
 #
 # pbcopy
 #
@@ -734,6 +740,7 @@ google() {
     $open_cmd "$google_url"/$opt
 }
 
+
 # ゴミ箱へ
 alias rmt='rmtrash'
 
@@ -772,4 +779,5 @@ __trash_single_file(){
         echo "No such file or directory: $file"
     fi
 }
+
 # vim: ft=sh sw=4 sts=4 ts=4 et

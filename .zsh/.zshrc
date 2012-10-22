@@ -424,9 +424,9 @@ fi
 #  https://github.com/rupa/z
 #  履歴を使ったディレクトリ移動
 #  コマンド割り当て(j,c)
-if [ -x /usr/local/etc/profile.d/z.sh ]; then
+if [ -x "$USER_LOCAL/etc/profile.d/z.sh" ]; then
     _Z_CMD=j
-    source /usr/local/etc/profile.d/z.sh
+    source "$USER_LOCAL/etc/profile.d/z.sh"
 
     _z_cmd() { _z --add "$(pwd -P 2> /dev/null)"; }
     add-zsh-hook precmd  _z_cmd

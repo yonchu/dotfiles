@@ -32,9 +32,13 @@ if [ -z "$__ZSH_GIT_PROMPT_DIR" ]; then
 fi
 export __ZSH_GIT_PROMPT_DIR
 
+
 ### The function called by zsh
 #
 git_super_status() {
+    if ! type git > /dev/null 2>&1; then
+        return 0
+    fi
 
     CMD_GITSTATUS="${__ZSH_GIT_PROMPT_DIR}/gitstatus.py"
 

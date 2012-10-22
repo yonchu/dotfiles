@@ -12,14 +12,11 @@ test -z "$PS1" && return
 #
 # Completionファイルの読み込み
 #
-if type brew >/dev/null 2>&1; then
-    BREW_PREFIX=$(brew --prefix)
-    if [ -f "$BREW_PREFIX/etc/bash_completion" ]; then
-        source $BREW_PREFIX/etc/bash_completion
-    fi
-    if [ -f $BREW_PREFIX/Library/Contributions/brew_bash_completion.sh ]; then
-        source $BREW_PREFIX/Library/Contributions/brew_bash_completion.sh
-    fi
+if [ -f "$USER_LOCAL/etc/bash_completion" ]; then
+    source $USER_LOCAL/etc/bash_completion
+fi
+if [ -f $USER_LOCAL/Library/Contributions/brew_bash_completion.sh ]; then
+    source $USER_LOCAL/Library/Contributions/brew_bash_completion.sh
 fi
 
 

@@ -8,6 +8,7 @@
 
 #
 # LANG
+#
 export LANG=ja_JP.UTF-8
 case ${UID} in
     0)
@@ -18,7 +19,18 @@ case ${UID} in
 esac
 
 
-## Terminal configuration
+#
+# User Local Directory
+#
+USER_LOCAL=/usr/local
+if type brew > /dev/null 2>&1; then
+    USER_LOCAL=$(brew --prefix)
+fi
+export USER_LOCAL
+
+
+#
+# Terminal configuration
 # http://journal.mycom.co.jp/column/zsh/009/index.html
 #
 unset LSCOLORS
