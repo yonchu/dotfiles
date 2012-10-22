@@ -7,3 +7,6 @@
 [submodule ".tmux/tmux-powerline"]
 	path = .tmux/tmux-powerline
 	url = https://github.com/erikw/tmux-powerline.git
+[submodule ".zsh/z"]
+	path = .zsh/z
+	url = git://github.com/rupa/z.git
