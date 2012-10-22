@@ -1,125 +1,65 @@
 "-------------------------------------------------------------------------------
-" プラグインごとの設定 plugins
+"  .vimrc.plugins_setting
+"
+"   Plugins settings
+"
 "-------------------------------------------------------------------------------
 
-"------------------------------------
-" autodate.vim
+"### autodate.vim {{{
 "  タイムスタンプの挿入 - 形式 Last Change:ドット
 "  Kaoriya版ではデフォルト有効
-"------------------------------------
+"-------------------------------------------------
 " フォーマット
 let autodate_format="%Y/%m/%d %H:%M:%S"
 
+"}}}
 
+
+"### eregex.vim {{{
+"  検索/置換にRubyやPerlの正規表現が使用できる
+"  うまく動作しないので不可
+"----------------------------------------------
+"nnoremap / :M/
+"nnoremap ? :M?
+"nnoremap ,/ /
+"nnoremap ,? ?
+
+"}}}
+
+
+"### Fugitive.vim {{{
 "------------------------------------
-" matchit.vim
-"  %コマンドによる対応括弧ジャンプ機能の拡張
+" 現在のソースの変更点をvimdiffで表示
+nnoremap <Space>gd :<C-u>Gdiff<Enter>
+" 新しい窓を作ってgit statusを表示
+nnoremap <Space>gs :<C-u>Gstatus<Enter>
+" gitlogを表示
+nnoremap <Space>gl :<C-u>Glog<Enter>
+" 現在開いているソースをgit add
+nnoremap <Space>ga :<C-u>Gwrite<Enter>
+" staged なファイルがあれば git commit なければ git status
+nnoremap <Space>gc :<C-u>Gcommit -v<Enter>
+" git commit --amend
+nnoremap <Space>gC :<C-u>Git commit -v --amend<Enter>
+" 現在のソースをgit blame。vimが色づけしてくれる
+nnoremap <Space>gb :<C-u>Gblame<Enter>
+
+"}}}
+
+
+"### Gitv {{{
 "------------------------------------
-runtime macros/matchit.vim
-" 対応する括弧を追加
-"let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
+" ブラウザモードで開く場合の画面分割方向
+let g:Gitv_OpenHorizontal = 0
+" Gitvを起動
+nmap <leader>gv :<C-u>Gitv --all<cr>
+nmap <leader>gV :<C-u>Gitv! --all<cr>
+vmap <leader>gV :<C-u>Gitv! --all<cr>
+
+"}}}
 
 
-"------------------------------------
-" YankRing.vim
-"------------------------------------
-" 通常版のvimでは以下の設定にしないとペースト時にエラーが出る
-if ! has("kaoriya")
-  let g:yankring_manual_clipboard_check = 0
-endif
-" 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
-let g:yankring_history_file = ".yankring_history"
-" Yankの履歴参照
-nmap ,y :YRShow<CR>
-" ヤンク履歴についかする最少文字数(1文字は対象外)
-let g:yankring_min_element_length = 2
-
-
-"------------------------------------
-" MiniBufExplorer
-"------------------------------------
-" set minibfexp
-let g:miniBufExplMapWindowNavVim=1 "hjklで移動
-let g:miniBufExplSplitBelow=0  " Put new window above
-let g:miniBufExplMapWindowNavArrows=1
-let g:miniBufExplMapCTabSwitchBufs=1
-let g:miniBufExplModSelTarget=1
-let g:miniBufExplSplitToEdge=1
-let g:miniBufExplMaxSize = 10
-
-" :MtでMiniBufExplorerの表示トグル
-command! Mt :TMiniBufExplorer
-
-
-"------------------------------------
-" NERDTree
-"  ツリー型ファイルエクスプローラ
-"  http://blog.livedoor.jp/kumonopanya/archives/51048805.html
-"------------------------------------
-" F5でツリー表示をトグル
-"nmap <F5> :TMiniBufExplorer<CR>:NERDTreeToggle<CR>:TMiniBufExplorer<CR>
-nmap <F5> :NERDTreeToggle<CR>
-
-" ツリー表示幅
-"let g:NERDTreeWinSize=31
-
-" 無視するファイルを設定
-" \ エスケープ記号
-" $ ファイル名の最後
-let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
-
-" 隠しファイル表示
-let g:NERDTreeShowHidden=1
-" ツリー上部のヘルプ表示(0:表示)
-let g:NERDTreeMinimalUI=0
-" ツリーに矢印などを表示するか(0:表示)
-let g:NERDTreeDirArrows=0
-
-"マウス操作方法
-" 1 : ファイル、ディレクトリ両方共ダブルクリックで開く(default)
-" 2 : ディレクトリのみシングルクリックで開く
-" 3 : ファイル、ディレクトリ両方共シングルクリックで開く
-let g:NERDTreeMouseMode=1
-
-
-"------------------------------------
-" VTreeExplorer
-"  ツリー状にファイルやディレクトリの一覧を表示
-"  NERDTreeを使用するので削除
-"------------------------------------
-" 縦分割で表示
-"let g:treeExplVertical=1
-" <Leader>t<Space>でディレクトリツリー表示
-"noremap <Leader>t<Space> :VSTreeExplore<CR>
-" 分割したウィンドウのサイズ
-"let g:treeExplWinSize=30
-" 隠しファイルを表示
-"let g:treeExplHidden=1
-
-
-"------------------------------------
-" nerd_commenter.vim
-"------------------------------------
-" コメントの間にスペースを空ける
-let nerdspacedelims=1
-"<leader>xでコメントをトグル(nerd_commenter.vim)
-map <leader>x, c<space>
-""未対応ファイルタイプのエラーメッセージを表示しない
-let nerdshutup=1
-
-
-"------------------------------------
-" toggle.vim
-"------------------------------------
-"imap <C-A> <Plug>ToggleI
-nmap <C-A> <Plug>ToggleN
-vmap <C-A> <Plug>ToggleV
-
-let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'yes':'no', 'no':'yes', 'enable':'disable', 'disable':'enable', 'pick':'reword', 'reword':'fixup', 'fixup':'squash', 'squash':'edit', 'edit':'exec', 'exec':'pick' }
-
-
-"------------------------------------
-" grep.vim
+"### grep.vim {{{
 "------------------------------------
 " MacのxargsではRgrepがエラーになる
 if has('mac')
@@ -154,31 +94,10 @@ nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
 let Grep_Skip_Dirs = '.svn .git .hg'
 let Grep_Skip_Files = '*.bak *~'
 
-
-"------------------------------------
-" eregex.vim
-"  検索/置換にRubyやPerlの正規表現が使用できる
-"  うまく動作しないので不可
-"------------------------------------
-"nnoremap / :M/
-"nnoremap ? :M?
-"nnoremap ,/ /
-"nnoremap ,? ?
+"}}}
 
 
-"------------------------------------
-" surround.vim
-"------------------------------------
-" s, ssで選択範囲を指定文字でくくる
-"nmap S <Plug>Ysurround
-"nmap SS <Plug>Yssurround
-"let g:surround_{char2nr('e')} = "begin \r end"
-"let g:surround_{char2nr('d')} = "do \r end"
-"let g:surround_{char2nr("-")} = ":\r"
-
-
-"------------------------------------
-" gundo.Vim
+"### gundo.vim {{{
 "  undo履歴表示
 "------------------------------------
 nmap U :<C-u>GundoToggle<CR>
@@ -187,83 +106,12 @@ nmap U :<C-u>GundoToggle<CR>
 " 履歴表示が遅い場合に設定すると良い
 "let g:gundo_auto_preview = 0
 
-
-"------------------------------------
-" Fugitive.vim
-"------------------------------------
-" 現在のソースの変更点をvimdiffで表示
-nnoremap <Space>gd :<C-u>Gdiff<Enter>
-" 新しい窓を作ってgit statusを表示
-nnoremap <Space>gs :<C-u>Gstatus<Enter>
-" gitlogを表示
-nnoremap <Space>gl :<C-u>Glog<Enter>
-" 現在開いているソースをgit add
-nnoremap <Space>ga :<C-u>Gwrite<Enter>
-" staged なファイルがあれば git commit なければ git status
-nnoremap <Space>gc :<C-u>Gcommit -v<Enter>
-" git commit --amend
-nnoremap <Space>gC :<C-u>Git commit -v --amend<Enter>
-" 現在のソースをgit blame。vimが色づけしてくれる
-nnoremap <Space>gb :<C-u>Gblame<Enter>
+"}}}
 
 
-"------------------------------------
-" Gitv
-"------------------------------------
-" ブラウザモードで開く場合の画面分割方向
-let g:Gitv_OpenHorizontal = 0
-" Gitvを起動
-nmap <leader>gv :<C-u>Gitv --all<cr>
-nmap <leader>gV :<C-u>Gitv! --all<cr>
-vmap <leader>gV :<C-u>Gitv! --all<cr>
-
-
-"------------------------------------
-" sudo.vim
-"  root権限でファイルを編集、保存
-"------------------------------------
-" root権限で今開いているファイルを開き直す
-command! ES :e sudo:%<CR><C-^>:bd!
-" root権限で保存
-command! WS :w sudo:%
-
-
-"----------------------------------------------------
-" showmarks.vim
-"  <Leader>mt ON/OFFトグル
-"  <Leader>mo Forces ShowMarks on.
-"  <Leader>mm 次の使えるマークを使ってマーク
-"  <Leader>mh カレント行ののマークを削除
-"  <Leader>ma カレントバッファのマークを全部削除
-"----------------------------------------------------
-" Enable ShowMarks
-let showmarks_enable = 1
-" Show which marks
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-" マークを表示しない
-"   - h : Help
-"   - m : Non-modifiable
-"   - p : Preview
-"   - q : Quickfix
-"   - r : Readonly
-let showmarks_ignore_type = "hmq"
-
-" Hilight lower & upper marks
-"let showmarks_hlline_lower = 1
-"let showmarks_hlline_upper = 1
-
-" Highlighting
-highlight ShowMarksHLl cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLu cterm=NONE ctermfg=blue ctermbg=lightyellow gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLo cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black gui=NONE gui=bold guifg=blue guibg=black
-
-
-"------------------------------------
-" vim-indent-guides
+"### indent-guides {{{
 "  インデント量の違いをハイライト表示
-"------------------------------------
+"-------------------------------------
 " インデントガイドをトグルするキーバインド
 nnoremap <silent> <Space>id :<C-u>IndentGuidesToggle<Enter>
 " vim起動時の自動実行
@@ -288,11 +136,91 @@ else
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkred
 endif
 
+"}}}
 
+
+"### matchit.vim {{{
+"  %コマンドによる対応括弧ジャンプ機能の拡張
+"--------------------------------------------
+runtime macros/matchit.vim
+" 対応する括弧を追加
+"let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
+
+"}}}
+
+
+"### MiniBufExplorer {{{
 "------------------------------------
-" open-browser.vim
+" set minibfexp
+let g:miniBufExplMapWindowNavVim=1 "hjklで移動
+let g:miniBufExplSplitBelow=0  " Put new window above
+let g:miniBufExplMapWindowNavArrows=1
+let g:miniBufExplMapCTabSwitchBufs=1
+let g:miniBufExplModSelTarget=1
+let g:miniBufExplSplitToEdge=1
+let g:miniBufExplMaxSize = 10
+
+" :MtでMiniBufExplorerの表示トグル
+command! Mt :TMiniBufExplorer
+
+"}}}
+
+
+"### neocomplcache {{{
+"------------------------------------
+" 補完にneocomplcacheを使う
+source ~/dotfiles/.vimrc.neocomplcache
+
+"}}}
+
+
+"### nerd_commenter.vim {{{
+"------------------------------------
+" コメントの間にスペースを空ける
+let nerdspacedelims=1
+"<leader>xでコメントをトグル(nerd_commenter.vim)
+map <leader>x, c<space>
+""未対応ファイルタイプのエラーメッセージを表示しない
+let nerdshutup=1
+
+"}}}
+
+
+"### NERDTree {{{
+"  ツリー型ファイルエクスプローラ
+"  http://blog.livedoor.jp/kumonopanya/archives/51048805.html
+"-------------------------------------------------------------
+" F5でツリー表示をトグル
+"nmap <F5> :TMiniBufExplorer<CR>:NERDTreeToggle<CR>:TMiniBufExplorer<CR>
+nmap <F5> :NERDTreeToggle<CR>
+
+" ツリー表示幅
+"let g:NERDTreeWinSize=31
+
+" 無視するファイルを設定
+" \ エスケープ記号
+" $ ファイル名の最後
+let g:NERDTreeIgnore=['\.clean$', '\.swp$', '\.bak$', '\~$']
+
+" 隠しファイル表示
+let g:NERDTreeShowHidden=1
+" ツリー上部のヘルプ表示(0:表示)
+let g:NERDTreeMinimalUI=0
+" ツリーに矢印などを表示するか(0:表示)
+let g:NERDTreeDirArrows=0
+
+"マウス操作方法
+" 1 : ファイル、ディレクトリ両方共ダブルクリックで開く(default)
+" 2 : ディレクトリのみシングルクリックで開く
+" 3 : ファイル、ディレクトリ両方共シングルクリックで開く
+let g:NERDTreeMouseMode=1
+
+"}}}
+
+
+"### open-browser.vim {{{
 " カーソルの下のURLを開くor単語を検索エンジンで検索
-"------------------------------------
+"---------------------------------------------------
 " カーソル下のURLをブラウザで開く
 " URLがない場合は単語を検索する
 nmap <Leader>ob <Plug>(openbrowser-smart-search)
@@ -304,21 +232,10 @@ vmap <Leader>ob <Plug>(openbrowser-smart-search)
 " カーソル下のキーワードをググる
 " nnoremap <Leader>fs :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
 
-
-"------------------------------------
-" smooth_scroll
-"  スクロールをスムーズに
-"------------------------------------
-" <PageDown>と<PageUp>もスムーズスクロール
-" Macだと正常に動かない
-"nnoremap <PageDown> <C-f>
-"nnoremap <PageUp> <C-b>
-" スクロール速度
-"let g:scroll_factor=20000
+"}}}
 
 
-"------------------------------------
-" vim-quickrun
+"### quickrun {{{
 "------------------------------------
 " デフォルトのキーマップを無効
 let g:quickrun_no_default_key_mappings = 1
@@ -364,48 +281,79 @@ if has("mac")
         \ }
 endif
 
+"}}}
 
+
+"### showmarks.vim {{{
+"  <Leader>mt ON/OFFトグル
+"  <Leader>mo Forces ShowMarks on.
+"  <Leader>mm 次の使えるマークを使ってマーク
+"  <Leader>mh カレント行ののマークを削除
+"  <Leader>ma カレントバッファのマークを全部削除
+"----------------------------------------------------
+" Enable ShowMarks
+let showmarks_enable = 1
+" Show which marks
+let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+" マークを表示しない
+"   - h : Help
+"   - m : Non-modifiable
+"   - p : Preview
+"   - q : Quickfix
+"   - r : Readonly
+let showmarks_ignore_type = "hmq"
+
+" Hilight lower & upper marks
+"let showmarks_hlline_lower = 1
+"let showmarks_hlline_upper = 1
+
+" Highlighting
+highlight ShowMarksHLl cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLu cterm=NONE ctermfg=blue ctermbg=lightyellow gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLo cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
+highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black gui=NONE gui=bold guifg=blue guibg=black
+
+"}}}
+
+
+"### smooth_scroll {{{
+"  スクロールをスムーズに
 "------------------------------------
-" vim-ref
+" <PageDown>と<PageUp>もスムーズスクロール
+" Macだと正常に動かない
+"nnoremap <PageDown> <C-f>
+"nnoremap <PageUp> <C-b>
+" スクロール速度
+"let g:scroll_factor=20000
+
+"}}}
+
+
+"### sudo.vim {{{
+"  root権限でファイルを編集、保存
 "------------------------------------
-" PHPマニュアルのパスを指定
-let g:ref_phpmanual_path = $HOME . '/work/dev/docs/php-chunked-xhtml'
+" root権限で今開いているファイルを開き直す
+command! ES :e sudo:%<CR><C-^>:bd!
+" root権限で保存
+command! WS :w sudo:%
 
-" Javadocのパスを指定
-let g:ref_javadoc_path = $HOME . '/work/dev/docs/java6_ja_apidocs'
-
-" jqueryリファレンスのパスを指定
-let g:ref_jquery_doc_path = $HOME . '/work/dev/docs/jqapi-latest'
-
-" javascriptリファレンスのパスを指定
-let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
-
-" ref-sourcesにてキャッシュを有効
-let g:ref_use_cache = 1
+"}}}
 
 
+"### surround.vim {{{
 "------------------------------------
-" vim-hier
-"------------------------------------
-" エラーを赤字の波線で
-" 警告を青字の波線で
-highlight qf_error_ucurl gui=undercurl guisp=red ctermfg=none cterm=undercurl
-highlight qf_warning_ucurl gui=undercurl guisp=blue ctermfg=none cterm=undercurl
+" s, ssで選択範囲を指定文字でくくる
+"nmap S <Plug>Ysurround
+"nmap SS <Plug>Yssurround
+"let g:surround_{char2nr('e')} = "begin \r end"
+"let g:surround_{char2nr('d')} = "do \r end"
+"let g:surround_{char2nr("-")} = ":\r"
 
-let g:hier_highlight_group_qf  = "qf_error_ucurl"
-let g:hier_highlight_group_qfw = "qf_warning_ucurl"
-
-" ハイライト箇所を更新
-nnoremap <silent> <Leader>hiu :HierUpdate<CR>
-" ハイライトを削除
-nnoremap <silent> <Leader>hic :HierClear<CR>
-
-" Escの2回押しでハイライト消去
-nmap <silent> <ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
+"}}}
 
 
-"------------------------------------
-" Syntastic
+"### Syntastic {{{
 "------------------------------------
 " シンタックスチェックを実行
 nnoremap <silent> <Leader>s :SyntasticCheck<CR>
@@ -425,9 +373,21 @@ let g:syntastic_mode_map = { 'mode': 'passive',
       \ 'active_filetypes': ['python', 'ruby', 'php', 'perl'],
       \ 'passive_filetypes': [] }
 
+"}}}
 
+
+"### toggle.vim {{{
 "------------------------------------
-" unite.vim
+"imap <C-A> <Plug>ToggleI
+nmap <C-A> <Plug>ToggleN
+vmap <C-A> <Plug>ToggleV
+
+let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'yes':'no', 'no':'yes', 'enable':'disable', 'disable':'enable', 'pick':'reword', 'reword':'fixup', 'fixup':'squash', 'squash':'edit', 'edit':'exec', 'exec':'pick' }
+
+"}}}
+
+
+"### unite.vim {{{
 "------------------------------------
 " The prefix key.
 nnoremap    [unite]   <Nop>
@@ -530,3 +490,91 @@ command! UO :Unite -no-start-insert -winwidth=40 -no-quit outline
 
 " unite-colorscheme
 command! UC :Unite -auto-preview -no-start-insert -winwidth=15 colorscheme
+
+" }}}
+
+
+"### vim-hier {{{
+"------------------------------------
+" エラーを赤字の波線で
+" 警告を青字の波線で
+highlight qf_error_ucurl gui=undercurl guisp=red ctermfg=none cterm=undercurl
+highlight qf_warning_ucurl gui=undercurl guisp=blue ctermfg=none cterm=undercurl
+
+let g:hier_highlight_group_qf  = "qf_error_ucurl"
+let g:hier_highlight_group_qfw = "qf_warning_ucurl"
+
+" ハイライト箇所を更新
+nnoremap <silent> <Leader>hiu :HierUpdate<CR>
+" ハイライトを削除
+nnoremap <silent> <Leader>hic :HierClear<CR>
+
+" Escの2回押しでハイライト消去
+nmap <silent> <ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
+
+"}}}
+
+
+"### vim-powerline {{{
+"------------------------------------
+if has("mac")
+  " フォントにパッチを当てないなら以下をコメントアウト
+  let g:Powerline_symbols = 'fancy'
+endif
+
+" }}}
+
+
+"### vim-ref {{{
+"------------------------------------
+" PHPマニュアルのパスを指定
+let g:ref_phpmanual_path = $HOME . '/work/dev/docs/php-chunked-xhtml'
+
+" Javadocのパスを指定
+let g:ref_javadoc_path = $HOME . '/work/dev/docs/java6_ja_apidocs'
+
+" jqueryリファレンスのパスを指定
+let g:ref_jquery_doc_path = $HOME . '/work/dev/docs/jqapi-latest'
+
+" javascriptリファレンスのパスを指定
+let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
+
+" ref-sourcesにてキャッシュを有効
+let g:ref_use_cache = 1
+
+"}}}
+
+
+"### VTreeExplorer {{{
+"  ツリー状にファイルやディレクトリの一覧を表示
+"  NERDTreeを使用するので削除
+"------------------------------------
+" 縦分割で表示
+"let g:treeExplVertical=1
+" <Leader>t<Space>でディレクトリツリー表示
+"noremap <Leader>t<Space> :VSTreeExplore<CR>
+" 分割したウィンドウのサイズ
+"let g:treeExplWinSize=30
+" 隠しファイルを表示
+"let g:treeExplHidden=1
+
+"}}}
+
+
+"### YankRing.vim {{{
+"------------------------------------
+" 通常版のvimでは以下の設定にしないとペースト時にエラーが出る
+if ! has("kaoriya")
+  let g:yankring_manual_clipboard_check = 0
+endif
+" 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
+let g:yankring_history_file = ".yankring_history"
+" Yankの履歴参照
+nmap ,y :YRShow<CR>
+" ヤンク履歴についかする最少文字数(1文字は対象外)
+let g:yankring_min_element_length = 2
+
+"}}}
+
+
+" vim: fdm=marker fen fdl=0

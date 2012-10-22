@@ -1,37 +1,40 @@
 "-------------------------------------------------------------------------------
-" vunlde.vimで管理してるpluginを読み込む
 "
-" http://vim-users.jp/2011/04/hack215/
-" http://shu-cream.blogspot.com/2011/04/2011vimvundle.html
+"  .vimrc.bundle
 "
-"  インストールディレクトリ
-"   Vundle本体：~/.vim/vundle.git
-"   プラグイン：~/.vim/bundle
+"   vunlde.vimで管理してるpluginを読み込む
 "
-"  書き方
-"   Github 上のリポジトリから取得する場合
-"    Github のユーザ名とリポジトリ名を指定します。
-"    Bundle 'user_name/repository_name'
+"   http://vim-users.jp/2011/04/hack215/
+"   http://shu-cream.blogspot.com/2011/04/2011vimvundle.html
 "
-"   vim-scripts 上のリポジトリから取得する場合
-"    plugin の名前を指定します。
-"    Bundle 'script_name'
+"    インストールディレクトリ
+"     Vundle本体：~/.vim/vundle.git
+"     プラグイン：~/.vim/bundle
 "
-"   それ以外の git リポジトリから取得する場合
-"    Git リポジトリ のフルパスを指定します。
-"    Bundle 'git://repository_url'
+"    書き方
+"     Github 上のリポジトリから取得する場合
+"      Github のユーザ名とリポジトリ名を指定します。
+"      Bundle 'user_name/repository_name'
 "
-"  plugin管理方法
-"   インストール
-"    :BundleInstall
-"   アップデート
-"    :BundleInstall!
-"   使用していないプラグインを削除
-"    :BundleClean
-"   プラグイン検索
-"    :BundleSearch
-"   ヘルプ
-"    :help vundle
+"     vim-scripts 上のリポジトリから取得する場合
+"      plugin の名前を指定します。
+"      Bundle 'script_name'
+"
+"     それ以外の git リポジトリから取得する場合
+"      Git リポジトリ のフルパスを指定します。
+"      Bundle 'git://repository_url'
+"
+"    plugin管理方法
+"     インストール
+"      :BundleInstall
+"     アップデート
+"      :BundleInstall!
+"     使用していないプラグインを削除
+"      :BundleClean
+"     プラグイン検索
+"      :BundleSearch
+"     ヘルプ
+"      :help vundle
 "
 "-------------------------------------------------------------------------------
 

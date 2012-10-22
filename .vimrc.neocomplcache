@@ -1,29 +1,33 @@
-" neocomplcache.vim
-"  https://github.com/Shougo/neocomplcache
-"  http://www.karakaram.com/vim/neocomplcache/
-"  http://d.hatena.ne.jp/thinca/20091026/1256569191
-"  http://vim-users.jp/2010/11/hack185/
-"  http://d.hatena.ne.jp/cooldaemon/20090807/1249644264
+"------------------------------------------------------------------------------
 "
-"  補完候補のPrefix
-"    abbrev_complete            -> [A]
-"    filename_complete          -> [F] {filename}
-"    dictionary_complete        -> [D] {words}
-"    member_complete            -> [M] member
-"    buffer_complete            -> [B] {buffername}
-"    syntax_complete            -> [S] {syntax-keyword}
-"    include_complete           -> [FI] or [I]
-"    snippets_complete          -> [Snip] (none placeholders) or
-                                  "<Snip> (contains placeholders)
-"    vim_complete               -> [vim] type
-"    omni_complete              -> [O]
-"    tags_complete              -> [T]
-"    other plugin sources       -> [plugin-name-prefix]
-"    other completefunc sources -> [plugin-name-prefix]
-"    other ftplugin sources     -> [plugin-name-prefix]
+"  .vimrc.neocomplcache
 "
-"##############################################################################
-
+"   neocomplcache.vim settings
+"
+"   https://github.com/Shougo/neocomplcache
+"   http://www.karakaram.com/vim/neocomplcache/
+"   http://d.hatena.ne.jp/thinca/20091026/1256569191
+"   http://vim-users.jp/2010/11/hack185/
+"   http://d.hatena.ne.jp/cooldaemon/20090807/1249644264
+"
+"   補完候補のPrefix
+"     abbrev_complete            -> [A]
+"     filename_complete          -> [F] {filename}
+"     dictionary_complete        -> [D] {words}
+"     member_complete            -> [M] member
+"     buffer_complete            -> [B] {buffername}
+"     syntax_complete            -> [S] {syntax-keyword}
+"     include_complete           -> [FI] or [I]
+"     snippets_complete          -> [Snip] (none placeholders) or
+                                   "<Snip> (contains placeholders)
+"     vim_complete               -> [vim] type
+"     omni_complete              -> [O]
+"     tags_complete              -> [T]
+"     other plugin sources       -> [plugin-name-prefix]
+"     other completefunc sources -> [plugin-name-prefix]
+"     other ftplugin sources     -> [plugin-name-prefix]
+"
+"------------------------------------------------------------------------------
 
 " j,k の移動を表示行単位にする
 " スニペット展開後のプレースホルダ移動がうまく行かない場合に設定
@@ -362,5 +366,6 @@ autocmd BufReadPost,BufEnter,BufWritePost :NeoComplCacheCachingBuffer <buffer>
 "endfunction
 
 " }}}
+
 
 " vim: fdm=marker fen fdl=0:
