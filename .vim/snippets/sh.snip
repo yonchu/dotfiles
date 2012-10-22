@@ -11,6 +11,82 @@ prev_word   '^'
     #!/usr/bin/env bash
 
 # Set SCRIPT_DIR variable to directory script is located.
-snippet sdir
+snippet scrdir
 abbr    Set script directory
-    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+    SCRIPT_DIR="$( cd "$( dirname "$$0" )" && pwd )
+
+# Set SCRIPT_PATH variable to path of script.
+snippet scrpath
+abbr    Set script path
+    SCRIPT_PATH="$( cd "$( dirname "$0" )" && pwd )/$(basename "$0")
+
+snippet iftype
+abbr    Check whether the command exists
+    if type ${1:cmd} > /dev/null 2>&1; then
+
+    fi
+
+snippet redirect1
+abbr    Don't display STDOUT
+    > /dev/null
+
+snippet redirect2
+abbr    Don't display both STDOUT and STDERROR
+    > /dev/null 2>&1
+
+snippet redirect3
+abbr    STDOUT > STDERROR (for print error)
+    1>&2
+
+snippet ostype
+abbr    Identifies OSTYPE
+    case "${OSTYPE}" in
+        # BSD or OS X
+        freebsd*|darwin*)
+        ;;
+        # Linux
+        linux*)
+        ;;
+    esac
+
+snippet sedspace
+abbr    Deletes leading spaces
+    | sed 's/^[ \t]*//'
+
+snippet     source
+abbr        source file after checking whether it exists
+    if [ -f ${1:file} ]; then
+        source ${2:file}
+    fi
+
+snippet     usage
+abbr        Usage command
+    usage() {
+        echo "Usage: ${0} [-a] [target]"
+        echo '  -a : what'
+    }
+
+snippet     getopts
+abbr        Analyizes options
+    while getopts as option; do
+        case $option in
+            a)
+                opt_a="true"
+                opt_a_arg=$OPTARG
+                ;;
+            :|\?)
+                usage
+                exit 1
+                ;;
+        esac
+    done
+    shift $(expr ${OPTIND} - 1)
+
+snippet     debug
+abbr        debug mode
+prev_word   '^'
+    ## debug mode
+    #DEBUG="yes"
+    if [ "$DEBUG" = "yes" ]; then
+        set -x
+    fi
