@@ -114,7 +114,7 @@ case ${UID} in
     #
     # Prompt
     #
-    DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${GREEN}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[white].$fg[red])%}$ ${RESET}'
+    DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[blue].$fg[red])%}♪  ${RESET}'
 
     # For tmux-powerline
     DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
