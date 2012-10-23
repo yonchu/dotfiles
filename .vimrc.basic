@@ -163,8 +163,12 @@ highlight Comment ctermfg=DarkCyan guifg=DarkCyan
 " 行番号の色変更
 highlight LineNr cterm=underline ctermfg=2 gui=underline
 
-" 折り返し幅を示すラインの色
-highlight ColorColumn guibg=#444444 ctermbg=darkgray
+" カラーカラムを表示する列
+set colorcolumn=80
+" colorcolumnの色指定
+highlight ColorColumn guibg=#444444 ctermbg=233
+
+" 行番号左のサイン表示列の色
 highlight SignColumn ctermfg=Cyan ctermbg=Black guifg=Cyan guibg=Black
 
 " Foldingの色変更
@@ -181,9 +185,16 @@ augroup cch
   autocmd WinEnter,BufRead * set cursorline
 augroup END
 
+" カーソル行の色
 highlight clear CursorLine
 highlight CursorLine gui=underline
-highlight CursorLine ctermbg=18
+highlight CursorLine ctermbg=234
+" NomalModeとInsertModeでカーソル行の色を変更
+augroup InsertHook
+  autocmd!
+  autocmd InsertEnter * highlight CursorLine gui=underline ctermbg=18
+  autocmd InsertLeave * highlight CursorLine gui=underline ctermbg=234
+augroup END
 
 " }}}
 

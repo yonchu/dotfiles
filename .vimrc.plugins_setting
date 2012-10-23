@@ -115,20 +115,20 @@ nmap U :<C-u>GundoToggle<CR>
 " インデントガイドをトグルするキーバインド
 nnoremap <silent> <Space>id :<C-u>IndentGuidesToggle<Enter>
 " vim起動時の自動実行
-let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_enable_on_vim_startup = 1
 " 自動色付け
 let g:indent_guides_auto_colors = 0
 " インデントガイドの表示を開始するインデントレベル
-let g:indent_guides_start_level = 1
+let g:indent_guides_start_level = 2
 " インデントガイドのサイズ(幅)
 let g:indent_guides_guide_size = 1
 " グラデーション設定(gvim only)
 let g:indent_guides_color_change_percent = 30
 if 'dark' == &background
-  "hi IndentGuidesOdd  ctermbg=black
-  "hi IndentGuidesEven ctermbg=darkgrey
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray ctermbg=gray
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=darkred
+  "hi IndentGuidesOdd  ctermbg=233
+  "hi IndentGuidesEven ctermbg=233
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray ctermbg=233
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=233
 else
   "hi IndentGuidesOdd  ctermbg=white
   "hi IndentGuidesEven ctermbg=lightgrey
