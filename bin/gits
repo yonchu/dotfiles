@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #  gitリポジトリの詳細情報を表示
 #
@@ -18,10 +18,12 @@ git status -sb
 (
     cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
     echo "===== git submodule status ====="
-    echo -e '## \033[0;34msubmodule\033[0;39m'
-    git submodule status
+    sub_state=$(git submodule status)
+    if [ -n "$sub_state" ]; then
+        echo -e '## \033[0;34msubmodule\033[0;39m'
+        echo "$sub_state"
+    fi
 )
-echo
 echo "===== git remote -v ====="
 git remote -v
 echo "===== git branch -av ====="

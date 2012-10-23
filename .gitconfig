@@ -182,6 +182,8 @@
   sms = submodule status
   smu = submodule update
   smui = submodule update --init
+  # submoduleの状態確認(最新かどうか)
+  smsh = submodule foreach "git remote show origin"
   # submoduleの更新
   smupdate = submodule foreach "git checkout master; git pull"
 
