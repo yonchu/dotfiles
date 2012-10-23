@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+#  DropBox上のリモートリポジトリからclone
+#
+
+if ! type git > /dev/null 2>&1; then
+    echo 'Error: Git is not installed.' 2>%1
+    exit 1
+fi
+
+if [ $# -ge 1 -a $# -le 2 ]; then
+    git clone ~/Dropbox/Repos/git/$1 $2
+else
+    echo "arguments error: 1 or 2 arguments is required" 1>&2
+    echo "usage: $(basename $0) <repository> [directory]" 1>&2
+    exit 1
+fi

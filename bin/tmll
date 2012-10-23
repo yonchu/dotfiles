@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+#  tmuxの接続情報一覧
+#
+
+if ! type tmux > /dev/null 2>&1; then
+    echo 'Error: tmux is not installed.' 2>%1
+    exit 1
+fi
+
+if [ -z "$TMUX" ]; then
+    echo 'tmux is not running'
+    exit 0
+fi
+
+
+echo "===== tmux list-clients ====="
+tmux list-clients
+echo
+
+echo "===== list-sessions ====="
+tmux list-sessions
+echo
+
+echo "===== list-window ====="
+tmux list-window
+echo

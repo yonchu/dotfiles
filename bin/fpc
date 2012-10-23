@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+#  フルパスをクリップボードへ (Mac Only)
+#
+
+if ! type fullpath > /dev/null 2>&1; then
+    echo 'Error: fullpath is not installed.' 2>%1
+    exit 1
+fi
+
+fullpath -a "$@" && printf "$(fullpath -a "$@")" | pbcopy

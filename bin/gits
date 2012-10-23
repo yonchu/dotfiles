@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+#  gitリポジトリの詳細情報を表示
+#
+
+if ! type git > /dev/null 2>&1; then
+    echo 'Error: Git is not installed.' 2>%1
+    exit 1
+fi
+
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+    echo 'Error: Not a git repository' 2>&1
+    exit 1
+fi
+
+echo "===== git status -sb ====="
+git status -sb
+(
+    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+    echo "===== git submodule status ====="
+    echo -e '## \033[0;34msubmodule\033[0;39m'
+    git submodule status
+)
+echo
+echo "===== git remote -v ====="
+git remote -v
+echo "===== git branch -av ====="
+git branch -av
+echo "===== git stash list ====="
+git stash list

@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Goolge検索
+#
+#   Mac   : Open default browser
+#   Linux : Open w3m
+#
+
+str=
+opt=
+open_cmd=
+google_url='http://www.google.co.jp'
+
+if [ $# != 0 ]; then
+    for i in $*; do
+        # 検索ワードを+記号でつなぐ(and検索)
+        # URLエンコード
+        #$i=$(echo "$i" | nkf -wMQ | tr = %)
+        str="$str${str:++}$i"
+    done
+    opt='search?num=100&hl=ja&lr=lang_ja'
+    opt="${opt}&q=${str}"
+fi
+
+case "${OSTYPE}" in
+    darwin*)
+        open_cmd='open'
+        ;;
+    linux*)
+        if type w3m >/dev/null 2>&1; then
+            open_cmd='w3m'
+        fi
+        ;;
+esac
+if [ -z "$open_cmd" ]; then
+    echo "error: command for open is not found" 2>&1
+    return 1
+fi
+
+$open_cmd "$google_url"/$opt

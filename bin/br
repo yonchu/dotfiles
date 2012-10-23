@@ -1,0 +1,49 @@
+#!/bin/sh
+#
+#  引数なし
+#   - homebrewの情報を色々表示
+#
+#  第1引数:
+#   - Formula名指定でFormulaの詳細情報を表示
+#   - マッチするFormulaがない場合は検索
+#
+
+if ! type brew >/dev/null 2>&1; then
+    echo 'Error: Homebrew is not installed' 1>&2
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    echo "===== brew --config ====="
+    brew --config
+    echo
+    echo "===== brew --env ====="
+    brew --env
+    echo
+    echo "===== brew info ====="
+    brew info
+    echo
+    echo "===== brew list ====="
+    brew list
+    echo
+    echo "===== brew tap ====="
+    brew tap
+    echo
+    echo "===== brew doctor ====="
+    brew doctor
+    echo
+    echo "===== brew outdated ====="
+    brew outdated
+else
+    echo "===== brew info ====="
+    brew info "$1"
+    if [ $? -eq 0 ]; then
+        echo
+        echo "===== brew options ====="
+        brew options "$1"
+    else
+        echo
+        echo "===== brew search ====="
+        brew search "$1"
+    fi
+fi
