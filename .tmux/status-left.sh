@@ -48,12 +48,19 @@ tmux_session_info+=(["separator"]="${separator_right_bold}")
 #tmux_session_info+=(["separator_fg"]="default")
 register_segment "tmux_session_info"
 
-declare -A username
-username+=(["script"]="whoami")
-username+=(["foreground"]="colour0")
-username+=(["background"]="colour33")
-username+=(["separator"]="${separator_right_bold}")
-register_segment "username"
+declare -A ostype
+ostype+=(["script"]="${user_segments_path}/ostype.sh")
+ostype+=(["foreground"]="colour21")
+ostype+=(["background"]="colour33")
+ostype+=(["separator"]="${separator_right_bold}")
+register_segment "ostype"
+
+#declare -A username
+#username+=(["script"]="whoami")
+#username+=(["foreground"]="colour0")
+#username+=(["background"]="colour33")
+#username+=(["separator"]="${separator_right_bold}")
+#register_segment "username"
 
 declare -A lan_ip
 lan_ip+=(["script"]="${segments_path}/lan_ip.sh")
