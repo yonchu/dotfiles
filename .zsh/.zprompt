@@ -55,6 +55,8 @@ WHITE="%{${fg[white]}%}"
 #   %/ : カレントディレクトリ(フルパス)
 #   %~ : 同上,ただし~記号などで可能な限り短縮する
 #   %1~ or %1/ : カレントディレクトリ(ベースネーム)
+#   %h or %! : Current history event number.
+#   %l : The line (tty) the user is logged in on
 #   %B : 太字開始
 #   %b : 太字解除
 #   %(1j,(%j),) : 実行中のジョブ数が1つ以上ある場合ジョブ数を表示
@@ -69,199 +71,281 @@ WHITE="%{${fg[white]}%}"
 #
 #   $WINDOW : screen 実行時のスクリーン番号
 #
-case ${UID} in
-0)
-    ## rootユーザの場合(全て赤文字)
-    #   su - or sudo -s を行った場合環境変数が引き継がれないためSSH接続の判定が行えない
 
+
+
+## rootユーザの場合(全て赤文字)
+#   su - or sudo -s を行った場合は環境変数が引き継がれない
+
+if [ ${UID} -eq 0 ]; then
     PROMPT="${RESET}${BOLD_RED}[%n@%m:%~]#$RESET} "
     PROMPT2="${RESET}${BOLD_RED}%_${RESET} "
     SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
-    ;;
-*)
-    ## 一般ユーザの場合
-    #
+    return 0
+fi
 
-    # SSH接続時
-    #  HostのIPを環境変数に設定
-    #  http://d.hatena.ne.jp/kakurasan/20070611/p1
-    if [ -n "${SSH_CONNECTION}" ]; then
-        export HOST_IP=$(echo ${SSH_CONNECTION} | awk -F\  '{printf "SSH("$1")"}')
+## 一般ユーザの場合
+#
+
+# SSH接続時
+#  HostのIPを環境変数に設定
+#  http://d.hatena.ne.jp/kakurasan/20070611/p1
+if [ -n "${SSH_CONNECTION}" ]; then
+    export HOST_IP=$(echo ${SSH_CONNECTION} | awk -F\  '{printf "SSH("$1")"}')
+fi
+
+#
+# tmuxのウィンドウ番号とペイン番号を環境変数に設定
+#
+_set_tmux_window() {
+    if [ "$TMUX" ]; then
+        #export TMUX_WINDOW=$(tmux list-windows 2> /dev/null | awk -F: '/\(active\)$/ \
+        #{printf $1}')"-"$(tmux list-panes 2> /dev/null | awk -F: '/\(active\)$/ {printf $1}')
+
+        # tmux display
+        #   -p 標準出力へ
+        #   -t 対象のペイン番号($TMUX_PANEなどを指定)
+        export TMUX_WINDOW=$(tmux display -p '#I-#P')
     fi
-
-    #
-    # tmuxのウィンドウ番号とペイン番号を環境変数に設定
-    #
-    _set_tmux_window() {
-        if [ "$TMUX" ]; then
-            #export TMUX_WINDOW=$(tmux list-windows 2> /dev/null | awk -F: '/\(active\)$/ {printf $1}')"-"$(tmux list-panes 2> /dev/null | awk -F: '/\(active\)$/ {printf $1}')
-
-            # tmux display
-            #   -p 標準出力へ
-            #   -t 対象のペイン番号($TMUX_PANEなどを指定)
-            export TMUX_WINDOW=$(tmux display -p '#I-#P')
-        fi
-    }
-    add-zsh-hook precmd _set_tmux_window
+}
+add-zsh-hook precmd _set_tmux_window
 
 
-    ## For zsh-git-prompt
-    if [ -f ~/.zsh/zsh-git-prompt/zshrc.sh ]; then
-        source ~/.zsh/zsh-git-prompt/zshrc.sh
-    fi
+## For zsh-git-prompt
+if [ -f ~/.zsh/zsh-git-prompt/zshrc.sh ]; then
+    source ~/.zsh/zsh-git-prompt/zshrc.sh
+fi
 
 
-    #
-    # Prompt
-    #
-    DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[blue].$fg[red])%}♪  ${RESET}'
+#
+# Prompt
+#
 
-    # For tmux-powerline
-    DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
+PROMPT_NORMAL_SYMBOL="♪ "
+PROMPT_ERROR_SYMBOL="✘ "
 
-    VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${YELLOW}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.$fg[white].$fg[red])%}$ ${RESET}'
+DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
 
-    PROMPT=${DEFAULT_PROMPT}
-    SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
+# For tmux-powerline
+DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
 
-    #
-    # Vi入力モードでPROMPTの色を変える
-    # http://memo.officebrook.net/20090226.html
-    #
-    function zle-line-init zle-keymap-select {
-        case $KEYMAP in
-        vicmd)
-            # viコマンドモード
-            PROMPT=${VI_CMD_PROMPT}
-            ;;
-        main|viins)
-            # viインサートモード
-            PROMPT=${DEFAULT_PROMPT}
-            ;;
-        esac
-        zle reset-prompt
-    }
-    zle -N zle-line-init
-    zle -N zle-keymap-select
+VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${YELLOW}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.${WHITE}.${RED}%}♪ ${RESET}'
+
+PROMPT=${DEFAULT_PROMPT}
+SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
+
+#
+# Vi入力モードでPROMPTの色を変える
+# http://memo.officebrook.net/20090226.html
+#
+function zle-line-init zle-keymap-select {
+    case $KEYMAP in
+    vicmd)
+        # viコマンドモード
+        PROMPT=${VI_CMD_PROMPT}
+        ;;
+    main|viins)
+        # viインサートモード
+        PROMPT=${DEFAULT_PROMPT}
+        ;;
+    esac
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
 
 
-    #
-    # Gitの状態表示
-    #  http://d.hatena.ne.jp/mollifier/20100906/p1
-    #  http://d.hatena.ne.jp/yuroyoro/20110219/1298089409
-    #  http://d.hatena.ne.jp/pasela/20110216/git_not_pushed
-    #  http://liosk.blog103.fc2.com/blog-entry-209.html
-    #  http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#SEC273
-    #
-    # 記号について
-    #   - : WorkingTreeに変更がある場合(Indexにaddしていない変更がある場合)
-    #   + : Indexに変更がある場合(commitしていない変更がIndexにある場合)
-    #   ? : Untrackedなファイルがある場合
-    #   * : remoteにpushしていない場合
-    #
-    autoload -Uz vcs_info
+#
+# VCS_INFO
+#  http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#SEC273
+#  https://github.com/olivierverdier/zsh-git-prompt
+#  http://d.hatena.ne.jp/mollifier/20100906/p1
+#  http://d.hatena.ne.jp/yuroyoro/20110219/1298089409
+#  http://d.hatena.ne.jp/pasela/20110216/git_not_pushed
+#  http://liosk.blog103.fc2.com/blog-entry-209.html
+#
 
-    zstyle ':vcs_info:*' enable git svn hg bzr
-    zstyle ':vcs_info:*' formats '(%s)-[%b]'
-    zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-    zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
-    zstyle ':vcs_info:bzr:*' use-simple true
+# git status symbol
+VCS_SIGIL="∇ "
+VCS_STAGED_SIGIL="● "
+VCS_UNSTAGED_SIGIL="✚ "
+VCS_UNTRACKED_SIGIL="… "
+VCS_STASHED_SIGIL="⚑"
+VCS_CLEAN_SIGIL="✔ "
+VCS_NOT_PUSHED_SIGIL="*"
+VCS_CONFLICTS_SIGIL="✖ "
 
-    autoload -Uz is-at-least
-    if is-at-least 4.3.10; then
-        # zshが4.3.10以上の場合
-        zstyle ':vcs_info:git:*' check-for-changes true
-        zstyle ':vcs_info:git:*' stagedstr "+"
-        zstyle ':vcs_info:git:*' unstagedstr "-"
-        zstyle ':vcs_info:git:*' formats '%s,%u%c,%b'
-        zstyle ':vcs_info:git:*' actionformats '%s,%u%c,%b|%a'
-    fi
+# color settings
+VCS_NAME_COLOR="%{%B%F{yellow}%}"
+VCS_BRANCH_COLOR="%{%B%F{red}%}"
+VCS_ACTION_COLOR="%{%B%F{red}%}"
+VCS_STAGED_COLOR="%{%F{blue}%}"
+VCS_UNSTAGED_COLOR="%{%F{yellow}%}"
+VCS_UNTRACKED_COLOR=
+VCS_STASHED_COLOR="%{%F{cyan}%}"
+VCS_CLEAN_COLOR="%{%B%F{green}%}"
+VCS_NOT_PUSHED_COLOR=
+VCS_CONFLICTS_COLOR="%{%F{red}%}"
 
-    function _update_vcs_info_msg() {
+
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' enable git svn hg bzr
+
+# formatsのプレースホルダの最大値
+zstyle ':vcs_info:*' max-exports 7
+
+# hg で check-for-changes を有効にするために必要
+zstyle ':vcs_info:hg:*' get-revision true
+zstyle ':vcs_info:hg:*' use-simple true
+
+#
+# フォーマットに指定できる変数
+#   %s : The VCS in use (git, hg, svn, etc.).
+#   %b : Information about the current branch.
+#   %a : An identifier that describes the action. Only makes sense in actionformats.
+#   %r : The repository name. If %R is /foo/bar/repoXY, %r is repoXY.
+#   %c : The string from the stagedstr style if there are staged changes in the repository.
+#   %u : The string from the unstagedstr style if there are unstaged changes in the repository.
+#
+
+# 左から順番に、vcs_info_msg_{n}_ という変数に格納される
+zstyle ':vcs_info:*' formats '(%s)-[%b]'
+zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:%r'
+
+autoload -Uz is-at-least
+if is-at-least 4.3.10; then
+    # zshが4.3.10以上の場合
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git*:*' stagedstr "${VCS_STAGED_COLOR}${VCS_STAGED_SIGIL}"
+    zstyle ':vcs_info:git*:*' unstagedstr "${VCS_UNSTAGED_COLOR}${VCS_UNSTAGED_SIGIL}"
+    zstyle ':vcs_info:git:*' formats '%s' '${VCS_BRANCH_COLOR}%b${RESET}' '%c' '%u'
+    zstyle ':vcs_info:git:*' actionformats '${VCS_NAME_COLOR}%s${RESET}' '${VCS_BRANCH_COLOR}%b%{RESET}:${VCS_ACTION_COLOR}%a${RESET}' '%c' '%u'
+fi
+
+
+function _update_vcs_info_msg() {
+    # カレントがgitレポジトリ下かどうか判定
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
         # zsh-git-prompt
         if type git_super_status >/dev/null 2>&1; then
             RPROMPT="${RESET}$(git_super_status)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
             return 0
         fi
+    fi
 
-        # zsh-git-promptが使用できない場合
-        psvar=()
-        LANG=en_US.UTF-8 vcs_info
-        local _vcs_name _status  _branch_action
-        if [ -n "$vcs_info_msg_0_" ]; then
-            _vcs_name=$(echo "$vcs_info_msg_0_" | cut -d , -f 1)
-            _status=$(_git_untracked_or_not_pushed $(echo "$vcs_info_msg_0_" | cut -d , -f 2))
-            _branch_action=$(echo "$vcs_info_msg_0_" | cut -d , -f 3)
-            psvar[1]="(${_vcs_name})-[${_status}${_branch_action}]"
+    # zsh-git-promptが使用できない場合
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+
+    local _status
+    if [ "$vcs_info_msg_0_" = "git" ]; then
+        _status="(${VCS_NAME_COLOR}$vcs_info_msg_0_${RESET})-[$(_check_git_status)${RESET}]"
+    else
+        _status="${VCS_NAME_COLOR}$vcs_info_msg_0_${RESET}"
+    fi
+
+    # 右側プロンプト
+    RPROMPT="${RESET}${_status}${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
+}
+add-zsh-hook precmd _update_vcs_info_msg
+
+
+function _check_git_status() {
+    local branch="$vcs_info_msg_1_"
+    local staged="$vcs_info_msg_2_"
+    local unstaged="$vcs_info_msg_3_"
+    local untracked="${VCS_UNTRACKED_COLOR}${VCS_UNTRACKED_SIGIL}"
+    local stashed="${VCS_STASHED_COLOR}${VCS_STASHED_SIGIL}"
+    local conflicts="${VCS_CONFLICTS_COLOR}${VCS_CONFLICTS_SIGIL}"
+    local not_pushed="${VCS_NOT_PUSHED_COLOR}${VCS_NOT_PUSHED_SIGIL}${RESET}"
+    local clean="${VCS_CLEAN_COLOR}${VCS_CLEAN_SIGIL}${RESET}"
+
+    local conflicts_count=0
+
+    # staged
+    local staged_files="$(git diff --staged --name-status)"
+    if [ -n "$staged_files" ];then
+        conflicts_count=$(echo "$staged_files" | sed '/^[^U]/d' | wc -l | sed 's/ //g')
+        staged_count=$(echo "$staged_files" | wc -l | sed 's/ //g')
+        staged_count=$(($staged_count - $conflicts_count))
+
+        if [ -z "$staged" ];then
+            # stagedな新規ファイルがvcs_infoで検出されない
+            # (only Initial commit)
+            staged="${VCS_STAGED_COLOR}${VCS_STAGED_SIGIL}"
         fi
-        # 右側プロンプト
-        RPROMPT="${RESET}%1(v|${RED}%1v|)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
-    }
-    add-zsh-hook precmd _update_vcs_info_msg
+        staged="$staged$staged_count${RESET}"
+    fi
 
-    #
-    # Untrackedなファイルが存在するか未PUSHなら記号を出力
-    #   Untracked: ?
-    #   未PUSH: *
-    #
-    function _git_untracked_or_not_pushed() {
-        local git_status head remotes stagedstr
-        local  staged_unstaged=$1 not_pushed="*" untracked="?"
-        # カレントがgitレポジトリ下かどうか判定
-        if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
-            # statusをシンプル表示で取得
-            git_status=$(git status -s 2> /dev/null)
-            # git status -s の先頭が??で始まる行がない場合、Untrackedなファイルは存在しない
-            if ! echo "$git_status" | grep -q "^??"; then
-                untracked=""
-            fi
+    # conflicts
+    if [ "$conflicts_count" -gt 0 ]; then
+        conflicts="$conflicts$conflicts_count${RESET}"
+    else
+        conflicts=""
+    fi
 
-            # stagedstrを取得
-            zstyle -s ":vcs_info:git:*" stagedstr stagedstr
-            # stagedな新規ファイルがvcs_infoで検出されない(only Initial commit)
-            #  git status -s で先頭がAで始まる行がstagedな新規ファイル
-            if [ -n "$stagedstr" ] \
-                && ! printf "$staged_unstaged" | fgrep -q "$stagedstr" \
-                && echo "$git_status" | grep -q "^A"; then
-                staged_unstaged=${staged_unstaged}${stagedstr}
-            fi
+    # unstaged
+    local unstaged_files="$(git diff --name-status)"
+    if [ -n "$unstaged_files" ]; then
+        unstaged_count=$(echo "$unstaged_files" | sed '/^U/d' | wc -l | sed 's/ //g')
+        unstaged="$unstaged$unstaged_count${RESET}"
+    fi
 
-            # HEADのハッシュ値を取得
-            #  --verify 有効なオブジェクト名として使用できるかを検証
-            #  --quiet  --verifyと共に使用し、無効なオブジェクトが指定された場合でもエラーメッセージを出さない
-            #           そのかわり終了ステータスを0以外にする
-            head=$(git rev-parse --verify -q HEAD 2> /dev/null)
-            if [ $? -eq 0 ]; then
-                # HEADのハッシュ値取得に成功
-                # リモートのハッシュ値を配列で取得
-                remotes=($(git rev-parse --remotes 2> /dev/null))
-                if [ "$remotes[*]" ]; then
-                    # リモートのハッシュ値取得に成功(リモートが存在する)
-                    for x in ${remotes[@]}; do
-                        # リモートとHEADのハッシュ値が一致するか判定
-                        if [ "$head" = "$x" ]; then
-                            # 一致した場合はPUSH済み
-                            not_pushed=""
-                            break
-                        fi
-                    done
-                else
-                    # リモートが存在しない場合
+    # untracked
+    untracked_files=$(git ls-files --others --exclude-standard)
+    if [ -n "$untracked_files" ]; then
+        untracked_count=$(echo "$untracked_files" | wc -l | sed 's/ //g')
+        untracked="$untracked$untracked_count${RESET}"
+    else
+        untracked=""
+    fi
+
+    # HEADのハッシュ値を取得
+    #  --verify 有効なオブジェクト名として使用できるかを検証
+    #  --quiet  --verifyと共に使用し、無効なオブジェクトが指定された場合でもエラーメッセージを出さない
+    #           そのかわり終了ステータスを0以外にする
+    local head="$(git rev-parse --verify -q HEAD 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        # HEADのハッシュ値取得に成功
+        # リモートのハッシュ値を配列で取得
+        remotes=($(git rev-parse --remotes 2> /dev/null))
+        if [ "$remotes[*]" ]; then
+            # リモートのハッシュ値取得に成功(リモートが存在する)
+            for x in ${remotes[@]}; do
+                # リモートとHEADのハッシュ値が一致するか判定
+                if [ "$head" = "$x" ]; then
+                    # 一致した場合はPUSH済み
                     not_pushed=""
+                    break
                 fi
-            else
-                # HEADが存在しない場合(init直後など)
-                not_pushed=""
-            fi
-
-            # Untrackedなファイルが存在するか未PUSHなら記号を出力
-            if [ -n "$staged_unstaged" -o -n "$untracked" -o -n "$not_pushed" ]; then
-                printf "${staged_unstaged}${untracked}${not_pushed}"
-            fi
+            done
+        else
+            # リモートが存在しない場合
+            not_pushed=""
         fi
-        return 0
-    }
-    ;;
-esac
+    else
+        # HEADが存在しない場合(init直後など)
+        not_pushed=""
+    fi
+
+    # stash
+    local stash_list="$(git stash list)"
+    if [ -n "$stash_list" ]; then
+        stashed_count=$(echo "$stash_list" | wc -l | sed 's/ //g')
+        stashed="$stashed$stashed_count${RESET}"
+    else
+        stashed=""
+    fi
+
+    local git_status="${not_pushed}${branch}|${staged}${unstaged}${untracked}${conflicts}${stashed}"
+
+    if [ -z "$staged" -a -z "$unstaged" -a -z "$untracked" -a -z "$conflicts" ]; then
+        git_status="${git_status}${clean}"
+    fi
+
+    echo "$git_status"
+}
 
 # vim: ft=zsh
