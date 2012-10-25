@@ -294,7 +294,6 @@ alias rsync='rsync -avzu'
 #  -D -RR 既存のセッションを強制デタッチして再接続(なければ新規作成)
 #         再接続するならとりあえずこれ使っとけばOK
 #
-alias s='screen -U'
 alias sc='screen -U'
 alias sl='screen -ls'
 alias ssm='screen -U -S main'
