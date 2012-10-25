@@ -165,6 +165,9 @@ zle -N zle-keymap-select
 #  http://liosk.blog103.fc2.com/blog-entry-209.html
 #
 
+# zsh-git-promt の有効無効
+ZSH_GIT_PROMT_ENABLE='true'
+
 # git status symbol
 VCS_SIGIL="∇ "
 VCS_STAGED_SIGIL="● "
@@ -227,15 +230,14 @@ fi
 
 
 function _update_vcs_info_msg() {
-    # zsh-git-prompt 使用時はコメントを外す
     # カレントがgitレポジトリ下かどうか判定
-    #if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
-        ## zsh-git-prompt
-        #if type git_super_status >/dev/null 2>&1; then
-            #RPROMPT="${RESET}$(git_super_status)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
-            #return 0
-        #fi
-    #fi
+    # zsh-git-prompt
+    if [ "$ZSH_GIT_PROMT_ENABLE" = 'true' ] \
+        && type git_super_status >/dev/null 2>&1 \
+        && [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
+            RPROMPT="${RESET}$(git_super_status)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
+            return 0
+    fi
 
     # zsh-git-promptが使用できない場合
     psvar=()

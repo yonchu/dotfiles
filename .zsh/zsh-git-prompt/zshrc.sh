@@ -40,10 +40,10 @@ git_super_status() {
         return 0
     fi
 
-    CMD_GITSTATUS="${__ZSH_GIT_PROMPT_DIR}/gitstatus.py"
+    CMD_GITSTATUS="${__ZSH_GIT_PROMPT_DIR}/gitstatus-fast.py"
 
     if [ ! -f "${CMD_GITSTATUS}" ]; then
-        echo '[ zsh-git-prompt - error: gitstatus.py is not found ]'
+        echo '[ zsh-git-prompt - error: gitstatus-fast.py is not found ]'
         return 0
     fi
 
