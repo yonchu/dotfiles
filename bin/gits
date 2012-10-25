@@ -22,6 +22,12 @@ git status -sb
     if [ -n "$sub_state" ]; then
         echo -e '## \033[0;34msubmodule\033[0;39m'
         echo "$sub_state"
+        echo "===== git remote show orign (simple) ====="
+
+        cmd="git remote show origin| tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
+        status=$(git submodule foreach "$cmd")
+
+        echo "$status" | sed '/^Entering/d'
     fi
 )
 echo "===== git remote -v ====="
