@@ -8,6 +8,8 @@
 #    $ type [-a] <コマンド名>
 #   aliasを無効にして実行
 #    $ \cmd
+#   alias/シェル関数を無視して実行
+#    $ command cmd
 #   全てのシェル変数を表示
 #    $ declare
 #   関数の名前/定義を表示

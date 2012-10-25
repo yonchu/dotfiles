@@ -531,34 +531,34 @@ esac
 
 # cd後にls
 chpwd() {
-    local CMD_LS="ls -a -v -F"
+    local CMD_LS='ls -a -v -F'
     case "${OSTYPE}" in
         freebsd*|darwin*)
             # -F ファイルタイプを示す文字を表示
             if type gls > /dev/null 2>&1; then
                 # -b 非印字文字を強制表示
                 # -v natural sort of (version) numbers within text
-                CMD_LS="gls -abvF --color=auto"
+                CMD_LS='gls -abvF --color=auto'
             else
                 # -v 非印字文字を強制表示
                 # -G カラー表示
-                CMD_LS="ls -avFG"
+                CMD_LS='ls -avFG'
             fi
             ;;
         linux*)
             # -b 非印字文字を強制表示
             # -v natural sort of (version) numbers within text
-            CMD_LS="ls -abvF --color=auto"
+            CMD_LS='ls -abvF --color=auto'
             ;;
     esac
     # ファイル数が多い場合は表示するファイルを制限
-    if [ 150 -le $(\ls -A |wc -l) ]; then
-        eval "$CMD_LS" -C | head -n 5
+    if [ 150 -le $(command ls -A |wc -l) ]; then
+        command $CMD_LS -C | head -n 5
         echo '...'
-        eval "$CMD_LS" -C | tail -n 5
-        echo "$(\ls -A | wc -l | tr -d ' ') files exist"
+        command $CMD_LS -C | tail -n 5
+        echo "$(command ls -A | wc -l | tr -d ' ') files exist"
     else
-        eval "$CMD_LS"
+        command $CMD_LS
     fi
     # cdd
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
