@@ -622,6 +622,16 @@ fi
 
 
 #
+# pluginの読み込み
+#
+if [ -d ~/.zsh/plugins ]; then
+    for plugin in ~/.zsh/plugins/*.zsh; do
+        echo "Loading plugin: $plugin"
+        source "$plugin"
+    done
+fi
+
+#
 # alias設定(共通)
 #
 if [ -f ~/dotfiles/.alias ]; then
