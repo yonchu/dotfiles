@@ -109,11 +109,14 @@
 
   # log関連
   edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
-  wc  = whatchanged         # logに変更されたファイルも一緒に出す
-  ls  = log --stat          # logに変更されたファイルも一緒に出す
-  lp  = log -p              # diffも一緒に出す
-  lr  = log origin          # originのlog
+  wc  = whatchanged                    # logに変更されたファイルも一緒に出す
+  ls  = log --stat --max-count=5       # logに変更されたファイルも一緒に出す
+  lp  = log -p --max-count=5           # diffも一緒に出す
+  lr  = log origin  --max-count=5      # originのlog
+  lg  = git log --graph --max-count=5  # グラフ表示
+
   ranking = shortlog -s -n --no-merges
+
   # onelineログ
   oneline = log --pretty=oneline
   lo  = log --oneline --decorate --graph
