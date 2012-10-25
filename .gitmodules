@@ -10,3 +10,6 @@
 [submodule ".zsh/z"]
 	path = .zsh/z
 	url = git://github.com/rupa/z.git
+[submodule ".tmux/tmux-powerline-wrapper"]
+	path = .tmux/tmux-powerline-wrapper
+	url = https://github.com/yonchu/tmux-powerline-wrapper.git
