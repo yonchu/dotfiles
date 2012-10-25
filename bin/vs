@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+#  sudo.vim を使用して vim で開く
+#
+
+args=()
+
+for file in "$@"; do
+    args[$((1 + ${#args[@]}))]="sudo:$file"
+done
+
+command vim "${args[@]}"
