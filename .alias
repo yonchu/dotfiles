@@ -382,16 +382,20 @@ alias tree='tree -N'
 
 
 #
-# jman
-#  日本語man
+# man
+#  jman 日本語(FreeBSD系)
+#    http://www.fan.gr.jp/~sakai/softwares/unix#wordhighlight_id18
+#  lman 日本語(JM Project - Linux/GNU系)
+#    http://linuxjm.sourceforge.jp/
+#  wman ~/work/usr/local 配下にインストールしたコマンドのman
 #
 if type jman >/dev/null 2>&1; then
-    alias man='env LANG=ja_JP.UTF-8 jman'
-    alias eman='/usr/bin/man'
+    alias jman='env LANG=ja_JP.UTF-8 jman'
+    alias lman='env LANG=ja_JP.UTF-8 jman -M ~/work/usr/local/share/man'
 fi
 
 # ~/work/usr/local配下のコマンドのman
-alias wman='/usr/bin/man -M ~/work/usr/local/share/man'
+alias wman='env LANG=C command man -M ~/work/usr/local/share/man'
 
 
 #

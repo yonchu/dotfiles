@@ -320,6 +320,35 @@ DLしたファイルを実行
 /usr/local/jman 以下に必要なファイルがインストールされ、 /usr/local/bin にjmanコマンドがインストールされる。
 
 
+## 日本語man(JM Project - Linxu/GNU系)をインストール
+
+下記サイトより全体アーカイブをDL
+
+[JM Project (Japanese)](http://linuxjm.sourceforge.jp/)
+
+    $ make config
+    perl -w script/configure.perl
+    [INSTALLATION INFORMATION]
+    (just Return if you accept default)
+    Install directory   [/usr/share/man/ja_JP.UTF-8] ?: /Users/<username>/work/usr/local/share/man/ja_JP.UTF-8
+    compress manual with..
+      0: none
+      1: gzip
+      2: bzip2
+      3: compress
+    select [0..3] : 0
+    uname of page owner [root] ?: <username>
+    group of page owner [root] ?: staff
+
+       Directory:    /Users/<username>/work/usr/local/share/man/ja_JP.UTF-8
+       Compression:  none
+       Page uid/gid: <username>/staff
+
+    All OK? (Yes, [C]ontinue / No, [R]eselect) : c
+
+    以下全て Enter or c -> Enter
+
+
 ## MacAPPをインストール
 
  - スティッキーズの内容復元
