@@ -203,6 +203,7 @@ call vundle#rc()
   "Bundle 'Lucius'
   "Bundle 'Zenburn'
   "Bundle 'nanotech/jellybeans.vim'
+   Bundle 'molokai'
 " }}}
 
 

@@ -120,60 +120,45 @@ nnoremap <Space>ow :<C-u>setlocal wrap! \| setlocal wrap?<CR>
 syntax enable
 
 " ターミナルタイプによるカラー設定
-if &term =~ "xterm-256color" || "screen-256color"
- " 256色
- set t_Co=256
- set t_Sf=^[[3%dm
- set t_Sb=^[[4%dm
- "colorscheme desert256            " color scheme
+if &term =~ "xterm-256color" || &term=~"screen-256color"
+  " 256色
+  set t_Co=256
+  set t_Sf=^[[3%dm
+  set t_Sb=^[[4%dm
+
+  " カラー設定読み込み
+  "source ~/.vim/colors/my-molokai.vim
+  "source ~/.vim/colors/my-molokai2.vim
+  source ~/.vim/colors/my-solarized.vim
+
 elseif &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
- set t_Co=16
- set t_Sf=^[[3%dm
- set t_Sb=^[[4%dm
- "colorscheme darkblue             " color scheme
+  set t_Co=16
+  set t_Sf=^[[3%dm
+  set t_Sb=^[[4%dm
+  " カラー設定読み込み
+  source ~/.vim/colors/my-darkblue.vim
 elseif &term =~ "xterm-color"
- set t_Co=8
- set t_Sf=^[[3%dm
- set t_Sb=^[[4%dm
- " colorscheme darkblue             " color scheme
+  set t_Co=8
+  set t_Sf=^[[3%dm
+  set t_Sb=^[[4%dm
+  " カラー設定読み込み
+  source ~/.vim/colors/my-darkblue.vim
 endif
 
 
-" カラースキーマ (他のカラー設定より先に設定)
 " user peculiar setting          " TeraTerm時有効設定
 "set term=builtin_linux          " TeraTerm時有効設定
 "set ttytype=builtin_linux       " TeraTerm時有効設定
-"set background=dark             " 背景色の傾向(カラースキーマがそれに併せて色の明暗を変えてくれる)
-colorscheme darkblue             " color scheme
+
 
 " ---------- 他のカラー設定をここより前に書かない ----------
-
-"補完候補ポップアップメニューのカラーを設定
-highlight Pmenu ctermbg=gray ctermfg=black
-highlight PmenuSel ctermbg=red ctermfg=white
-highlight PmenuSbar ctermbg=0 ctermfg=9
 
 " 全角スペースの表示：ハイライト
 highlight ZenkakuSpace cterm=underline ctermfg=blue ctermbg=gray gui=underline guifg=blue guibg=gray
 match ZenkakuSpace /　/
 
-" コメント文の色変更
-highlight Comment ctermfg=DarkCyan guifg=DarkCyan
-
-" 行番号の色変更
-highlight LineNr cterm=underline ctermfg=2 gui=underline
-
 " カラーカラムを表示する列
 set colorcolumn=80
-" colorcolumnの色指定
-highlight ColorColumn guibg=#444444 ctermbg=233
-
-" 行番号左のサイン表示列の色
-highlight SignColumn ctermfg=Cyan ctermbg=Black guifg=Cyan guibg=Black
-
-" Foldingの色変更
-"highlight Folded ctermfg=lightmagenta guifg=lightred
-"highlight FoldColumn ctermfg=red guifg=red
 
 
 "### カーソル行ハイライト
@@ -183,17 +168,6 @@ augroup cch
   autocmd! cch
   autocmd WinLeave * set nocursorline
   autocmd WinEnter,BufRead * set cursorline
-augroup END
-
-" カーソル行の色
-highlight clear CursorLine
-highlight CursorLine gui=underline
-highlight CursorLine ctermbg=234
-" NomalModeとInsertModeでカーソル行の色を変更
-augroup InsertHook
-  autocmd!
-  autocmd InsertEnter * highlight CursorLine gui=underline ctermbg=18
-  autocmd InsertLeave * highlight CursorLine gui=underline ctermbg=234
 augroup END
 
 " }}}
