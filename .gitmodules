@@ -13,3 +13,6 @@
 [submodule ".tmux/tmux-powerline-wrapper"]
 	path = .tmux/tmux-powerline-wrapper
 	url = https://github.com/yonchu/tmux-powerline-wrapper.git
+[submodule ".zsh/zsh-vcs-prompt"]
+	path = .zsh/zsh-vcs-prompt
+	url = https://github.com/yonchu/zsh-vcs-prompt.git

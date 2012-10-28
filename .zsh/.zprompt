@@ -1,18 +1,59 @@
-### zshプロンプト設定
+###############################################################################
+#
+#  Set prompt for zsh
+#
+#  PROMPT  : 通常のプロンプト
+#  PROMPT2 : forやwhile文使用時の複数行入力プロンプト
+#  RPROMPT : 右側に表示されるプロンプト, 入力が被ると自動的に消える
+#  SPROMPT : 入力ミス時のコマンド訂正プロンプト
+#
+#  コマンド訂正プロンプト
+#   y: 訂正コマンドを実行
+#   n: 入力したコマンドが実行
+#   a: 実行を中断 abort
+#   e: コマンドライン編集 edit
+#
+#  プロンプト文字列
+#    %% : %文字
+#    %# : #文字(一般ユーザなら %，スーパユーザなら #)
+#    %l : tty名
+#    %M : ホスト名（全部）
+#    %m : ホスト名（最初のドットまで）
+#    %n : ユーザ名
+#    %? : 直前のコマンドの終了値($?)
+#    %/ : カレントディレクトリ(フルパス)
+#    %~ : 同上,ただし~記号などで可能な限り短縮する
+#    %1~ or %1/ : カレントディレクトリ(ベースネーム)
+#    %h or %! : Current history event number.
+#    %l : The line (tty) the user is logged in on
+#    %B : 太字開始
+#    %b : 太字解除
+#    %(1j,(%j),) : 実行中のジョブ数が1つ以上ある場合ジョブ数を表示
+#
+#    %{%(?.$fg[white].$fg[red])%}
+#     直前の終了ステータスに応じてプロンプトの色が変化(0:白, 0以外:赤)
+#     http://blog.8-p.info/2009/01/red-prompt
+#
+#    %D{%Y/%m/%d %H:%M:%S} : 時間表示(年/月/日 時:分:秒)
+#
+#    %(5~,%-2~/.../%2~,%~)%<space> : 長いディレクトリ名を省略表示
+#
+#    $WINDOW : screen 実行時のスクリーン番号
+#
+###############################################################################
+
+## コマンド実行後右プロンプトを消す
+#setopt transient_rprompt
+
+# $WINDOWなどの環境変数をプロンプトに設定するために使用
+setopt prompt_subst
 
 # カラーの設定を$fg[red]のように人がわかるような書き方ができる
 autoload -Uz colors
 colors
 
-# $WINDOWなどの環境変数をプロンプトに設定するために使用
-setopt prompt_subst
-
-## コマンド実行後右プロンプトを消す
-#setopt transient_rprompt
-
-
 #
-# Color定義(あとで変更しやすいように)
+# Color Define
 #
 DEFAULT=$'%{\e[0;0m%}'
 RESET="%{${reset_color}%}"
@@ -31,51 +72,8 @@ BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
 
 
-## Set prompt for zsh
-#
-# PROMPT  : 通常のプロンプト
-# PROMPT2 : forやwhile文使用時の複数行入力プロンプト
-# RPROMPT : 右側に表示されるプロンプト, 入力が被ると自動的に消える
-# SPROMPT : 入力ミス時のコマンド訂正プロンプト
-#
-# コマンド訂正プロンプト
-#  y: 訂正コマンドを実行
-#  n: 入力したコマンドが実行
-#  a: 実行を中断 abort
-#  e: コマンドライン編集 edit
-#
-# プロンプト文字列
-#   %% : %文字
-#   %# : #文字(一般ユーザなら %，スーパユーザなら #)
-#   %l : tty名
-#   %M : ホスト名（全部）
-#   %m : ホスト名（最初のドットまで）
-#   %n : ユーザ名
-#   %? : 直前のコマンドの終了値($?)
-#   %/ : カレントディレクトリ(フルパス)
-#   %~ : 同上,ただし~記号などで可能な限り短縮する
-#   %1~ or %1/ : カレントディレクトリ(ベースネーム)
-#   %h or %! : Current history event number.
-#   %l : The line (tty) the user is logged in on
-#   %B : 太字開始
-#   %b : 太字解除
-#   %(1j,(%j),) : 実行中のジョブ数が1つ以上ある場合ジョブ数を表示
-#
-#   %{%(?.$fg[white].$fg[red])%}
-#    直前の終了ステータスに応じてプロンプトの色が変化(0:白, 0以外:赤)
-#    http://blog.8-p.info/2009/01/red-prompt
-#
-#   %D{%Y/%m/%d %H:%M:%S} : 時間表示(年/月/日 時:分:秒)
-#
-#   %(5~,%-2~/.../%2~,%~)%<space> : 長いディレクトリ名を省略表示
-#
-#   $WINDOW : screen 実行時のスクリーン番号
-#
-
-
-
 ## rootユーザの場合(全て赤文字)
-#   su - or sudo -s を行った場合は環境変数が引き継がれない
+#  Note: su - or sudo -s を行った場合は環境変数が引き継がれない
 
 if [ ${UID} -eq 0 ]; then
     PROMPT="${RESET}${BOLD_RED}[%n@%m:%~]#$RESET} "
@@ -83,6 +81,7 @@ if [ ${UID} -eq 0 ]; then
     SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
     return 0
 fi
+
 
 ## 一般ユーザの場合
 #
@@ -95,9 +94,9 @@ if [ -n "${SSH_CONNECTION}" ]; then
 fi
 
 
-## For zsh-git-prompt
-if [ -f ~/.zsh/zsh-git-prompt/zshrc.sh ]; then
-    source ~/.zsh/zsh-git-prompt/zshrc.sh
+## For zsh-vcs-prompt (vcs_super_info)
+if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
+    source ~/.zsh/zsh-vcs-prompt/zshrc.sh
 fi
 
 
@@ -142,195 +141,11 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 
-#
-# VCS_INFO
-#  http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#SEC273
-#  https://github.com/olivierverdier/zsh-git-prompt
-#  http://d.hatena.ne.jp/mollifier/20100906/p1
-#  http://d.hatena.ne.jp/yuroyoro/20110219/1298089409
-#  http://d.hatena.ne.jp/pasela/20110216/git_not_pushed
-#  http://liosk.blog103.fc2.com/blog-entry-209.html
-#
-
-# zsh-git-promt の有効無効
-ZSH_GIT_PROMT_ENABLE='true'
-
-# git status symbol
-VCS_SIGIL="∇ "
-VCS_STAGED_SIGIL="● "
-VCS_UNSTAGED_SIGIL="✚ "
-VCS_UNTRACKED_SIGIL="… "
-VCS_CONFLICTS_SIGIL="✖ "
-VCS_STASHED_SIGIL="⚑"
-VCS_CLEAN_SIGIL="✔ "
-VCS_AHEAD_SIGIL="↑ "
-VCS_BEHIND_SIGIL="↓ "
-
-# color settings
-VCS_NAME_COLOR="%{%B%F{yellow}%}"
-VCS_BRANCH_COLOR="%{%B%F{red}%}"
-VCS_ACTION_COLOR="%{%B%F{red}%}"
-VCS_STAGED_COLOR="%{%F{blue}%}"
-VCS_UNSTAGED_COLOR="%{%F{yellow}%}"
-VCS_UNTRACKED_COLOR=
-VCS_STASHED_COLOR="%{%F{cyan}%}"
-VCS_CLEAN_COLOR="%{%B%F{green}%}"
-VCS_AHEAD_COLOR=
-VCS_BEHIND_COLOR=
-
-
-autoload -Uz vcs_info
-
-zstyle ':vcs_info:*' enable git svn hg bzr
-
-# formatsのプレースホルダの最大値
-zstyle ':vcs_info:*' max-exports 7
-
-# hg で check-for-changes を有効にするために必要
-zstyle ':vcs_info:hg:*' get-revision true
-zstyle ':vcs_info:hg:*' use-simple true
-
-#
-# フォーマットに指定できる変数
-#   %s : The VCS in use (git, hg, svn, etc.).
-#   %b : Information about the current branch.
-#   %a : An identifier that describes the action. Only makes sense in actionformats.
-#   %r : The repository name. If %R is /foo/bar/repoXY, %r is repoXY.
-#   %c : The string from the stagedstr style if there are staged changes in the repository.
-#   %u : The string from the unstagedstr style if there are unstaged changes in the repository.
-#
-
-# 左から順番に、vcs_info_msg_{n}_ という変数に格納される
-zstyle ':vcs_info:*' formats '(%s)-[%b]'
-zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
-zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:%r'
-
-autoload -Uz is-at-least
-if is-at-least 4.3.10; then
-    # zshが4.3.10以上の場合
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:git*:*' stagedstr "${VCS_STAGED_COLOR}${VCS_STAGED_SIGIL}"
-    zstyle ':vcs_info:git*:*' unstagedstr "${VCS_UNSTAGED_COLOR}${VCS_UNSTAGED_SIGIL}"
-    zstyle ':vcs_info:git:*' formats '%s' '${VCS_BRANCH_COLOR}%b${RESET}' '%c' '%u'
-    zstyle ':vcs_info:git:*' actionformats '${VCS_NAME_COLOR}%s${RESET}' '${VCS_BRANCH_COLOR}%b%{RESET}:${VCS_ACTION_COLOR}%a${RESET}' '%c' '%u'
-fi
-
-
-function _update_vcs_info_msg() {
-    # カレントがgitレポジトリ下かどうか判定
-    # zsh-git-prompt
-    if [ "$ZSH_GIT_PROMT_ENABLE" = 'true' ] \
-        && type git_super_status >/dev/null 2>&1 \
-        && [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
-            RPROMPT="${RESET}$(git_super_status)${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
-            return 0
-    fi
-
-    # zsh-git-promptが使用できない場合
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-
-    local _status
-    if [ "$vcs_info_msg_0_" = "git" ]; then
-        _status="(${VCS_NAME_COLOR}$vcs_info_msg_0_${RESET})-[$(_check_git_status)${RESET}]"
-    else
-        _status="${VCS_NAME_COLOR}$vcs_info_msg_0_${RESET}"
-    fi
-
-    # 右側プロンプト
-    RPROMPT="${RESET}${_status}${RESET}${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
+# Set RPROMPT to update environment variable and vsc status.
+function _update_rprompt() {
+    RPROMPT="$(vcs_super_info)${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
 }
-add-zsh-hook precmd _update_vcs_info_msg
+add-zsh-hook precmd _update_rprompt
 
-
-function _check_git_status() {
-    local branch="$vcs_info_msg_1_"
-    local staged="$vcs_info_msg_2_"
-    local unstaged="$vcs_info_msg_3_"
-    local untracked="${VCS_UNTRACKED_COLOR}${VCS_UNTRACKED_SIGIL}"
-    local stashed="${VCS_STASHED_COLOR}${VCS_STASHED_SIGIL}"
-    local conflicts="${VCS_CONFLICTS_COLOR}${VCS_CONFLICTS_SIGIL}"
-    local ahead="${VCS_AHEAD_COLOR}${VCS_AHEAD_SIGIL}"
-    local behind="${VCS_AHEAD_COLOR}${VCS_BEHIND_SIGIL}"
-    local clean="${VCS_CLEAN_COLOR}${VCS_CLEAN_SIGIL}${RESET}"
-
-    local conflicts_count=0
-
-    # staged
-    local staged_files="$(git diff --staged --name-status)"
-    if [ -n "$staged_files" ];then
-        conflicts_count=$(echo "$staged_files" | sed '/^[^U]/d' | wc -l | sed 's/ //g')
-        staged_count=$(echo "$staged_files" | wc -l | sed 's/ //g')
-        staged_count=$(($staged_count - $conflicts_count))
-
-        if [ -z "$staged" ];then
-            # stagedな新規ファイルがvcs_infoで検出されない
-            # (only Initial commit)
-            staged="${VCS_STAGED_COLOR}${VCS_STAGED_SIGIL}"
-        fi
-        staged="$staged$staged_count${RESET}"
-    fi
-
-    # conflicts
-    if [ "$conflicts_count" -gt 0 ]; then
-        conflicts="$conflicts$conflicts_count${RESET}"
-    else
-        conflicts=""
-    fi
-
-    # unstaged
-    local unstaged_files="$(git diff --name-status)"
-    if [ -n "$unstaged_files" ]; then
-        unstaged_count=$(echo "$unstaged_files" | sed '/^U/d' | wc -l | sed 's/ //g')
-        unstaged="$unstaged$unstaged_count${RESET}"
-    fi
-
-    # untracked
-    untracked_files=$(git ls-files --others --exclude-standard)
-    if [ -n "$untracked_files" ]; then
-        untracked_count=$(echo "$untracked_files" | wc -l | sed 's/ //g')
-        untracked="$untracked$untracked_count${RESET}"
-    else
-        untracked=""
-    fi
-
-    # not pushed
-    local remote="$(git status -sb | command grep -PZo '(?<= \[).*(?=])')"
-    if [ -n "$remote" ];then
-        local ahead_count="$(echo "$remote" | command grep -PZo '(?<=ahead )\d*')"
-        if [ -n "$ahead_count" ];then
-            ahead="$ahead$ahead_count${RESET}"
-        else
-            ahead=""
-        fi
-        local behind_count="$(echo "$remote" | command grep -PZo '(?<=behind )\d*')"
-        if [ -n "$behind_count" ];then
-            behind="$behind$behind_count${RESET}"
-        else
-            behind=""
-        fi
-    else
-        ahead=""
-        behind=""
-    fi
-
-    # stash
-    local stash_list="$(git stash list)"
-    if [ -n "$stash_list" ]; then
-        stashed_count=$(echo "$stash_list" | wc -l | sed 's/ //g')
-        stashed="$stashed$stashed_count${RESET}"
-    else
-        stashed=""
-    fi
-
-    # result
-    local git_status="${branch}${ahead}${behind}|${staged}${unstaged}${untracked}${conflicts}${stashed}"
-
-    if [ -z "$staged" -a -z "$unstaged" -a -z "$untracked" -a -z "$conflicts" ]; then
-        git_status="${git_status}${clean}"
-    fi
-
-    echo "$git_status"
-}
 
 # vim: ft=zsh
