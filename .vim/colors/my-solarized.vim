@@ -9,6 +9,8 @@ let g:solarized_termtrans=1
 set background=dark              " dark or light
 colorscheme solarized            " カラースキーマ
 
+highlight PmenuSel  ctermfg=1
+
 " colorcolumnの色指定
 highlight ColorColumn ctermbg=0
 
