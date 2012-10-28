@@ -94,22 +94,6 @@ if [ -n "${SSH_CONNECTION}" ]; then
     export HOST_IP=$(echo ${SSH_CONNECTION} | awk -F\  '{printf "SSH("$1")"}')
 fi
 
-#
-# tmuxのウィンドウ番号とペイン番号を環境変数に設定
-#
-_set_tmux_window() {
-    if [ "$TMUX" ]; then
-        #export TMUX_WINDOW=$(tmux list-windows 2> /dev/null | awk -F: '/\(active\)$/ \
-        #{printf $1}')"-"$(tmux list-panes 2> /dev/null | awk -F: '/\(active\)$/ {printf $1}')
-
-        # tmux display
-        #   -p 標準出力へ
-        #   -t 対象のペイン番号($TMUX_PANEなどを指定)
-        export TMUX_WINDOW=$(tmux display -p '#I-#P')
-    fi
-}
-add-zsh-hook precmd _set_tmux_window
-
 
 ## For zsh-git-prompt
 if [ -f ~/.zsh/zsh-git-prompt/zshrc.sh ]; then
@@ -124,14 +108,17 @@ fi
 PROMPT_NORMAL_SYMBOL="♪ "
 PROMPT_ERROR_SYMBOL="✘ "
 
-DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
+DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
+
+VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${BOLD_YELLOW}%n${RESET}${YELLOW}❖ ${RESET}${BOLD_YELLOW}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
 
 # For tmux-powerline
 DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
+VI_CMD_PROMPT="$VI_CMD_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
 
-VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}${TMUX_WINDOW:+"$TMUX_WINDOW "}${RESET}${YELLOW}%n@%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%{%(?.${WHITE}.${RED}%}♪ ${RESET}'
-
+# Left prompt
 PROMPT=${DEFAULT_PROMPT}
+# Correct Prompt
 SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
 
 #
