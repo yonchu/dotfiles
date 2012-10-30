@@ -90,3 +90,45 @@ prev_word   '^'
     if [ "$DEBUG" = "yes" ]; then
         set -x
     fi
+
+snippet     root
+abbr        Checking the privileges of the a root user
+prev_word   '^'
+    if [ $UID -ne 0 ]; then
+        echo "Superuser privileges are required to run this script."
+        echo "e.g. \"sudo $0\""
+        exit 1
+    fi
+
+snippet     file
+abbr        Check if a file exists
+    FILE=${1:file}
+    if [ -f $FILE ]; then
+      echo "File ${FILE} exists"
+    else
+      echo "File ${FILE} does NOT exists"
+    fi
+
+snippet     directory
+abbr        Check if a folder exists
+    DIR=${1:dir}
+    if [ -d $DIR ]; then
+      echo "Folder ${DIR} exists"
+    else
+      echo "Folder ${DIR} does NOT exists"
+    fi
+
+snippet     forargs
+abbr        for arg in "$@"
+    for arg in "$@"; do
+        echo "$arg"
+        # 処理
+    done
+
+snippet     whileargs
+abbr        while [ $# -gt 0 ]; do
+    while [ $# -gt 0 ]; do
+        echo "$1"
+        # 処理
+        shift
+    done
