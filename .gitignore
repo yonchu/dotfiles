@@ -2,8 +2,10 @@
 /.vim/bundle/*
 !/.vim/bundle/.gitignore
 
+/.vim/.netrwhist
+
 # zsh
-.zsh/.zsh_history
-.zsh/.zcompdump
-.zsh/.chpwd-recent-dirs
+/.zsh/.zsh_history
+/.zsh/.zcompdump
+/.zsh/.chpwd-recent-dirs
 *.zwc

@@ -37,6 +37,9 @@ a.out
 *.war
 *.ear
 
+## Python
+.ropeproject
+
 ## ActionScript
 *.swf
 
