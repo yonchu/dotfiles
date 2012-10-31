@@ -498,9 +498,6 @@ nnoremap <silent> <Leader>hiu :HierUpdate<CR>
 " ハイライトを削除
 nnoremap <silent> <Leader>hic :HierClear<CR>
 
-" Escの2回押しでハイライト消去
-nmap <silent> <ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
-
 "}}}
 
 

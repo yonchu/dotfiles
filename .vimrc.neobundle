@@ -131,20 +131,10 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'YankRing.vim'
 
   " undo履歴を追える
-  "
   NeoBundle 'Gundo'
 
   " <C-a>でtrue/false切替。他色々
   NeoBundle 'taku-o/vim-toggle'
-" }}}
-
-
-" Completion {{{
-  " 補完 neocomplcache.vim : 究極のVim的補完環境
-  NeoBundle 'Shougo/neocomplcache'
-
-  " neocomplcacheのsinpet補完
-  NeoBundle 'Shougo/neocomplcache-snippets-complete'
 " }}}
 
 
@@ -165,6 +155,15 @@ NeoBundle 'Shougo/vimproc', {
 
   " open-browser.vim : カーソルの下のURLを開くor単語を検索エンジンで検索
   NeoBundle 'tyru/open-browser.vim'
+" }}}
+
+
+" Completion {{{
+  " 補完 neocomplcache.vim : 究極のVim的補完環境
+  NeoBundle 'Shougo/neocomplcache'
+
+  " neocomplcacheのsinpet補完
+  NeoBundle 'Shougo/neocomplcache-snippets-complete'
 " }}}
 
 
@@ -193,10 +192,7 @@ NeoBundle 'Shougo/vimproc', {
 
   " Python用入力補完
   NeoBundleLazy 'Pydiction'
-" }}}
 
-
-" Syntax {{{
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   NeoBundle 'scrooloose/syntastic'
