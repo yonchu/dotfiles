@@ -96,7 +96,7 @@ let g:neocomplcache_enable_quick_match = 1
 let g:neocomplcache_enable_auto_select = 0
 
 " ポップアップメニューで表示される最大候補数 (default:100)
-let g:neocomplcache_max_list = 50
+let g:neocomplcache_max_list = 100
 
 " neocomplcacheを自動的にロックするバッファ名のパターン
 " ku.vimやfuzzyfinderなど、neocomplcacheと相性が悪いプラグインを使用する場合に設定
@@ -160,7 +160,7 @@ inoremap <expr><C-l> neocomplcache#complete_common_string()
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 
 " <BS>: close popup and cancel completing.
-inoremap <expr><BS> neocomplcache#cancel_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplcache#cancel_popup()."\<C-h>"
 
 " undo
 inoremap <expr><C-g> neocomplcache#undo_completion()
@@ -261,14 +261,13 @@ let g:neocomplcache_include_suffixes = {
 inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcache#manual_omni_complete()
 
 " FileType毎のOmni補完を設定
-autocmd FileType python     setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html       setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css        setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml        setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php        setlocal omnifunc=phpcomplete#CompletePHP
-autocmd FileType c          setlocal omnifunc=ccomplete#Complete
-autocmd FileType ruby       setlocal omnifunc=rubycomplete#Complete
+autocmd FileType javascript     setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html,markdown  setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css            setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml            setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php            setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType c              setlocal omnifunc=ccomplete#Complete
+autocmd FileType ruby           setlocal omnifunc=rubycomplete#Complete
 
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')

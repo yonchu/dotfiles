@@ -343,6 +343,8 @@ command! WS :w sudo:%
 
 
 "### Syntastic {{{
+"  Syntastic が使用するコマンド
+"   http://d.hatena.ne.jp/heavenshell/20120109/1326089510
 "------------------------------------
 " シンタックスチェックを実行
 nnoremap <silent> <Leader>s :SyntasticCheck<CR>
@@ -353,7 +355,7 @@ nnoremap <silent> <Leader>e :Errors<CR>
 
 " エラー行をsignで表示
 let g:syntastic_enable_signs = 1
-" エラーバルーン表示
+" エラーバルーン表示 (gvim only)
 let g:syntastic_enable_balloons =1
 " エラーhighligt表示
 let g:syntastic_enable_highlighting = 1

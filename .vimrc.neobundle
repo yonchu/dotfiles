@@ -193,9 +193,16 @@ NeoBundle 'Shougo/vimproc', {
   " Python用入力補完
   NeoBundleLazy 'Pydiction'
 
+  " Python補完(オムニ補完で使用)
+  NeoBundleLazy 'pythoncomplete'
+
+  " Python多機能プラグイン
+  " pylint, rope, pydoc, pyflakes, pep8, mccabe
+  NeoBundleLazy 'klen/python-mode'
+
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-  NeoBundle 'scrooloose/syntastic'
+  NeoBundleLazy 'scrooloose/syntastic'
 " }}}
 
 

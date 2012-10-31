@@ -38,4 +38,15 @@ except:
     pass
 
 del f, HISTORY_FILE
-# vim: ft=python et
+
+
+# inspect
+#   http://d.hatena.ne.jp/maedana/20070919/1190206853
+import inspect
+igd = inspect.getdoc
+igs = inspect.getsource
+igf = inspect.getfile
+igsl = inspect.getsourcelines
+
+
+# vim: ft=python

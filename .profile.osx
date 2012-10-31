@@ -27,6 +27,7 @@ fi
 #
 
 PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share:$PATH
+PATH=$PATH:/usr/X11/bin
 export PATH
 
 MANPATH=/usr/local/share/man:/opt/local/share/man:/usr/local/jman:/usr/share/man:/usr/X11/man:$MANPATH
@@ -77,20 +78,20 @@ export VIRTUALENV_USE_DISTRIBUTE=true
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # pythonbrew: デフォルトで使用するPythonのバージョン
-export DEFAULT_PYTHON_VERSION="2.7.2"
+export DEFAULT_PYTHON_VERSION="2.7.3"
 # pythonbrew: デフォルトで使用するVirtualEnv
-export DEFAULT_PYTHON_VENV="py272"
+export DEFAULT_PYTHON_VENV="py273"
 
 # virtualenv setting
 #if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
    #export WORKON_HOME=$HOME/.virtualenvs
-   #VIRTUALENVWRAPPER_PYTHON=py2.7.2
+   #VIRTUALENVWRAPPER_PYTHON=py2.7.3
    #source /usr/local/share/python/virtualenvwrapper.sh
 #fi
 
 # virtualenv setting for pythonbrew
 #if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
-   #VIRTUALENVWRAPPER_PYTHON=py2.7.2
+   #VIRTUALENVWRAPPER_PYTHON=py2.7.3
    #source ~/.pythonbrew/bin/virtualenvwrapper.sh
 #fi
 
