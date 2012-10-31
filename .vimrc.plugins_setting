@@ -511,6 +511,12 @@ if has("mac")
   let g:Powerline_symbols = 'fancy'
 endif
 
+"let g:Powerline_stl_path_style = 'full'
+
+"let g:Powerline_theme = 'solarized256'
+"let g:Powerline_colorscheme = 'solarized256'
+
+call Pl#Theme#InsertSegment('charcode', 'before', 'fileformat')
 " }}}
 
 

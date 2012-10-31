@@ -96,7 +96,7 @@ let g:neocomplcache_enable_quick_match = 1
 let g:neocomplcache_enable_auto_select = 0
 
 " ポップアップメニューで表示される最大候補数 (default:100)
-let g:neocomplcache_max_list = 20
+let g:neocomplcache_max_list = 50
 
 " neocomplcacheを自動的にロックするバッファ名のパターン
 " ku.vimやfuzzyfinderなど、neocomplcacheと相性が悪いプラグインを使用する場合に設定

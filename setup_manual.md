@@ -63,13 +63,7 @@ dotfilesをgithubより取得
     $ cd ~/dotfiles
     $ git submodule status
     $ git submodule update --init
-    $ cd <サブモジュールディレクトリ>
-    $ git branch
-    * (no branch)
-      master
-    $ git checkout master
-    $ git branch
-    * master
+    $ git submodule foreach "git checkout master"
 
 シンボリックリンクを作成
 
@@ -192,18 +186,11 @@ MacVim-KaoriYa インストール
 
 [macvim-kaoriya - MacVim KaoriYa - Google Project Hosting](http://code.google.com/p/macvim-kaoriya/)
 
-vundleによるvimプラグインのインストール
+NeoBundleによるvimプラグインのインストール
 
-    $ cd ~/.vim
-    $ mkdir bundle
-    $ cd bundle
-    $ git clone https://github.com/gmarik/vundle.git
+    $ vim -c NeoBundleInstall -c quit
 
-    $ vim -c BundleInstall -c quit
-    $ vim test.py -c BundleInstall -c quit
-
-vimprocのコンパイル
-
+    vimprocのコンパイル(NeoBundleのBuild機能によりコンパイル手順は不要)
     $ cd ~/.vim/bundle/vimproc/
     $ make -f make_mac.mak
 
@@ -214,11 +201,6 @@ vim-powerlineの個別変更(キャラコード/文字数(マルチ文字対応)
     - \ Pl#Segment#Create('line.tot'    , ':%-2v', Pl#Segment#NoPadding()),
     + \ Pl#Segment#Create('line.cur'    , '$LINE %3l/%-3L'),
     + \ Pl#Segment#Create('line.tot'    , ':%-3v', Pl#Segment#NoPadding()),
-
-    ~/dotfiles/.vim/bundle/vim-powerline/autoload/Powerline/Themes/default.vim b/autoload/Powerline/Themes/default.vim
-      \ , 'virtualenv:statusline'
-    + \ , 'charcode'
-      \ , 'fileformat'
 
 vim-powerline対応のフォントをインストール
 

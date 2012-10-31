@@ -1,5 +1,6 @@
 # Vundle管理ディレクトリ
-.vim/bundle/
+/.vim/bundle/*
+!/.vim/bundle/.gitignore
 
 # zsh
 .zsh/.zsh_history

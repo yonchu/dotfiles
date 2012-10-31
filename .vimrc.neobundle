@@ -1,0 +1,291 @@
+"-------------------------------------------------------------------------------
+"
+"  .vimrc.neobundle
+"
+"   neobundle.vimで管理してるpluginを読み込む
+"
+"   https://github.com/Shougo/neobundle.vim
+"   http://vim-users.jp/2011/10/hack238/
+"   http://www.karakaram.com/neobundle
+"   http://d.hatena.ne.jp/rhysd/20120825/1345895478
+"
+"    インストールディレクトリ
+"     neobundle本体：~/.vim/neobundle.vim
+"     プラグイン：~/.vim/bundle
+"
+"    書き方
+"     Github 上のリポジトリから取得する場合
+"      Github のユーザ名とリポジトリ名を指定
+"      NeoBundle 'user_name/repository_name'
+"
+"     vim-scripts 上のリポジトリから取得する場合
+"      http://www.vim.org/scripts/
+"      http://vim-scripts.org/
+"      https://github.com/vim-scripts (www.vim.orgのミラー)
+"      plugin の名前を指定
+"      NeoBundle 'script_name'
+"
+"     それ以外の git リポジトリから取得する場合
+"      Git リポジトリ のフルパスを指定
+"      NeoBundle 'git://repository_url'
+"
+"     Git以外のリポジトリから取得する場合(svnなど)
+"      NeoBundle 'http://'
+"      NeoBundle 'https://'
+"      NeoBundle 'https://github.com/vim-scripts/xxxxx'
+"
+"     リビジョン指定
+"      :NeoBundle {repository}, {revision}
+"
+"     リポジトリを持たないプラグインの管理
+"      NeoBundle 'plugin-name', {'type' : 'nosync'}
+"      NeoBundle 'im_control', {'type' : 'nosync', 'base' : '~/.vim/bundle/manual'}
+"
+"
+"    使用方法
+"     インストール済みプラグイン一覧
+"      :NeoBundleList
+"     インストール(新規)
+"      :NeoBundleInstall
+"     アップデート
+"      :NeoBundleInstall!
+"     使用していないプラグインを削除
+"      :NeoBundleClean(!)
+"     プラグイン検索(NeoBundle非対応)
+"      :BundleSearch
+"     ヘルプ
+"      :help neobundle
+"
+"    Unite連携
+"     インストール
+"      :Unite neobundle/install
+"     アップデート
+"      :Unite neobundle/install:!
+"     個別アップデート
+"      :Unite neobundle/install:neocomplcache
+"      :Unite neobundle/install:neocomplcache:unite.vim
+"     インストール済みのプラグインの列挙
+"      :Unite neobundle -input=!Not
+"     インストールしていないプラグインの列挙
+"      :Unite neobundle -input=Not
+"
+"-------------------------------------------------------------------------------
+
+" NeoBundle {{{
+filetype off
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/neobundle.vim/
+endif
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundle 'Shougo/neobundle.vim'
+
+" vimproc
+"  vimで非同期実行を行う (vimshelleやneocomplcacheで使用)
+"  インストール後に別途コンパイルが必要
+"    $ cd ~/.vim/bundle/vimproc
+"    $ make -f your_machines_makefile
+"  http://www.karakaram.com/vim/windows-vimshell/
+NeoBundle 'Shougo/vimproc', {
+  \ 'build' : {
+  \     'windows' : 'echo "Sorry, cannot update vimproc."',
+  \     'cygwin' : 'make -f make_cygwin.mak',
+  \     'mac' : 'make -f make_mac.mak',
+  \     'unix' : 'make -f make_unix.mak',
+  \    },
+  \ }
+
+" Vundle
+"NeoBundle 'gmarik/vundle'
+"call vundle#rc()
+" }}}
+
+
+" Encording {{{
+  " 文字コード判定(要icnov)
+  "NeoBundleLazy 'banyan/recognize_charcode.vim'
+  if ! has("kaoriya")
+    " Kaoriya版以外の文字コード判定
+    "NeoBundleSource 'banyan/recognize_charcode.vim'
+  endif
+" }}}
+
+
+" Edit {{{
+  " NERD_commenter.vim :最強コメント処理 (<Leader>c<space>でコメントをトグル)
+  NeoBundle 'scrooloose/nerdcommenter'
+
+  " surround.vim : テキストを括弧で囲む／削除する
+  NeoBundle 'tpope/vim-surround'
+
+  " repeat.vim : surround.vimの操作を.で繰り返す
+  NeoBundle 'tpope/vim-repeat'
+
+  " visually indent guide
+  NeoBundle 'nathanaelkane/vim-indent-guides'
+
+  " YankRing.vim : ヤンクの履歴を管理し、順々に参照、出力できるようにする
+  " Pythonが必要 (:echo has('python')で1が返ってくればOK)
+  NeoBundle 'YankRing.vim'
+
+  " undo履歴を追える
+  "
+  NeoBundle 'Gundo'
+
+  " <C-a>でtrue/false切替。他色々
+  NeoBundle 'taku-o/vim-toggle'
+" }}}
+
+
+" Completion {{{
+  " 補完 neocomplcache.vim : 究極のVim的補完環境
+  NeoBundle 'Shougo/neocomplcache'
+
+  " neocomplcacheのsinpet補完
+  NeoBundle 'Shougo/neocomplcache-snippets-complete'
+" }}}
+
+
+" Searching/Moving {{{
+  " smooth_scroll.vim : スクロールを賢く
+  NeoBundle 'Smooth-Scroll'
+
+  " <Leader><Leader>w/fなどで、motion先をhilightする
+  NeoBundle 'EasyMotion'
+
+  " grep.vim : 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
+  NeoBundle 'grep.vim'
+
+  " eregex.vim : vimの正規表現をrubyやperlの正規表現な入力でできる
+  " 検索/置換に対応
+  " うまく動作にしないので不可
+  "NeoBundle 'eregex.vim'
+
+  " open-browser.vim : カーソルの下のURLを開くor単語を検索エンジンで検索
+  NeoBundle 'tyru/open-browser.vim'
+" }}}
+
+
+" Programming {{{
+  " vim-quickrun : 編集中のファイルを簡単に実行できるプラグイン
+  NeoBundle 'thinca/vim-quickrun'
+
+  " vim-ref : リファレンスをvim上で参照
+  "  alc/clojure/erlang/man/perldoc/phpmanual/pydoc/refe
+  "  実行 :Ref <リファレス名> キーワード
+  "  カーソル下の単語を検索 K
+  "  キャッシュ削除 :call ref#rmcache('pydoc')
+  NeoBundle 'thinca/vim-ref'
+
+  " vim-refのjavadoc用ソース
+  NeoBundle 'pekepeke/ref-javadoc'
+
+  " vim-refのjavascript/jquery用ソース
+  NeoBundle 'mojako/ref-sources.vim'
+
+  " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
+  NeoBundle 'quickfixstatus.vim'
+
+  " vim-hier : quickfix の該当箇所をハイライト
+  NeoBundle 'jceb/vim-hier'
+
+  " Python用入力補完
+  NeoBundleLazy 'Pydiction'
+" }}}
+
+
+" Syntax {{{
+  " syntastic : 多言語対応のシンタックスチェックツール
+  "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+  NeoBundle 'scrooloose/syntastic'
+" }}}
+
+
+" Buffer {{{
+  " minibufexpl.vim : タブエディタ風にバッファ管理ウィンドウを表示
+  NeoBundle 'minibufexpl.vim'
+
+  " NERDTree : ツリー型エクスプローラ
+  " grep_menuitem.vim:別途インストール
+  "  https://gist.github.com/414375
+  NeoBundle 'The-NERD-tree'
+
+  " vtreeexplorer.vim : ツリー状にファイルやディレクトリの一覧を表示
+  " NERDTreeを使用するので削除
+  "NeoBundle 'vtreeexplorer'
+" }}}
+
+
+" Utility {{{
+  " ステータスラインをカッコよくする
+  NeoBundle 'Lokaltog/vim-powerline'
+
+  " vimからGitを操作する
+  " vim-powerlineでステータス行にブランチ名を表示
+  NeoBundle 'tpope/vim-fugitive'
+
+  " vimからGitを操作する
+  " :Gitv, :Gitv --all, :Gitv!
+  NeoBundle "gregsexton/gitv"
+
+  " renamer.vim : 複数ファイルのりネーム
+  " http://nanasi.jp/articles/vim/renamer_vim.html
+  "  起動 :Renamer
+  "  完了 :Ren
+  "  元に戻す F5
+  "  オリジナルファイル名を表示(トグル) T
+  "  ファイル削除 <C-delete>
+  NeoBundle 'renamer.vim'
+
+  " sudo.vim : root権限でファイルを編集、保存
+  NeoBundle 'sudo.vim'
+
+  " ShowMarks7 : マークを表示
+  NeoBundle 'ShowMarks7'
+" }}}
+
+
+" ColorScheme {{{
+  NeoBundle 'altercation/vim-colors-solarized'
+  "NeoBundle 'Railscasts-Theme-GUIand256color'
+
+  "NeoBundle 'desert256.vim'
+  "NeoBundle 'mrkn256.vim'
+  "NeoBundle 'tomasr/molokai'
+  "NeoBundle 'Lucius'
+  "NeoBundle 'Zenburn'
+  "NeoBundle 'nanotech/jellybeans.vim'
+   NeoBundle 'molokai'
+" }}}
+
+
+" Unite {{{
+  " Unite本体
+  NeoBundle 'Shougo/unite.vim'
+
+  " vimヘルプを全文インクリメンタルサーチ
+  NeoBundle 'tsukkee/unite-help'
+
+  " ファイルタイプに応じたアウトラインを表示
+  NeoBundle 'h1mesuke/unite-outline'
+
+  " Uniteでカラースキーマを気軽に変更
+  NeoBundle 'ujihisa/unite-colorscheme'
+"}}}
+
+
+" finalize {{{
+" Installation check.
+if neobundle#exists_not_installed_bundles()
+  echomsg 'Not installed bundles : ' .
+        \ string(neobundle#get_not_installed_bundle_names())
+  echomsg 'Please execute ":NeoBundleInstall" command.'
+  "finish
+endif
+
+filetype plugin indent on
+"}}}
+
+" vim: fdm=marker fen fdl=0:

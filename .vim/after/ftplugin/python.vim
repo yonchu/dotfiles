@@ -22,9 +22,11 @@ setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 setl foldmethod=indent
 setl foldlevel=99
 
+
 "------------------------------------
 " Pydiction
 "  Python用入力補完
 "------------------------------------
-Bundle 'Pydiction'
-let g:pydiction_location = '~/.vim/pydiction/complete-dict'
+NeoBundleSource Pydiction
+"let g:pydiction_location = '~/.vim/pydiction/complete-dict'
+let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'

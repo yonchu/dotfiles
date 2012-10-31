@@ -5,7 +5,7 @@
 "------------------------------------------------------------------------------
 
 " Loading plugins with vunlde.vim
-source ~/dotfiles/.vimrc.bundle
+source ~/dotfiles/.vimrc.neobundle
 
 " Basic settings
 source ~/dotfiles/.vimrc.basic
