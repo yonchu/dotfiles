@@ -52,23 +52,9 @@ Xcodeのパス変更を確認
 
 ## dotfilesの準備
 
-dotfilesをgithubより取得
-
-    $ cd ~/
-    $ git clone https://github.com/yonchu/dotfiles.git
-    $ git status
-
-サブモジュールの取得
-
-    $ cd ~/dotfiles
-    $ git submodule status
-    $ git submodule update --init
-    $ git submodule foreach "git checkout master"
-
-シンボリックリンクを作成
+    GithubにSSH公開鍵を設定
 
     $ ~/dotfiles/setup.osx.sh
-
 
 
 ## /etc/zshenv を /etc/zprofile に変更 (OS X 10.7)
@@ -375,6 +361,9 @@ DLしたファイルを実行
 
 Evernoteのメモを参照
 
+## ruby(rvm/gem)
+
+Evernoteのメモを参照
 
 ## ディレクトリ構成の復活
 
