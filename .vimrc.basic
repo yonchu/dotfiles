@@ -127,8 +127,10 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
   set t_Sb=^[[4%dm
 
   " カラー設定読み込み
-  if $SHELL =~ ".*/zsh"
+  if $ITERM_PROFILE =~ "Magica.*"
     source ~/.vim/colors/my-magica.vim
+  elseif $ITERM_PROFILE =~ "Solarized.*"
+    source ~/.vim/colors/my-solarized.vim
   else
     source ~/.vim/colors/my-solarized.vim
   endif
