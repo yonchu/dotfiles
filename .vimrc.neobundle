@@ -261,6 +261,7 @@ NeoBundle 'Shougo/vimproc', {
   "NeoBundle 'Zenburn'
   "NeoBundle 'nanotech/jellybeans.vim'
    NeoBundle 'molokai'
+   NeoBundle 'aereal/vim-magica-colors'
 " }}}
 
 

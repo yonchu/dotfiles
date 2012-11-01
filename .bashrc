@@ -8,6 +8,9 @@
 # If not running interactively, don't do anything
 test -z "$PS1" && return
 
+if [ "${SHELL##*/}" = 'zsh' ]; then
+    SHELL=$(which bash)
+fi
 
 #
 # Completionファイルの読み込み

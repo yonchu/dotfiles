@@ -127,22 +127,24 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
   set t_Sb=^[[4%dm
 
   " カラー設定読み込み
-  "source ~/.vim/colors/my-molokai.vim
-  "source ~/.vim/colors/my-molokai2.vim
-  source ~/.vim/colors/my-solarized.vim
+  if $SHELL =~ ".*/zsh"
+    source ~/.vim/colors/my-magica.vim
+  else
+    source ~/.vim/colors/my-solarized.vim
+  endif
 
 elseif &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
   set t_Co=16
   set t_Sf=^[[3%dm
   set t_Sb=^[[4%dm
   " カラー設定読み込み
-  source ~/.vim/colors/my-darkblue.vim
+  source ~/.vim/colors/my-solarized.vim
 elseif &term =~ "xterm-color"
   set t_Co=8
   set t_Sf=^[[3%dm
   set t_Sb=^[[4%dm
   " カラー設定読み込み
-  source ~/.vim/colors/my-darkblue.vim
+  source ~/.vim/colors/my-solarized.vim
 endif
 
 
@@ -171,6 +173,7 @@ augroup cch
 augroup END
 
 " }}}
+"
 
 
 "### StatusLine {{{
