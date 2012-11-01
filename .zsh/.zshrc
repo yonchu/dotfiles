@@ -521,7 +521,7 @@ case "${TERM}" in
         # 補完候補の色分け
         # LSCOLORS/LS_COLORSと対応させると見やすい
         zstyle ':completion:*' list-colors \
-            'di=01;33' 'ex=01;36' 'ln=01;32' 'bd=35' 'cd=35' 'so=32'
+            'di=36' 'ln=35' 'so=35;44' 'bd=33;44' 'cd=37;44' 'ex=01;31'
         ;;
 esac
 

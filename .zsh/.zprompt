@@ -70,6 +70,7 @@ BOLD_YELLOW="%{${fg_bold[yellow]}%}"
 MAGENTA="%{${fg[magenta]}%}"
 BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
+BOLD_WHITE="%{${fg_bold[white]}%}"
 
 
 ## rootユーザの場合(全て赤文字)
@@ -107,7 +108,7 @@ fi
 PROMPT_NORMAL_SYMBOL="♪ "
 PROMPT_ERROR_SYMBOL="✘ "
 
-DEFAULT_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${BOLD_GREEN}%n${RESET}${GREEN}❖ ${RESET}${BOLD_GREEN}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
+DEFAULT_PROMPT='${RESET}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_MAGENTA}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${GREEN}%n${RESET}${YELLOW}❖ ${RESET}${GREEN}%m${RESET}${BOLD_RED}%(1j,(%j),)${RESET}:${RESET}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
 
 VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${BOLD_YELLOW}%n${RESET}${YELLOW}❖ ${RESET}${BOLD_YELLOW}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
 
@@ -143,7 +144,7 @@ zle -N zle-keymap-select
 
 # Set RPROMPT to update environment variable and vsc status.
 function _update_rprompt() {
-    RPROMPT="$(vcs_super_info)${BOLD_YELLOW}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%Y/%m/%d %H:%M:%S}${RESET}]${RESET}"
+    RPROMPT="$(vcs_super_info)${BOLD_MAGENTA}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%y/%m/%d %H:%M:%S}${RESET}]"
 }
 add-zsh-hook precmd _update_rprompt
 

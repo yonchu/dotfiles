@@ -58,19 +58,25 @@ case "${TERM}" in
         export LSCOLORS=DxGxcxdxCxegedabagacad
 
         # glsのカラー化
-        #  color-ls の色を設定する fi=37(バックグラウンド黒の場合)
-        LS_COLORS="di=01;33:ex=01;36:ln=01;32:bd=35:cd=35:pi=32:so=32:su=41;30:sg=46;30:tw=42;30:ow=43;30"
-        LS_COLORS="$LS_COLORS:*.gz=31:*.Z=31:*.lzh=31:*.zip=31:*.bz2=31"
-        LS_COLORS="$LS_COLORS:*.tar=31:*.tgz=31"
-        LS_COLORS="$LS_COLORS:*.gif=35:*.jpg=35:*.jpeg=35:*.tif=35:*.ps=35"
-        LS_COLORS="$LS_COLORS:*.xpm=35:*.xbm=35:*.xwd=35:*.xcf=35"
-        LS_COLORS="$LS_COLORS:*.avi=35:*.mov=35:*.mpeg=35:*.mpg=35"
-        LS_COLORS="$LS_COLORS:*.mid=35:*.MID=35:*.rcp=35:*.RCP=35:*.mp3=35"
-        LS_COLORS="$LS_COLORS:*.mod=35:*.MOD=35:*.au=35:*.aiff=35:*.wav=35"
-        LS_COLORS="$LS_COLORS:*.htm=32:*.html=32:*.xml=32:*.java=32:*.class=32"
-        LS_COLORS="$LS_COLORS:*.c=32:*.h=32:*.C=32:*.c++=32:*.conf=32"
-        LS_COLORS="$LS_COLORS:*.tex=32:*~=0"
-        export LS_COLORS
+        if [ -f ~/.dir_colors ] && type dircolors > /dev/null 2>&1; then
+            eval $(dircolors ~/.dir_colors)
+        elif [ -f ~/.dir_colors ] && type gdircolors > /dev/null 2>&1; then
+            eval $(gdircolors ~/.dir_colors)
+        else
+            #  color-ls の色を設定する fi=37(バックグラウンド黒の場合)
+            LS_COLORS="di=01;33:ex=01;36:ln=01;32:bd=35:cd=35:pi=32:so=32:su=41;30:sg=46;30:tw=42;30:ow=43;30"
+            LS_COLORS="$LS_COLORS:*.gz=31:*.Z=31:*.lzh=31:*.zip=31:*.bz2=31"
+            LS_COLORS="$LS_COLORS:*.tar=31:*.tgz=31"
+            LS_COLORS="$LS_COLORS:*.gif=35:*.jpg=35:*.jpeg=35:*.tif=35:*.ps=35"
+            LS_COLORS="$LS_COLORS:*.xpm=35:*.xbm=35:*.xwd=35:*.xcf=35"
+            LS_COLORS="$LS_COLORS:*.avi=35:*.mov=35:*.mpeg=35:*.mpg=35"
+            LS_COLORS="$LS_COLORS:*.mid=35:*.MID=35:*.rcp=35:*.RCP=35:*.mp3=35"
+            LS_COLORS="$LS_COLORS:*.mod=35:*.MOD=35:*.au=35:*.aiff=35:*.wav=35"
+            LS_COLORS="$LS_COLORS:*.htm=32:*.html=32:*.xml=32:*.java=32:*.class=32"
+            LS_COLORS="$LS_COLORS:*.c=32:*.h=32:*.C=32:*.c++=32:*.conf=32"
+            LS_COLORS="$LS_COLORS:*.tex=32:*~=0"
+            export LS_COLORS
+        fi
         ;;
 esac
 

@@ -19,3 +19,6 @@
 [submodule ".vim/neobundle.vim"]
 	path = .vim/neobundle.vim
 	url = git://github.com/Shougo/neobundle.vim.git
+[submodule ".zsh/dircolors-solarized"]
+	path = .zsh/dircolors-solarized
+	url = git://github.com/seebi/dircolors-solarized.git

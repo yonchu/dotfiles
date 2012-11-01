@@ -60,6 +60,9 @@ create_dotfiles_symlinks() {_
 
     # .gitignore
     ln -s dotfiles/.gitignore.default "$HOME/.gitignore"
+
+    # .dir_colors
+    ln -s .zsh/dircolors-solarized/dircolors.ansi-universal "$HOME.dir_colors"
 }
 
 
