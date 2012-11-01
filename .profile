@@ -64,17 +64,8 @@ case "${TERM}" in
             eval $(gdircolors ~/.dir_colors)
         else
             #  color-ls の色を設定する fi=37(バックグラウンド黒の場合)
-            LS_COLORS="di=01;33:ex=01;36:ln=01;32:bd=35:cd=35:pi=32:so=32:su=41;30:sg=46;30:tw=42;30:ow=43;30"
-            LS_COLORS="$LS_COLORS:*.gz=31:*.Z=31:*.lzh=31:*.zip=31:*.bz2=31"
-            LS_COLORS="$LS_COLORS:*.tar=31:*.tgz=31"
-            LS_COLORS="$LS_COLORS:*.gif=35:*.jpg=35:*.jpeg=35:*.tif=35:*.ps=35"
-            LS_COLORS="$LS_COLORS:*.xpm=35:*.xbm=35:*.xwd=35:*.xcf=35"
-            LS_COLORS="$LS_COLORS:*.avi=35:*.mov=35:*.mpeg=35:*.mpg=35"
-            LS_COLORS="$LS_COLORS:*.mid=35:*.MID=35:*.rcp=35:*.RCP=35:*.mp3=35"
-            LS_COLORS="$LS_COLORS:*.mod=35:*.MOD=35:*.au=35:*.aiff=35:*.wav=35"
-            LS_COLORS="$LS_COLORS:*.htm=32:*.html=32:*.xml=32:*.java=32:*.class=32"
-            LS_COLORS="$LS_COLORS:*.c=32:*.h=32:*.C=32:*.c++=32:*.conf=32"
-            LS_COLORS="$LS_COLORS:*.tex=32:*~=0"
+            LS_COLORS="no=00:fi=00:di=36:ln=35:pi=30;44:so=35;44:do=35;44:bd=33;44:cd=37;44:or=05;37;41:mi=05;37;41:ex=01;31"
+            LS_COLORS="su=41;30:sg=46;30:tw=42;30:ow=43;30:$LS_COLORS"
             export LS_COLORS
         fi
         ;;
