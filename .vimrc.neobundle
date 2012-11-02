@@ -159,11 +159,11 @@ NeoBundle 'Shougo/vimproc', {
 
 
 " Completion {{{
-  " 補完 neocomplcache.vim : 究極のVim的補完環境
+  " 補完
   NeoBundle 'Shougo/neocomplcache'
 
-  " neocomplcacheのsinpet補完
-  NeoBundle 'Shougo/neocomplcache-snippets-complete'
+  " sinppet
+  NeoBundle 'Shougo/neosnippet'
 " }}}
 
 

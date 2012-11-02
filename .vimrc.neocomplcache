@@ -19,7 +19,7 @@
 "     syntax_complete            -> [S] {syntax-keyword}
 "     include_complete           -> [FI] or [I]
 "     snippets_complete          -> [Snip] (none placeholders) or
-                                   "<Snip> (contains placeholders)
+"                                          <Snip> (contains placeholders)
 "     vim_complete               -> [vim] type
 "     omni_complete              -> [O]
 "     tags_complete              -> [T]
@@ -141,18 +141,6 @@ nnoremap <Space>neod :NeoComplCacheDisable
 " NeoComplCacheを有効
 nnoremap <Space>neoe :NeoComplCacheEnable
 
-" 補完候補が出ていたら確定、なければ改行
-inoremap <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup() : "<CR>"
-
-" Enter
-" スニペット展開が可能なら展開、通常補完なら補完確定、それ以外は改行
-"imap <expr><CR> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
-
-
-" TABで補完候補を選択
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
 " <C-l> : 補完候補の共通部分までを補完する
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
@@ -160,7 +148,8 @@ inoremap <expr><C-l> neocomplcache#complete_common_string()
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 
 " <BS>: close popup and cancel completing.
-inoremap <expr><BS>  neocomplcache#cancel_popup()."\<C-h>"
+"inoremap <expr><BS> pumvisible() ? neocomplcache#cancel_popup()."\<BS>" : "\<BS>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
 
 " undo
 inoremap <expr><C-g> neocomplcache#undo_completion()
@@ -290,40 +279,46 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
 
 " スニペット補完 {{{
+"   標準のスニペット群
+"    ~/.vim/bundle/neosnippet/autoload/neosnippet/snippets
 " ======================================
 
 " ユーザー定義スニペット保存ディレクトリ
-let g:neocomplcache_snippets_dir = $HOME.'/.vim/snippets,'.$HOME.'/dotfiles.local/.vim/snippets'
+let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets,'.$HOME.'/dotfiles.local/.vim/snippets'
 
 "### キーマッピング
 " スニペット展開
-imap <C-y> <Plug>(neocomplcache_snippets_expand)
-smap <C-y> <Plug>(neocomplcache_snippets_expand)
+imap <C-y> <Plug>(neosnippet_expand_or_jump)
+smap <C-y> <Plug>(neosnippet_expand_or_jump)
 
 " スニペット展開
 " (スニペットが関係しないところでは行末まで削除)
-"imap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
-"smap <expr><C-k> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-o>D"
+"imap <expr><C-k> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<C-o>D"
+"smap <expr><C-k> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<C-o>D"
 
-" TABによるスニペット展開
-" スニペットが展開可能なら展開、補完中なら次の候補を選択、そうでなければ<Tab>を挿入
-"   有効にする場合は, 基本キーマップのTABをOFF
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-"smap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+" <Up><Down>キーにて補完候補を移動
+inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
+
+" TAB
+imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_jump_or_expand)" : "\<Tab>"
+" S-TAB
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" Enter
+" 補完候補が出ていたら確定、なければ改行
+"inoremap <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
+" スニペット展開が可能なら展開、通常補完なら補完確定、それ以外は改行
+imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
 
 " Uniteでスニペットを表示
-imap <C-s>  <Plug>(neocomplcache_start_unite_snippet)
+imap <C-s>  i_<Plug>(neosnippet_start_unite_snippet)
 
-" スニペットの編集
-nnoremap <Space>nes :NeoComplCacheEditSnippets<cr>
-"command! -nargs=* <Space>nes NeoComplCacheEditSnippets
-
-" 使用可能なスニペット一覧を表示
-nnoremap <Space>nps NeoComplCachePrintSnippets
-
-
-" 標準のスニペット群
-" ~/.vim/bundle/neocomplcache-snippets-complete/autoload/neocomplcache/sources/snippets_complete
+" ユーザ定義スニペットの編集
+"   引数にfiletypeを渡すことで任意のファイルを編集可能
+"   -runtime : Runtimeスニペットの編集
+nnoremap <Space>nse :NeoSnippetEdit
 
 " }}}
 

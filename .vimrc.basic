@@ -175,7 +175,6 @@ augroup cch
 augroup END
 
 " }}}
-"
 
 
 "### StatusLine {{{
@@ -615,22 +614,6 @@ nnoremap <silent> <Space>cd :<C-u>CD<CR>
 
 "### Edit {{{
 "-------------------------------------------------------------------------------
-" insertモードを抜けるとIMEオフ
-" KeyRemap4MacBookにて対応
-"  http://d.hatena.ne.jp/r7kamura/20110217/1297910068
-if ! has('mac')
-  set noimdisable               " IMを無効化
-  " im***=n
-  "   0:日本語モード(Input Method)OFF
-  "   1:lmapをONにしてIMをOFFにする
-  "   2:lmapをOFFにしてIMをONにする
-  set iminsert=0                " 入力モードで日本語入力OFF
-  set imsearch=0                " 検索モードで日本語入力OFF
-  set noimcmdline               " コマンドラインで日本語入力OFF
-  " ESC後のモード表示の即時反映
-  inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-  inoremap <silent> <C-[> <ESC>:set iminsert=0<CR>
-endif
 
 " normalモードでも改行入力可能
 " QuickFixでEnterでジャンプができなくなるので不可
@@ -822,12 +805,35 @@ augroup SkeletonAu
 augroup END
 
 
-"### ESC
+" insertモードを抜けるとIMEオフ
+" Mac では KeyRemap4MacBook にて対応
+"  http://d.hatena.ne.jp/r7kamura/20110217/1297910068
+if ! has('mac')
+  set noimdisable               " IMを無効化
+  " im***=n
+  "   0:日本語モード(Input Method)OFF
+  "   1:lmapをONにしてIMをOFFにする
+  "   2:lmapをOFFにしてIMをONにする
+  set iminsert=0                " 入力モードで日本語入力OFF
+  set imsearch=0                " 検索モードで日本語入力OFF
+  set noimcmdline               " コマンドラインで日本語入力OFF
+endif
+
+" ESC後のモード表示の即時反映(msec)
+"   http://gajumaru.ddo.jp/wordpress/?p=1076
+"   http://gajumaru.ddo.jp/wordpress/?p=1101
+"   http://yakinikunotare.boo.jp/orebase2/vim/dont_work_arrow_keys_in_insert_mode
+"   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ibus
+"   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ctrl-hat
+set timeout timeoutlen=1000 ttimeoutlen=75
+
 " Escの2回押し
 "   検索ハイライト消去
 "   vim-hierのハイライト消去
-nmap <silent> <ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
-inoremap <silent><expr><ESC><ESC> pumvisible() ? neocomplcache#cancel_popup()."<C-h><ESC>" : "<ESC>:nohlsearch<CR>:HierClear<CR><ESC>"
+nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
+
+" 補完中にESCで補完キャンセル
+"inoremap <silent><expr><ESC> pumvisible() ? neocomplcache#cancel_popup()."<ESC>" : "<ESC>"
 
 " }}}
 
