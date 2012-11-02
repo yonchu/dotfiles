@@ -1,6 +1,12 @@
 dotfiles
 ===============
 
+Screenshot
+----------
+iTerm on Mac (with tmux, zsh and vim)
+
+![Screenshot](https://raw.github.com/yonchu/dotfiles/master/info/img/iTerm_on_mac.png)
+
 Usage
 -----
 Clone from github
@@ -15,5 +21,4 @@ Create symbolic links.
 
 See also
 ---------------
-
 * [よんちゅBlog](http://yonchu.hatenablog.com/)
