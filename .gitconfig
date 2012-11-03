@@ -1,3 +1,6 @@
+[include]
+  # ローカル設定 (git 1.7.10 or later)
+  path = ~/.gitconfig.local
 [user]
   #name = xxxxx
   #email = xxxxx
@@ -9,19 +12,21 @@
   branch = auto
   interactive = auto
   grep = auto
+[core]
+  excludesfile = ~/.gitignore
+  autocrlf = input             # CRLFを自動変換
+  editor = /usr/bin/vim        # 絶対パス指定必須
+  quotepath = false            # 日本語のファイル名表示に対応
+[help]
+  autocorrect = 1
+[commit]
+  template = ~/.gittemplate
 [push]
   # defaultのpush先はtrackingしているリポジトリ
   # git push はデフォルトでは、同じブランチ名がリモート上にあるならそれらを全てpushしてしまう
   # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
   # tracking=upstream
   default = tracking
-[core]
-  excludesfile = ~/.gitignore
-  autocrlf = input             # CRLFを自動変換
-  editor = /usr/bin/vim        # 絶対パス指定必須
-  quotepath = false            # 日本語のファイル名表示に対応
-[include]
-  path = ~/.gitconfig.local    # ローカル設定(git 1.7.10 or later)
 [diff]
   tool = vimdiff
   #external = p4diff
@@ -34,8 +39,9 @@
   keepBackup = false
 [alias]
   # config
-  cfl  = config --list          # グローバルConfigを参照
-  cfll = config --local --list  # ローカルConfigを参照
+  cfl  = config --global --list   # グローバルConfigを参照
+  cfll = config --local  --list   # ローカルConfigを参照
+  cfe  = config --global -e       # グローバルConfigを編集
 
   # status
   s   = status -sb          # シンプル表示, ブランチ情報も表示
@@ -121,6 +127,8 @@
   oneline = log --pretty=oneline
   lo  = log --oneline --decorate --graph
   ll  = log --date=iso --pretty=format:'%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
+  # 詳細なログ
+  logs = log --graph --decorate --pretty=format:\"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n\" --stat
   # logをgraph表示
   llg = log --graph --date=iso --pretty='%x09%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
   # 指定ブランチの変更点のみ抽出(分岐元:master) 最後にブランチ名を指定すること
