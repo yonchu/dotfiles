@@ -13,26 +13,28 @@ if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
     exit 1
 fi
 
-echo "===== git status -sb ====="
+echo -e "===== \033[0;32mStatus (git status -sb)\033[0;39m ====="
 git status -sb
+
 (
     cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
-    echo "===== git submodule status ====="
+    echo -e "===== \033[0;33mSubmodule Status (git submodule status)\033[0;39m ====="
     sub_state=$(git submodule status)
     if [ -n "$sub_state" ]; then
-        echo -e '## \033[0;34msubmodule\033[0;39m'
         echo "$sub_state"
-        echo "===== git remote show orign (simple) ====="
 
+        echo -e "===== \033[0;33mSubmodule Update Info\033[0;39m ====="
         cmd="git remote show origin| tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
         status=$(git submodule foreach "$cmd")
-
         echo "$status" | sed '/^Entering/d'
     fi
 )
-echo "===== git remote -v ====="
+
+echo -e "===== \033[0;34mRemote List (git remote -v)\033[0;39m ====="
 git remote -v
-echo "===== git branch -av ====="
+
+echo -e "===== \033[0;35mBranch List (git branch -av)\033[0;39m ====="
 git branch -av
-echo "===== git stash list ====="
+
+echo -e "===== \033[0;36mStash List (git stash list)\033[0;39m ====="
 git stash list
