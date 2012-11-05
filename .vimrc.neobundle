@@ -132,6 +132,10 @@ NeoBundle 'Shougo/vimproc', {
 
   " <C-a>でtrue/false切替。他色々
   NeoBundle 'taku-o/vim-toggle'
+
+  " マルチカーソル
+  "  :Multi <word>
+  NeoBundle 'mattn/multi-vim'
 " }}}
 
 
