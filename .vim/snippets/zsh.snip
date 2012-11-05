@@ -65,7 +65,7 @@ snippet fun
 # Shebang. Executing zsh via /usr/bin/env makes scripts more portable.
 snippet #!/usr
 abbr    Shebang: #!/usr/bin/env zsh
-prev_word   '^'
+options     head
     #!/usr/bin/env bash
 
 # Set SCRIPT_DIR variable to directory script is located.
@@ -142,7 +142,8 @@ abbr        Analyizes options
 
 snippet     debug
 abbr        debug mode
-prev_word   '^'
+options     head
+    op
     ## debug mode
     #DEBUG="yes"
     if [ "$DEBUG" = "yes" ]; then

@@ -284,7 +284,7 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 " ======================================
 
 " ユーザー定義スニペット保存ディレクトリ
-let g:neosnippet#snippets_directory = $HOME.'/.vim/snippets,'.$HOME.'/dotfiles.local/.vim/snippets'
+let g:neosnippet#snippets_directory = $HOME.'/dotfiles.local/.vim/snippets,'.$HOME.'/.vim/snippets'
 
 "### キーマッピング
 " スニペット展開

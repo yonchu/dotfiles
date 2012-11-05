@@ -27,12 +27,12 @@ abbr        Copyright
 
 snippet     line1
 abbr        Line : - - -
-prev_word   '^'
+options     'head'
     ---------- ---------- ----------
 
 snippet     line2
 abbr        Half Line : ===(40chars)
-prev_word   '^'
+options     'head'
     " ======================================
 
 # }}}
@@ -43,17 +43,17 @@ prev_word   '^'
 
 snippet     vim1
 abbr        vim-modeline : # vim: fdm=marker fen fdl=0
-prev_word   '^'
+options     'head'
     # vim: fdm=marker fen fdl=0
 
 snippet     vim2
 abbr        vim-modeline : # vim: ft=...
-prev_word   '^'
+options     'head'
     # vim: ft=${1} ${2:sw=4} ${3:sts=4} ${4:ts=4} ${5:et}
 
 snippet     vim3
 abbr        vim-modeline : /* vim: set ft=...: */
-prev_word   '^'
+options     'head'
     /* vim: set ft=${1} ${2:sw=4} ${3:sts=4} ${4:ts=4} ${5:et}: */
 
 # }}}
