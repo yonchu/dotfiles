@@ -378,6 +378,24 @@ let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'ye
 "}}}
 
 
+"### TweetVim {{{
+"------------------------------------
+if has('gui_running')
+  " フレームにアイコンを表示
+  let g:tweetvim_display_icon = 1
+endif
+
+" 1ページのツイート数
+let g:tweetvim_tweet_per_page = 60
+
+nnoremap <silent><Space>tw :<C-u>tabnew <Bar> TweetVimHomeTimeline<CR>
+nnoremap <silent><Space>tl :<C-u>TweetVimHomeTimeline<CR>
+nnoremap <silent><Space>tm :<C-u>TweetVimMentions<CR>
+nnoremap <Space>ts :<C-u>TweetVimSay<CR>
+
+"}}}
+
+
 "### unite.vim {{{
 "------------------------------------
 " The prefix key.

@@ -97,9 +97,6 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 
-" Vundle
-"NeoBundle 'gmarik/vundle'
-"call vundle#rc()
 " }}}
 
 
@@ -247,6 +244,20 @@ NeoBundle 'Shougo/vimproc', {
 
   " ShowMarks7 : マークを表示
   NeoBundle 'ShowMarks7'
+
+  " TweetVim : vimでtwitter
+  "   https://github.com/basyura/TweetVim
+  "   Requrires : cURL
+  "   Auth Info : ~/.tweetvim/token
+  NeoBundle 'basyura/TweetVim',
+    \ {'depends' : [
+      \  'tyru/open-browser.vim',
+      \  'basyura/twibill.vim',
+      \  'mattn/webapi-vim',
+      \  'h1mesuke/unite-outline',
+      \  'basyura/bitly.vim',
+      \  'Shougo/unite.vim',
+    \ ]}
 " }}}
 
 
