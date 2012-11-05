@@ -151,7 +151,7 @@ alias cpa='cp -a'
 #  e.g.
 #   & grep -r searchword --include'*.txt' .
 #
-if grep --help | grep -q -- --exclude-dir; then
+if grep --help 2> /dev/null | grep -q -- --exclude-dir; then
     # svn/gitディレクトリを無視
     alias grep='grep -niE --exclude-dir=.svn --exclude-dir=.git'
 else
