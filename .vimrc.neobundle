@@ -139,6 +139,13 @@ NeoBundle 'Shougo/vimproc', {
   " smooth_scroll.vim : スクロールを賢く
   NeoBundle 'Smooth-Scroll'
 
+  " visualstar : Visualモードで選択したテキストを検索
+  "   VisualMode -> * # g* g#
+  NeoBundle 'thinca/vim-visualstar'
+
+  " vim-smartword : 単語移動がスマートな感じで
+  NeoBundle 'kana/vim-smartword'
+
   " <Leader><Leader>w/fなどで、motion先をhilightする
   NeoBundle 'EasyMotion'
 
