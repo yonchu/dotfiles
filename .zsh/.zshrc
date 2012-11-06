@@ -283,6 +283,9 @@ setopt bang_hist
 ## Completion configuration
 #
 
+# 補完キャッシュファイルのパス
+cache-path=~/.zcompcache
+
 # 補完関数のパス(fpath)を登録
 #
 # 重複パスを登録しない

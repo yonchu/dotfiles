@@ -8,4 +8,5 @@
 /.zsh/.zsh_history
 /.zsh/.zcompdump
 /.zsh/.chpwd-recent-dirs
+/.zsh/.zcompcache
 *.zwc
