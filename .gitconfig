@@ -7,16 +7,16 @@
 [color]
   # color設定
   # 自動で色をつけるコマンドを設定
-  status = auto
-  diff = auto
-  branch = auto
+  status      = auto
+  diff        = auto
+  branch      = auto
   interactive = auto
-  grep = auto
+  grep        = auto
 [core]
   excludesfile = ~/.gitignore
-  autocrlf = input             # CRLFを自動変換
-  editor = /usr/bin/vim        # 絶対パス指定必須
-  quotepath = false            # 日本語のファイル名表示に対応
+  autocrlf     = input            # CRLFを自動変換
+  editor       = /usr/bin/vim     # 絶対パス指定必須
+  quotepath    = false            # 日本語のファイル名表示に対応
 [help]
   autocorrect = 1
 [commit]
@@ -33,15 +33,15 @@
 [merge]
   tool = vimdiff
 [mergetool "p4merge"]
-  cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  cmd             = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   keepTemporaries = false
-  trustExitCode = false
-  keepBackup = false
+  trustExitCode   = false
+  keepBackup      = false
 [alias]
   # config
   cfl  = config --global --list   # グローバルConfigを参照
   cfll = config --local  --list   # ローカルConfigを参照
-  cfe  = config --global -e       # グローバルConfigを編集
+  e    = config --global -e       # グローバルConfigを編集
 
   # status
   s   = status -sb          # シンプル表示, ブランチ情報も表示
@@ -49,8 +49,8 @@
   si  = status --ignored    # .gitignoreで無視されたファイルも表示
 
   # show
-  sh  = show
-  shr = remote -v            # リモートリポジトリの一覧(URL付き)
+  sh   = show
+  shr  = remote -v           # リモートリポジトリの一覧(URL付き)
   shro = remote show origin  # リモートリポジトリの詳細表示(origin)
   shrg = remote show github  # リモートリポジトリの詳細表示(github)
 
@@ -69,7 +69,7 @@
 
   # push
   po  = push origin         # push先はorigin
-  #pof = push -f origin      # 強制push
+  #pof = push -f origin     # 強制push
   pou = push -u origin      # pushと同時に追跡ブランチを設定
 
   # rebase
@@ -85,8 +85,8 @@
   rbi5 = rebase -i HEAD^^^^^
 
   # merge
-  mn  = merge --no-ff       # FFでもマージコミットを強制作成
-  mergetool-def = mergetool -y  # デフォルトのマージツールでマージ
+  mn  = merge --no-ff                      # FFでもマージコミットを強制作成
+  mergetool-def = mergetool -y             # デフォルトのマージツールでマージ
   mergetool-p4 = mergetool --tool=p4merge  # p4mergeでマージ
 
   # add
@@ -100,18 +100,18 @@
   cam = commit -a -v --amend  # 直前のcommitを修正
 
   # checkout
-  ch  = checkout            # WorkingTreeをIndexの状態に戻す
-  chh = checkout HEAD       # WorkingTreeとIndexをRepositoryの状態に戻す
+  ch   = checkout           # WorkingTreeをIndexの状態に戻す
+  chh  = checkout HEAD      # WorkingTreeとIndexをRepositoryの状態に戻す
   chb  = checkout -b        # branch切ってcheckoutする
   cht  = checkout --track   # remoteのbranchを追跡
   chm  = checkout master    # masterブランチへ切り替え
 
   # branch関連
-  br  = branch
+  br   = branch
   bra  = branch -a           # originも含めた全てのbranchを表示
   brm  = branch --merged     # merge済みのbranchを表示
   brn  = branch --no-merged  # mergeしてないbranchを表示
-  brr = branch -r            # remote branchを表示
+  brr  = branch -r           # remote branchを表示
 
   # log関連
   edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
@@ -151,19 +151,19 @@
   rhh5 = reset --hard HEAD~~~~~
 
   # diff関連
-  d = diff
-  di = diff
-  dif = diff                 # IndexとWorkingTreeの差分 (addしていない変更を表示)
-  dm = diff master           # masterとのdiff
-  dw = diff --color-words    # 単語単位でいろつけてdiff
-  dc = diff --cached         # RepositoryとIndexの差分 (addしたけどcommitしてない変更を表示)
-  ds = diff --staged         # 同上(1.6.1移行)
-  dh = diff HEAD             # HEADとdiff : RepositoryとWorkingTreeの差分 (addを考慮せずcommitしてない変更を表示)
-  d1 = diff HEAD~            # HEADから1つ前とdiff
-  d2 = diff HEAD~~           # HEADから2つ前とdiff
-  d3 = diff HEAD~~~          # HEADから3つ前とdiff
-  d4 = diff HEAD~~~~         # HEADから4つ前とdiff
-  d5 = diff HEAD~~~~~        # HEADから5つ前とdiff
+  d   = diff
+  di  = diff
+  dif = diff                  # IndexとWorkingTreeの差分 (addしていない変更を表示)
+  dm  = diff master           # masterとのdiff
+  dw  = diff --color-words    # 単語単位でいろつけてdiff
+  dc  = diff --cached         # RepositoryとIndexの差分 (addしたけどcommitしてない変更を表示)
+  ds  = diff --staged         # 同上(1.6.1移行)
+  dh  = diff HEAD             # HEADとdiff : RepositoryとWorkingTreeの差分 (addを考慮せずcommitしてない変更を表示)
+  d1  = diff HEAD~            # HEADから1つ前とdiff
+  d2  = diff HEAD~~           # HEADから2つ前とdiff
+  d3  = diff HEAD~~~          # HEADから3つ前とdiff
+  d4  = diff HEAD~~~~         # HEADから4つ前とdiff
+  d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
   d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
   dro = diff master origin/master  # リモートリポジトリ(origin)とのdiff
   drg = diff master github/master  # リモートリポジトリ(github)とのdiff
@@ -189,9 +189,9 @@
   #   +：indexのcommit hashと異なる場合
   #      => git submodule update
   #
-  sm = submodule
-  sms = submodule status
-  smu = submodule update
+  sm   = submodule
+  sms  = submodule status
+  smu  = submodule update
   smui = submodule update --init
   # submoduleの状態確認(最新かどうか)
   smsh = submodule foreach "git remote show origin"
@@ -204,14 +204,14 @@
   #ss = stash save
 
   # tag
-  tl = tag -l -n    # タグ一覧(説明付き)
-  tc = tag -a       # タグ作成
-  ptg = push --tags         # tagをpush
+  tl  = tag -l -n     # タグ一覧(説明付き)
+  tc  = tag -a        # タグ作成
+  ptg = push --tags   # tagをpush
   #ptgd = push origin :refs/tags/  # リモートのタグ削除
 
   search-near-tag = name-rev --name-only  # 指定したコミットが番近いタグからどの位置にあるか表示
-  search-branch = branch --contains  # 指定したコミットがどのブランチに含まれるか表示
-  show-cherry = cherry -v master  # コミット毎に上流ブランチに既に存在している変更かどうかを見る
+  search-branch   = branch --contains     # 指定したコミットがどのブランチに含まれるか表示
+  show-cherry     = cherry -v master      # コミット毎に上流ブランチに既に存在している変更かどうかを見る
 
   chpk = cherry-pick # 特定のコミットを取り込む
 
