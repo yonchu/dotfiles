@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  gitリポジトリの詳細情報を表示
+#  Print detail infomation about current git repository.
 #
 
 if ! type git > /dev/null 2>&1; then
@@ -13,20 +13,46 @@ if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
     exit 1
 fi
 
+cmd_remote_update_info(){
+    local remote_name=${1:-origin}
+    echo "git remote show $remote_name \
+        | tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' \
+        && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
+}
+
 echo -e "===== \033[0;32mStatus (git status -sb)\033[0;39m ====="
 git status -sb
 
+echo -e "===== \033[0;32mRemote Update Info\033[0;39m ====="
+# HEAD branch (e.g. refs/heads/<branch-name>)
+head_branch=$(git symbolic-ref HEAD)
+if [ -z "$head_branch" ]; then
+    prehash=$(git rev-parse --short HEAD)
+    echo 'Not on any branch : prehash=$prehash'
+else
+    # Retrieve brach name (like master) from HEAD branch
+    branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
+    # The remote name of HEAD branch (e.g. origin)
+    remote_name=$(git config branch."${branch}".remote)
+    if [ -z "$remote_name" ]; then
+        echo 'No remote repository'
+    else
+        echo -e "## \033[0;32m$remote_name\033[0;39m"
+        eval $(cmd_remote_update_info)
+    fi
+fi
+
+# Submodule
 (
     cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
     echo -e "===== \033[0;33mSubmodule Status (git submodule status)\033[0;39m ====="
-    sub_state=$(git submodule status)
-    if [ -n "$sub_state" ]; then
-        echo "$sub_state"
+    sub_status=$(git submodule status)
+    if [ -n "$sub_status" ]; then
+        echo "$sub_status"
 
-        echo -e "===== \033[0;33mSubmodule Update Info\033[0;39m ====="
-        cmd="git remote show origin| tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
-        status=$(git submodule foreach "$cmd")
-        echo "$status" | sed '/^Entering/d'
+        echo -e "===== \033[0;33mSubmodule Remote Update Info\033[0;39m ====="
+        origin_status=$(git submodule foreach "$(cmd_remote_update_info)")
+        echo "$origin_status" | sed '/^Entering/d'
     fi
 )
 
