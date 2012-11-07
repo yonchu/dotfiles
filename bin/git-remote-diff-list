@@ -4,6 +4,15 @@
 #    差分コミットリストを表示
 #
 
+if ! type git > /dev/null 2>&1; then
+    echo 'Error: Git is not installed' 2>&1
+    exit 1
+fi
+
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+    echo 'Error: Not a git repository' 2>&1
+    exit 1
+fi
 
 # HEADのブランチ名(refs/heads/<branch-name>)を取得
 head_branch=$(git symbolic-ref HEAD)
