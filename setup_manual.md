@@ -20,6 +20,10 @@ Mac OS X セットアップ時の環境設定方法について記載する。
 
     $ chflags nohidden ~/Library/
 
+## Macの起動音を消す
+
+    $ sudo nvram SystemAudioVolume=%80
+
 
 ## Xcode と Command Line Tools for Xcode のインストール
 
