@@ -33,7 +33,6 @@ export USER_LOCAL
 # Terminal configuration
 # http://journal.mycom.co.jp/column/zsh/009/index.html
 #
-unset LSCOLORS
 case "${TERM}" in
     xterm)
         # オリジナルのTERM=xtermはカラー表示できない
@@ -46,13 +45,9 @@ case "${TERM}" in
         ;;
 esac
 
+unset LSCOLORS
 case "${TERM}" in
-    cons25)
-        unset LANG
-        export LSCOLORS=ExFxCxdxBxegedabagacad
-        export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-        ;;
-    kterm*|xterm*|screen*)
+    xterm*|screen*)
         # lsのカラー化
         export CLICOLOR=1
         export LSCOLORS=DxGxcxdxCxegedabagacad
@@ -64,10 +59,30 @@ case "${TERM}" in
             eval $(gdircolors ~/.dir_colors)
         else
             #  color-ls の色を設定する fi=37(バックグラウンド黒の場合)
-            LS_COLORS="no=00:fi=00:di=36:ln=35:pi=30;44:so=35;44:do=35;44:bd=33;44:cd=37;44:or=05;37;41:mi=05;37;41:ex=01;31"
-            LS_COLORS="su=41;30:sg=46;30:tw=42;30:ow=43;30:$LS_COLORS"
+            LS_COLORS="no=00:fi=00:di=36:ln=35:pi=30;44:so=35;44:do=35;44"
+            LS_COLORS="${LS_COLORS}:bd=33;44:cd=37;44:or=05;37;41:mi=05;37;41"
+            LS_COLORS="${LS_COLORS}:ex=01;31:su=41;30:sg=46;30:tw=42;30:ow=43;30"
             export LS_COLORS
         fi
+        ;;
+    kterm*)
+        export LSCOLORS=exfxcxdxbxegedabagacad
+        LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30"
+        LS_COLORS="${LS_COLORS}:sg=46;30:tw=42;30:ow=43;30"
+        export LS_COLORS
+        ;;
+    cons25)
+        unset LANG
+        export LSCOLORS=ExFxCxdxBxegedabagacad
+        LS_COLORS="di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34"
+        LS_COLORS="${LS_COLORS}:su=41;30:sg=46;30:tw=42;30:ow=43;30"
+        export LS_COLORS
+        ;;
+    jfbterm-color)
+        export LSCOLORS=gxFxCxdxBxegedabagacad
+        LS_COLORS="di=01;36:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34"
+        LS_COLORS="${LS_COLORS}:su=41;30:sg=46;30:tw=42;30:ow=43;30"
+        export LS_COLORS
         ;;
 esac
 

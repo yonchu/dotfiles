@@ -283,8 +283,9 @@ setopt bang_hist
 ## Completion configuration
 #
 
-# 補完キャッシュファイルのパス
-cache-path=~/.zcompcache
+# 補完キャッシュの設定
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zcompcache
 
 # 補完関数のパス(fpath)を登録
 #
@@ -496,13 +497,7 @@ esac
 
 ## ターミナル固有設定
 #   ターミナルタイトル変更
-#   補完候補の色づけ
-#
 case "${TERM}" in
-    cons25)
-        zstyle ':completion:*' list-colors \
-            'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
-        ;;
     kterm*|xterm*|screen*)
         # コマンド実行時にコマンド名をタイトルに設定(screen)
         preexec() {
@@ -521,15 +516,17 @@ case "${TERM}" in
                 echo -ne "\ek$(basename $(pwd))\e\\"
             fi
         }
-        # 補完候補の色分け
-        # LSCOLORS/LS_COLORSと対応させると見やすい
-        zstyle ':completion:*' list-colors \
-            'no=00' 'fi=00' 'di=36' 'ln=35' 'pi=30;44' 'so=35;44' 'do=35;44' \
-            'bd=33;44' 'cd=37;44' 'or=05;37;41' 'mi=05;37;41' 'ex=01;31' \
-            'su=41;30' 'sg=46;30' 'tw=42;30' 'ow=43;30'
-
         ;;
 esac
+
+# 補完候補の色分け
+if [ -n "$LS_COLORS" ]; then
+    # LS_COLORSの色と対応
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+elif [ -n "$LSCOLORS" ]; then
+    # LSCOLORSの色と対応
+    zstyle ':completion:*:default' list-colors ${(s.:.)LSCOLORS}
+fi
 
 
 ## その他
