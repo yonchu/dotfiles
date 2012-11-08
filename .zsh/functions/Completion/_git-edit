@@ -1,0 +1,40 @@
+#compdef git-edit
+#
+# git-edit zsh completion function
+#
+
+if ! type git > /dev/null 2>&1; then
+    _message 'Git is not installed'
+    return
+fi
+
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+    _message 'Not a git repository'
+    return
+fi
+
+__modified_files() {
+    # TODO git status --porcelain is better
+    #git status -s | egrep -v '^(.D|D.|DD)' | cut -b 4- | sed 's/.* -> //' | grep -v '\\/$' | uniq
+    git status -s | cut -b 4- | sed 's/.* -> //' | grep -v '\\/$' | uniq
+}
+
+local -a files
+files=(${(f)"$(__modified_files)"})
+
+local -a edit_files
+editing_files=()
+
+for file in "${files[@]}"; do
+    if [ -f "$file" ]; then
+        editing_files+=("$file")
+    fi
+done
+
+if [ ${#editing_files[@]} -lt 1 ]; then
+    _message 'No modified file'
+    return
+fi
+
+_describe -t modified_files 'Modified Files' editing_files && return 0
+

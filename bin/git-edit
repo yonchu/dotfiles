@@ -1,0 +1,63 @@
+#!/bin/bash
+#
+#  git edit [file ...]
+#
+#    変更のあったファイル(modified or untracked)を編集する
+#
+#      引数なし : 変更のあったファイルすべてを編集
+#
+#      引数あり : 指定したファイルを編集
+#                 (複数指定, ワイルドカードによるパス名展開可)
+#
+
+if ! type git > /dev/null 2>&1; then
+    echo 'Git is not installed.' 2>&1
+    exit 1
+fi
+
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+    echo 'Not a git repository.' 2>&1
+    exit 1
+fi
+
+modified_files() {
+    # TODO git status --porcelain is better
+    #git status -s | egrep -v '^(.D|D.|DD)' | cut -b 4- | sed 's/.* -> //' | grep -v '\\/$' | uniq
+    git status -s | cut -b 4- | sed 's/.* -> //' | grep -v '\\/$' | uniq
+}
+
+IFS=$'\n' files=($(modified_files))
+
+editing_files=()
+
+if [ $# -lt 1 ]; then
+    for file in "${files[@]}"; do
+        if [ -f "$file" ]; then
+            editing_files+=("$file")
+        fi
+    done
+    if [ ${#editing_files[@]} -lt 1 ]; then
+        echo 'No modified file'
+        exit
+    fi
+    exec ${GIT_EDITOR:-${EDITOR:-vi}} "${editing_files[@]}"
+    exit
+fi
+
+for arg in "$@"; do
+    [ -f "$arg" ] || break
+    for file in "${files[@]}"; do
+        if [ -f "$file" -a "$arg" = "$file" ]; then
+            editing_files+=("$arg")
+            break
+        fi
+    done
+done
+
+if [ ${#editing_files[@]} -lt 1 ]; then
+    echo 'No modified file'
+    exit
+fi
+
+exec ${GIT_EDITOR:-${EDITOR:-vi}} "${editing_files[@]}"
+

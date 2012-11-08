@@ -41,7 +41,9 @@
   # config
   cfl  = config --global --list   # グローバルConfigを参照
   cfll = config --local  --list   # ローカルConfigを参照
-  e    = config --global -e       # グローバルConfigを編集
+  cfe  = config --global -e       # グローバルConfigを編集
+  cfel = config --local  -e       # ローカルConfigを編集
+  ed   = config --global -e       # グローバルConfigを編集
 
   # status
   s   = status -sb          # シンプル表示, ブランチ情報も表示
@@ -114,7 +116,6 @@
   brr  = branch -r           # remote branchを表示
 
   # log関連
-  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
   wc  = whatchanged                    # logに変更されたファイルも一緒に出す
   ls  = log --stat --max-count=5       # logに変更されたファイルも一緒に出す
   lp  = log -p --max-count=5           # diffも一緒に出す
@@ -170,12 +171,11 @@
   dbr = diff -u <(git branch) <(git branch --merged)  # マージしていないBranchとの差分を表示
 
   # edit関連
-  # modified or untrackedなファイルを編集する
-  edit = "!f() { git status -s | cut -b 4- | grep -v '\\/$' | uniq ; }; vim `f`"
+  e = edit
   # mergeの際にconflictが起きたファイルを編集
-  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
+  edit-unmerged   = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
   # mergeの際にconflictが起きたファイルをadd
-  add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+  add-unmerged    = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
   delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
 
   # grep関連
