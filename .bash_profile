@@ -6,6 +6,13 @@
 #*******************************************************************************
 
 #
+# profile設定(共通)
+#
+if [ -f ~/dotfiles/.profile ]; then
+    source ~/dotfiles/.profile
+fi
+
+#
 # profile設定(OS固有)
 #
 case "${OSTYPE}" in
@@ -22,13 +29,6 @@ case "${OSTYPE}" in
     fi
     ;;
 esac
-
-#
-# profile設定(共通)
-#
-if [ -f ~/dotfiles/.profile ]; then
-    source ~/dotfiles/.profile
-fi
 
 #
 # .bashrc 読み込み

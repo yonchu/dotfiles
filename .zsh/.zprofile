@@ -14,6 +14,11 @@
 ### Setup only grobal but interactive-use only variables ###
 #
 
+## Setup profile (common settings)
+if [ -f ~/dotfiles/.profile ]; then
+    source ~/dotfiles/.profile
+fi
+
 ## Setup profile profile (chracteristc settings on each OS)
 case "${OSTYPE}" in
     # Mac OS X
@@ -29,11 +34,6 @@ case "${OSTYPE}" in
     fi
     ;;
 esac
-
-## Setup profile (common settings)
-if [ -f ~/dotfiles/.profile ]; then
-    source ~/dotfiles/.profile
-fi
 
 
 ### Complete Messages

@@ -118,3 +118,16 @@ export PATH=$HOME/.rvm/bin:$PATH
 # Coreutils
 #  GNU版Coreutilsの使用
 #export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+
+
+#
+# glsカラー(LS_COLORS)設定
+#
+case "${TERM}" in
+    xterm*|screen*)
+        if [ -f ~/.dir_colors ] && type gdircolors > /dev/null 2>&1; then
+            unset LS_COLORS
+            eval $(gdircolors ~/.dir_colors)
+        fi
+        ;;
+esac

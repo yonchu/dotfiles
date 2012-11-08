@@ -55,8 +55,6 @@ case "${TERM}" in
         # glsのカラー化
         if [ -f ~/.dir_colors ] && type dircolors > /dev/null 2>&1; then
             eval $(dircolors ~/.dir_colors)
-        elif [ -f ~/.dir_colors ] && type gdircolors > /dev/null 2>&1; then
-            eval $(gdircolors ~/.dir_colors)
         else
             #  color-ls の色を設定する fi=37(バックグラウンド黒の場合)
             LS_COLORS="no=00:fi=00:di=36:ln=35:pi=30;44:so=35;44:do=35;44"
