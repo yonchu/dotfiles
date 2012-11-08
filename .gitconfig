@@ -17,6 +17,8 @@
   autocrlf     = input            # CRLFを自動変換
   editor       = /usr/bin/vim     # 絶対パス指定必須
   quotepath    = false            # 日本語のファイル名表示に対応
+[branch]
+  #autosetuprebase = always       # pullは常に--rebaseで
 [help]
   autocorrect = 1
 [commit]
@@ -31,12 +33,15 @@
   tool = vimdiff
   #external = p4diff
 [merge]
+  stat = true
   tool = vimdiff
 [mergetool "p4merge"]
   cmd             = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   keepTemporaries = false
   trustExitCode   = false
   keepBackup      = false
+[rebase]
+  stat = true
 [alias]
   # config
   cfl  = config --global --list   # グローバルConfigを参照
@@ -62,7 +67,7 @@
   # ls-tree
   ls-th = ls-tree HEAD      # treeを表示
 
-  # etch
+  # fetch
   ft  = fetch
   ftp = fetch --prune
 
@@ -75,9 +80,10 @@
   pou = push -u origin      # pushと同時に追跡ブランチを設定
 
   # rebase
-  rbm = rebase master
-  rbc = rebase --continue   # rebase継続(次のコミットへ)
-  rba = rebase --abort      # rebase中止
+  rbm  = rebase --merge master
+  rbmm = rebase master
+  rbc  = rebase --continue   # rebase継続(次のコミットへ)
+  rba  = rebase --abort      # rebase中止
   # コミット履歴の書き換え
   rbi  = rebase -i
   rbi1 = rebase -i HEAD^
@@ -89,7 +95,7 @@
   # merge
   mn  = merge --no-ff                      # FFでもマージコミットを強制作成
   mergetool-def = mergetool -y             # デフォルトのマージツールでマージ
-  mergetool-p4 = mergetool --tool=p4merge  # p4mergeでマージ
+  mergetool-p4  = mergetool --tool=p4merge  # p4mergeでマージ
 
   # add
   ad  = add
@@ -154,18 +160,18 @@
   # diff関連
   d   = diff
   di  = diff
-  dif = diff                  # IndexとWorkingTreeの差分 (addしていない変更を表示)
-  dm  = diff master           # masterとのdiff
-  dw  = diff --color-words    # 単語単位でいろつけてdiff
-  dc  = diff --cached         # RepositoryとIndexの差分 (addしたけどcommitしてない変更を表示)
-  ds  = diff --staged         # 同上(1.6.1移行)
-  dh  = diff HEAD             # HEADとdiff : RepositoryとWorkingTreeの差分 (addを考慮せずcommitしてない変更を表示)
-  d1  = diff HEAD~            # HEADから1つ前とdiff
-  d2  = diff HEAD~~           # HEADから2つ前とdiff
-  d3  = diff HEAD~~~          # HEADから3つ前とdiff
-  d4  = diff HEAD~~~~         # HEADから4つ前とdiff
-  d5  = diff HEAD~~~~~        # HEADから5つ前とdiff
-  d10 = diff HEAD~~~~~~~~~~  # HEADから10前とdiff
+  dif = diff                       # IndexとWorkingTreeの差分 (addしていない変更を表示)
+  dm  = diff master                # masterとのdiff
+  dw  = diff --color-words         # 単語単位でいろつけてdiff
+  dc  = diff --cached              # RepositoryとIndexの差分 (addしたけどcommitしてない変更を表示)
+  ds  = diff --staged              # 同上(1.6.1移行)
+  dh  = diff HEAD                  # HEADとdiff : RepositoryとWorkingTreeの差分 (addを考慮せずcommitしてない変更を表示)
+  d1  = diff HEAD~                 # HEADから1つ前とdiff
+  d2  = diff HEAD~~                # HEADから2つ前とdiff
+  d3  = diff HEAD~~~               # HEADから3つ前とdiff
+  d4  = diff HEAD~~~~              # HEADから4つ前とdiff
+  d5  = diff HEAD~~~~~             # HEADから5つ前とdiff
+  d10 = diff HEAD~~ ~~~~~~~~       # HEADから10前とdiff
   dro = diff master origin/master  # リモートリポジトリ(origin)とのdiff
   drg = diff master github/master  # リモートリポジトリ(github)とのdiff
   dbr = diff -u <(git branch) <(git branch --merged)  # マージしていないBranchとの差分を表示
@@ -176,7 +182,8 @@
   edit-unmerged   = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
   # mergeの際にconflictが起きたファイルをadd
   add-unmerged    = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
-  delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
+  # 指定したコミットで変更されたファイルを編集する
+  modified = "!f() { git diff $1..$1\\^ --name-only | xargs sh -c 'vim "$@" < /dev/tty' - ;}; f" delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
 
   # grep関連
   gr = grep
