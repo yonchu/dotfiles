@@ -68,15 +68,13 @@ abbr    Shebang: #!/usr/bin/env zsh
 options     head
     #!/usr/bin/env bash
 
-# Set SCRIPT_DIR variable to directory script is located.
-snippet scrdir
-abbr    Set script directory
-    SCRIPT_DIR="$( cd "$( dirname "$$0" )" && pwd )
+snippet     cwd
+abbr        Set current working directory
+    cwd=$(cd "$(dirname "d0")" && pwd)
 
-# Set SCRIPT_PATH variable to path of script.
-snippet scrpath
-abbr    Set script path
-    SCRIPT_PATH="$( cd "$( dirname "$0" )" && pwd )/$(basename "$0")
+snippet     cmd_path
+abbr        Set command path
+    cmd_path=$(cd "$(dirname "d0")" && pwd)/$(basename "d0")
 
 snippet iftype
 abbr    Check whether the command exists
