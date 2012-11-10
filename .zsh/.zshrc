@@ -283,10 +283,6 @@ setopt bang_hist
 ## Completion configuration
 #
 
-# 補完キャッシュの設定
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zcompcache
-
 # 補完関数のパス(fpath)を登録
 #
 # 重複パスを登録しない
@@ -365,27 +361,29 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
 #  select=n: 補完候補がn以上なければすぐに補完
 zstyle ':completion:*:default' menu select=1
 
-# 一部のコマンドライン定義は、展開時に時間のかかる処理を行う
-# apt-get, dpkg (Debian), rpm (Redhat), urpmi (Mandrake), perlの-Mオプション,
-# bogofilter (zsh 4.2.1以降), fink, mac_apps (MacOS X)(zsh 4.2.2以降)
-zstyle ':completion:*' use-cache true
-
 # 詳細な情報を使う。
 zstyle ':completion:*' verbose true
 
+## cd
 # カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補にする
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+# 親ディレクトリから補完時にカレントディレクトリ表示しない (e.g. cd ../<TAB>):
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
 # 重複パスを登録しない
 typeset -U cdpath
 cdpath=($HOME{,/dotfiles.local/links}(N-/))
 
 # 補完方法毎にグループ化し、グループ名に説明を付加
-#  %F...%f  カラー
-#  %B...%b: 太字
-#  %U...%u: 下線
-#  %d: 補完方法のラベル
+#  %F...%f : カラー
+#  %B...%b : 太字
+#  %U...%u : 下線
+#  %d      : 補完候補の説明(ラベル)
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*:descriptions' format '%F{white}%B%d:%b%f'
+zstyle ':completion:*:descriptions' format '%B%d:%b'
+zstyle ':completion:*:options' description 'yes'
+
+# manのセクション番号を表示
+zstyle ':completion:*:manuals' separate-sections true
 
 # 補完方法の設定:指定した順番に実行
 #  _oldlist 前回の補完結果を再利用
@@ -408,6 +406,13 @@ zstyle ':chpwd:*' recent-dirs-file ~/.chpwd-recent-dirs
 zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":completion:*" recent-dirs-insert both
 zstyle ":completion:*:*:cdr:*:*" menu select=2
+
+# 補完キャッシュの設定
+# 一部のコマンドライン定義は、展開時に時間のかかる処理を行う
+# apt-get, dpkg (Debian), rpm (Redhat), urpmi (Mandrake), perlの-Mオプション,
+# bogofilter (zsh 4.2.1以降), fink, mac_apps (MacOS X)(zsh 4.2.2以降)
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zcompcache
 
 
 #
