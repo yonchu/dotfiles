@@ -119,7 +119,7 @@ VI_CMD_PROMPT="$VI_CMD_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux di
 # Left prompt
 PROMPT=${DEFAULT_PROMPT}
 # Correct Prompt
-SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
+SPROMPT="${RESET}${RED}%r ← こっちにしとけって[n,y,a,e]:${RESET} "
 
 #
 # Vi入力モードでPROMPTの色を変える
