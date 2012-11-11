@@ -74,25 +74,36 @@ printfpath() {
 # zmv
 #   簡単に複数ファイルのリネームが可能
 #   http://d.hatena.ne.jp/mollifier/20101227/p1
+#
 #     noglob *などのパス展開を行わない(""で''で囲わなくても良い)
 #     -n 確認内容を出力
 #     -C mvの代わりにcpを実行
 #     -L mvの代わりにlnを実行
-#     $ noglob zmv -w hoge-*.*.*.tar.gz hoge-$1--$2--$3.tar.gz
-#     $ noglob zmv -W hoge-*.*.*.tar.gz hoge-*--*--*.tar.gz
+#
+#     -w $ noglob zmv -w hoge-*.*.*.tar.gz hoge-$1--$2--$3.tar.gz
+#     -W $ noglob zmv -W hoge-*.*.*.tar.gz hoge-*--*--*.tar.gz
+#
 #     ゼロパティング
 #     $ (n=1; zmv -n '*.jpg' '${(l:3::0:)$((n++))}.jpg')
+#
 #     変数フラグ U:大文字 L:小文字 C:キャピタルケース
 #     $ zmv '(*).txt' '${(U)1}.txt'
+#
 #     変数置換 ${1//pattern/repl} ## は1回以上の繰り返し
 #     $ zmv '(*)' '${1// /_}'
 #     $ zmv '(*)' '${1// ##/_}'
+#
 #     バックアップ
 #     $ noglob zmv -W -C '(*.c)' '$1.bak'
+#
 #     シンボリックリンク作成
 #     $ noglob zmv -w -L -s 'dotfiles/.(*)' '.$1'
+#
 #     再帰変換
 #     $ zmv '(**/)makefile' '$1Makefile'
+#
+#     末尾の.tmpを消す
+#     $ zmvW .*.tmp .*
 #
 #     ヘルプ
 #     $ man zshcontrib
