@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+#
+# クリップボードへコピー
+#
+#  http://d.hatena.ne.jp/mollifier/20100317/p1
+#
+
+if type pbcopy >/dev/null 2>&1; then
+    # Mac
+    pbcopy "$@"
+elif type xsel >/dev/null 2>&1; then
+    # Linux
+    xsel --input --clipboard "$@"
+elif type putclip >/dev/null 2>&1; then
+    # Cygwin
+    putclip "$@"
+else
+    echo 'Unsupport clipboard'
+fi

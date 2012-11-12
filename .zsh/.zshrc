@@ -229,7 +229,7 @@ zle -N cdup
 bindkey '^' cdup
 
 
-# 表示されているコマンドをクリップボード
+# 表示されているコマンドをクリップボードへ
 #  http://d.hatena.ne.jp/hiboma/20120315/1331821642
 pbcopy-buffer(){
     # -r エスケープシーケンスを解釈しない
