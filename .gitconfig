@@ -101,6 +101,7 @@
   ad  = add
   adp = add -p              # ハンク毎にadd
   addall = add -A           # 全てadd：add . && add -u
+  adN = add -N              # ファイルの内容を登録せずファイルが追加されたということだけを記録
 
   # commit
   c   = commit -v             # diffも表示
@@ -186,8 +187,10 @@
   modified = "!f() { git diff $1..$1\\^ --name-only | xargs sh -c 'vim "$@" < /dev/tty' - ;}; f" delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
 
   # grep関連
-  gr = grep
-  gn = grep -n
+  #  -E POSIX の拡張正規表現を使用
+  #  -G POSIX の標準正規表現を使用
+  #  -P Perl の正規表現を使用
+  gr = grep -iIn --full-name
 
   # submodule
   #  status記号について
