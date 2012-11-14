@@ -1,18 +1,56 @@
 #!/bin/sh
-
-# 絶対パスをクリップボードへ
-#  第1引数: 対象のファイル or ディレクトリ
-#    引数未指定の場合はカレントディレクトリの絶対パスをコピー
+#
+#  引数に指定したファイル or ディレクトリの絶対パスを表示
+#  引数未指定の場合はカレントディレクトリの絶対パスを表示
 #
 #  オプション
-#   -a : ホームディレクトリのパスを~に変換
-#   -s : シンボリックリンクを解決(実体パスを取得)
+#    -a : ホームディレクトリのパスを~に変換
+#    -s : シンボリックリンクを解決(実体パスを取得)
+#
 
 usage() {
-  echo "Usage: ${0} [-a] [target]"
+  echo "Usage: ${0} [-a] [target...]"
   echo '  -a : convert home directory path into ~'
   echo '  -s : resolve all symbolic links'
 }
+
+print_fullpath() {
+    local target=$1
+    local fullpath
+    # 絶対パスを取得
+    if [ -z "$target" ]; then
+        fullpath=$(pwd)
+    elif ! [ -e "$target" ]; then
+        echo "Error: Not found ($target)" 1>&2
+        return 1
+    else
+        # シンボリックリンクを解決
+        if [ "$opt_s" = "true" -a -h "$target" ]; then
+            local sym_dir=$(cd $(dirname "$target") && pwd)
+            sym_dir=${sym_dir%/}
+            target="$sym_dir"/$(readlink -n "$target")
+        fi
+        local dir=$(cd $(dirname "$target") && pwd)
+        dir=${dir%/}
+        local base=$(basename "$target")
+        base=${base%/}
+        fullpath="$dir"/"$base"
+
+        #fullpath=$(cd $(dirname "$target") && pwd)/$(basename "$target")
+    fi
+
+    # $HOMEを~に変換
+    if [ "$opt_a" = "true" ]; then
+        fullpath_del_home=${fullpath#$HOME}
+        if [ "$fullpath" != "$fullpath_del_home" ]; then
+            fullpath='~'"${fullpath_del_home:-/}"
+        fi
+    fi
+
+    echo "$fullpath"
+}
+
+### Main ###
 
 # オプション解析
 while getopts as option; do
@@ -31,37 +69,15 @@ while getopts as option; do
 done
 shift `expr ${OPTIND} - 1`
 
-target=$1
-
-# 絶対パスを取得
-if [ -z "$target" ]; then
-    fullpath=$(pwd)
-elif ! [ -e "$target" ]; then
-    echo "error: file not found" 1>&2
+if [ $# -lt 1 ]; then
+    print_fullpath && exit 0
     exit 1
-else
-    # シンボリックリンクを解決
-    if [ "$opt_s" = "true" -a -h "$target" ]; then
-        sym_dir=$(cd $(dirname "$target") && pwd)
-        sym_dir=${sym_dir%/}
-        target="$sym_dir"/$(readlink -n "$target")
-    fi
-    dir=$(cd $(dirname "$target") && pwd)
-    dir=${dir%/}
-    base=$(basename "$target")
-    base=${base%/}
-    fullpath="$dir"/"$base"
-
-    #fullpath=$(cd $(dirname "$target") && pwd)/$(basename "$target")
 fi
 
+ret=0
+for target in "$@"; do
+    print_fullpath "$target" || ret=1
+done
 
-# $HOMEを~に変換
-if [ "$opt_a" = "true" ]; then
-    fullpath_del_home=${fullpath#$HOME}
-    if [ "$fullpath" != "$fullpath_del_home" ]; then
-        fullpath='~'"${fullpath_del_home:-/}"
-    fi
-fi
+exit $ret
 
-echo "$fullpath"
