@@ -6,6 +6,9 @@
 #   ~/.tmux-powerlinerc
 #
 
+# Usage of patched font for symbols. true or false.
+USE_PATCHED_FONT=true
+
 # Weather Yahoo
 # Higashikasai, Tokyo, JP
 # http://weather.yahoo.com/japan/tokyo-prefecture/tokyo-28529973/
