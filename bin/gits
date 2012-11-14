@@ -38,7 +38,7 @@ else
         echo 'No remote repository'
     else
         echo -e "## \033[0;32m$remote_name\033[0;39m"
-        eval $(cmd_remote_update_info)
+        eval $(cmd_remote_update_info "$remote_name")
     fi
 fi
 
