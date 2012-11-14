@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#  Confirm remote update status in git repositories.
+#  Check git remote update info in git repositories.
 #
 #    Usage:
-#      $ confirm-git-update [directory...|target list file]
+#      $ git-check-remote-update [directory...|target list file]
 #
 
 if ! type git > /dev/null 2>&1; then
@@ -40,10 +40,13 @@ remote_update_info () {
 }
 
 submodule_update_info() {
-    local origin_status=$(git submodule foreach "$(cmd_remote_update_info)")
-    if [ -n "$origin_status" ]; then
-        echo "$origin_status" | sed '/^Entering/d' | sed 's/^/ - /g'
-    fi
+    (
+        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+        local origin_status=$(git submodule foreach "$(cmd_remote_update_info)")
+        if [ -n "$origin_status" ]; then
+            echo "$origin_status" | sed '/^Entering/d' | sed 's/^/ - /g'
+        fi
+    )
 }
 
 print_update_info() {
@@ -53,28 +56,23 @@ print_update_info() {
             return 1
         fi
         toplevel_path=$(git rev-parse --show-toplevel)
-        full_path=$(cd "$(dirname .)" && pwd -P)
-        if [ "$full_path" = "$toplevel_path" ]; then
-            echo -n "$(remote_update_info)"
-            echo " [$1]"
-            submodule_update_info
-        fi
+        echo -n "$(remote_update_info)"
+        echo " [$toplevel_path]"
+        submodule_update_info
     )
 }
 
 ### Main ###
 
 if [ $# -lt 1 ]; then
+    echo '## git remote show xxxx'
     print_update_info '.'
-    for dir in $(find . -d -depth 1); do
-        [ -d "$dir" ] || continue
-        print_update_info "$dir"
-    done
     exit 0
 fi
 
 if [ $# -eq 1 -a -f "$1" ]; then
-    echo "# Read file \"${1}\"..."
+    echo "Read file \"${1}\"..."
+    echo '## git remote show xxxx'
     for dir in $(cat "$1"); do
         dir=$(echo "$dir" | sed "s%^~%$HOME%")
         [ -d "$dir" ] || continue
@@ -83,12 +81,9 @@ if [ $# -eq 1 -a -f "$1" ]; then
     exit 0
 fi
 
+echo '## git remote show xxxx'
 for root_dir in "$@"; do
     [ -d "$root_dir" ] || continue
     print_update_info "$root_dir"
-    for dir in $(find "$root_dir" -d -depth 1); do
-        [ -d "$dir" ] || continue
-        print_update_info "$dir"
-    done
 done
 
