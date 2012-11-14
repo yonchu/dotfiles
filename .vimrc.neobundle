@@ -80,7 +80,7 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-NeoBundle 'Shougo/neobundle.vim'
+" NeoBundle 'Shougo/neobundle.vim'
 
 " vimproc
 "  vimで非同期実行を行う (vimshelleやneocomplcacheで使用)
