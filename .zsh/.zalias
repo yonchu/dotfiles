@@ -41,8 +41,17 @@ alias -g S='| sed'
 alias -g V='| vim -R -'
 
 # クリップボードへコピー
-alias -g P='| pbcopy'
-
+#  http://d.hatena.ne.jp/mollifier/20100317/p1
+if type pbcopy >/dev/null 2>&1; then
+    # Mac
+    alias -g P='| pbcopy'
+elif type xsel >/dev/null 2>&1; then
+    # Linux
+    alias -g P='| xsel --input --clipboard'
+elif type putclip >/dev/null 2>&1; then
+    # Cygwin
+    alias -g P='| putclip'
+fi
 
 # pushd/popd
 alias pd="pushd"
@@ -178,3 +187,5 @@ case "${OSTYPE}" in
     linux*)
     ;;
 esac
+
+# vim: ft=zsh

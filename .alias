@@ -562,7 +562,18 @@ alias mysql_show_mysql_tables='mysqlshow -uroot -p mysql'
 
 #
 # pbcopy
+#  http://d.hatena.ne.jp/mollifier/20100317/p1
 #
+if type pbcopy >/dev/null 2>&1; then
+    # Mac
+    unalias pbcopy > /dev/null 2>&1
+elif type xsel >/dev/null 2>&1; then
+    # Linux
+    alias pbcopy='xsel --input --clipboard'
+elif type putclip >/dev/null 2>&1; then
+    # Cygwin
+    alias pbcopy='putclip'
+fi
 
 # 直前のコマンドをクリップボードへ
 #  第１引数：何個前のコマンドか(改行のみは除外されるはず)
