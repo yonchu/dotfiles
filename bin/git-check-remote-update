@@ -11,53 +11,78 @@ if ! type git > /dev/null 2>&1; then
     exit 1
 fi
 
-cmd_remote_update_info(){
+## Common
+get_remote_update_info(){
     local remote_name=${1:-origin}
-    echo "git remote show \"$remote_name\" \
+    git remote show "$remote_name" \
         | tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' \
-        && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
+        && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2
 }
 
+colorize_update_info() {
+    local status=$(echo "$1" | sed 's/^(\(.*\)) .*/\1/g')
+    if [ "$status" != "up to date" ]; then
+        status="\033[0;31m$status\033[0;39m"
+    fi
+    echo "($status) $(echo "$1" | sed 's/^(.*) //g')"
+}
+
+## Submodule
+print_sub_update_info() {
+    (
+        cd "$1"
+        update_info=$(colorize_update_info "$(get_remote_update_info)")
+        echo -e " - $update_info [$1]"
+    )
+}
+
+submodule_update_info() {
+    (
+        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+        local -a submodule_dirs
+        IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
+        if [ -z "$submodule_dirs" ]; then
+            return 0
+        fi
+        for dir in "${submodule_dirs[@]}"; do
+            print_sub_update_info "$dir"
+        done
+    )
+}
+
+## Repository
 remote_update_info () {
+    local update_info
     # HEAD branch (e.g. refs/heads/<branch-name>)
     local head_branch=$(git symbolic-ref HEAD)
     if [ -z "$head_branch" ]; then
         local prehash=$(git rev-parse --short HEAD)
-        echo '(Not on any branch : prehash=$prehash)'
-        return 1
+        update_info="Not on any branch : prehash=$prehash"
     else
         # Retrieve brach name (like master) from HEAD branch
         local branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
         # The remote name of HEAD branch (e.g. origin)
         local remote_name=$(git config branch."${branch}".remote)
         if [ -z "$remote_name" ]; then
-            echo '(No remote repository)'
+            update_info='No remote repository'
             return 1
         else
-            eval $(cmd_remote_update_info "$remote_name")
+            update_info=$(get_remote_update_info "$remote_name")
+            update_info=$(colorize_update_info "$update_info")
         fi
     fi
+    local toplevel_path=$(git rev-parse --show-toplevel)
+    echo -e "$update_info [$toplevel_path]"
 }
 
-submodule_update_info() {
-    (
-        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
-        local origin_status=$(git submodule foreach "$(cmd_remote_update_info)")
-        if [ -n "$origin_status" ]; then
-            echo "$origin_status" | sed '/^Entering/d' | sed 's/^/ - /g'
-        fi
-    )
-}
-
+## Root function
 print_update_info() {
     (
         cd "$1"
         if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
             return 1
         fi
-        toplevel_path=$(git rev-parse --show-toplevel)
-        echo -n "$(remote_update_info)"
-        echo " [$toplevel_path]"
+        remote_update_info
         submodule_update_info
     )
 }
