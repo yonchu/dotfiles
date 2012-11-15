@@ -75,10 +75,15 @@ fi
 if [ $# -eq 1 -a -f "$1" ]; then
     echo "Read file \"${1}\"..."
     echo '## git status -s'
-    for dir in $(cat "$1"); do
-        dir=$(echo "$dir" | sed "s%^~%$HOME%")
-        [ -d "$dir" ] || continue
-        print_status "$dir"
+    for line in $(cat "$1"); do
+        line=$(echo "$line" | sed "s%^~%$HOME%")
+        for dir in $line; do
+            if [ -d "$dir" ]; then
+                print_status "$dir"
+            elif [ ! -e "$dir" ]; then
+                echo -e "\033[0;31mNot found!! : $dir\033[0;39m"
+            fi
+        done
     done
     exit 0
 fi
