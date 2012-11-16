@@ -12,80 +12,92 @@ if ! type git > /dev/null 2>&1; then
 fi
 
 ## Common
-get_remote_update_info(){
-    local remote_name=${1:-origin}
-    git remote show "$remote_name" \
-        | tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' \
-        && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2
-}
-
-colorize_update_info() {
-    local status=$(echo "$1" | sed 's/^(\(.*\)) .*/\1/g')
-    if [ "$status" != "up to date" ]; then
-        status="\033[0;31m$status\033[0;39m"
-    fi
-    echo "($status) $(echo "$1" | sed 's/^(.*) //g')"
-}
-
-## Submodule
-print_sub_update_info() {
-    (
-        cd "$1"
-        update_info=$(colorize_update_info "$(get_remote_update_info)")
-        echo -e " - $update_info [$1]"
-    )
-}
-
-submodule_update_info() {
-    (
-        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
-        local -a submodule_dirs
-        IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
-        if [ -z "$submodule_dirs" ]; then
-            return 0
-        fi
-        for dir in "${submodule_dirs[@]}"; do
-            print_sub_update_info "$dir"
-        done
-    )
-}
-
-## Repository
-remote_update_info () {
-    local update_info
+get_remote_name () {
     # HEAD branch (e.g. refs/heads/<branch-name>)
     local head_branch=$(git symbolic-ref HEAD)
     if [ -z "$head_branch" ]; then
         local prehash=$(git rev-parse --short HEAD)
-        update_info="Not on any branch : prehash=$prehash"
+        echo "Not on any branch : prehash=$prehash"
+        return 1
     else
         # Retrieve brach name (like master) from HEAD branch
         local branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
         # The remote name of HEAD branch (e.g. origin)
         local remote_name=$(git config branch."${branch}".remote)
         if [ -z "$remote_name" ]; then
-            update_info='No remote repository'
+            echo 'No remote repository'
             return 1
         else
-            update_info=$(get_remote_update_info "$remote_name")
-            update_info=$(colorize_update_info "$update_info")
+            echo "$remote_name"
+            return 0
         fi
     fi
-    local toplevel_path=$(git rev-parse --show-toplevel)
-    echo -e "$update_info [$toplevel_path]"
+}
+
+cd_git_toplevel() {
+    cd "$1"
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+        return 1
+    fi
+    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+}
+
+## Submodule
+print_submodule_update_info() {
+    (
+        cd_git_toplevel "$1" || return 1
+        local -a submodule_dirs
+        IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
+        if [ -z "$submodule_dirs" ]; then
+            return 0
+        fi
+        for sub_dir in "${submodule_dirs[@]}"; do
+            echo " - $(print_remote_update_info "$sub_dir")"
+        done
+    )
+}
+
+## Remote
+print_remote_update_info () {
+    (
+        local dir=$1
+        cd_git_toplevel "$dir" || return 1
+
+        local status
+        local url
+
+        local remote_name
+        remote_name=$(get_remote_name)
+        if [ $? -eq 0 ]; then
+            local remote_show=$(git remote show "$remote_name")
+            status=$(echo "$remote_show" \
+                | tail -1 | sed 's/.*(\(.*\)).*/\1/')
+            if [ "$status" != "up to date" ]; then
+                status="\033[0;31m$status\033[0;39m"
+            fi
+            url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
+        else
+            status=$remote_name
+        fi
+
+        update_info="($status) [${dir%/}]${url:+ URL: $url}"
+        echo -e "$update_info"
+    )
 }
 
 ## Root function
 print_update_info() {
-    (
-        cd "$1"
-        if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
-            return 1
-        fi
-        remote_update_info
-        submodule_update_info
-    )
+    local dir=$1
+    if [ ! -e "$dir" ]; then
+        echo -e "\033[0;31mDirectory not found!! : $dir\033[0;39m"
+        return 1
+    elif [ ! -d "$dir" ]; then
+        return 0
+    fi
+    print_remote_update_info "$dir" \
+       && print_submodule_update_info "$dir"
 }
+
 
 ### Main ###
 
@@ -101,19 +113,16 @@ if [ $# -eq 1 -a -f "$1" ]; then
     for line in $(cat "$1"); do
         line=$(echo "$line" | sed "s%^~%$HOME%")
         for dir in $line; do
-            if [ -d "$dir" ]; then
-                print_update_info "$dir"
-            elif [ ! -e "$dir" ]; then
-                echo -e "\033[0;31mNot found!! : $dir\033[0;39m"
-            fi
+            print_update_info "$dir"
         done
     done
     exit 0
 fi
 
 echo '## git remote show xxxx'
-for root_dir in "$@"; do
-    [ -d "$root_dir" ] || continue
-    print_update_info "$root_dir"
+for dir in "$@"; do
+    print_update_info "$dir"
 done
+
+exit 0
 

@@ -17,7 +17,7 @@ cmd_remote_update_info(){
     local remote_name=${1:-origin}
     echo "git remote show $remote_name \
         | tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' \
-        && git remote -v | head -1 | tr '\t' ' ' | cut -d' ' -f 2"
+        && git remote -v | grep '^origin.*(push)$' | tr '\t' ' ' | cut -d' ' -f 2"
 }
 
 echo -e "===== \033[0;32mStatus (git status -sb)\033[0;39m ====="
