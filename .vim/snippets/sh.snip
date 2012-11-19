@@ -6,12 +6,20 @@ options     head
     #!/bin/sh
 
 # Shebang. Executing bash via /usr/bin/env makes scripts more portable.
-snippet     #!/usr
+snippet     #!/usr/bin/env bash
 alias       shebang2
 abbr        Shebang: #!/usr/bin/env bash
 options     head
     #!/usr/bin/env bash
 
+# Shebang. Executing zsh via /usr/bin/env makes scripts more portable.
+snippet     #!/usr/bin/env zsh
+alias       shebang3
+abbr        Shebang: #!/usr/bin/env zsh
+options     head
+    #!/usr/bin/env zsh
+
+### command path
 snippet     cwd
 abbr        Set current working directory
     cwd=$(cd "$(dirname "d0")" && pwd)
@@ -20,35 +28,36 @@ snippet     cmd_path
 abbr        Set command path
     cmd_path=$(cd "$(dirname "d0")" && pwd)/$(basename "d0")
 
-snippet     iftype
-abbr        Check whether the command exists
-    if type ${1:cmd} > /dev/null 2>&1; then
 
-    fi
-
+### redirect
 snippet     > /dev/null
 alias       redirect1
 abbr        Don't display STDOUT
     > /dev/null
 
-snippet     > /dev/null 2>&1
+snippet     2> /dev/null
 alias       redirect2
+abbr        Don't display STDERROR
+    2> /dev/null
+
+snippet     > /dev/null 2>&1
+alias       redirect3
 abbr        Don't display both STDOUT and STDERROR
     > /dev/null 2>&1
 
 snippet     1>&2
-alias       redirect3
+alias       redirect4
 abbr        STDOUT > STDERROR (for print error)
     1>&2
 
 snippet     2>&1
-alias       redirect4
+alias       redirect5
 abbr        STDERROR > STDOUT (output all to stdout)
     2>&1
 
 snippet     ostype
 abbr        IdentifiesOSTYPE
-    case "${OSTYPE}" in
+    case "D{OSTYPE}" in
         # BSD or OS X
         freebsd*|darwin*)
         ;;
@@ -57,20 +66,33 @@ abbr        IdentifiesOSTYPE
         ;;
     esac
 
+snippet     ostypeuname
+abbr        IdentifiesOSTYPE with uname
+    case \`uname -s\` in
+        Darwin)
+            ;;
+        FreeBSD)
+            ;;
+        Linux)
+            ;;
+        *)
+            ;;
+    esac
+
 snippet     sedspace
 abbr        Deletes leading spaces
     | sed 's/^[ \t]*//'
 
 snippet     source
 abbr        source file after checking whether it exists
-    if [ -f ${1:file} ]; then
-        source ${2:file}
+    if [ -f D{1:file} ]; then
+        source D{2:file}
     fi
 
 snippet     usage
 abbr        Usage command
     usage() {
-        echo "Usage: ${0} [-a] [target]"
+        echo "Usage: D{0} [-a] [target]"
         echo '  -a : what'
     }
 
@@ -95,48 +117,87 @@ abbr        debug mode
 options     head
     ## debug mode
     #DEBUG="yes"
-    if [ "$DEBUG" = "yes" ]; then
+    if [ "DDEBUG" = "yes" ]; then
         set -x
     fi
 
-snippet     root
+
+### if
+snippet     ife
+abbr        if else
+    if ${1:condition}; then
+        ${2:# statements}
+    else
+        ${3:# statements}
+    fi
+
+snippet     iftype
+abbr        Check whether the command exists
+    if type ${1:cmd} > /dev/null 2>&1; then
+
+    fi
+
+snippet     ifroot
 abbr        Checking the privileges of the a root user
 options     head
-    if [ $UID -ne 0 ]; then
+    if [ DUID -ne 0 ]; then
         echo "Superuser privileges are required to run this script."
-        echo "e.g. \"sudo $0\""
+        echo "e.g. \"sudo D0\""
         exit 1
     fi
 
-snippet     file
+snippet     iffile
 abbr        Check if a file exists
     FILE=${1:file}
-    if [ -f $FILE ]; then
-      echo "File ${FILE} exists"
+    if [ -f "DFILE" ]; then
+      echo "File D{FILE} exists"
     else
-      echo "File ${FILE} does NOT exists"
+      echo "File D{FILE} does NOT exists"
     fi
 
-snippet     directory
+snippet     ifdirectory
 abbr        Check if a folder exists
     DIR=${1:dir}
-    if [ -d $DIR ]; then
-      echo "Folder ${DIR} exists"
+    if [ -d "DDIR" ]; then
+      echo "Folder D{DIR} exists"
     else
-      echo "Folder ${DIR} does NOT exists"
+      echo "Folder D{DIR} does NOT exists"
+    fi
+
+snippet     ifargzero
+abbr        Check if arg is zero($#)
+    if [ $# -lt 1 ]; then
+        ${0:#:TARGET}
     fi
 
 snippet     forargs
 abbr        for arg in "$@"
-    for arg in "$@"; do
-        echo "$arg"
+    for arg in "D@"; do
+        echo "Darg"
         # 処理
+    done
+
+snippet     forbas
+abbr        for (())
+    for (( ${2:i} = 0; $2 < ${1:count}; $2++ )); do
+        ${3:# statements}
     done
 
 snippet     whileargs
 abbr        while [ $# -gt 0 ]; do
     while [ $# -gt 0 ]; do
-        echo "$1"
         # 処理
         shift
     done
+
+snippet     select
+abbr        select
+    select ${1:answer} in ${2:choices}; do
+        ${3:# statements}
+    done
+
+snippet     function
+abbr        function() {}
+    function ${1:name} (${2:args}) {
+        ${3:# body}
+    }
