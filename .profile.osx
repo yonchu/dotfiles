@@ -100,7 +100,7 @@ export DEFAULT_PYTHON_VENV="py273"
 export PYTHONSTARTUP=~/.pythonstartup
 
 # Pythonの外部ライブラリを指定
-#export PYTHONPATH=~/lib/python:./lib:.
+export PYTHONPATH=./lib:~/lib/python
 
 # http://d.hatena.ne.jp/jbking/20071222/readline_on_leopard
 # alias python='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib python'
