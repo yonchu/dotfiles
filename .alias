@@ -505,7 +505,7 @@ gtd() {
         # tmux実行時はタイトルを変更
         tmux rename-window "GTD"
     fi
-    vim ~/Dropbox/Repos/markdown/gtd.txt
+    vi ~/Dropbox/Repos/markdown/gtd.txt
 }
 
 # vim snippets 編集(Global)

@@ -9,4 +9,4 @@ for file in "$@"; do
     args[$((1 + ${#args[@]}))]="sudo:$file"
 done
 
-command vim "${args[@]}"
+exec ${EDITOR:-vim} "${args[@]}"
