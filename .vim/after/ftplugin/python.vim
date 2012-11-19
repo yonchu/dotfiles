@@ -44,6 +44,10 @@ setlocal omnifunc=
 "------------------------------------
 " Syntastic
 "  多言語対応のシンタックスチェック
+"
+"  実行：,s
+"  自動実行のトグル：,S
+"  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
 NeoBundleSource syntastic
 
@@ -51,23 +55,32 @@ NeoBundleSource syntastic
 "let g:syntastic_python_checker = "flake8"
 let g:syntastic_python_checker = 'pyflakes'
 
+" Automatically running
+"   mode(active/passive)
+"if !exists('syntastic_mode_map')
+  "let syntastic_mode_map = {}
+"endif
+"let syntastic_mode_map.mode = 'active'
+"let syntastic_mode_map = { 'mode': 'passive',
+  "\ 'active_filetypes': ['python'],
+  "\ 'passive_filetypes': [''] }
+
 "------------------------------------
 " python-mode
+"  https://github.com/klen/python-mode
 "  :help PythonModeOptions
 "  :help PythonModeKeys
 "  :help ropevim.txt
 "------------------------------------
-NeoBundleSource python-mode
-
-" ## Run pytho
+" ## Run python
 " Load run code plugin
-let g:pymode_run = 1
+let g:pymode_run = 0
 " Key for run python code
 let g:pymode_run_key = '<Leader>r'
 
 " ## Show documentation
 " Load show documentation plugin
-let g:pymode_doc = 1
+let g:pymode_doc = 0
 " Key for show python documentation
 let g:pymode_doc_key = 'K'
 
@@ -98,3 +111,8 @@ let g:pymode_lint_hold = 0
 " ## Foldin
 " Enable python folding
 let g:pymode_folding = 1
+
+" Auto fix vim python paths if virtualenv enabled
+let g:pymode_virtualenv = 1
+
+NeoBundleSource python-mode

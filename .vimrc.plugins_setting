@@ -241,7 +241,6 @@ autocmd FileType quickrun nnoremap <buffer> <ESC> :q<CR>
 
 " コンフィグ設定
 "   横分割で開く
-"   markdownの実行コマンドを指定
 let g:quickrun_config = {
       \   '_': {
       \     'split': '',
@@ -361,7 +360,7 @@ let g:syntastic_enable_balloons =1
 let g:syntastic_enable_highlighting = 1
 
 let g:syntastic_mode_map = { 'mode': 'passive',
-      \ 'active_filetypes': ['python', 'ruby', 'php', 'perl'],
+      \ 'active_filetypes': ['ruby', 'php', 'perl'],
       \ 'passive_filetypes': [] }
 
 "}}}
@@ -554,6 +553,13 @@ let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
 " ref-sourcesにてキャッシュを有効
 let g:ref_use_cache = 1
 
+autocmd FileType ref call s:initialize_ref_viewer()
+function! s:initialize_ref_viewer()
+  nmap <buffer> b <Plug>(ref-back)
+  nmap <buffer> f <Plug>(ref-forward)
+  nnoremap <buffer> q <C-w>c
+  "setlocal nonumber
+endfunction
 "}}}
 
 

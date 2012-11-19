@@ -6,11 +6,14 @@ set background=dark              " dark or light
 colorscheme magica               " カラースキーマ
 
 
-" colorcolumnの色指定
+" コメント
+highlight Comment ctermfg=8
+
+" colorcolumn
 highlight ColorColumn ctermbg=232
 
 
-"" カーソル行の色
+"" カーソル行
 highlight clear CursorLine
 highlight CursorLine gui=underline
 highlight CursorLine ctermbg=235

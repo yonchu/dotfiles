@@ -98,9 +98,9 @@ set splitbelow                   " 横分割時に新しいウィンドウをカ
 set splitright                   " 縦分割時に新しいウィンドウをカレントウィンドウの右に開く
 
 " コマンド実行中は再描画しない
-:set lazyredraw
+set lazyredraw
 " 高速ターミナル接続を行う
-:set ttyfast
+set ttyfast
 
 " モードによってカーソルの形を変更
 " 思ったより見づらかったので不可
@@ -846,7 +846,7 @@ set timeout timeoutlen=1000 ttimeoutlen=75
 " Escの2回押し
 "   検索ハイライト消去
 "   vim-hierのハイライト消去
-nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR><ESC>
+nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 
 " 補完中にESCで補完キャンセル
 "inoremap <silent><expr><ESC> pumvisible() ? neocomplcache#cancel_popup()."<ESC>" : "<ESC>"
