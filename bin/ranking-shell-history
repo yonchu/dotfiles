@@ -1,0 +1,178 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#  Show ranking for shell(bash/zsh) commands
+#
+#  usage: ranking_shell_history [-h] [-n N] [--max-arg-num MAX_ARG_NUM]
+#                                  [--min-count MIN_COUNT] [--shell {zsh,bash}]
+#                                  [--version]
+#                                  [bash|zsh|your history file]
+#
+#  positional arguments:
+#    bash|zsh|your history file
+#
+#  optional arguments:
+#    -h, --help            show this help message and exit
+#    -n N                  Show top N of shell commands
+#    --max-arg-num MAX_ARG_NUM
+#                          Max number of command arguments
+#    --min-count MIN_COUNT
+#                          Minimum number of printed command
+#    --shell {zsh,bash}    Target shell for history file
+#    --version             show program's version number and exit
+#
+"""
+Show ranking for shell(bash/zsh) commands.
+"""
+
+from __future__ import print_function
+
+import sys
+import os
+
+from argparse import ArgumentParser
+from collections import Counter, defaultdict
+
+## Data
+__version__ = '1.0.0'
+__date__ = 'November 20, 2012'
+__author__ = 'yonchu <yuyuchu3333@gmail.com>'
+__copyright__ = 'Copyright (c) 2012 yonchu. All rights reserved.'
+
+## Command Information for ArgumentParser
+DESCRIPTION = 'Show ranking for shell(bash/zsh) commands'
+ARG_METAVAR = 'bash|zsh|your history file'
+OPT_N_HELP = 'Show top N of shell commands'
+OPT_MAX_ARG_NUM_HELP = 'Max number of command arguments'
+OPT_MIN_COUNT_HELP = 'Minimum number of printed command'
+OPT_SHELL_HELP = 'Target shell for history file'
+
+## Const values
+TOP_NUM = 10
+MAX_ARG_NUM = 1
+MIN_COUNT = 10
+
+ENV_HISTFILE = 'HISTFILE'
+HISTORY_FILE_TABLE = {'bash': '.bash_history', 'zsh': '.zsh_history'}
+
+# ArgumentParser
+ARG_PARSER = None
+
+
+def parse_argument(argv=None):
+    """Parse command arguments."""
+    parser = ArgumentParser(description=DESCRIPTION)
+    parser.add_argument('-n', default=TOP_NUM, type=int,
+                        help=OPT_N_HELP)
+    parser.add_argument('--max-arg-num', default=MAX_ARG_NUM, type=int,
+                        help=OPT_MAX_ARG_NUM_HELP)
+    parser.add_argument('--min-count', default=MIN_COUNT, type=int,
+                        help=OPT_MIN_COUNT_HELP)
+    parser.add_argument('--shell',
+                        choices=HISTORY_FILE_TABLE,
+                        help=OPT_SHELL_HELP)
+    parser.add_argument('arg', metavar=ARG_METAVAR, nargs='?')
+    parser.add_argument('--version', action='version', version='%(prog)s ' + __version__)
+    argv = parser.parse_args(argv or sys.argv[1:])
+
+    global ARG_PARSER
+    ARG_PARSER = parser
+
+    return argv
+
+
+## Main
+def main(cmd_argv=None):
+    """Main function"""
+    argv = parse_argument(cmd_argv)
+
+    history_file = get_history_file(argv.arg, argv.shell)
+    print('Read %s' % history_file)
+    print('-' * 40)
+
+    stat = Stat()
+
+    try:
+        with open(history_file) as fi:
+            for line in fi:
+                line = line.strip()
+                if ";" in line:
+                    line = line.split(";")[1]
+                words = line.split()
+                s = stat
+                for i, w in enumerate(words):
+                    if i > argv.max_arg_num:
+                        break
+                    s.counter[w] += 1
+                    s = s.children[w]
+    except IOError as e:
+        #error_exit(sys.exc_info()[1])
+        error_exit(str(e))
+
+    show(stat, top_num=argv.n, min_count=argv.min_count)
+
+
+def get_history_file(arg=None, shell=None):
+    """Get shell(bash/zsh) history file name."""
+    if shell:
+        arg = shell
+
+    if arg:
+        if os.path.isfile(arg):
+            return arg
+        shell = arg
+        if shell not in HISTORY_FILE_TABLE:
+            error_exit('Invalid argument: ' + shell)
+    else:
+        if ENV_HISTFILE in os.environ:
+            if os.path.isfile(os.environ[ENV_HISTFILE]):
+                return os.environ[ENV_HISTFILE]
+        shell = identify_shell()
+        if shell not in HISTORY_FILE_TABLE:
+            error_exit('Unknown shell: ' + shell)
+
+    history_file = os.path.join(os.environ['HOME'], HISTORY_FILE_TABLE[shell])
+    if os.path.isfile(history_file):
+        return history_file
+    else:
+        error_exit('History file not found: %s - %s' % (shell, history_file))
+
+
+def identify_shell(default='bash'):
+    """Return shell name(e.g. bash, zsh)."""
+    shell = default
+    if 'SHELL' in os.environ:
+        shell = os.path.basename(os.environ['SHELL'])
+    return shell
+
+
+def show(stat, indent_num=0, top_num=None, min_count=0):
+    """Print command ranking."""
+    indent = "  " * indent_num
+    for name, count in stat.counter.most_common(top_num):
+        if count < min_count:
+            break
+        print ("%s%s: %d" % (indent, name, count))
+        show(stat.children[name], indent_num + 1, min_count=min_count)
+
+
+def error_exit(error):
+    """Exit when a error occurs."""
+    if not error:
+        return
+    print('Error:', error, file=sys.stderr)
+    if ARG_PARSER:
+        print()
+        print(ARG_PARSER.format_usage(), file=sys.stderr)
+    sys.exit(0)
+
+
+class Stat(object):
+    """State saved command ranking."""
+    def __init__(self):
+        self.counter = Counter()
+        self.children = defaultdict(Stat)
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
