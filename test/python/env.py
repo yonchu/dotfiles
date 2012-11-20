@@ -32,6 +32,11 @@ print
 print '---- type ----'
 print 'os.environ =', type(os.environ)
 print 'class name =', os.environ.__class__
+print
+
+print '---- debug ----'
+print 'dir(os.environ) =', dir(os.environ)
+print
 
 print '---- inspect ----'
 # inspect

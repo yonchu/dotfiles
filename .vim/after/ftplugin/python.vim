@@ -37,9 +37,7 @@ setl foldlevel=99
 "------------------------------------
 "NeoBundleSource pythoncomplete
 "setlocal omnifunc=pythoncomplete#Complete
-" デフォルトでpythoncompleteが使用されるため空に設定
 " オムに補完はpython-mode(RopeOmni)を使用
-setlocal omnifunc=
 
 "------------------------------------
 " Syntastic

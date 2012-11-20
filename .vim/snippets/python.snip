@@ -1,0 +1,115 @@
+snippet     skel
+abbr        skelton
+options     head
+    argvs = sys.argv
+    argc = len(argvs)
+    home = os.environ['HOME']
+    sys.exit(0)
+
+snippet     documentation(python)
+abbr        documentation(python)
+options     head
+    """
+    Description.
+    """
+
+    ## Data
+    __version__ = '1.0.0'
+    __date__ = 'November 20, 2012'
+    __author__ = 'yonchu <yuyuchu3333@gmail.com>'
+    __email__ = 'yuyuchu3333@gmail.com'
+    __maintainer__ = 'yonchu'
+    __status__ = 'Production'
+    __copyright__ = 'Copyright (c) 2012 yonchu. All rights reserved.'
+    __license__ = 'BSD-3-Clause'
+
+
+snippet     importprint
+abbr        from __future__ import print_function
+options     head
+    from __future__ import print_function
+
+snippet     main
+abbr        main function
+options     head
+    def main():
+        # main
+
+
+    if __name__ == '__main__':
+        main()
+
+snippet     exit1
+abbr        sys.exit(1)
+options     head
+    sys.exit(1)
+
+snippet     argvs
+abbr        argvs = sys.argv
+options     head
+    argvs = sys.argv
+
+snippet     argc
+abbr        argc = len(argvs)
+options     head
+    argc = len(argvs)
+
+snippet     envhome
+abbr        home = os.environ['HOME']
+options     head
+    home = os.environ['HOME']
+
+snippet     filehome
+abbr        file = os.path.join(.., ...)
+options     head
+    file = os.path.join(os.environ['HOME'], ${0:#:TARGET})
+
+snippet     print1
+abbr        print('%s, %s' % (hoge, fuga))
+    print('%s, %s' % (hoge, fuga))
+
+snippet     print2
+abbr        print('{0}, {1}'.format(hoge, fuga))
+    print('{0}, {1}'.format(hoge, fuga))
+
+snippet     print3
+abbr        print('{foge}, {huga}'.format(hoge='hog', fuga='fuga'))
+    print('{foge}, {fuga}'.format(hoge='hog', fuga='fuga'))
+
+snippet     printvar
+abbr        print('var =', var)
+    print('${1:var} =', $1)
+
+snippet     printerror
+abbr        print('Error: message', file=sys.stderr)
+    print('Error: ${0:#:TARGET}', file=sys.stderr)
+
+snippet     checkerror
+abbr        check_error for Popen
+options     head
+    def check_error(error):
+        if error:
+            print('Error:', error.decode('utf-8'), file=sys.stderr)
+            sys.exit(1)
+
+snippet     checkbeforerunning
+abbr        check_before_running
+options     head
+    def check_before_running():
+        try:
+            check_call('type ${1:command} >/dev/null 2>&1', shell=True)
+        except CalledProcessError:
+            print('Error: command not found $1', file=sys.stderr,)
+            sys.exit(1)
+
+        output, error = Popen(['${2:command}', '${3:-opt}'],
+                              stdout=PIPE, stderr=PIPE).communicate()
+        check_error(error)
+        if output == 'false':
+            print('Error: false', file=sys.stderr)
+            sys.exit(1)
+
+snippet     ifthree
+abbr        ${1:then_value} if ${2:predicate} else ${3:else_value}
+options     word
+    ${1:then_value} if ${2:predicate} else ${3:else_value}
