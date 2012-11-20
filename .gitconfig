@@ -1,5 +1,5 @@
 [include]
-  # ローカル設定 (git 1.7.10 or later)
+  # ローカル設定 (from 1.7.10)
   path = ~/.gitconfig.local
 [user]
   #name = xxxxx
@@ -29,12 +29,15 @@
   # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
   # tracking=upstream
   default = tracking
+[pull]
+  #rebase = true    # from 1.7.9
 [diff]
   tool = vimdiff
   #external = p4diff
 [merge]
   stat = true
   tool = vimdiff
+  #ff = false       # from 1.7.6
 [mergetool "p4merge"]
   cmd             = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   keepTemporaries = false
@@ -43,6 +46,15 @@
 [rebase]
   stat = true
 [alias]
+  # alias list
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+
+  # Make this a git repo
+  this = !git init && git add . && git commit -m \"initial commit\"
+
+  # Quickly add a file/dir to .gitignore.
+  ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
+
   # config
   cfl  = config --global --list   # グローバルConfigを参照
   cfll = config --local  --list   # ローカルConfigを参照
@@ -70,6 +82,7 @@
   # fetch
   ft  = fetch
   ftp = fetch --prune
+  fs  = !git fetch --prune && git su
 
   # pull
   plr = pull --rebase       # 不必要なマージコミットを作りたくない場合
@@ -107,6 +120,8 @@
   c   = commit -v             # diffも表示
   ca  = commit -a -v          # add + coimmit
   cam = commit -a -v --amend  # 直前のcommitを修正
+  # Amend with the same message
+  amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 
   # checkout
   ch   = checkout           # WorkingTreeをIndexの状態に戻す
@@ -123,22 +138,18 @@
   brr  = branch -r           # remote branchを表示
 
   # log関連
+  #   --stat : 変更されたファイルを表示
+  #   --graph : グラフを表示
+  #   -p : diffを表示
+  #   --max-count=n : 表示数の制限
+  #   --first-parent : ff表示
+  #   --no-marges : マージコミットを表示しない
   wc  = whatchanged                    # logに変更されたファイルも一緒に出す
-  ls  = log --stat --max-count=5       # logに変更されたファイルも一緒に出す
-  lp  = log -p --max-count=5           # diffも一緒に出す
-  lr  = log origin  --max-count=5      # originのlog
-  lg  = git log --graph --max-count=5  # グラフ表示
-
   ranking = shortlog -s -n --no-merges
 
-  # onelineログ
-  oneline = log --pretty=oneline
-  lo  = log --oneline --decorate --graph
-  ll  = log --date=iso --pretty=format:'%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
   # 詳細なログ
-  logs = log --graph --decorate --pretty=format:\"%ad [%cn] <c:%h t:%t p:%p> %n %Cgreen%d%Creset %s %n\" --stat
-  # logをgraph表示
-  llg = log --graph --date=iso --pretty='%x09%C(yellow)%h %C(cyan)%cd %Cgreen%cn%x09%Creset%s %Cred%d%Creset'
+  ll  = log --date=iso --graph --pretty=format:'%x09%C(magenta)%h %C(cyan)%cd %C(green)%cn%x09%C(yellow)%d%C(reset)%s'
+  lls = log --date=iso --graph --stat --pretty=format:'%C(cyan),%ad [%cn] <commit:%h tree:%t parent:%p>%C(reset)%n %s%C(yellow)%d%C(reset)%n'
   # 指定ブランチの変更点のみ抽出(分岐元:master) 最後にブランチ名を指定すること
   #  --reverse 逆順表示
   log-branch = log --oneline --decorate master..
@@ -186,6 +197,10 @@
   # 指定したコミットで変更されたファイルを編集する
   modified = "!f() { git diff $1..$1\\^ --name-only | xargs sh -c 'vim "$@" < /dev/tty' - ;}; f" delete-unmerged =  "!f() { git ls-files --deleted | cut -f2 | sort -u ; }; git rm `f`"
 
+  # rm
+  # Remove files which have been deleted
+  remove  = !git ls-files -z --deleted | xargs -0 git rm
+
   # grep関連
   #  -E POSIX の拡張正規表現を使用
   #  -G POSIX の標準正規表現を使用
@@ -225,6 +240,9 @@
 
   chpk = cherry-pick # 特定のコミットを取り込む
 
+  # git browse-remote
+  br = browse-remote
+
 [http]
   sslVerify = false
 
@@ -239,4 +257,12 @@
   generic = ^F move-page-down
   generic = ^B move-page-up
 
-# vim: sw=2 sts=2 ts=2 et
+[web]
+  # Set in .gitconfig.local
+  #browser = google-chrome
+
+[browse-remote "github.com"]
+  top = https://{host}/{path}
+  ref = https://{host}/{path}/tree/{short_ref}
+  rev = https://{host}/{path}/commit/{commit}
+  file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"
