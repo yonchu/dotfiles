@@ -13,7 +13,7 @@ fi
 
 submodule_status() {
     (
-        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+        cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
         local -a submodule_dirs
         IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
         if [ -z "$submodule_dirs" ]; then

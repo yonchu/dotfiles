@@ -39,7 +39,7 @@ cd_git_toplevel() {
     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
         return 1
     fi
-    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
+    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
 }
 
 ## Submodule
