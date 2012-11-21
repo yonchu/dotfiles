@@ -415,39 +415,6 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zcompcache
 
 
-#
-# cdd
-#  http://m4i.hatenablog.com/entry/2012/01/26/064329
-#  screen/tmuxのカレントディレクトリに移動など
-#  $ cdd
-#  $ cdd <tab>
-#  $ cdd add <name> <dir>
-#  $ cdd delete <name> <dir>
-if [ -f ~/.zsh/cdd ];then
-    source ~/.zsh/cdd
-fi
-
-
-#
-# Z.sh
-#  https://github.com/rupa/z
-#  履歴を使ったディレクトリ移動
-#  コマンド割り当て(j,c)
-if [ -x ~/.zsh/z/z.sh ]; then
-    _Z_CMD=j
-    source ~/.zsh/z/z.sh
-
-    _z_cmd() { _z --add "$(pwd -P 2> /dev/null)"; }
-    add-zsh-hook precmd  _z_cmd
-
-    # TAB補完の機能をaliasにも追加
-    compctl -U -K _z_zsh_tab_completion $_Z_CMD
-
-    alias c='_z 2>&1'
-    alias jr='_z -r'
-fi
-
-
 ## zsh editor
 #
 #autoload zed
@@ -579,57 +546,6 @@ log
 
 
 #
-# zsh-syntax-highlighting
-#  https://github.com/zsh-users/zsh-syntax-highlighting
-#
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    #(main brackets pattern cursor)
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
-fi
-
-
-#
-# rvm
-#
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-
-#
-# pythonbrew
-#  pythonbrewの自動起動
-#
-[ -s $HOME/.pythonbrew/etc/bashrc ] && source $HOME/.pythonbrew/etc/bashrc
-if type pybrew > /dev/null 2>&1; then
-    pybrew switch $DEFAULT_PYTHON_VERSION > /dev/null 2>&1 \
-    && pybrew venv use "$DEFAULT_PYTHON_VENV" > /dev/null 2>&1
-fi
-
-
-#
-# tmux/screen
-#  ログイン時にtmux または screenが起動してない場合は自動的に起動
-#  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
-#  tmuxを優先して起動し、tmuxが使えなければscreenを起動する
-#
-if [ -z "$TMUX" -a -z "$STY" ]; then
-    if type tmuxx >/dev/null 2>&1; then
-        tmuxx
-    elif type tmux >/dev/null 2>&1; then
-        if tmux has-session && tmux list-sessions | egrep -q '.*]$'; then
-            # デタッチ済みセッションが存在する
-            tmux attach && echo "tmux attached session "
-        else
-            tmux new-session && echo "tmux created new session"
-        fi
-    elif type screen >/dev/null 2>&1; then
-        screen -rx || screen -D -RR
-    fi
-fi
-
-
-#
 # pluginの読み込み
 #
 if [ -d ~/.zsh/plugins ]; then
@@ -661,6 +577,29 @@ if [ -f ~/dotfiles.local/.shrc.local ]; then
 fi
 
 
+#
+# tmux/screen automatically running
+#
+#  ログイン時にtmux または screenが起動してない場合は自動的に起動
+#  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
+#  tmuxを優先して起動し、tmuxが使えなければscreenを起動する
+#
+if [ -z "$TMUX" -a -z "$STY" ]; then
+    if type tmuxx >/dev/null 2>&1; then
+        tmuxx
+    elif type tmux >/dev/null 2>&1; then
+        if tmux has-session && tmux list-sessions | egrep -q '.*]$'; then
+            # デタッチ済みセッションが存在する
+            tmux attach && echo "tmux attached session "
+        else
+            tmux new-session && echo "tmux created new session"
+        fi
+    elif type screen >/dev/null 2>&1; then
+        screen -rx || screen -D -RR
+    fi
+fi
+
+
 # 重複パスを強制削除
 typeset -U path
 path=($path)
@@ -668,5 +607,7 @@ path=($path)
 
 ### Complete Messages
 echo "Loading .zshrc completed!!"
+echo
 echo "Now zsh version $ZSH_VERSION starting!!"
 echo '(」・ω・)」うー！(／・ω・)／にゃー！'
+

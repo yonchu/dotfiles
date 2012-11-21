@@ -1,6 +1,11 @@
 #
+# rvm
+#
 # https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/rvm/rvm.plugin.zsh
 #
+
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 type rvm >/dev/null 2>&1 || { echo '...skip'; return; }
 
