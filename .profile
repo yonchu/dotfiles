@@ -220,3 +220,8 @@ export GIT_EDITOR=/usr/bin/vim
 # DropBox
 #
 export DROPBOX=~/Dropbox
+
+
+### Complete Messages
+echo "Loading .profile completed!!"
+

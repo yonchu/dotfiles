@@ -131,3 +131,8 @@ case "${TERM}" in
         fi
         ;;
 esac
+
+
+### Complete Messages
+echo "Loading .profile.osx completed!!"
+

@@ -172,4 +172,9 @@ case "${OSTYPE}" in
     ;;
 esac
 
+
+### Complete Messages
+echo "Loading .zalias completed!!"
+
 # vim: ft=zsh
+

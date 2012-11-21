@@ -417,4 +417,8 @@ sjis() {
 alias rmt='rmtrash'
 
 
+### Complete Messages
+echo "Loading .alias completed!!"
+
 # vim: ft=sh sw=4 sts=4 ts=4 et
+
