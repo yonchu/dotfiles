@@ -79,6 +79,11 @@ abbr        IdentifiesOSTYPE with uname
             ;;
     esac
 
+snippet     ifostype
+abbr        [ $(uname -s) = 'Linux' ] || return
+options     head
+    [ $(uname -s) = '${0:Darwin|FreeBSD|Linux}' ] || return
+
 snippet     sedspace
 abbr        Deletes leading spaces
     | sed 's/^[ \t]*//'
