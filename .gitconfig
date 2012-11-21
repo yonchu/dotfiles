@@ -242,7 +242,7 @@
   chpk = cherry-pick # 特定のコミットを取り込む
 
   # git browse-remote
-  br = browse-remote
+  brr = browse-remote
 
 [http]
   sslVerify = false
