@@ -609,6 +609,23 @@ elif  [ "$(uname)" = 'Darwin' ]; then
 fi
 alias stt='st .'
 
+#
+# pythonbrew
+#
+py273() {
+    if type pybrew > /dev/null 2>&1; then
+        pybrew switch 2.7.3 > /dev/null 2>&1 \
+        && pybrew venv use py273 > /dev/null 2>&1
+    fi
+}
+
+py323() {
+    if type pybrew > /dev/null 2>&1; then
+        pybrew switch 3.2.3 > /dev/null 2>&1 \
+        && pybrew venv use py323 > /dev/null 2>&1
+    fi
+}
+
 
 # ゴミ箱へ
 alias rmt='rmtrash'
