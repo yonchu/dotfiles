@@ -82,7 +82,6 @@ let g:pymode_doc = 0
 " Key for show python documentation
 let g:pymode_doc_key = 'K'
 
-
 " ## Lint
 " Load pylint code plugin
 let g:pymode_lint = 1
@@ -92,7 +91,6 @@ let g:pymode_lint_write = 1
 let g:pymode_lint_checker = "pyflakes,pep8,mccabe"
 " on django
 "let g:pymode_lint_cheker = "pylint"
-
 
 " ## Window
 " Hold cursor in current window
@@ -110,6 +108,13 @@ let g:pymode_lint_hold = 0
 " Enable python folding
 let g:pymode_folding = 1
 
+" ## Rope
+" Load rope plugin
+let g:pymode_rope = 1
+" Auto create and open ropeproject
+let g:pymode_rope_auto_project = 0
+
+" ## etc
 " Auto fix vim python paths if virtualenv enabled
 let g:pymode_virtualenv = 1
 
