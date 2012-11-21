@@ -286,43 +286,6 @@ alias rsync='rsync -avzu'
 
 
 #
-# screen
-#  -U utf-8で起動(文字化けする場合に有効)
-#  -ls or -list screenリスト
-#  -S <name> セッション名指定
-#  -r <name> アタッチ(再接続)
-#  -D -RR 既存のセッションを強制デタッチして再接続(なければ新規作成)
-#         再接続するならとりあえずこれ使っとけばOK
-#
-alias sc='screen -U'
-alias sl='screen -ls'
-alias ssm='screen -U -S main'
-alias srm='screen -U -r main'
-alias srr='screen -U -D -RR'
-
-# SSHコマンドはscreenで実行
-#  ssh_sc <server>
-#
-function ssh_sc(){
-    local svr
-    svr=$1
-    shift
-    ssh -t $svr screen -rx || screen -D -RR
-}
-
-# ssh先に対してscreenを起動してコマンドを実行
-#  ssh_sc_cmd <server> <cmd>
-#
-ssh_sc_cmd() {
-    local svr
-    svr=$1
-    shift
-    # $*のほうがいい？
-    ssh $svr screen -d -m $@
-}
-
-
-#
 # Japanese env
 #  ロケールに関する環境変数をすばやく切替えるためのエイリアス
 #
@@ -340,31 +303,14 @@ alias liptables='iptables -L -n --line-numbers'
 # sudo スーパーユーザへ
 alias ssu='sudo -s'
 
-#
-# PATHを改行区切りで表示
-#
-printpath() {
-    echo "$PATH" | sed 's/:/\
-/g'
-}
 
 #
-# homebrew
+# PATH
 #
-if type brew >/dev/null 2>&1; then
-    alias b='brew'
-    alias bup='brew update'
-    alias bs='brew search'
-    alias bgit='brew info --github'
-    alias bls='brew list --versions'
-    alias bed='brew edit'
-    alias bins='brew install -v'
-    # alias buins='brew uninstall'
-    # alias bupg='brew upgrade -v'
-    # alias bcl='brew cleanup'
-    alias bdep='brew uses --installed'
-    alias cdbr='pushd $(brew --prefix)/'
-fi
+# 改行区切りで表示
+alias printpath='echo $PATH | tr ":" "\n"'
+# 重複削除
+alias organize_path='tr ":" "\n" | uniq | paste -d: -s -'
 
 
 #
@@ -466,204 +412,9 @@ sjis() {
 
 
 #
-# Vim
+# rmtrash
 #
-
-if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
-    # MacVim-Kaoriya
-    alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-    alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-    alias vimm='/usr/bin/vim'
-    #alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags "$@"'
-    alias view='vim -R'
-elif type vim > /dev/null 2>&1; then
-    alias vi='vim'
-    alias view='vim -R'
-else
-    alias vim='vi'
-fi
-
-# vim起動時にUniteをオープン
-alias viu='vim -c "Unite -no-start-insert -no-split file_mru buffer file"'
-
-# vim起動時にUnite(file=dotfiles)オープン
-alias viud='vim -c "Unite -input=$HOME/dotfiles/. -no-start-insert -no-quit -winwidth=60 file"'
-
-# vimをlessとして使う
-if [ -x /Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh ]; then
-    alias vless='/Applications/MacVim.app/Contents/Resources/vim/runtime/macros/less.sh'
-elif [ -x /usr/share/vim/vim73/macros/less.sh ]; then
-    alias vless='/usr/share/vim/vim73/macros/less.sh'
-fi
-
-# 全てのvimrcをviで編集
-alias Ev='vi ~/dotfiles/.vimrc*'
-
-# GTDを編集
-gtd() {
-    if [ "$TMUX" ]; then
-        # tmux実行時はタイトルを変更
-        tmux rename-window "GTD"
-    fi
-    vi ~/Dropbox/Repos/markdown/gtd.txt
-}
-
-# vim snippets 編集(Global)
-alias snip='vi ~/.vim/snippets/_.snip'
-
-# vim dict 編集
-alias dict='vi ~/.vim/dict/_.dict'
-
-
-#
-# git
-#
-alias gitst='git status'
-
-
-#
-# tmux
-#
-if type tmuxx >/dev/null 2>&1; then
-    # pbcoopy対応のtmux
-    alias tmx='tmuxx'
-fi
-alias tm='tmux'
-# セッション名mainで新規作成
-alias tmm='tmux new-session -s main'
-# セッション名mainにアタッチ
-alias tmam='tmux attach -t main'
-# 最後に作成されたセッションにアタッチ
-alias tma='tmux attach'
-# 指定セッションをデタッチ後にアタッチ
-alias tmad='tmux attach -d -t'
-# セッションリストを表示
-alias tml='tmux list-sessions'
-# ウィンドウリストを表示
-alias tmw='tmux list-window'
-# クライアントリストを表示
-alias tmc='tmux list-clients'
-# ウィンドウタイトル変更
-alias tmrw='tmux rename-window'
-
-
-#
-# MySQL
-#  データベース一覧 mysqlshow -uroot -p
-#  --auto-rehash テーブル名/カラム名などの補完を有効
-#  --no-auto-rehash テーブル名/カラム名などの補完を無効(SQL補完有効)
-#
-alias mysqlr='mysql --auto-rehash'
-alias mysqlnr='mysql --auto-rehash'
-alias mysql_show_variables='mysql -uroot -p -e "show variables"'
-alias mysql_show_user='mysql -uroot -p -e "select User, Host from mysql.user"'
-alias mysql_show_mysql_tables='mysqlshow -uroot -p mysql'
-
-
-#
-# pbcopy
-#  http://d.hatena.ne.jp/mollifier/20100317/p1
-#
-if type pbcopy >/dev/null 2>&1; then
-    # Mac
-    unalias pbcopy > /dev/null 2>&1
-elif type xsel >/dev/null 2>&1; then
-    # Linux
-    alias pbcopy='xsel --input --clipboard'
-elif type putclip >/dev/null 2>&1; then
-    # Cygwin
-    alias pbcopy='putclip'
-fi
-
-# 直前のコマンドをクリップボードへ
-#  第１引数：何個前のコマンドか(改行のみは除外されるはず)
-copy_prev_cmd_to_clipboard () {
-    if [ -n "$1" ] && ! expr "$1" : '[0-9]*' > /dev/null ; then
-        echo "error: non-numeric argument" 1>&2
-        return 1
-    fi
-    local num=${1:-1};
-    num=$((num + 1))
-    tail "-$num" "$HISTFILE" | perl -e '<> =~  m/;(.+)/; print $1;' | pbcopy
-}
-alias pbcc='copy_prev_cmd_to_clipboard'
-
-
-#
-# open
-#  Macのアプリケーションを起動
-#
-alias finder='open -a finder'
-alias gvim='open -a MacVim'
-alias chrome='open -a Google\ Chrome'
-alias edit='open -a CotEditor'
-
-
-#
-# Sublime Text 2
-#
-if [ "$(uname)" = 'Linux' ]; then
-    alias st='/usr/bin/sublime_text&'
-elif  [ "$(uname)" = 'Darwin' ]; then
-    alias st='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
-fi
-alias stt='st .'
-
-#
-# pythonbrew
-#
-py273() {
-    if type pybrew > /dev/null 2>&1; then
-        pybrew switch 2.7.3 > /dev/null 2>&1 \
-        && pybrew venv use py273 > /dev/null 2>&1
-    fi
-}
-
-py323() {
-    if type pybrew > /dev/null 2>&1; then
-        pybrew switch 3.2.3 > /dev/null 2>&1 \
-        && pybrew venv use py323 > /dev/null 2>&1
-    fi
-}
-
-
-# ゴミ箱へ
 alias rmt='rmtrash'
 
-# ゴミ箱の中身を確認
-alias showtrash="echo ~/.Trash ;ls -lah ~/.Trash"
-
-#
-# 削除する代わりにゴミ箱へ
-#
-trash(){
-    for file in "$@"; do
-       __trash_single_file $file
-    done
-}
-
-__trash_single_file(){
-    if ! [ -d ~/.Trash/ ]; then
-        command /bin/mkdir ~/.Trash
-    fi
-
-    if ! [ $# -eq 1 ]; then
-        echo "__trash_single_file: 1 argument required but $# passed."
-        return 1
-    fi
-
-    if [ -e $1 ]; then
-        local BASENAME=$(basename $1)
-        local NAME=$BASENAME
-        local COUNT=0
-        while [ -e ~/.Trash/$NAME ]; do
-            COUNT=$(($COUNT+1))
-            NAME="$BASENAME.$COUNT"
-        done
-        command /bin/mv $1 ~/.Trash/$NAME
-    else
-        echo "No such file or directory: $file"
-    fi
-}
 
 # vim: ft=sh sw=4 sts=4 ts=4 et

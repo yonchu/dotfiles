@@ -634,7 +634,7 @@ fi
 #
 if [ -d ~/.zsh/plugins ]; then
     for plugin in ~/.zsh/plugins/*.zsh; do
-        echo "Loading plugin: $plugin"
+        echo "Loading plugin: ${plugin##*/}"
         source "$plugin"
     done
 fi

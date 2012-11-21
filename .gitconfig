@@ -63,9 +63,9 @@
   ed   = config --global -e       # グローバルConfigを編集
 
   # status
-  s   = status -sb          # シンプル表示, ブランチ情報も表示
+  s   = status -sb                # シンプル表示, ブランチ情報も表示
   st  = status
-  si  = status --ignored    # .gitignoreで無視されたファイルも表示
+  si  = status -b --ignored       # .gitignoreで無視されたファイルも表示
 
   # show
   sh   = show
@@ -118,8 +118,9 @@
 
   # commit
   c   = commit -v             # diffも表示
+  cm  = commit -v --amend     # 直前のcommitを修正
   ca  = commit -a -v          # add + coimmit
-  cam = commit -a -v --amend  # 直前のcommitを修正
+  cam = commit -a -v --amend  # 直前のcommitを修正 + 全てcommit
   # Amend with the same message
   amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 
