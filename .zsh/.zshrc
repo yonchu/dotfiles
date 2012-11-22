@@ -600,14 +600,30 @@ if [ -z "$TMUX" -a -z "$STY" ]; then
 fi
 
 
+#
+# pythonbrew
+#
+# Warning!! これより後にPATHを追加しないこと
+#
+# Source
+[ -s $HOME/.pythonbrew/etc/bashrc ] && source $HOME/.pythonbrew/etc/bashrc
+# Automatically running
+if type pybrew > /dev/null 2>&1; then
+    echo
+    echo 'Pybrew automatically running...'
+    echo "pybrew version: $(pybrew --version)"
+    pybrew switch "$DEFAULT_PYTHON_VERSION" \
+        && pybrew venv use "$DEFAULT_PYTHON_VENV"
+    echo
+fi
+
+
 # 重複パスを強制削除
-typeset -U path
 path=($path)
 
 
 ### Complete Messages
 echo "Loading .zshrc completed!!"
-echo
 echo "Now zsh version $ZSH_VERSION starting!!"
 echo '(」・ω・)」うー！(／・ω・)／にゃー！'
 
