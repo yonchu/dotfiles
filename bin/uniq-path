@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# http://d.hatena.ne.jp/takehikom/20081027/1225052105
+#
+
+main() {
+    IFS=: path_array=($1)
+    q=':'
+    for p in "${path_array[@]}"; do
+        [ "$q" = "${q/:$p:/}" ] && q="$q$p:"
+    done
+    q=${q#:}
+    q=${q%:}
+    echo "$q"
+}
+
+if [ -n "$1" ]; then
+    main "$1"
+else
+    main "$PATH"
+fi
+
+exit 0
+
