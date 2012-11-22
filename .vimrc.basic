@@ -661,6 +661,9 @@ nnoremap <silent>cy ce<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 vnoremap <silent>cy c<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 nnoremap <silent>ciy ciw<C-r>0<ESC>:let@/=@1<CR>:noh<CR>
 
+" 連続貼り付け
+vnoremap <silent> cp "0p<CR>
+
 " コンマの後に自動的にスペースを挿入
 "inoremap , ,<Space>
 "
