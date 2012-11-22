@@ -365,9 +365,22 @@ DLしたファイルを実行
 
 Evernoteのメモを参照
 
+$ pip freeze
+distribute
+flake8
+pep8
+pyflakes
+readline
+wsgiref
+
 ## ruby(rvm/gem)
 
 Evernoteのメモを参照
+
+$ gem list
+git-browse-remote
+rvm
+tw
 
 ## ディレクトリ構成の復活
 
@@ -412,3 +425,6 @@ DropBoxから設定を復元
 実行ファイルのシンボリックリンクを作成
 
     $ ln -s /Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl ~/bin/subl
+
+
+# vim: ft=markdown
