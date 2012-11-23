@@ -499,6 +499,9 @@ command! UO :Unite -no-start-insert -winwidth=40 -no-quit outline
 " unite-colorscheme
 command! UC :Unite -auto-preview -no-start-insert -winwidth=15 colorscheme
 
+" unite-mapping
+command! UM :Unite -no-start-insert mapping
+
 " }}}
 
 
