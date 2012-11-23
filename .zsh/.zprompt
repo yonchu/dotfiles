@@ -141,10 +141,33 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+function _python_type() {
+    local python_path=$(which python 2> /dev/null)
+    local pytype
+    [ -z "$python_path" ] && return 0
+    if [ "$python_path" = '/usr/bin/python' ]; then
+        pytype='def'
+    elif [ "$python_path" = '/usr/local/bin/python' ]; then
+        pytype='local'
+    elif echo "$python_path" | fgrep -q '/.pythonbrew/'; then
+        if [ -n "$VIRTUAL_ENV" ]; then
+            pytype=$(basename "$VIRTUAL_ENV")
+        else
+            pytype='*py'$(echo "$python_path" | sed 's%.*Python-\([^/]*\)/.*%\1%' | tr -d '.')
+        fi
+    else
+        if [ -n "$VIRTUAL_ENV" ]; then
+            pytype=$(basename "$VIRTUAL_ENV")
+        else
+            pytype=$python_path
+        fi
+    fi
+    echo "($pytype)"
+}
 
 # Set RPROMPT to update environment variable and vsc status.
 function _update_rprompt() {
-    RPROMPT="$(vcs_super_info)${BOLD_MAGENTA}${VIRTUAL_ENV:+($(basename "$VIRTUAL_ENV"))}${RESET}[${MAGENTA}%D{%y/%m/%d %H:%M:%S}${RESET}]"
+    RPROMPT="$(vcs_super_info)${BOLD_MAGENTA}$(_python_type)${RESET}[${MAGENTA}%D{%y/%m/%d %H:%M:%S}${RESET}]"
 }
 add-zsh-hook precmd _update_rprompt
 
