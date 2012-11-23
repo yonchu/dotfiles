@@ -70,6 +70,7 @@ create_dotfiles_symlinks() {_
         .gitk
         .gvimrc
         .inputrc
+        .ipython
         .lv
         .m2
         .my.cnf

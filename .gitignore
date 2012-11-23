@@ -16,3 +16,10 @@
 
 # pudb
 /.config/pudb/saved-breakpoints
+
+# ipython
+/.ipython/profile_default/db
+/.ipython/profile_default/history.sqlite
+/.ipython/profile_default/log
+/.ipython/profile_default/pid
+/.ipython/profile_default/security
