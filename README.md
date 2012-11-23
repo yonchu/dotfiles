@@ -13,14 +13,12 @@ Usage
 
 Clone from github
 
-    $ cd
+    $ cd ~/
     $ git clone https://github.com/yonchu/dotfiles.git
 
-### Mac OS
+### Installation
 
-Create symbolic links.
-
-    $ etc/osx/setup.sh
+    $ ~/dotfiles/etc/setup.sh
 
 See also
 ---------------

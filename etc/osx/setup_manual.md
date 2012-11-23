@@ -6,24 +6,18 @@ Mac OS X セットアップ時の環境設定方法について記載する。
 個人的なメモ書きのため、作者以外にはあまり参考になりません。
 
 #### 条件
+
  * OS X 10.6 or later
 
 
 #### 必要なもの
+
  * DropBox内のバックアップ
  * Evernote内のインストール情報
 
 
 設定項目
 --------
-## ライブラリディレクトリの表示
-
-    $ chflags nohidden ~/Library/
-
-## Macの起動音を消す
-
-    $ sudo nvram SystemAudioVolume=%80
-
 
 ## Xcode と Command Line Tools for Xcode のインストール
 
@@ -53,15 +47,29 @@ Xcodeのパス変更を確認
     $ xcrun -find clang
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 
+## Homebrew 導入前準備
 
-## dotfilesの準備
+参考
+[Macのパッケージ管理をMacPortsからhomebrewへ - よんちゅBlog](http://yonchu.hatenablog.com/entry/20110226/1298723822)
+
+既に /usr/local が作成済みの場合は、/usr/local の所有権限を root:staff に変更
+
+    $ chown root:staff /usr/local
+
+Homebrew をインストール
+
+[Homebrew Wiki](https://github.com/mxcl/homebrew/wiki/installation')
+
+tomcat6.rbを追加(バックアップより)
+
+## セットアップ
 
     GithubにSSH公開鍵を設定
 
-    $ ~/dotfiles/setup.osx.sh
+    $ ~/dotfiles/etc/setup.sh
 
 
-## /etc/zshenv を /etc/zprofile に変更 (OS X 10.7)
+## /etc/zshenv を /etc/zprofile に変更 (OS X 10.7 or later)
 
 OS X が10.7にアップデートした時に誤って,
 /etc/zprofile を /etc/zshenv にしてしまったらしい。
@@ -106,83 +114,18 @@ zshをサブシェルとして実行するとPATHの設定がおかしくなっ�
 
 
  - bash
-    - ~/.bash_profile
+    - ~/.bash\_profile
         - \-> ~/dotfiles/.profile
         - \-> ~/dotfiles/.profile.osx
     - ~/.bashrc
         - \-> ~/dotfiles/.alias
         - \-> ~/dotfiles/.shrc.local
 
-
-## Homebrew 導入
-
-参考
-[Macのパッケージ管理をMacPortsからhomebrewへ - よんちゅBlog](http://yonchu.hatenablog.com/entry/20110226/1298723822)
-
-既に /usr/local が作成済みの場合は、/usr/local の所有権限を root:staff に変更
-
-    $ chown root:staff /usr/local
-
-homebrewのインストール
-
-    $ ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
-
-PATHを手動で一時的に変更
-
-    $ export PATH=/usr/local/bin/:/usr/local/sbin/:/usr/local/share:$PATH
-
-Gitインストール
-
-    $ brew install git
-
-アップデート
-
-    $ brew update
-
-確認
-
-    $ brew doctor
-    $ brew --config
-    $ brew --env
-
-外部リポジトリ追加
-
-    $ brew tap homebrew/dupes
-    $ brew tap homebrew/versions
-    $ brew tap adamv/homebrew-alt
-    $ brew tap homebrew/boneyard
-
-確認
-
-    $ brew tap
-
-tomcat6.rbを追加(バックアップより)
-
-パッケージインストール
-
-2. Python以外のパッケージをインストール
-2. fontforgeが正常に動作するか確認
-    $ fontforge  -script fontpatcher azuki.ttf
-2.  最後にPythonをインストール
-
-homebrewの補完関数\_brewを設定
-
-    $ cd /usr/local/share/zsh/functions
-    $ ln -s ../../../Library/Contributions/brew_zsh_completion.zsh _brew
-
 ## vim
 
 MacVim-KaoriYa インストール
 
 [macvim-kaoriya - MacVim KaoriYa - Google Project Hosting](http://code.google.com/p/macvim-kaoriya/)
-
-NeoBundleによるvimプラグインのインストール
-
-    $ vim -c NeoBundleInstall -c quit
-
-    vimprocのコンパイル(NeoBundleのBuild機能によりコンパイル手順は不要)
-    $ cd ~/.vim/bundle/vimproc/
-    $ make -f make_mac.mak
 
 vim-powerlineの個別変更(キャラコード/文字数(マルチ文字対応))
 
@@ -194,13 +137,13 @@ vim-powerlineの個別変更(キャラコード/文字数(マルチ文字対応)
 
 vim-powerline対応のフォントをインストール
 
-Ricty,  Envy Code R, うにフォント, あずきフォント
+Dropboxのバックアップを使用
+
+Ricty,  Envy Code R, うにフォント, あずきフォント...etc
 <br><br>
 vim-powerlineのキャッシュクリア
 
-    $ vim -c PowerLineClearCache -c quit
-
-
+    $ vim -c PowerLineClearCache -c quitall
 
 ## 動作確認
 

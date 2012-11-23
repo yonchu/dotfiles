@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-# 未設定の変数を参照するとエラー
 set -u
 
 # 実行確認
@@ -19,6 +18,19 @@ confirm_exe() {
     esac
 }
 
+setup_osx() {
+    [ $(uname -s) != 'Darwin' ] || return
+
+    # Show the ~/Library folder
+    chflags nohidden ~/Library/
+
+    # Mute system audio
+    sudo nvram SystemAudioVolume=%80
+
+    # Setup Homebrew
+    confirm_exe 'Homebrewの設定を行いますか？' && $HOME/dotfiles/etc/osx/setup_brew.sh
+}
+
 create_dotfiles() {
     (
         cd ~/
@@ -34,7 +46,7 @@ create_dotfiles() {
 }
 
 setup_vim() {
-    vim -c NeoBundleInstall -c quit
+    vim -c NeoBundleInstall -c quitall
 }
 
 create_symlink() {
@@ -49,27 +61,50 @@ create_symlink() {
 create_dotfiles_symlinks() {_
     ## 各種シンボリックリンク作成
     #
-    DOT_FILES=(.ackrc .bashrc .bash_profile .dir_colors .gitconfig .gitignore .gitk .gvimrc .inputrc .lv .my.cnf .pythonstartup .screenrc .ssh .tmux.conf .vim .vimrc .zsh)
+    DOT_FILES=(.ackrc
+        .bashrc
+        .bash_profile
+        .dir_colors
+        .gitignore
+        .gitk
+        .gvimrc
+        .inputrc
+        .lv
+        .m2
+        .my.cnf
+        .pythonstartup
+        .screenrc
+        .subversion
+        .tmux.conf
+        .tmux
+        .vim
+        .vimrc
+        .zsh)
 
     for file in ${DOT_FILES[@]}; do
-        create_symlink "dotfiles/$file" "$HOME/$file"
+        create_symlink "$HOME/dotfiles/$file" "$HOME/$file"
     done
 
+    # For Mac
+    if [ $(uname -s) = 'Darwin' ]; then
+        ln -s "$HOME/dotfiles/.MacOSX" "$HOME/.MacOSX"
+    fi
+
     # .zshenv
-    ln -s .zsh/.zshenv "$HOME/.zshenv"
+    ln -s "$HOME/.zsh/.zshenv" "$HOME/.zshenv"
 
     # .gitignore
-    ln -s dotfiles/.gitignore.default "$HOME/.gitignore"
+    ln -s "$HOME/dotfiles/.gitignore.default" "$HOME/.gitignore"
 
     # .dir_colors
-    ln -s .zsh/dircolors-solarized/dircolors.ansi-universal "$HOME.dir_colors"
+    ln -s "$HOME/.zsh/dircolors-solarized/dircolors.ansi-universal" "$HOME.dir_colors"
 }
 
 
 ## Main --------------------
 
-# ライブラリディレクトリを表示
-chflags nohidden ~/Library/
+# Macの設定
+setup_osx
 
 # dotfilesを作成
 confirm_exe 'dotfilesを作成しますか？' && create_dotfiles
@@ -82,3 +117,4 @@ confirm_exe 'シンボリックリンクを作成しますか？' && create_dotf
 
 ## complete message
 echo 'Setup completed!'
+

@@ -1,5 +1,5 @@
 #!/bin/bash
-# 未定義の変数を使用するとエラー
+
 set -u
 
 # 実行確認
@@ -18,16 +18,13 @@ exe_confirm
 
 ## Main --------------------
 
-## homebrew
-{
-    echo "$(date)"
-    echo '===== brew list --versions ====='
-    brew list --versions
-    echo
-    echo '===== brew tap ====='
-    brew tap
-} > brew_info.txt
+echo "$(date)"
 
+## Installed packages
+brew list -1 > brew_list.txt
+
+## tap list
+brew tap > brew_tap.txt
 
 ## complete message
 echo 'Backup completed!'
