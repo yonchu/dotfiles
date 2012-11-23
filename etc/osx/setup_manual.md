@@ -309,12 +309,17 @@ DLしたファイルを実行
 Evernoteのメモを参照
 
 $ pip freeze
+debug
 distribute
 flake8
+ipython
 pep8
+pudb
 pyflakes
 readline
 wsgiref
+
+    $ ln -s ~/dotfiles/etc/python/sitecustomize.py ~/.pythonbrew/venvs/Python-2.7.3/py273/lib/python2.7/site-packages/sitecustomize.py
 
 ## ruby(rvm/gem)
 

@@ -10,3 +10,6 @@
 /.zsh/.chpwd-recent-dirs
 /.zsh/.zcompcache
 *.zwc
+
+# pudb
+/.config/pudb/saved-breakpoints

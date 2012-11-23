@@ -64,6 +64,7 @@ create_dotfiles_symlinks() {_
     DOT_FILES=(.ackrc
         .bashrc
         .bash_profile
+        .config
         .dir_colors
         .gitignore
         .gitk

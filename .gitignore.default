@@ -38,6 +38,7 @@ a.out
 *.ear
 
 ## Python
+*.py[cod]
 .ropeproject
 
 ## ActionScript
