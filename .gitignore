@@ -4,6 +4,9 @@
 
 /.vim/.netrwhist
 
+# subversion
+/.subversion/auth
+
 # zsh
 /.zsh/.zsh_history
 /.zsh/.zcompdump
