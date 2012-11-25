@@ -9,6 +9,11 @@ import itertools
 import functools
 import re
 
+try:
+    from see import see
+except ImportError:
+    pass
+
 # debug
 #try:
     #from sitecustomize import info

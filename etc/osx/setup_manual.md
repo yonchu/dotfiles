@@ -318,6 +318,7 @@ pudb
 pyflakes
 readline
 wsgiref
+see
 
     $ ln -s ~/dotfiles/etc/python/sitecustomize.py ~/.pythonbrew/venvs/Python-2.7.3/py273/lib/python2.7/site-packages/sitecustomize.py
 
