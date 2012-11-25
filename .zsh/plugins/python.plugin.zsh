@@ -23,3 +23,23 @@ function py323() {
     fi
 }
 
+function cdsite() {
+    local py_cmd
+    py_cmd=`cat << 'EOF'
+from __future__ import print_function
+import sys
+import os
+import site
+
+site_prefix = site.PREFIXES[0]
+version = str(sys.version_info[0]) + '.' + str(sys.version_info[1])
+site_path = os.path.join(site_prefix, 'lib/python' + version, 'site-packages')
+print(site_path)
+EOF`
+
+    local site_path=$(python -c "$py_cmd")
+    [ -d "$site_path" ] || return 1
+    echo "$site_path"
+    cd "$site_path"
+}
+
