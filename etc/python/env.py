@@ -29,13 +29,11 @@ print 'sys.stdout.encoding =', sys.stdout.encoding
 print 'sys.stderr.encoding =', sys.stderr.encoding
 print
 
-print '---- type ----'
+print '---- debug ----'
 print 'os.environ =', type(os.environ)
 print 'class name =', os.environ.__class__
-print
-
-print '---- debug ----'
 print 'dir(os.environ) =', dir(os.environ)
+#print 'help(sys) = ', help(help)
 print
 
 print '---- inspect ----'

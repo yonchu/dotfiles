@@ -110,7 +110,7 @@ let g:pymode_folding = 1
 
 " ## Rope
 " Load rope plugin
-let g:pymode_rope = 1
+let g:pymode_rope = 0
 " Auto create and open ropeproject
 let g:pymode_rope_auto_project = 0
 
