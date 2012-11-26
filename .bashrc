@@ -37,7 +37,7 @@ if type __git_ps1 >/dev/null 2>&1; then
 else
     PS1='[\[\033[032m\]\u\[\033[033m\]@\[\033[032m\]\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]]\$ '
 fi
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#I_#P") "$PWD")'
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 export PS1
 
 
