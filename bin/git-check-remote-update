@@ -13,17 +13,15 @@ fi
 
 ## Common
 get_remote_name () {
-    # HEAD branch (e.g. refs/heads/<branch-name>)
-    local head_branch=$(git symbolic-ref -q HEAD)
+    # HEAD branch
+    local head_branch=$(git symbolic-ref -q --short HEAD)
     if [ -z "$head_branch" ]; then
         local prehash=$(git rev-parse --short HEAD)
         echo "Not on any branch : prehash=$prehash"
         return 1
     fi
-    # Retrieve brach name (like master) from HEAD branch
-    local branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
     # The remote name of HEAD branch (e.g. origin)
-    local remote_name=$(git config branch."${branch}".remote)
+    local remote_name=$(git config branch."${head_branch}".remote)
     if [ -z "$remote_name" ]; then
         echo 'No remote repository'
         return 1

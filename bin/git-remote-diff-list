@@ -15,7 +15,7 @@ if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
 fi
 
 # HEADのブランチ名(refs/heads/<branch-name>)を取得
-head_branch=$(git symbolic-ref HEAD)
+head_branch=$(git symbolic-ref -q --short HEAD)
 #echo "head_branch=$head_branch"
 if [ -z "$head_branch" ]; then
     prehash=$(git rev-parse --short HEAD)
@@ -23,12 +23,8 @@ if [ -z "$head_branch" ]; then
     exit 1
 fi
 
-# ブランチ名部分のみ取得
-branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
-#echo "branch=$branch"
-
 # HEADブランチのリモートリポジトリ名を取得
-remote_name=$(git config branch."${branch}".remote)
+remote_name=$(git config branch."${head_branch}".remote)
 #echo "remote_name=$remote_name"
 
 if [ -z "$remote_name" ]; then

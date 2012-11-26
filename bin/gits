@@ -24,16 +24,14 @@ echo -e "===== \033[0;32mStatus (git status -sb)\033[0;39m ====="
 git status -sb
 
 echo -e "===== \033[0;32mRemote Update Info\033[0;39m ====="
-# HEAD branch (e.g. refs/heads/<branch-name>)
-head_branch=$(git symbolic-ref HEAD)
+# HEAD branch
+head_branch=$(git symbolic-ref -q --short HEAD)
 if [ -z "$head_branch" ]; then
     prehash=$(git rev-parse --short HEAD)
     echo 'Not on any branch : prehash=$prehash'
 else
-    # Retrieve brach name (like master) from HEAD branch
-    branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
     # The remote name of HEAD branch (e.g. origin)
-    remote_name=$(git config branch."${branch}".remote)
+    remote_name=$(git config branch."${head_branch}".remote)
     if [ -z "$remote_name" ]; then
         echo 'No remote repository'
     else
