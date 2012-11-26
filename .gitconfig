@@ -45,6 +45,8 @@
   keepBackup      = false
 [rebase]
   stat = true
+[grep]
+  lineNumber = true
 [alias]
   # alias list
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
@@ -239,7 +241,8 @@
   search-branch   = branch --contains     # 指定したコミットがどのブランチに含まれるか表示
   show-cherry     = cherry -v master      # コミット毎に上流ブランチに既に存在している変更かどうかを見る
 
-  chpk = cherry-pick # 特定のコミットを取り込む
+  chpk  = cherry-pick     # 特定のコミットを取り込む
+  chpkn = cherry-pick -n  # 特定のコミットを取り込む(no commit)
 
   # git browse-remote
   brr = browse-remote
