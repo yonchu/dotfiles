@@ -14,24 +14,21 @@ fi
 ## Common
 get_remote_name () {
     # HEAD branch (e.g. refs/heads/<branch-name>)
-    local head_branch=$(git symbolic-ref HEAD)
+    local head_branch=$(git symbolic-ref -q HEAD)
     if [ -z "$head_branch" ]; then
         local prehash=$(git rev-parse --short HEAD)
         echo "Not on any branch : prehash=$prehash"
         return 1
-    else
-        # Retrieve brach name (like master) from HEAD branch
-        local branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
-        # The remote name of HEAD branch (e.g. origin)
-        local remote_name=$(git config branch."${branch}".remote)
-        if [ -z "$remote_name" ]; then
-            echo 'No remote repository'
-            return 1
-        else
-            echo "$remote_name"
-            return 0
-        fi
     fi
+    # Retrieve brach name (like master) from HEAD branch
+    local branch=$(echo "$head_branch" | sed -E s/^.\{11\}//g)
+    # The remote name of HEAD branch (e.g. origin)
+    local remote_name=$(git config branch."${branch}".remote)
+    if [ -z "$remote_name" ]; then
+        echo 'No remote repository'
+        return 1
+    fi
+    echo "$remote_name"
 }
 
 cd_git_toplevel() {
@@ -72,12 +69,12 @@ print_remote_update_info () {
             local remote_show=$(git remote show "$remote_name")
             status=$(echo "$remote_show" \
                 | tail -1 | sed 's/.*(\(.*\)).*/\1/')
-            if [ "$status" != "up to date" ]; then
-                status="\033[0;31m$status\033[0;39m"
-            fi
             url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
         else
             status=$remote_name
+        fi
+        if [ "$status" != "up to date" ]; then
+            status="\033[0;31m$status\033[0;39m"
         fi
 
         update_info="($status) [${dir%/}]${url:+ URL: $url}"
@@ -102,14 +99,14 @@ print_update_info() {
 ### Main ###
 
 if [ $# -lt 1 ]; then
-    echo '## git remote show xxxx'
+    echo '## git remote show <remote name>'
     print_update_info '.'
     exit 0
 fi
 
 if [ $# -eq 1 -a -f "$1" ]; then
     echo "Read file \"${1}\"..."
-    echo '## git remote show xxxx'
+    echo '## git remote show <remote name>'
     for line in $(cat "$1"); do
         line=$(echo "$line" | sed "s%^~%$HOME%")
         for dir in $line; do
@@ -119,7 +116,7 @@ if [ $# -eq 1 -a -f "$1" ]; then
     exit 0
 fi
 
-echo '## git remote show xxxx'
+echo '## git remote show <remote name>'
 for dir in "$@"; do
     print_update_info "$dir"
 done

@@ -40,13 +40,14 @@ print_sub_status() {
 
 get_branch () {
     # HEAD branch (e.g. refs/heads/<branch-name>)
-    local head_branch=$(git symbolic-ref HEAD)
+    local head_branch=$(git symbolic-ref -q HEAD)
     if [ -z "$head_branch" ]; then
-        git rev-parse --short HEAD
-    else
-        # Retrieve brach name (like master) from HEAD branch
-        echo "$head_branch" | sed -E s/^.\{11\}//g
+        local prehash=$(git rev-parse --short HEAD)
+        echo "Not on any branch : prehash=$prehash"
+        return 1
     fi
+    # Retrieve brach name (like master) from HEAD branch
+    echo "$head_branch" | sed -E s/^.\{11\}//g
 }
 
 print_status() {
