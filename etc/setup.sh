@@ -47,6 +47,12 @@ create_dotfiles() {
 
 setup_vim() {
     vim -c NeoBundleInstall -c quitall
+    if [ -d ~/.vim/bundle/jedi-vim ]; then
+        (
+            cd ~/.vim/bundle/jedi-vim
+            git submodule update --init
+        )
+    fi
 }
 
 create_symlink() {

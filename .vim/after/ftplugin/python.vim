@@ -119,3 +119,15 @@ let g:pymode_rope_auto_project = 0
 let g:pymode_virtualenv = 1
 
 NeoBundleSource python-mode
+
+
+"------------------------------------
+" jedi-vim
+"  https://github.com/davidhalter/jedi-vim
+"------------------------------------
+let g:jedi#goto_command = "<leader>gt"
+let g:jedi#get_definition_command = "<leader>d"
+let g:jedi#pydoc = "<space>K"
+let g:jedi#rename_command = "<leader>R"
+let g:jedi#related_names_command = "<leader>n"
+NeoBundleSource jedi-vim

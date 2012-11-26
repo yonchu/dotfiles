@@ -208,6 +208,10 @@ NeoBundle 'Shougo/vimproc', {
   " pylint, rope, pydoc, pyflakes, pep8, mccabe
   NeoBundleLazy 'klen/python-mode'
 
+  " Awesome Python autocompletion
+  "   To install jedi : git submodule update --init
+  NeoBundleLazy 'davidhalter/jedi-vim'
+
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   NeoBundleLazy 'scrooloose/syntastic'
