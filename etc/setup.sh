@@ -50,7 +50,7 @@ setup_vim() {
     if [ -d ~/.vim/bundle/jedi-vim ]; then
         (
             cd ~/.vim/bundle/jedi-vim
-            git submodule update --init
+            git submodule update --init && git checkout master
         )
     fi
 }
