@@ -217,8 +217,8 @@ cdup() {
         if type precmd > /dev/null 2>&1; then
             precmd
         fi
-        if type _update_vcs_info_msg > /dev/null 2>&1; then
-            _update_vcs_info_msg
+        if type _update_rprompt > /dev/null 2>&1; then
+            _update_rprompt
         fi
         zle reset-prompt
     else
