@@ -130,4 +130,5 @@ let g:jedi#get_definition_command = "<leader>d"
 let g:jedi#pydoc = "<space>K"
 let g:jedi#rename_command = "<leader>R"
 let g:jedi#related_names_command = "<leader>n"
+let g:jedi#popup_on_dot = 0
 NeoBundleSource jedi-vim
