@@ -157,6 +157,9 @@
   #  --reverse 逆順表示
   log-branch = log --oneline --decorate master..
 
+  # $1コミット以降に、統合ブランチ($2)へ取り込まれたトピックブランチの一覧を表示
+  ls-topic = !git log --oneline --abbrev-commit --merges $1..$2 | sed -e "s/.* '//;s/'.*//" | sort | uniq
+
   # reset
   rh   = reset HEAD              # addを取り消す
   rhs  = reset --soft HEAD       # Repositoryのみコミット前の状態に戻す
