@@ -12,7 +12,7 @@ if ! type git > /dev/null 2>&1; then
 fi
 
 ## Common
-get_remote_name () {
+get_branch () {
     # HEAD branch
     local head_branch=$(git symbolic-ref -q --short HEAD)
     if [ -z "$head_branch" ]; then
@@ -20,6 +20,11 @@ get_remote_name () {
         echo "Not on any branch : prehash=$prehash"
         return 1
     fi
+    echo "$head_branch"
+}
+
+get_remote_name () {
+    local head_branch=$1
     # The remote name of HEAD branch (e.g. origin)
     local remote_name=$(git config branch."${head_branch}".remote)
     if [ -z "$remote_name" ]; then
@@ -61,21 +66,44 @@ print_remote_update_info () {
         local status
         local url
 
-        local remote_name
-        remote_name=$(get_remote_name)
+        local branch
+        local merge_branch
+        local remote_branch
+        branch=$(get_branch)
         if [ $? -eq 0 ]; then
-            local remote_show=$(git remote show "$remote_name")
-            status=$(echo "$remote_show" \
-                | tail -1 | sed 's/.*(\(.*\)).*/\1/')
-            url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
+            remote_name=$(get_remote_name "$branch")
+            if [ $? -eq 0 ]; then
+                merge_branch=$(git config branch."$branch".merge | sed -E s/^.\{11\}//g)
+                if [ -z "$merge_branch" ]; then
+                    status='No merge branch'
+                else
+                    local remote_show=$(git remote show "$remote_name")
+                    status=$(echo "$remote_show" \
+                        | grep "^ *$merge_branch pushes" | sed 's/.*(\(.*\)).*/\1/')
+                    url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
+                    remote_branch=$(echo "$remote_show" \
+                        | grep "^ *$merge_branch pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/')
+                fi
+            else
+                status=$remote_name
+            fi
         else
-            status=$remote_name
+            status=$branch
+            branch=''
         fi
         if [ "$status" != "up to date" ]; then
             status="\033[0;31m$status\033[0;39m"
         fi
+        local branch_info=''
+        if [ -n "$branch" ]; then
+            branch_info=$branch
+            if [ -n "$merge_branch" ]; then
+                branch_info="$branch_info:$merge_branch -> $remote_branch"
+            fi
+            branch_info="($branch_info)"
+        fi
 
-        update_info="($status) [${dir%/}]${url:+ URL: $url}"
+        local update_info="($status) [${dir%/}]$branch_info${url:+ URL: $url}"
         echo -e "$update_info"
     )
 }
