@@ -1,3 +1,35 @@
+#
+#  Snippets for python
+#
+
+### Shebang {{{
+snippet     #!
+abbr        #!/usr/bin/env python
+alias       sheang
+options     head
+    #!/usr/bin/env python
+
+# Encodes
+snippet     cutf8
+abbr        # -*- coding: utf-8 -*-
+options     head
+    #!/usr/bin/env python
+    # -*- coding: utf-8 -*-
+snippet     clatin1
+abbr        # -*- coding: latin-1 -*-
+options     head
+    #!/usr/bin/env python
+    # -*- coding: latin-1 -*-
+snippet     cascii
+abbr        # -*- coding: ascii -*-
+options     head
+    #!/usr/bin/env python
+    # -*- coding: ascii -*-
+# }}}
+
+
+### Script Base {{{
+# Skelton
 snippet     skel
 abbr        skelton
 options     head
@@ -23,12 +55,7 @@ options     head
     __copyright__ = 'Copyright (c) 2012 yonchu. All rights reserved.'
     __license__ = 'BSD-3-Clause'
 
-
-snippet     importprint
-abbr        from __future__ import print_function
-options     head
-    from __future__ import print_function
-
+# Main
 snippet     main
 abbr        main function
 options     head
@@ -38,7 +65,129 @@ options     head
 
     if __name__ == '__main__':
         main()
+# }}}
 
+
+### import {{{
+snippet     import
+abbr        import ${1:module}
+    import ${1:#:module}
+
+snippet     from
+abbr        from ${1:#:package} import ${2:#:module}
+    from ${1:#:package} import ${2:#:module}
+
+snippet fromfuture
+    from __future__ import ${1}
+
+snippet     importprint
+abbr        from __future__ import print_function
+options     head
+    from __future__ import print_function
+# }}}
+
+
+### Grammer {{{
+# Doc
+snippet     "
+    """
+    ${1:doc}
+
+# __magic__
+snippet     _
+    __${1:init}__${2}
+
+# if
+snippet     ifthree
+abbr        ${1:then_value} if ${2:predicate} else ${3:else_value}
+options     word
+    ${1:then_value} if ${2:predicate} else ${3:else_value}
+
+# New Property
+snippet     property
+abbr        new property
+    def ${1:foo}():
+        doc = "${2:The $1 property.}"
+        def fget(self):
+            ${3:return self._$1}
+        def fset(self, value):
+            ${4:self._$1 = value}
+
+# Lambda
+snippet     ld
+    ${1:var} = lambda ${2:vars} : ${3:action}
+
+# try
+snippet     try Try/Except/Else/Finally
+abbr        try Try/Except/Else/Finally
+    try:
+        ${1:# TODO: write code...}
+    except ${2:Exception} as ${3:e}:
+        ${4:raise $3}
+    else:
+        ${5:# TODO: write code...}
+    finally:
+        ${6:# TODO: write code...}
+# }}}
+
+
+### Print {{{
+snippet     print1
+abbr        print('%s, %s' % (hoge, fuga))
+    print('%s, %s' % (hoge, fuga))
+
+snippet     print2
+abbr        print('{0}, {1}'.format(hoge, fuga))
+    print('{0}, {1}'.format(hoge, fuga))
+
+snippet     print3
+abbr        print('{foge}, {huga}'.format(hoge='hog', fuga='fuga'))
+    print('{foge}, {fuga}'.format(hoge='hog', fuga='fuga'))
+
+snippet     printvar
+abbr        print('var =', var)
+    print('${1:var} =', $1)
+
+snippet     printerror
+abbr        print('Error: message', file=sys.stderr)
+    print('Error: ${0:#:TARGET}', file=sys.stderr)
+# }}}
+
+
+### Debug {{{
+# python debugger (pdb)
+snippet     pdb
+    import pdb; pdb.set_trace()
+# ipython debugger (ipdb)
+snippet     ipdb
+    import ipdb; ipdb.set_trace()
+# ipython debugger (pdbbb)
+snippet     pdbbb
+    import pdbpp; pdbpp.set_trace()
+snippet     pprint
+    import pprint; pprint.pprint(${1})${2}
+
+snippet     debug
+abbr        import debug
+    import debug
+# }}}
+
+
+### Test {{{
+# test function/method
+snippet test
+    def test_${1:description}(${2:`indent('.') ? 'self' : ''`}):
+        ${3:# TODO: write code...}
+# test case
+snippet testcase
+    class ${1:ExampleCase}(unittest.TestCase):
+
+        def test_${2:description}(self):
+            ${3:# TODO: write code...}
+# }}}
+
+
+### Code {{{
 snippet     exit1
 abbr        sys.exit(1)
 options     head
@@ -63,26 +212,6 @@ snippet     filehome
 abbr        file = os.path.join(.., ...)
 options     head
     file = os.path.join(os.environ['HOME'], ${0:#:TARGET})
-
-snippet     print1
-abbr        print('%s, %s' % (hoge, fuga))
-    print('%s, %s' % (hoge, fuga))
-
-snippet     print2
-abbr        print('{0}, {1}'.format(hoge, fuga))
-    print('{0}, {1}'.format(hoge, fuga))
-
-snippet     print3
-abbr        print('{foge}, {huga}'.format(hoge='hog', fuga='fuga'))
-    print('{foge}, {fuga}'.format(hoge='hog', fuga='fuga'))
-
-snippet     printvar
-abbr        print('var =', var)
-    print('${1:var} =', $1)
-
-snippet     printerror
-abbr        print('Error: message', file=sys.stderr)
-    print('Error: ${0:#:TARGET}', file=sys.stderr)
 
 snippet     checkerror
 abbr        check_error for Popen
@@ -109,7 +238,6 @@ options     head
             print('Error: false', file=sys.stderr)
             sys.exit(1)
 
-snippet     ifthree
-abbr        ${1:then_value} if ${2:predicate} else ${3:else_value}
-options     word
-    ${1:then_value} if ${2:predicate} else ${3:else_value}
+# }}}
+
+# vim: fdm=marker fen fdl=0

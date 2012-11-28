@@ -11,19 +11,16 @@
 
 
 ### common {{{
-# ======================================
 
 # (c) holds no legal value ;)
 snippet     copyright
 abbr        Copyright
     Copyright `&enc[:2] == "utf" ? "©" : "(c)"` `strftime("%Y")` ${1:author}. All Rights Reserved.${2}
 
-
 # }}}
 
 
 ### Line {{{
-# ======================================
 
 snippet     line1
 abbr        Line : - - -
@@ -39,7 +36,6 @@ options     head
 
 
 ### vim {{{
-# ======================================
 
 snippet     vim1
 abbr        vim-modeline : # vim: fdm=marker fen fdl=0
@@ -58,4 +54,4 @@ options     head
 
 # }}}
 
-# vim: fdm=marker fen fdl=99:
+# vim: fdm=marker fen fdl=0:
