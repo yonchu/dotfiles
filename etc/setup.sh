@@ -33,9 +33,10 @@ setup_osx() {
 
 create_dotfiles() {
     (
-        cd ~/
-        git clone git@github.com:yonchu/dotfiles.git
-        [ $? -ne 0 ] && return 1
+        if [ ! -e ~/dotfiles ]; then
+            cd ~/
+            git clone https://github.com/yonchu/dotfiles.git
+        fi
         cd ~/dotfiles
         git submodule update --init
         [ $? -ne 0 ] && return 1

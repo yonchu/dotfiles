@@ -8,17 +8,10 @@ iTerm on Mac (with tmux, zsh and vim)
 
 ![Screenshot](https://raw.github.com/yonchu/dotfiles/master/etc/resources/img/iTerm_on_mac.png)
 
-Usage
+Installation
 -----
 
-Clone from github
-
-    $ cd ~/
-    $ git clone https://github.com/yonchu/dotfiles.git
-
-### Installation
-
-    $ ~/dotfiles/etc/setup.sh
+    $ curl -kL https://raw.github.com/yonchu/dotfiles/master/etc/setup.sh | bash
 
 See also
 ---------------
