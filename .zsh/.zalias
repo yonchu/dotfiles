@@ -1,6 +1,7 @@
-#*******************************************************************************
+### Introduction {{{
 #
 # .zalias
+#
 #   zsh固有alias
 #
 #   現在設定されているaliasを調べる
@@ -16,14 +17,26 @@
 #   関数の名前/定義を表示
 #    $ declare -f <関数名>
 #
-#*******************************************************************************
+########################################################################### }}}
 
-## 設定ファイルのリロード
+### Basic aliases {{{
+#
+# 設定ファイルのリロード
 alias reload='source ~/.zshenv && source ~/.zsh/.zshrc'
 
-#
-# グローバルエイリアス
-#  e.x. dmesg G CPU
+# pushd/popd
+alias pd="pushd"
+alias po="popd"
+
+# history時間表示
+alias history="history -i"
+
+# fpathを表示
+alias printfpath='echo $fpath | tr " " "\n"'
+
+# }}}
+
+### Global aliases {{{
 #
 # 標準出力を表示しない
 alias -g NL='> /dev/null'
@@ -40,21 +53,10 @@ alias -g T='| tail'
 alias -g S='| sed'
 alias -g V='| vim -R -'
 
-# pushd/popd
-alias pd="pushd"
-alias po="popd"
+# }}}
 
-# history時間表示
-alias history="history -i"
-
+### zmv {{{
 #
-# fpathを表示
-#
-alias printfpath='echo $fpath | tr " " "\n"'
-
-
-#
-# zmv
 #   簡単に複数ファイルのリネームが可能
 #   http://d.hatena.ne.jp/mollifier/20101227/p1
 #
@@ -99,11 +101,10 @@ alias zmvn="zmv -n"
 alias zmvw="zmv -w"
 alias zmvW="zmv -W"
 
+# }}}
 
+### Aliases according to extensions {{{
 #
-# 拡張子に対応したエイリアス設定
-#
-
 # Pagerで開く
 for target in java c h C cpp txt xml; do
     alias -s ${target}=zsh_pager
@@ -159,10 +160,11 @@ zsh_commandselector() {
     done
 }
 
+# }}}
 
+### Source configuration files {{{
 #
 # OS固有のalias設定
-#
 case "${OSTYPE}" in
     # Mac(Unix)
     darwin*)
@@ -172,9 +174,11 @@ case "${OSTYPE}" in
     ;;
 esac
 
+# }}}
+
 
 ### Complete Messages
 echo "Loading .zalias completed!!"
 
-# vim: ft=zsh
+# vim: ft=zsh fdm=marker fen fdl=0
 

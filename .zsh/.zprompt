@@ -1,4 +1,4 @@
-###############################################################################
+### Introduction {{{
 #
 #  Set prompt for zsh
 #
@@ -40,8 +40,11 @@
 #
 #    $WINDOW : screen 実行時のスクリーン番号
 #
-###############################################################################
+########################################################################### }}}
 
+
+### Basic settings {{{
+#
 ## コマンド実行後右プロンプトを消す
 #setopt transient_rprompt
 
@@ -51,9 +54,10 @@ setopt prompt_subst
 # カラーの設定を$fg[red]のように人がわかるような書き方ができる
 autoload -Uz colors
 colors
+# }}}
 
-#
-# Color Define
+
+### Color Definition {{{
 #
 DEFAULT=$'%{\e[0;0m%}'
 RESET="%{${reset_color}%}"
@@ -71,29 +75,30 @@ MAGENTA="%{${fg[magenta]}%}"
 BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
 BOLD_WHITE="%{${fg_bold[white]}%}"
+# }}}
 
 
-## rootユーザの場合(全て赤文字)
-#  Note: su - or sudo -s を行った場合は環境変数が引き継がれない
-
+### Prompt for "root" user {{{
+# 全て赤文字
+# Note: su - or sudo -s を行った場合は環境変数が引き継がれない
 if [ ${UID} -eq 0 ]; then
     PROMPT="${RESET}${BOLD_RED}[%n@%m:%~]#$RESET} "
     PROMPT2="${RESET}${BOLD_RED}%_${RESET} "
     SPROMPT="${RESET}${RED}%r is correct? [n,y,a,e]:${RESET} "
     return 0
 fi
+# }}}
 
 
-## 一般ユーザの場合
+### Prompt for "normal" user {{{
 #
 
-# SSH接続時
+## SSH
 #  HostのIPを環境変数に設定
 #  http://d.hatena.ne.jp/kakurasan/20070611/p1
 if [ -n "${SSH_CONNECTION}" ]; then
     export HOST_IP=$(echo ${SSH_CONNECTION} | awk -F\  '{printf "SSH("$1")"}')
 fi
-
 
 ## For zsh-vcs-prompt (vcs_super_info)
 if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
@@ -101,10 +106,9 @@ if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
 fi
 
 
+## PROMPT/SPROMPT/RPROMT
 #
-# Prompt
-#
-
+# Symbol
 PROMPT_NORMAL_SYMBOL="♪ "
 PROMPT_ERROR_SYMBOL="✘ "
 
@@ -141,6 +145,7 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+# Python
 function _python_type() {
     local python_path=$(which python 2> /dev/null)
     local pytype
@@ -171,5 +176,11 @@ function _update_rprompt() {
 }
 add-zsh-hook precmd _update_rprompt
 
+# }}}
 
-# vim: ft=zsh
+
+### Complete Messages
+echo "Loading .zprompt completed!!"
+
+# vim: ft=zsh fdm=marker fen fdl=0
+

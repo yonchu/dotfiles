@@ -1,4 +1,4 @@
-#*******************************************************************************
+### Introduction {{{
 #
 #  .zshrc
 #
@@ -28,22 +28,26 @@
 #        /: ディレクトリのみ残す
 #        .: 通常のファイルのみ残す
 #
-#*******************************************************************************
+#************************************************************************** }}}
 
-## hook
+
+### Set prompt {{{
+#
+# hook
 #  precmdなどの関数を複数登録することができる
 #  http://d.hatena.ne.jp/kiririmode/20120327/p1
 autoload -Uz add-zsh-hook
 
-
-## Setup prompt
+# Source prompt setting
 #   require add-zsh-hook before source this file
 if [ -f ~/.zsh/.zprompt ]; then
     source ~/.zsh/.zprompt
 fi
 
+# }}}
 
-## Default shell configuration
+
+### Default shell configuration {{{
 #
 # core抑制
 limit coredumpsize 0
@@ -131,9 +135,19 @@ zle -N self-insert url-quote-magic
 # 改行のない出力をプロンプトで上書きするのを防ぐ
 unsetopt promptcr
 
+# 全てのユーザのログイン・ログアウトを監視
+watch="all"
 
-## Keybind configuration
-#   $ bindkey で現在の割り当てを確認
+## zsh editor
+#
+#autoload zed
+
+# }}}
+
+
+### Keybind configuration {{{
+# $ bindkey で現在の割り当てを確認
+#
 # emacs like keybind
 bindkey -e
 # fn + delete の有効
@@ -240,8 +254,10 @@ pbcopy-buffer(){
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
+# }}}
 
-## History configuration
+
+### History configuration {{{
 #
 HISTFILE=~/.zsh_history
 HISTSIZE=10000   # メモリ内の履歴の数
@@ -279,10 +295,11 @@ setopt hist_verify
 # !を使ったヒストリ展開を行う
 setopt bang_hist
 
+# }}}
 
-## Completion configuration
+
+### Completion configuration {{{
 #
-
 # 補完関数のパス(fpath)を登録
 #
 # 重複パスを登録しない
@@ -398,7 +415,7 @@ zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*' completer \
     _oldlist _complete _match _history _ignored _approximate _prefix
 
-# cdr <TAB> (最近移動したディレクトリ履歴からcd)
+## cdr <TAB> (最近移動したディレクトリ履歴からcd)
 autoload -U chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ":chpwd:*" recent-dirs-default true
@@ -407,7 +424,7 @@ zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":completion:*" recent-dirs-insert both
 zstyle ":completion:*:*:cdr:*:*" menu select=2
 
-# 補完キャッシュの設定
+## 補完キャッシュの設定
 # 一部のコマンドライン定義は、展開時に時間のかかる処理を行う
 # apt-get, dpkg (Debian), rpm (Redhat), urpmi (Mandrake), perlの-Mオプション,
 # bogofilter (zsh 4.2.1以降), fink, mac_apps (MacOS X)(zsh 4.2.2以降)
@@ -415,9 +432,14 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zcompcache
 
 
-## zsh editor
-#
-#autoload zed
+## 補完候補の色分け
+if [ -n "$LS_COLORS" ]; then
+    # LS_COLORSの色と対応
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+elif [ -n "$LSCOLORS" ]; then
+    # LSCOLORSの色と対応
+    zstyle ':completion:*:default' list-colors ${(s.:.)LSCOLORS}
+fi
 
 
 ## Prediction configuration
@@ -426,8 +448,10 @@ zstyle ':completion:*' cache-path ~/.zcompcache
 #autoload -U predict-on
 #predict-on
 
+# }}}
 
-## Alias configuration
+
+## Alias configuration {{{
 #
 # aliasが補完される前に元のコマンドまで展開してチェック
 setopt complete_aliases     # aliased ls needs if file/dir completions work
@@ -466,16 +490,19 @@ case "${OSTYPE}" in
         ;;
 esac
 
+# }}}
 
-## ターミナル固有設定
-#   ターミナルタイトル変更
+
+### Terminal configuration {{{
+#
+# ターミナル固有設定
 case "${TERM}" in
     kterm*|xterm*|screen*)
         # コマンド実行時にコマンド名をタイトルに設定(screen)
         preexec() {
             # screen時のみ実行
             if [ "$STY" ]; then
-                # タイトル変更
+                # ターミナルタイトル変更
                 echo -ne "\ek${1%% *}\e\\"
             fi
         }
@@ -491,19 +518,11 @@ case "${TERM}" in
         ;;
 esac
 
-# 補完候補の色分け
-if [ -n "$LS_COLORS" ]; then
-    # LS_COLORSの色と対応
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-elif [ -n "$LSCOLORS" ]; then
-    # LSCOLORSの色と対応
-    zstyle ':completion:*:default' list-colors ${(s.:.)LSCOLORS}
-fi
+# }}}
 
 
-## その他
+### Misc {{{
 #
-
 # cd後にls
 chpwd() {
     local CMD_LS='ls -a -v -F'
@@ -539,19 +558,19 @@ chpwd() {
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
 
-# 全てのユーザのログイン・ログアウトを監視
-watch="all"
-# ログイン時にはすぐに表示
-log
+# }}}
 
 
+### Source configuration files {{{
 #
 # pluginの読み込み
 #
 if [ -d ~/.zsh/plugins ]; then
     for plugin in ~/.zsh/plugins/*.zsh; do
-        echo "Loading plugin: ${plugin##*/}"
-        source "$plugin"
+        if [ -f "$plugin" ]; then
+            echo "Loading plugin: ${plugin##*/}"
+            source "$plugin"
+        fi
     done
 fi
 
@@ -576,9 +595,10 @@ if [ -f ~/dotfiles.local/.shrc.local ]; then
     source ~/dotfiles.local/.shrc.local
 fi
 
+# }}}
 
-#
-# tmux/screen automatically running
+
+### tmux/screen automatically running {{{
 #
 #  ログイン時にtmux または screenが起動してない場合は自動的に起動
 #  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
@@ -599,11 +619,12 @@ if [ -z "$TMUX" -a -z "$STY" ]; then
     fi
 fi
 
+# }}}
 
+
+### pythonbrew {{{
 #
-# pythonbrew
-#
-# Warning!! これより後にPATHを追加しないこと
+# Note: Must set this settings after other PATH settings
 #
 # Source
 [ -s $HOME/.pythonbrew/etc/bashrc ] && source $HOME/.pythonbrew/etc/bashrc
@@ -617,13 +638,19 @@ if type pybrew > /dev/null 2>&1; then
     echo
 fi
 
+# }}}
+
 
 # 重複パスを強制削除
 path=($path)
-
 
 ### Complete Messages
 echo "Loading .zshrc completed!!"
 echo "Now zsh version $ZSH_VERSION starting!!"
 echo '(」・ω・)」うー！(／・ω・)／にゃー！'
+
+# Print log
+log
+
+# vim: fdm=marker fen fdl=0
 

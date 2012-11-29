@@ -1,4 +1,4 @@
-#*******************************************************************************
+#******************************************************************************
 #
 #  .zprofile
 #
@@ -9,7 +9,7 @@
 #  Not read in for subsequent shells.
 #  For setting up terminal and global environment characteristics.
 #
-#*******************************************************************************
+#******************************************************************************
 
 ### Setup only grobal but interactive-use only variables ###
 #
@@ -38,3 +38,4 @@ esac
 
 ### Complete Messages
 echo "Loading .zprofile completed!! (SHELL=${SHELL})"
+
