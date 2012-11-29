@@ -13,46 +13,130 @@ if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
     exit 1
 fi
 
-cmd_remote_update_info(){
-    local remote_name=${1:-origin}
-    echo "git remote show $remote_name \
-        | tail -1 | sed 's/.*\((.*)\)/\1/' | tr '\n' ' ' \
-        && git remote -v | grep '^origin.*(push)$' | tr '\t' ' ' | cut -d' ' -f 2"
+
+## Common
+get_branch () {
+    # HEAD branch
+    local head_branch=$(git symbolic-ref -q --short HEAD)
+    if [ -z "$head_branch" ]; then
+        local prehash=$(git rev-parse --short HEAD)
+        echo "Not on any branch : prehash=$prehash"
+        return 1
+    fi
+    echo "$head_branch"
 }
+
+get_remote_name () {
+    local head_branch=$1
+    # The remote name of HEAD branch (e.g. origin)
+    local remote_name=$(git config branch."${head_branch}".remote)
+    if [ -z "$remote_name" ]; then
+        echo 'No remote repository'
+        return 1
+    fi
+    echo "$remote_name"
+}
+
+cd_git_toplevel() {
+    cd "$1"
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+        return 1
+    fi
+    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1
+}
+
+## Submodule
+print_submodule_update_info() {
+    (
+        cd_git_toplevel "$1" || return 1
+        local -a submodule_dirs
+        IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
+        if [ -z "$submodule_dirs" ]; then
+            return 0
+        fi
+        for sub_dir in "${submodule_dirs[@]}"; do
+            echo " - $(print_remote_update_info "$sub_dir")"
+        done
+    )
+}
+
+## Remote
+print_remote_update_info () {
+    (
+        local dir=$1
+        cd_git_toplevel "$dir" || return 1
+
+        local status
+        local url
+
+        local branch
+        local merge_branch
+        local remote_branch
+        branch=$(get_branch)
+        if [ $? -eq 0 ]; then
+            remote_name=$(get_remote_name "$branch")
+            if [ $? -eq 0 ]; then
+                merge_branch=$(git config branch."$branch".merge | sed -E s/^.\{11\}//g)
+                if [ -z "$merge_branch" ]; then
+                    status='No merge branch'
+                else
+                    local remote_show=$(git remote show "$remote_name")
+                    status=$(echo "$remote_show" \
+                        | grep "^ *$merge_branch pushes" | sed 's/.*(\(.*\)).*/\1/')
+                    url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
+                    remote_branch=$(echo "$remote_show" \
+                        | grep "^ *$merge_branch pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/')
+                fi
+            else
+                status=$remote_name
+            fi
+        else
+            status=$branch
+            branch=''
+        fi
+        if [ "$status" != "up to date" ]; then
+            status="\033[0;31m$status\033[0;39m"
+        fi
+        local branch_info=''
+        if [ -n "$branch" ]; then
+            branch_info=$branch
+            if [ -n "$merge_branch" ]; then
+                branch_info="$branch_info:$merge_branch -> $remote_branch"
+            fi
+            branch_info="($branch_info)"
+        fi
+
+        local update_info="($status) [${dir%/}]$branch_info${url:+ URL: $url}"
+        echo -e "$update_info"
+    )
+}
+
+print_update_info() {
+    local dir=$1
+    if [ ! -e "$dir" ]; then
+        echo -e "\033[0;31mDirectory not found!! : $dir\033[0;39m"
+        return 1
+    elif [ ! -d "$dir" ]; then
+        return 0
+    fi
+    print_remote_update_info "$dir" \
+       && print_submodule_update_info "$dir"
+}
+
+## Main
+cd_git_toplevel
 
 echo -e "===== \033[0;32mStatus (git status -sb)\033[0;39m ====="
 git status -sb
 
-echo -e "===== \033[0;32mRemote Update Info\033[0;39m ====="
-# HEAD branch
-head_branch=$(git symbolic-ref -q --short HEAD)
-if [ -z "$head_branch" ]; then
-    prehash=$(git rev-parse --short HEAD)
-    echo 'Not on any branch : prehash=$prehash'
-else
-    # The remote name of HEAD branch (e.g. origin)
-    remote_name=$(git config branch."${head_branch}".remote)
-    if [ -z "$remote_name" ]; then
-        echo 'No remote repository'
-    else
-        echo -e "## \033[0;32m$remote_name\033[0;39m"
-        eval $(cmd_remote_update_info "$remote_name")
-    fi
+sub_status=$(git submodule status)
+if [ -n "$sub_status" ]; then
+    echo -e "===== \033[0;33mSubmodule Status (git submodule status)\033[0;39m ====="
+    echo "$sub_status"
 fi
 
-# Submodule
-(
-    cd "$(git rev-parse --show-toplevel)" >/dev/null 2>&1;
-    echo -e "===== \033[0;33mSubmodule Status (git submodule status)\033[0;39m ====="
-    sub_status=$(git submodule status)
-    if [ -n "$sub_status" ]; then
-        echo "$sub_status"
-
-        echo -e "===== \033[0;33mSubmodule Remote Update Info\033[0;39m ====="
-        origin_status=$(git submodule foreach "$(cmd_remote_update_info)")
-        echo "$origin_status" | sed '/^Entering/d'
-    fi
-)
+echo -e "===== \033[0;32mRemote Update Info\033[0;39m ====="
+print_update_info '.'
 
 echo -e "===== \033[0;34mRemote List (git remote -v)\033[0;39m ====="
 git remote -v
@@ -62,3 +146,4 @@ git branch -av
 
 echo -e "===== \033[0;36mStash List (git stash list)\033[0;39m ====="
 git stash list
+
