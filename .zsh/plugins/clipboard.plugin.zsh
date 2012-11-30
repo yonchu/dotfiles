@@ -17,6 +17,9 @@ elif type putclip >/dev/null 2>&1; then
     # Cygwin
     alias pbcopy='putclip'
     alias -g P='| putclip'
+else
+    alias pbcopy='cat'
+    alias -g P='| cat'
 fi
 
 # 直前のコマンドをクリップボードへ
