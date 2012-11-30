@@ -130,6 +130,11 @@ for target in mpg mpeg avi mp4v; do
     alias -s ${target}=zsh_movieplayer
 done
 
+# アーカイブ解凍
+for target in gz tgz zip lzh bz2 tbz Z tar arj xz; do
+    alias -s ${target}=zsh_extracter
+done
+
 
 zsh_pager(){
     $(zsh_commandselector "${PAGER} lv less more cat") ${@+"$@"}
@@ -149,6 +154,10 @@ zsh_audioplayer() {
 
 zsh_movieplayer() {
     $(zsh_commandselector "svlc gmplayer totem xine realplay") ${@+"$@"}
+}
+
+zsh_extracter() {
+    $(zsh_commandselector "aunpack extract") ${@+"$@"}
 }
 
 zsh_commandselector() {
