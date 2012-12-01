@@ -385,7 +385,7 @@ zstyle ':completion:*' verbose true
 # カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補にする
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 # 親ディレクトリから補完時にカレントディレクトリ表示しない (e.g. cd ../<TAB>):
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:cd:*' ignore-parents parent pwd ..
 # 重複パスを登録しない
 typeset -U cdpath
 cdpath=($HOME{,/dotfiles.local/links}(N-/))
