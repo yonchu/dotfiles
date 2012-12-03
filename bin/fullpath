@@ -28,7 +28,15 @@ print_fullpath() {
         if [ "$opt_s" = "true" -a -h "$target" ]; then
             local sym_dir=$(cd $(dirname "$target") && pwd)
             sym_dir=${sym_dir%/}
-            target="$sym_dir"/$(readlink -n "$target")
+
+            case `uname -s` in
+                Darwin|FreeBSD)
+                    target="$sym_dir"/$(readlink -n "$target")
+                    ;;
+                *)
+                    target="$sym_dir"/$(readlink -fq "$target")
+                    ;;
+            esac
         fi
         local dir=$(cd $(dirname "$target") && pwd)
         dir=${dir%/}
