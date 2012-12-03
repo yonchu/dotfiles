@@ -388,7 +388,7 @@ zstyle ':completion:*:cd:*' tag-order local-directories path-directories
 zstyle ':completion:*:cd:*' ignore-parents parent pwd ..
 # 重複パスを登録しない
 typeset -U cdpath
-cdpath=($HOME{,/dotfiles.local/links}(N-/))
+cdpath=($HOME{,/links}(N-/))
 
 # 補完方法毎にグループ化し、グループ名に説明を付加
 #  %F...%f : カラー

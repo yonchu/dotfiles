@@ -103,39 +103,34 @@ alias zmvW="zmv -W"
 
 # }}}
 
+### Directory aliases {{{
+#  e.x.
+#    $ hash -d hoge=/to/path
+#    $ ls ~hoge
+set_hash_in_links() {
+    local links=~/links
+    [ ! -d "$links" ] && return 0
+    [ $(command ls -1 "$links" | wc -l) -eq 0 ] && return 0
+    local src
+    local target
+    for target in "$links"/*; do
+        src=$(basename "$target")
+        case `uname -s` in
+            Darwin|FreeBSD)
+                target=$(readlink -n $target)
+                ;;
+            *)
+                target=$(readlink -fq $target)
+                ;;
+        esac
+        [ -n "$target" ] && hash -d $src="$target"
+    done
+}
+set_hash_in_links
+# }}}
+
 ### Aliases according to extensions {{{
 #
-# Pagerで開く
-for target in java c h C cpp txt xml; do
-    alias -s ${target}=zsh_pager
-done
-
-# ブラウザで開く
-for target in html xhtml; do
-    alias -s ${target}=zsh_wevbbrowser
-done
-
-# 画像を開く
-for target in gif jpg jpeg png bmp; do
-    alias -s ${target}=zsh_imageviewer
-done
-
-# 音楽ファイルを開く
-for target in mp3 m4a ogg; do
-    alias -s ${target}=zsh_audioplayer
-done
-
-# 動画ファイルを開く
-for target in mpg mpeg avi mp4v; do
-    alias -s ${target}=zsh_movieplayer
-done
-
-# アーカイブ解凍
-for target in gz tgz zip lzh bz2 tbz Z tar arj xz; do
-    alias -s ${target}=zsh_extracter
-done
-
-
 zsh_pager(){
     $(zsh_commandselector "${PAGER} lv less more cat") ${@+"$@"}
 }
@@ -169,6 +164,39 @@ zsh_commandselector() {
     done
 }
 
+set_aliases_for_ext() {
+    local target
+    # Pagerで開く
+    for target in java c h C cpp txt xml; do
+        alias -s ${target}=zsh_pager
+    done
+
+    # ブラウザで開く
+    for target in html xhtml; do
+        alias -s ${target}=zsh_wevbbrowser
+    done
+
+    # 画像を開く
+    for target in gif jpg jpeg png bmp; do
+        alias -s ${target}=zsh_imageviewer
+    done
+
+    # 音楽ファイルを開く
+    for target in mp3 m4a ogg; do
+        alias -s ${target}=zsh_audioplayer
+    done
+
+    # 動画ファイルを開く
+    for target in mpg mpeg avi mp4v; do
+        alias -s ${target}=zsh_movieplayer
+    done
+
+    # アーカイブ解凍
+    for target in gz tgz zip lzh bz2 tbz Z tar arj xz; do
+        alias -s ${target}=zsh_extracter
+    done
+}
+set_aliases_for_ext
 # }}}
 
 ### Source configuration files {{{
