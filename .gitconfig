@@ -75,6 +75,9 @@
   shro = remote show origin  # リモートリポジトリの詳細表示(origin)
   shrg = remote show github  # リモートリポジトリの詳細表示(github)
 
+  # remote
+  remadd = remote add        # git remote add origin <https://..., git://...>
+
   # ls-files
   ls-fu = ls-files -u       # コンフリクトしたファイルの一覧
 
@@ -130,7 +133,7 @@
   ch   = checkout           # WorkingTreeをIndexの状態に戻す
   chh  = checkout HEAD      # WorkingTreeとIndexをRepositoryの状態に戻す
   chb  = checkout -b        # branch切ってcheckoutする
-  cht  = checkout --track   # remoteのbranchを追跡
+  cht  = checkout -t        # remoteのbranchを追跡
   chm  = checkout master    # masterブランチへ切り替え
 
   # branch関連
