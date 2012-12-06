@@ -82,10 +82,10 @@ print_remote_update_info () {
                 else
                     local remote_show=$(git remote show "$remote_name")
                     status=$(echo "$remote_show" \
-                        | grep "^ *$merge_branch pushes" | sed 's/.*(\(.*\)).*/\1/')
+                        | grep "^ *$merge_branch *pushes" | sed 's/.*(\(.*\)).*/\1/')
                     url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
                     remote_branch=$(echo "$remote_show" \
-                        | grep "^ *$merge_branch pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/')
+                        | grep "^ *$merge_branch *pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/' | tr -d ' ')
                 fi
             else
                 status=$remote_name
