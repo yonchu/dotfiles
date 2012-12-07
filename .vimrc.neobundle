@@ -275,6 +275,10 @@ NeoBundle 'Shougo/vimproc', {
     \ ]}
 " }}}
 
+" Syntax {{{
+  " tmux
+  NeoBundle 'zaiste/tmux.vim'
+" }}}
 
 " ColorScheme {{{
   NeoBundle 'altercation/vim-colors-solarized'
