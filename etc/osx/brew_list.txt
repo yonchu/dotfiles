@@ -19,6 +19,7 @@ freetype
 gdbm
 gettext
 git
+git-extras
 git-now
 glib
 gnu-getopt
