@@ -92,8 +92,10 @@ function cd_git_toplevel() {
 }
 
 function gsmupdate() {
-    cd_git_toplevel
-    git submodule foreach "git checkout master; git pull"
+    (
+        cd_git_toplevel
+        git submodule foreach "git checkout master; git pull"
+    )
 }
 
 alias gs='git status -sb'
