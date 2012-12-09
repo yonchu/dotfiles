@@ -117,8 +117,9 @@ DEFAULT_PROMPT='${RESET}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_MAGENTA}${WINDO
 VI_CMD_PROMPT='${RESET}${BOLD_YELLOW}${HOST_IP:+"${HOST_IP}>"}${RESET}[${BOLD_BLUE}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")${RESET}${BOLD_YELLOW}%n${RESET}${YELLOW}❖ ${RESET}${BOLD_YELLOW}%m${RESET}${RED}%(1j,(%j),)${RESET}:${CYAN}%~${RESET}]%(?.${BLUE}${PROMPT_NORMAL_SYMBOL}.${RED}${PROMPT_ERROR_SYMBOL}) ${RESET}'
 
 # For tmux-powerline
-DEFAULT_PROMPT="$DEFAULT_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-VI_CMD_PROMPT="$VI_CMD_PROMPT"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+TMUX_POWERLINE_PROMPT_INFO='$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+DEFAULT_PROMPT="$DEFAULT_PROMPT$TMUX_POWERLINE_PROMPT_INFO"
+VI_CMD_PROMPT="$VI_CMD_PROMPT$TMUX_POWERLINE_PROMPT_INFO"
 
 # Left prompt
 PROMPT=${DEFAULT_PROMPT}
