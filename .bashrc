@@ -22,21 +22,31 @@ if [ -f $USER_LOCAL/Library/Contributions/brew_bash_completion.sh ]; then
     source $USER_LOCAL/Library/Contributions/brew_bash_completion.sh
 fi
 
-
-#
-# プロンプトの設定
+## プロンプトの設定
 #  \u  : ユーザ名
 #  \h  : マシン名
 #  \W  : カレントディレクトリ  \w : カレントディレクトリもフルパス
 #  \\$ : スーパーユーザは「#」一般ユーザは「$」で表示
+#  \t  :  the current time in 24-hour HH:MM:SS format
+#  \T  :  the current time in 12-hour HH:MM:SS format
+#  \@  :  the current time in 12-hour am/pm format
+#  \A  :  the current time in 24-hour HH:MM format
 #  __git_ps1 : gitブランチ
 #    http://d.hatena.ne.jp/ruedap/20110706/mac_terminal_git_branch_name
-#
-if type __git_ps1 >/dev/null 2>&1; then
-    PS1='[\[\033[032m\]\u\[\033[033m\]@\[\033[032m\]\h\[\033[00m\]:\[\033[36m\]\w\[\033[1;31m\]$(__git_ps1)\[\033[00m\]]\$ '
-else
-    PS1='[\[\033[032m\]\u\[\033[033m\]@\[\033[032m\]\h\[\033[00m\]:\[\033[36m\]\w\[\033[00m\]]\$ '
+
+# Load git-prompt.sh
+if [ -f ~/dotfiles/etc/git/git-prompt.sh ]; then
+    source ~/dotfiles/etc/git/git-prompt.sh \
+        && PS1='\e[1;35m[\t] \e[0;32m[\u\e[0;33m@\e[0;32m\h] \e[0;36m\w$(__git_ps1 "\e[1;31m (%s)")\e[0;m \$>> '
 fi
+if [ $? -ne 0 ]; then
+    if type __git_ps1 >/dev/null 2>&1; then
+        PS1='\e[1;35m[\t] \e[0;32m[\u\e[0;33m@\e[0;32m\h] \e[0;36m\w\e[1;35m$(__git_ps1)\e[0;m \$>> '
+    else
+        PS1='\e[1;35m[\t] \e[0;32m[\u\e[0;33m@\e[0;32m\h] \e[0;36m\w\e[0;m\ \$>> '
+    fi
+fi
+# For tmux-powerline
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 export PS1
 
