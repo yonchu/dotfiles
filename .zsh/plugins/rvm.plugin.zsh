@@ -4,6 +4,8 @@
 # https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/rvm/rvm.plugin.zsh
 #
 
+[ ${UID} -eq 0 ] && { echo '...skip'; return; }
+
 # Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
