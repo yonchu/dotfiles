@@ -231,16 +231,17 @@ cdup() {
         if type precmd > /dev/null 2>&1; then
             precmd
         fi
-        if type _update_rprompt > /dev/null 2>&1; then
-            _update_rprompt
-        fi
+        local precmd_func
+        for precmd_func in $precmd_functions; do
+            $precmd_func
+        done
         zle reset-prompt
     else
         zle self-insert '^'
     fi
 }
 zle -N cdup
-bindkey '^' cdup
+bindkey '\^' cdup
 
 
 # 表示されているコマンドをクリップボードへ
@@ -498,23 +499,23 @@ esac
 # ターミナル固有設定
 case "${TERM}" in
     kterm*|xterm*|screen*)
-        # コマンド実行時にコマンド名をタイトルに設定(screen)
-        preexec() {
-            # screen時のみ実行
+        _change_terminal_title_preexec_hook() {
             if [ "$STY" ]; then
-                # ターミナルタイトル変更
+                # コマンド実行時にコマンド名をタイトルに設定(screen)
                 echo -ne "\ek${1%% *}\e\\"
             fi
         }
-        # ターミナルタイトルの変更
-        precmd() {
-            echo -ne "\033]0;$(basename $(pwd))\007"
-            # screen時のみ実行
+        add-zsh-hook preexec _change_terminal_title_preexec_hook
+
+        _change_terminal_title_precmd_hook() {
             if [ "$STY" ]; then
-                # タイトル変更
                 echo -ne "\ek$(basename $(pwd))\e\\"
+            else
+                echo -ne "\033]0;$(basename $(pwd))\007"
             fi
+            return 0
         }
+        add-zsh-hook precmd _change_terminal_title_precmd_hook
         ;;
 esac
 
