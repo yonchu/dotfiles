@@ -11,9 +11,6 @@
 _Z_CMD=j
 source ~/.zsh/z/z.sh
 
-_z_cmd() { _z --add "$(pwd -P 2> /dev/null)"; }
-add-zsh-hook precmd  _z_cmd
-
 # TAB補完の機能をaliasにも追加
 compctl -U -K _z_zsh_tab_completion $_Z_CMD
 
