@@ -604,7 +604,7 @@ fi
 #  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
 #  tmuxを優先して起動し、tmuxが使えなければscreenを起動する
 #
-if [ -z "$TMUX" -a -z "$STY" ]; then
+if [ ${UID} -ne 0 -a -z "$TMUX" -a -z "$STY" ]; then
     if type tmuxx >/dev/null 2>&1; then
         tmuxx
     elif type tmux >/dev/null 2>&1; then
@@ -633,8 +633,11 @@ if type pybrew > /dev/null 2>&1; then
     echo
     echo 'Pybrew automatically running...'
     echo "pybrew version: $(pybrew --version)"
-    pybrew switch "$DEFAULT_PYTHON_VERSION" \
-        && pybrew venv use "$DEFAULT_PYTHON_VENV"
+    if [ -n "$DEFAULT_PYTHON_VERSION" -a "$DEFAULT_PYTHON_VENV" ]; then
+        pybrew switch "$DEFAULT_PYTHON_VERSION" \
+            && pybrew venv use "$DEFAULT_PYTHON_VENV"
+    fi
+    echo "Python: $(which python)"
     echo
 fi
 
