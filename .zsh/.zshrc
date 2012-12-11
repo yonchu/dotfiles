@@ -36,6 +36,7 @@
 
 # Theme.
 ZSH_THEME='yonchu'
+#ZSH_THEME='yonchu-2lines'
 
 # Remove any right prompt from display when accepting a command line.
 # This may be useful with terminals with other cut/paste methods.
