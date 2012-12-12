@@ -681,7 +681,7 @@ fi
 path=($path)
 
 ### Complete Messages
-echo "Loading .zshrc completed!!"
+echo "Loading .zshrc completed!! (ZDOTDIR=${ZDOTDIR})"
 echo "Now zsh version $ZSH_VERSION starting!!"
 echo '(」・ω・)」うー！(／・ω・)／にゃー！'
 

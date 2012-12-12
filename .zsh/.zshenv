@@ -79,9 +79,3 @@ export RSYNC_RSH=ssh
 export CVS_RSH=ssh
 export CVSROOT=~/CVSROOT
 
-
-### Complete Messages
-if [ -n "$PS1" ]; then
-    echo "Loading .zshenv completed!! (ZDOTDIR=${ZDOTDIR})"
-fi
-
