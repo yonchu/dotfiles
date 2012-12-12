@@ -20,7 +20,7 @@ PROMPT+='%{%F{red}%K{green}%}⮀%{%k%f%}'
 # History counts
 PROMPT+='%{%F{white}%K{green}%} %h %{%k%f%}'
 #PROMPT+='%{%F{green}%K{magenta}%}⮀%{%k%f%}'
-# Git
+# VCS
 PROMPT+='%K{black}%} $(vcs_super_info) %{%k%}'
 PROMPT+='%{%F{black}%K{magenta}%}⮀%{%k%f%}'
 # Date-time
@@ -41,20 +41,23 @@ PROMPT+='%{%K{white}%F{black}%}⮀%{%k%f%}'
 PROMPT+='%{%B%F{black}%K{white}%} %(1j,(%j),)%# %{%b%k%f%f%}'
 PROMPT+='%{%F{white}%K{black}%}⮀%{%k%f%} >> '
 
+function _update_prompt() {
+    ## Right prompt
+    # tty
+    RPROMPT="%{%F{blue}%}⮂%{%f%}"
+    RPROMPT+="%{%F{white}%K{blue}%} %l %{%f%k%}"
+    # LANG
+    RPROMPT+="%{%F{cyan}%K{blue}%}⮂%{%k%f%}"
+    RPROMPT+="%{%F{white}%K{cyan}%} $LANG %{%k%f%}"
+    # OS type
+    RPROMPT+="%{%F{green}%K{cyan}%}⮂%{%k%f%}"
+    RPROMPT+="%{%F{white}%K{green}%} $(_ostype) %{%k%f%}"
+    # Python
+    RPROMPT+="%{%F{red}%K{cyan}%}⮂%{%k%f%}"
+    RPROMPT+="%{%F{white}%K{red}%} $(_python_type) %{%k%f%}"
+}
+add-zsh-hook precmd _update_prompt
 
-## Right prompt
-# tty
-RPROMPT='%{%F{blue}%}⮂%{%f%}'
-RPROMPT+='%{%F{white}%K{blue}%} %l %{%f%k%}'
-# LANG
-RPROMPT+='%{%F{cyan}%K{blue}%}⮂%{%k%f%}'
-RPROMPT+='%{%F{white}%K{cyan}%} $LANG %{%k%f%}'
-# OS type
-RPROMPT+='%{%F{green}%K{cyan}%}⮂%{%k%f%}'
-RPROMPT+='%{%F{white}%K{green}%} $(_ostype) %{%k%f%}'
-# Python
-RPROMPT+='%{%F{red}%K{cyan}%}⮂%{%k%f%}'
-RPROMPT+='%{%F{white}%K{red}%} $(_python_type) %{%k%f%}'
 
 # OS type
 function _ostype() {

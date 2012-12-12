@@ -77,11 +77,17 @@ VI_CMD_PROMPT+=$TMUX_POWERLINE_PROMPT_INFO
 # Left prompt
 PROMPT=$DEFAULT_PROMPT
 
-# Right prompt
-RPROMPT='%{${reset_color}%}'
-RPROMPT+='$(vcs_super_info)'
-RPROMPT+='%{${fg_bold[magenta]}%}($(_python_type))%{${reset_color}%}'
-RPROMPT+='[%{${fg[magenta]}%}%D{%y/%m/%d %H:%M:%S}%{${reset_color}%}]'
+function _update_prompt() {
+    ## Right prompt
+    RPROMPT="%{${reset_color}%}"
+    # VCS
+    RPROMPT+="$(vcs_super_info)"
+    # Python
+    RPROMPT+="%{${fg_bold[magenta]}%}($(_python_type))%{${reset_color}%}"
+    # Date-time
+    RPROMPT+="[%{${fg[magenta]}%}%D{%y/%m/%d %H:%M:%S}%{${reset_color}%}]"
+}
+add-zsh-hook precmd _update_prompt
 
 # Correct prompt
 SPROMPT='%{${reset_color}%}%{${fg[red]}%}%r <- こっちにしとけって[n,y,a,e]:%{${reset_color}%}'
