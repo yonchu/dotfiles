@@ -106,7 +106,7 @@ create_dotfiles_symlinks() {_
     ln -s "$HOME/dotfiles/.gitignore.default" "$HOME/.gitignore"
 
     # .dir_colors
-    ln -s "$HOME/.zsh/dircolors-solarized/dircolors.ansi-universal" "$HOME.dir_colors"
+    ln -s "$HOME/.zsh/dircolors-solarized/dircolors.ansi-universal" "$HOME/.dir_colors"
 
     # links
     if [ -d "$HOME/dotfiles.local/links" ]; then
