@@ -498,31 +498,6 @@ expand-to-home-or-insert () {
     fi
 }
 
-# ls alias setting
-case "${OSTYPE}" in
-    freebsd*|darwin*)
-        # -F ファイルタイプを示す文字を表示
-        if which gls > /dev/null 2>&1; then
-            # -b 非印字文字を強制表示
-            # -v natural sort of (version) numbers within text
-            alias ls="gls -abhvF --color=auto"
-        else
-            # -v 非印字文字を強制表示
-            # -G カラー表示
-            alias ls="ls -avhFG"
-        fi
-        # ~/を別キーに割り当て
-        # http://vim-users.jp/2010/01/hack118/
-        #zle -N expand-to-home-or-insert
-        #bindkey "@"  expand-to-home-or-insert
-        ;;
-    linux*)
-        # -b 非印字文字を強制表示
-        # -v natural sort of (version) numbers within text
-        alias ls="ls -abhvF --color=auto"
-        ;;
-esac
-
 # }}}
 
 
