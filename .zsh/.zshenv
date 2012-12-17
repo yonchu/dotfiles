@@ -58,10 +58,10 @@ limit coredumpsize 0
 typeset -U path
 
 # Setup basic path
-# path=($path /usr/*/bin(N-/) /usr/local/*/bin(N-/) /var/*/bin(N-/))
+#path=($path /usr/*/bin(N-/) /usr/local/*/bin(N-/) /var/*/bin(N-/))
 
 # Prioritize "/usr/local/*"
-# path=(/usr/local/bin(N-/) /usr/local/sbin((N-/) /usr/local/share(N-/) $path)
+#path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) /usr/local/share(N-/) $path)
 
 
 ### Setup environmental path for commands ran remotely
