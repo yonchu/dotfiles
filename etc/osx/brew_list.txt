@@ -37,6 +37,7 @@ libtool
 lv
 markdown
 maven2
+mobile-shell
 multitail
 ncftp
 ngrep
@@ -48,6 +49,7 @@ pixman
 pkg-config
 potrace
 proctools
+protobuf
 pstree
 python
 readline
