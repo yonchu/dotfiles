@@ -34,20 +34,22 @@ fi
 #  __git_ps1 : gitブランチ
 #    http://d.hatena.ne.jp/ruedap/20110706/mac_terminal_git_branch_name
 
-PS1='\e[0;32m[\u\e[0;33m@\e[0;32m\h:\e[0;36m\w'
-# Load git-prompt.sh
-if [ -f ~/dotfiles/etc/git/git-prompt.sh ]; then
-    source ~/dotfiles/etc/git/git-prompt.sh \
-        && PS1="$PS1"'$(__git_ps1 "\e[1;31m(%s)")'
+PS1='[\[\e[0;32m\]\u\[\e[0;33m\]@\[\e[0;32m\]\h:\[\e[0;36m\]\w'
+
+if type __git_ps1 >/dev/null 2>&1; then
+    # Use /usr/local/etc/bash_completion.d/git-prompt.sh
+    PS1="$PS1"'$(__git_ps1 "\[\e[1;31m\] (%s)")'
 fi
-if [ $? -ne 0 ] && type __git_ps1 >/dev/null 2>&1; then
-    PS1="$PS1"'\e[1;35m$(__git_ps1)'
+# Load local git-prompt.sh
+if [ $? -ne 0 -a -f ~/dotfiles/etc/git/git-prompt.sh ]; then
+    source ~/dotfiles/etc/git/git-prompt.sh \
+        && PS1="$PS1"'$(__git_ps1 "\[\e[1;31m\] (%s)")'
 fi
 
-PS1="$PS1"'\e[0;m]\$ '
+PS1="$PS1"'\[\e[0;m\]]\$ '
 
 # For tmux-powerline
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+PS1="$PS1"'\[$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")\]'
 export PS1
 
 
