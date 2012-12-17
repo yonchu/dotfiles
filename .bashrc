@@ -36,7 +36,12 @@ fi
 
 PS1='[\[\e[0;32m\]\u\[\e[0;33m\]@\[\e[0;32m\]\h:\[\e[0;36m\]\w'
 
-if type __git_ps1 >/dev/null 2>&1; then
+# Load zsh-vcs-prompt
+if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
+    source ~/.zsh/zsh-vcs-prompt/zshrc.sh \
+        && PS1="$PS1"'\[\e[1;31m\]$(vcs_super_info)\[\e[0;m\]'
+fi
+if [ $? -ne 0 ] && type __git_ps1 >/dev/null 2>&1; then
     # Use /usr/local/etc/bash_completion.d/git-prompt.sh
     PS1="$PS1"'$(__git_ps1 "\[\e[1;31m\] (%s)")'
 fi
