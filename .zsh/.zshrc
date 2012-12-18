@@ -469,9 +469,6 @@ zstyle ':completion:*' cache-path ~/.zcompcache
 if [ -n "$LS_COLORS" ]; then
     # LS_COLORSの色と対応
     zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-elif [ -n "$LSCOLORS" ]; then
-    # LSCOLORSの色と対応
-    zstyle ':completion:*:default' list-colors ${(s.:.)LSCOLORS}
 fi
 
 
@@ -541,7 +538,7 @@ chpwd() {
     opt_ls=('-aFC' '--color=always')
     case "${OSTYPE}" in
         freebsd*|darwin*)
-            if type glsa > /dev/null 2>&1; then
+            if type gls > /dev/null 2>&1; then
                 cmd_ls='gls'
             else
                 # -G : Enable colorized output.
