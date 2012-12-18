@@ -8,10 +8,15 @@
 # If not running interactively, don't do anything
 test -z "$PS1" && return
 
-if [ "${SHELL##*/}" = 'zsh' ]; then
-    SHELL=$(which bash)
+if [[ ! "$0" =~ -.* ]]; then
+    # Running on subshell.
+    SHELL=$(which "$0")
 fi
 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    source /etc/bashrc
+fi
 #
 # Completionファイルの読み込み
 #
