@@ -19,7 +19,7 @@ confirm_exe() {
 }
 
 setup_osx() {
-    [ $(uname -s) != 'Darwin' ] || return
+    [ $(uname -s) != 'Darwin' ] && return
 
     # Show the ~/Library folder
     chflags nohidden ~/Library/
@@ -41,13 +41,11 @@ create_dotfiles() {
         git submodule update --init
         [ $? -ne 0 ] && return 1
         git submodule foreach "git checkout master"
-        echo '--- 確認 ----'
-        ~/dotfiles/bin/gits
     )
 }
 
 setup_vim() {
-    vim -c NeoBundleInstall -c quitall
+    vim +NeoBundleInstall +quitall
     if [ -d ~/.vim/bundle/jedi-vim ]; then
         (
             cd ~/.vim/bundle/jedi-vim
@@ -65,15 +63,13 @@ create_symlink() {
   fi
 }
 
-create_dotfiles_symlinks() {_
+create_dotfiles_symlinks() {
     ## 各種シンボリックリンク作成
     #
     DOT_FILES=(.ackrc
         .bashrc
         .bash_profile
         .config
-        .dir_colors
-        .gitignore
         .gitk
         .gvimrc
         .inputrc
