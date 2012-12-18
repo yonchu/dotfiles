@@ -30,50 +30,50 @@ alias quit='exit';
 
 #
 # ls
-#  glsを使用
-#  -l 詳細な情報の表示
-#  -G ls:カラー有効, gls:グループを非表示。
-#  -a 隠しファイルを表示
-#  -h サイズをkB, MB, GBとかで表示
-#  -d ディレクトリ自体の情報を表示
-#  -t ファイルの変更日時でソート(古い順:最新が上にくる)
-#  -r 逆順ソート
-#  -F ファイルタイプを示す文字を表示
-#      * 実行可能ファイル
-#      / ディレクトリ
-#      @ シンボリックリンク
-#  -v natural sort of (version) numbers within text (gls only)
-#  -w 非印字文字を強制表示(Linux ls only)
-#  -v 非印字文字を強制表示(Mac ls only)
-#  -T タイムスタンプを年月日時分秒まで表示 (Mac Linux ls only)
-#  -time-style=STYLE タイムスタンプの表示スタイル (gls only)
+#  Macではglsを使用
 #
-# ls alias setting
+#  Common option
+#    -l 詳細な情報の表示
+#    -a 隠しファイルを表示
+#    -h サイズをkB, MB, GBとかで表示
+#    -d ディレクトリ自体の情報を表示
+#    -t ファイルの変更日時でソート(古い順:最新が上にくる)
+#    -r 逆順ソート
+#    -F ファイルタイプを示す文字を表示
+#        * 実行可能ファイル
+#        / ディレクトリ
+#        @ シンボリックリンク
+#
+#  Mac ls only
+#    -G ls:カラー有効
+#    -v 非印字文字を強制表示
+#    -T タイムスタンプを年月日時分秒まで表示
+#
+#  GNU ls only
+#    -G : グループを非表示。
+#    -v : natural sort of (version) numbers within text (gls only)
+#    --time-style=STYLE : タイムスタンプの表示スタイル (gls only)
+#    --show-control-chars : Show non graphic characters as-is.
+#    --width=COL : Assume screen width instead of current value.
+#
 case "${OSTYPE}" in
 freebsd*|darwin*)
-    if which gls > /dev/null 2>&1; then
-        # -F ファイルタイプを示す文字を表示
-        # -v natural sort of (version) numbers within text
-        alias gls="gls -v --color=auto"
-        alias ls="gls -ahF"
-        alias ll='ls -l --time-style=long-iso '
+    if type gls > /dev/null 2>&1; then
+        alias ls='gls -aFhv --color=auto --show-control-chars'
+        alias ll='ls -l --time-style=long-iso'
     else
-        # -G カラー表示
-        # -v 非印字文字を強制表示
-        alias ls="ls -avhGF"
-        alias ll='ls -l'
+        alias ls='ls -aFGhv'
+        alias ll='ls -lT'
     fi
     ;;
 linux*)
-    # -v natural sort of (version) numbers within text
-    # -w 非印字文字を強制表示
-    alias ls="ls -avhwF --color=auto"
+    alias ls='ls -aFh --color=auto'
     alias ll='ls -l'
     ;;
 esac
 
 alias lld='ls -d'
-alias llt='ll -tr'
+alias llt='ll -rt'
 alias lll='ll | less'
 
 
