@@ -162,8 +162,9 @@ highlight ZenkakuSpace cterm=underline ctermfg=blue ctermbg=gray gui=underline g
 match ZenkakuSpace /　/
 
 " カラーカラムを表示する列
-set colorcolumn=80
-
+if exists('+colorcolumn')
+  set colorcolumn=80
+endif
 
 "### カーソル行ハイライト
 set cursorline
