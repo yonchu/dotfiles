@@ -533,39 +533,36 @@ esac
 #
 # cd後にls
 chpwd() {
-    local CMD_LS='ls -a -v -F'
+    # -a : Do not ignore entries starting with ..
+    # -F : Append indicator (one of */=>@|) to entries.
+    # -C : Force multi-column output.
+    local cmd_ls='ls'
+    local -a opt_ls
+    opt_ls=('-aFC' '--color=always')
     case "${OSTYPE}" in
         freebsd*|darwin*)
-            # -F ファイルタイプを示す文字を表示
-            if type gls > /dev/null 2>&1; then
-                # -b 非印字文字を強制表示
-                # -v natural sort of (version) numbers within text
-                CMD_LS='gls -abvF --color=auto'
+            if type glsa > /dev/null 2>&1; then
+                cmd_ls='gls'
             else
-                # -v 非印字文字を強制表示
-                # -G カラー表示
-                CMD_LS='ls -avFG'
+                # -G : Enable colorized output.
+                opt_ls=('-aFGC')
             fi
             ;;
-        linux*)
-            # -b 非印字文字を強制表示
-            # -v natural sort of (version) numbers within text
-            CMD_LS='ls -abvF --color=auto'
-            ;;
     esac
-    # ファイル数が多い場合は表示するファイルを制限
-    if [ 150 -le $(command ls -A |wc -l) ]; then
-        command $CMD_LS -C | head -n 5
+
+    local ls_result="$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command $cmd_ls ${opt_ls[@]})"
+    local ls_lines="$(echo "$ls_result" | wc -l | tr -d ' ')"
+    if [ $ls_lines -gt 10 ]; then
+        echo "$ls_result" | head -n 5
         echo '...'
-        command $CMD_LS -C | tail -n 5
-        echo "$(command ls -A | wc -l | tr -d ' ') files exist"
+        echo "$ls_result" | tail -n 5
+        echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist"
     else
-        command $CMD_LS
+        echo "$ls_result"
     fi
     # cdd
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
-
 # }}}
 
 
