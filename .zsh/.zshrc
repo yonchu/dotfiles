@@ -609,7 +609,7 @@ fi
 #  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
 #  tmuxを優先して起動し、tmuxが使えなければscreenを起動する
 #
-if [ ${UID} -ne 0 -a -z "$TMUX" -a -z "$STY" ]; then
+if [ -z "$SSH_CONNECTION" -a ${UID} -ne 0 -a -z "$TMUX" -a -z "$STY" ]; then
     if type tmuxx >/dev/null 2>&1; then
         tmuxx
     elif type tmux >/dev/null 2>&1; then
