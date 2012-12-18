@@ -116,7 +116,7 @@ zle -N zle-keymap-select
 function _client_ip() {
     if [ -n "${SSH_CONNECTION}" ]; then
         # Client IP - Client Port - Server IP - Server Port
-        echo "${SSH_CONNECTION}" | awk -F\  '{printf "SSH("$1")>"}'
+        echo "${SSH_CONNECTION}" | awk -F\  '{printf "("$1")>"}'
     fi
 }
 
