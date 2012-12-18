@@ -45,7 +45,7 @@ create_dotfiles() {
 }
 
 setup_vim() {
-    vim +NeoBundleInstall +quitall
+    vim +NeoBundleInstall
     if [ -d ~/.vim/bundle/jedi-vim ]; then
         (
             cd ~/.vim/bundle/jedi-vim
@@ -67,9 +67,11 @@ create_dotfiles_symlinks() {
     ## 各種シンボリックリンク作成
     #
     DOT_FILES=(.ackrc
-        .bashrc
         .bash_profile
+        .bashrc
         .config
+        .gitconfig
+        .gittemplate
         .gitk
         .gvimrc
         .inputrc
@@ -80,8 +82,8 @@ create_dotfiles_symlinks() {
         .pythonstartup
         .screenrc
         .subversion
-        .tmux.conf
         .tmux
+        .tmux.conf
         .vim
         .vimrc
         .zsh)
@@ -119,11 +121,11 @@ setup_osx
 # dotfilesを作成
 confirm_exe 'dotfilesを作成しますか？' && create_dotfiles
 
-# vim(NeoBundle)の設定
-confirm_exe 'vimの設定を行いますか？' && setup_vim
-
 # シンボリックリンク作成
 confirm_exe 'シンボリックリンクを作成しますか？' && create_dotfiles_symlinks
+
+# vim(NeoBundle)の設定
+confirm_exe 'vimの設定を行いますか？' && setup_vim
 
 ## complete message
 echo 'Setup completed!'
