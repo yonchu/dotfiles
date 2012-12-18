@@ -1,11 +1,5 @@
 #!/bin/bash
 
-## debug mode
-#DEBUG="yes"
-if [ "$DEBUG" = "yes" ]; then
-    set -x
-fi
-
 #
 # vm_statコマンドを使用してメモリ使用率(%)を求める
 #   精度は小数点第1位までとする
@@ -40,7 +34,6 @@ calculate_used_mem_vm_stat() {
     USED_MEM_PERCENT=$(echo "$(($USED_MEM * 1000 / $TOTAL_MEM))" | sed -e 's/\(.*\)\([0-9]\)/\1.\2/' -e 's/^\./0./')
     echo "${USED_MEM_PERCENT}"
 
-    # RET
     return 0
 }
 
@@ -56,19 +49,16 @@ calculate_used_mem_free() {
 
     # 使用中メモリ
     USED_MEM=$(echo "$FREE" | awk '/-\/\+ buffers\/cache/ {print $3}')
-    USED_MEM_GB=$(echo "$(($USED_MEM / 1024 ))" | sed -e 's/\(.*\)\([0-9]\{3\}\)/\1.\2/' -e 's/\(.*\)\.\([0-9]\{1\}\).*/\1.\2/' -e 's/^\./0./' )
 
     # 合計
     TOTAL_MEM=$(($FREE_MEM + $USED_MEM))
-    TOTAL_MEM_GB=$(echo "$(($TOTAL_MEM / 1024 ))" | sed -e 's/\(.*\)\([0-9]\{3\}\)/\1.\2/' -e 's/\(.*\)\.\([0-9]\{1\}\).*/\1.\2/' -e 's/^\./0./' )
 
 
     # 使用中メモリ(%)
     #  小数点第1位まで求めて後から小数点文字(ドット)を挿入
     USED_MEM_PERCENT=$(echo "$(($USED_MEM * 1000 / $TOTAL_MEM))" | sed -e 's/\(.*\)\([0-9]\)/\1.\2/' -e 's/^\./0./')
-    echo "${USED_MEM_PERCENT}%(${USED_MEM_GB}G/${TOTAL_MEM_GB}G)"
+    echo "${USED_MEM_PERCENT}"
 
-    # RET
     return 0
 }
 
@@ -98,23 +88,17 @@ debug() {
         echo "---------------"
         echo "USED_MEM: $(($USED_MEM * 1000 / $TOTAL_MEM)) %"
     fi
+    return 0
 }
 
-RET=0
-## メイン処理 -----
+# Main
 if type vm_stat > /dev/null 2>&1; then
-    calculate_used_mem_vm_stat
-    RET=$?
+    calculate_used_mem_vm_stat || exit 1
 elif type free > /dev/null 2>&1; then
-    calculate_used_mem_free
-    RET=$?
+    calculate_used_mem_free || exit 1
 else
-    RET=1
-    exit $RET
+    exit 1
 fi
 
-## デバッグ -----
-#DEBUG=yes debug
+exit 0
 
-## exit
-exit $RET
