@@ -132,7 +132,7 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
   else
-    source ~/.vim/colors/my-solarized.vim
+    source ~/.vim/colors/my-magica.vim
   endif
 
 elseif &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
