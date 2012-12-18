@@ -1,0 +1,22 @@
+#*******************************************************************************
+#
+#  .profile.linux
+#
+#*******************************************************************************
+
+# PATH
+PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share:$PATH
+export PATH
+
+# MANPATH
+MANPATH=/usr/local/share/man:/usr/share/man:$MANPATH
+export MANPATH
+
+# INFOPATH
+INFOPATH=/usr/local/share/info:/usr/share/info:$INFOPATH
+export INFOPATH
+
+
+### Complete Messages
+echo "Loading .profile.linux completed!!"
+
