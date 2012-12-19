@@ -28,3 +28,6 @@
 [submodule ".zsh/cdd"]
 	path = .zsh/cdd
 	url = git://github.com/m4i/cdd.git
+[submodule ".zsh/zaw"]
+	path = .zsh/zaw
+	url = git://github.com/nakamuray/zaw.git

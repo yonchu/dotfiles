@@ -188,7 +188,6 @@ bindkey "^[[3~" delete-char
 bindkey '^D' delete-char
 # Backspace
 bindkey '^T' backward-delete-char
-bindkey '^Q' backward-delete-char
 # カーソル位置から後方全削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
