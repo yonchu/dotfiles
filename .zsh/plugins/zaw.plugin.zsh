@@ -109,6 +109,10 @@ zaw-register-src -n git-dirs zaw-src-git-dirs
 
 ## zaw-src-git-log
 # https://gist.github.com/4350604
+
+# git log pretty format: For detail, refer to "man git-log"
+ZAW_SRC_GIT_LOG_LOG_FORMAT=${ZAW_SRC_GIT_LOG_LOG_FORMAT:-'%ad | %s %d[%an]'}
+
 # If true, print full SHA.
 ZAW_SRC_GIT_LOG_NO_ABBREV=${ZAW_SRC_GIT_LOG_NO_ABBREV:-'false'}
 
@@ -124,20 +128,21 @@ function zaw-src-git-log () {
     # Check git directory.
     git rev-parse -q --is-inside-work-tree > /dev/null 2>&1 || return 1
 
-    # Set up additional option.
-    local opt
+    # Set up option.
+    local -a opt
+    opt=("--pretty=format:%h $ZAW_SRC_GIT_LOG_LOG_FORMAT")
     if [ "$ZAW_SRC_GIT_LOG_NO_ABBREV" != 'false' ]; then
-        opt=' --no-abbrev'
+        opt+=('--no-abbrev')
     fi
     if [ $ZAW_SRC_GIT_LOG_MAX_COUNT -gt 0 ]; then
-        opt+=" --max-count=$ZAW_SRC_GIT_LOG_MAX_COUNT"
+        opt+=("--max-count=$ZAW_SRC_GIT_LOG_MAX_COUNT")
     fi
     if [ -n "$ZAW_SRC_GIT_LOG_DATE_STYLE" ]; then
-        opt+=" --date=$ZAW_SRC_GIT_LOG_DATE_STYLE"
+        opt+=("--date=$ZAW_SRC_GIT_LOG_DATE_STYLE")
     fi
 
     # Get git log.
-    local log="$(git log --pretty=format:'%h %ad | %s %d [%an]' $opt)"
+    local log="$(git log "${opt[@]}")"
 
     # Set candidates.
     candidates+=(${(f)log})
