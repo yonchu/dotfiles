@@ -175,6 +175,8 @@ augroup cch
   autocmd WinEnter,BufRead * set cursorline
 augroup END
 
+" Markdownの_や*のイタリックフォントを無効
+autocmd! FileType markdown hi! def link markdownItalic Normal
 " }}}
 
 
