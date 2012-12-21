@@ -40,6 +40,7 @@ source ~/.zsh/zaw/zaw.zsh || { echo '...skip(source error)'; return 1; }
 
 ## Basic settings
 zstyle ':filter-select' case-insensitive yes
+zstyle ':filter-select' max-lines $(($LINES / 2))
 
 ## Bindkey
 bindkey -r '^Q'
