@@ -88,6 +88,17 @@ case "${TERM}" in
 esac
 
 
+## Terminal background color settings
+# http://yskwkzhr.blogspot.jp/2012/12/set-background-color-of-vim-with-environment-variable.html
+# Default dark
+export COLORFGBG='15;0'
+if [ -n "${(M)ITERM_PROFILE#light}" ]; then
+  export COLORFGBG='0;15'
+elif [ -n "${(M)COLORTERM#gnome-terminal}" ]; then
+  export COLORFGBG='0;15'
+fi
+
+
 #
 # 端末XON/XOFF制御を無効
 #  vimなどでC-s/C-qを使用するため
