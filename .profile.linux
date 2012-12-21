@@ -16,6 +16,42 @@ export MANPATH
 INFOPATH=/usr/local/share/info:/usr/share/info:$INFOPATH
 export INFOPATH
 
+# Java
+if [ -d /usr/java/default ]; then
+    export JAVA_HOME=/usr/java/default
+    export PATH=$JAVA_HOME/bin:$PATH
+    export CATALINA_HOME='/usr/local/tomcat'
+    export JAVA_OPTS='-Dfile.encoding=UTF-8'
+fi
+
+# Maven
+export MAVEN_VERSION='2.2.1'
+if [ -d /usr/local/apache-maven-$MAVEN_VERSION ]; then
+    export MAVEN_HOME=/usr/local/apache-maven-$MAVEN_VERSION
+    export PATH=$MAVEN_HOME/bin:$PATH
+    export MAVEN_OPTS=-Xmx1024M
+else
+    unset MAVEN_VERSION
+fi
+
+# MySQL
+if [ -d /usr/local/mysql ]; then
+    export MYSQL_HOME=/usr/local/mysql
+    export PATH=$MYSQL_HOME/bin:$PATH
+fi
+
+# Python
+export VIRTUALENV_USE_DISTRIBUTE=true
+export VIRTUAL_ENV_DISABLE_PROMPT=true
+export DEFAULT_PYTHON_VERSION="2.7.3"
+export DEFAULT_PYTHON_VENV="py273"
+export PYTHONSTARTUP=~/.pythonstartup
+export PYTHONPATH=./lib:~/lib/python
+
+# rvm
+if [ -d $HOME/.rvm ]; then
+    export PATH=$HOME/.rvm/bin:$PATH
+fi
 
 ### Complete Messages
 echo "Loading .profile.linux completed!!"
