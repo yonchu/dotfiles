@@ -273,12 +273,17 @@ NeoBundle 'Shougo/vimproc', {
       \  'basyura/bitly.vim',
       \  'Shougo/unite.vim',
     \ ]}
+
+  " pseudo clipboard register for non-GUI version of Vim
+  NeoBundle 'fakeclip'
 " }}}
+
 
 " Syntax {{{
   " tmux
   NeoBundle 'zaiste/tmux.vim'
 " }}}
+
 
 " ColorScheme {{{
   NeoBundle 'altercation/vim-colors-solarized'
