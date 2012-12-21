@@ -78,11 +78,11 @@ compdef ggpnp=git
 function is_git_repo() {
     if ! type git > /dev/null 2>&1; then
         echo 'Error: Git is not installed' 2>&1
-        return 0
+        return 1
     fi
     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
         echo 'Error: Not a git repository' 2>&1
-        return 0
+        return 1
     fi
 }
 
@@ -96,6 +96,13 @@ function gsmupdate() {
         cd_git_toplevel
         git submodule foreach "git checkout master; git pull"
     )
+}
+
+function cdg() {
+    is_git_repo || return 1
+    cd "./$(git rev-parse --show-cdup)"
+    [ -n "$1" ] && cd "$1"
+    return 0
 }
 
 alias gs='git status -sb'
