@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sep=${1:-'-'}
+date="[$(date +"%Y/%m/%d %H:%M:%S")]"
+num=$(echo -n "$date" | wc -m)
+num=$((($COLUMNS - $num) / $(echo -n "$sep" | wc -m)))
+
+echo -n -e '\033[33m'"$date"
+for i in $(seq 1 $num); do
+    echo -n "$sep"
+done
+echo
