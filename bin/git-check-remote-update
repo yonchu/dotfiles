@@ -67,23 +67,17 @@ print_remote_update_info () {
         local url
 
         local branch
-        local merge_branch
         local remote_branch
         branch=$(get_branch)
         if [ $? -eq 0 ]; then
             remote_name=$(get_remote_name "$branch")
             if [ $? -eq 0 ]; then
-                merge_branch=$(git config branch."$branch".merge | sed -E s/^.\{11\}//g)
-                if [ -z "$merge_branch" ]; then
-                    status='No merge branch'
-                else
-                    local remote_show=$(git remote show "$remote_name")
-                    status=$(echo "$remote_show" \
-                        | grep "^ *$merge_branch *pushes" | sed 's/.*(\(.*\)).*/\1/')
-                    url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
-                    remote_branch=$(echo "$remote_show" \
-                        | grep "^ *$merge_branch *pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/' | tr -d ' ')
-                fi
+                local remote_show=$(git remote show "$remote_name")
+                status=$(echo "$remote_show" \
+                    | grep "^ *$branch *pushes" | sed 's/.*(\(.*\)).*/\1/')
+                url=$(echo "$remote_show" | grep '^ *Push' | sed 's/^.*URL: \(.*\)$/\1/')
+                remote_branch=$(echo "$remote_show" \
+                    | grep "^ *$branch *pushes" | sed 's/.*pushes to \(.*\) (.*)/\1/' | tr -d ' ')
             else
                 status=$remote_name
             fi
@@ -96,11 +90,7 @@ print_remote_update_info () {
         fi
         local branch_info=''
         if [ -n "$branch" ]; then
-            branch_info=$branch
-            if [ -n "$merge_branch" ]; then
-                branch_info="$branch_info:$merge_branch -> $remote_branch"
-            fi
-            branch_info="($branch_info)"
+            branch_info="($branch -> $remote_branch)"
         fi
 
         local update_info="($status) [${dir%/}]$branch_info${url:+ URL: $url}"
