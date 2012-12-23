@@ -34,6 +34,9 @@ alias history="history -i"
 # fpathを表示
 alias printfpath='echo $fpath | tr " " "\n"'
 
+# vc command completion
+compdef _command vc
+
 # }}}
 
 ### Global aliases {{{
