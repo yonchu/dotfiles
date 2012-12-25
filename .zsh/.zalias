@@ -22,7 +22,7 @@
 ### Basic aliases {{{
 #
 # 設定ファイルのリロード
-alias reload='source ~/.zshenv && source ~/.zsh/.zshrc'
+alias reload='exec zsh -l'
 
 # pushd/popd
 alias pd="pushd"
