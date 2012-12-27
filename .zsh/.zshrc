@@ -229,8 +229,10 @@ bindkey -a 'q' push-line
 
 # HELP読み出し
 # run-helpはデフォルトではmanがaliasとして設定されているためaliasを削除
-[ $(alias run-help) ] && unalias run-help
-autoload run-help
+alias run-help >/dev/null 2>&1 && unalias run-help
+autoload -Uz run-help
+autoload -Uz run-help-git
+autoload -Uz run-help-svn
 bindkey '^@' run-help
 
 # 右プロンプトの表示/非表示
