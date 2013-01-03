@@ -8,14 +8,14 @@
 
 
 # Escape sequence
-#   \[\033[ <code> \]
+#   \033[<code>m or \e[<code>m
 #
 #   color : \[\033[ <code>m\] \]
 #
 #   e.g.
 #    bg=Blue, Bold, fg=Red
-#     1. \[\033[44;1;31m\]
-#     2. \[\033[44m\]\[\033[1;31m\]
+#     1. \033[44;1;31m
+#     2. \033[44m\033[1;31m
 
 
 # Text attributes
