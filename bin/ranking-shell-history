@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  Show ranking for shell(bash/zsh) commands
+#  Show ranking for shell(bash/zsh) commands.
 #
 #  usage: ranking_shell_history [-h] [-n N] [--max-arg-num MAX_ARG_NUM]
 #                                  [--min-count MIN_COUNT] [--shell {zsh,bash}]
@@ -33,11 +33,8 @@ import os
 from argparse import ArgumentParser
 from collections import Counter, defaultdict
 
-## Data
 __version__ = '1.0.0'
-__date__ = 'November 20, 2012'
 __author__ = 'yonchu <yuyuchu3333@gmail.com>'
-__copyright__ = 'Copyright (c) 2012 yonchu. All rights reserved.'
 
 ## Command Information for ArgumentParser
 DESCRIPTION = 'Show ranking for shell(bash/zsh) commands'
