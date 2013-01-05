@@ -15,3 +15,5 @@
 
 source ~/.zsh/cdd/cdd
 
+[ -f ~/.cdd ] || touch ~/.cdd
+

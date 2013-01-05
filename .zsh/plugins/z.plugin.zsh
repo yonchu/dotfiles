@@ -17,3 +17,5 @@ compctl -U -K _z_zsh_tab_completion $_Z_CMD
 alias c='_z 2>&1'
 alias jr='_z -r'
 
+[ -f ~/.z ] || touch ~/.z
+
