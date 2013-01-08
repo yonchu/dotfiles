@@ -1,9 +1,6 @@
 [submodule ".zsh/functions/Completion/zsh-completions"]
 	path = .zsh/functions/Completion/zsh-completions
 	url = git://github.com/zsh-users/zsh-completions.git
-[submodule ".zsh/zsh-syntax-highlighting"]
-	path = .zsh/zsh-syntax-highlighting
-	url = https://github.com/yonchu/zsh-syntax-highlighting.git
 [submodule ".tmux/tmux-powerline"]
 	path = .tmux/tmux-powerline
 	url = git://github.com/erikw/tmux-powerline.git
