@@ -16,9 +16,6 @@
 [submodule ".vim/neobundle.vim"]
 	path = .vim/neobundle.vim
 	url = git://github.com/Shougo/neobundle.vim.git
-[submodule ".zsh/git-edit"]
-	path = .zsh/git-edit
-	url = https://github.com/yonchu/git-edit.git
 [submodule ".zsh/cdd"]
 	path = .zsh/cdd
 	url = git://github.com/m4i/cdd.git
@@ -40,3 +37,6 @@
 [submodule "Cellar/dircolors-solarized"]
 	path = Cellar/dircolors-solarized
 	url = git://github.com/seebi/dircolors-solarized.git
+[submodule "Cellar/git-edit"]
+	path = Cellar/git-edit
+	url = https://github.com/yonchu/git-edit.git
