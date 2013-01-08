@@ -34,3 +34,6 @@
 [submodule ".zsh/zaw-src-git-log"]
 	path = .zsh/zaw-src-git-log
 	url = https://github.com/yonchu/zaw-src-git-log.git
+[submodule "Cellar/shell-color-pallet"]
+	path = Cellar/shell-color-pallet
+	url = https://github.com/yonchu/shell-color-pallet.git
