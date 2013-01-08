@@ -37,3 +37,6 @@
 [submodule "Cellar/shell-color-pallet"]
 	path = Cellar/shell-color-pallet
 	url = https://github.com/yonchu/shell-color-pallet.git
+[submodule "Cellar/ranking-shell-history"]
+	path = Cellar/ranking-shell-history
+	url = https://github.com/yonchu/ranking-shell-history.git
