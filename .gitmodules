@@ -16,9 +16,6 @@
 [submodule ".vim/neobundle.vim"]
 	path = .vim/neobundle.vim
 	url = git://github.com/Shougo/neobundle.vim.git
-[submodule ".zsh/dircolors-solarized"]
-	path = .zsh/dircolors-solarized
-	url = git://github.com/seebi/dircolors-solarized.git
 [submodule ".zsh/git-edit"]
 	path = .zsh/git-edit
 	url = https://github.com/yonchu/git-edit.git
@@ -40,3 +37,6 @@
 [submodule "Cellar/ranking-shell-history"]
 	path = Cellar/ranking-shell-history
 	url = https://github.com/yonchu/ranking-shell-history.git
+[submodule "Cellar/dircolors-solarized"]
+	path = Cellar/dircolors-solarized
+	url = git://github.com/seebi/dircolors-solarized.git
