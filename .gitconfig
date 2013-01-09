@@ -183,9 +183,12 @@
   di  = diff
   dif = diff                       # IndexとWorkingTreeの差分 (addしていない変更を表示)
   dm  = diff master                # masterとのdiff
-  dw  = diff --color-words         # 単語単位でいろつけてdiff
+  dw  = diff -w                    # Spaceを無視
+  dwd = diff --word-diff           #
+  dwc = diff --color-words         # 単語単位でいろつけてdiff
   dc  = diff --cached              # RepositoryとIndexの差分 (addしたけどcommitしてない変更を表示)
   ds  = diff --staged              # 同上(1.6.1移行)
+  dn  = diff --name-only           # ファイル名のみ表示
   dh  = diff HEAD                  # HEADとdiff : RepositoryとWorkingTreeの差分 (addを考慮せずcommitしてない変更を表示)
   d1  = diff HEAD~                 # HEADから1つ前とdiff
   d2  = diff HEAD~~                # HEADから2つ前とdiff
@@ -196,6 +199,7 @@
   dro = diff master origin/master  # リモートリポジトリ(origin)とのdiff
   drg = diff master github/master  # リモートリポジトリ(github)とのdiff
   dbr = diff -u <(git branch) <(git branch --merged)  # マージしていないBranchとの差分を表示
+  diffr = diff --color-words --word-diff-regex='\\w+|[^[:space:]]'
 
   # edit関連
   e = edit
