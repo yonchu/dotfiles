@@ -37,3 +37,6 @@
 [submodule "Cellar/git-edit"]
 	path = Cellar/git-edit
 	url = https://github.com/yonchu/git-edit.git
+[submodule ".zsh/zsh-syntax-highlighting"]
+	path = .zsh/zsh-syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
