@@ -22,9 +22,6 @@
 [submodule ".zsh/zaw"]
 	path = .zsh/zaw
 	url = git://github.com/nakamuray/zaw.git
-[submodule ".zsh/zsh-syntax-highlighting"]
-	path = .zsh/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule ".zsh/zaw-src-git-log"]
 	path = .zsh/zaw-src-git-log
 	url = https://github.com/yonchu/zaw-src-git-log.git
