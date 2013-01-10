@@ -14,7 +14,9 @@ setl autoindent
 setl nosmartindent
 setl cindent
 setl textwidth=80
-setl colorcolumn=80
+if exists('&colorcolumn')
+  setl colorcolumn=80
+endif
 setl smartindent
 setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 
