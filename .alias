@@ -325,7 +325,9 @@ alias lv='lv -cl'
 # tree
 #
 # -N 日本語文字化け対応
-alias tree='tree -N'
+# -a 隠しファイルも表示
+# -I 例外設定(ワイルドカード)
+alias tree="tree -N -a -I '.git|.svn'"
 
 
 #
