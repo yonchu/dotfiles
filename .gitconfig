@@ -52,7 +52,7 @@
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
 
   # Make this a git repo
-  this = !git init && git add . && git commit -m \"initial commit\"
+  this = !git init && git add . && git commit -m \"Initial commit\"
 
   # Quickly add a file/dir to .gitignore.
   ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
