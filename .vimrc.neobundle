@@ -199,22 +199,27 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'jceb/vim-hier'
 
   " Python用入力補完
-  NeoBundleLazy 'Pydiction'
+  NeoBundleLazy 'Pydiction',  {
+    \ "autoload" : { "filetypes" : [ "python" ] } }
 
   " Python補完(オムニ補完で使用)
-  NeoBundleLazy 'pythoncomplete'
+  NeoBundleLazy 'pythoncomplete',  {
+    \ "autoload" : { "filetypes" : [ "python" ] } }
 
   " Python多機能プラグイン
   " pylint, rope, pydoc, pyflakes, pep8, mccabe
-  NeoBundleLazy 'klen/python-mode'
+  NeoBundleLazy 'klen/python-mode',  {
+    \ "autoload" : { "filetypes" : [ "python" ] } }
 
   " Awesome Python autocompletion
   "   To install jedi : git submodule update --init
-  NeoBundleLazy 'davidhalter/jedi-vim'
+  NeoBundleLazy 'davidhalter/jedi-vim',  {
+    \ "autoload" : { "filetypes" : [ "python" ] } }
 
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-  NeoBundleLazy 'scrooloose/syntastic'
+  NeoBundleLazy 'scrooloose/syntastic',  {
+    \ "autoload" : { "filetypes" : [ "python" ] } }
 " }}}
 
 

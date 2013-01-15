@@ -29,7 +29,6 @@ setl foldlevel=99
 " Pydiction
 "  辞書補完
 "------------------------------------
-"NeoBundleSource Pydiction
 "let g:pydiction_location = '~/.vim/pydiction/complete-dict'
 "let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'
 
@@ -37,7 +36,6 @@ setl foldlevel=99
 " pythoncomplete
 "  オムニ補完
 "------------------------------------
-"NeoBundleSource pythoncomplete
 "setlocal omnifunc=pythoncomplete#Complete
 " オムに補完はpython-mode(RopeOmni)を使用
 
@@ -49,8 +47,6 @@ setl foldlevel=99
 "  自動実行のトグル：,S
 "  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
-NeoBundleSource syntastic
-
 " 優先順位: flake8 > pyflakes
 "let g:syntastic_python_checker = "flake8"
 let g:syntastic_python_checker = 'pyflakes'
@@ -120,8 +116,6 @@ let g:pymode_rope_auto_project = 0
 " Auto fix vim python paths if virtualenv enabled
 let g:pymode_virtualenv = 1
 
-NeoBundleSource python-mode
-
 
 "------------------------------------
 " jedi-vim
@@ -133,4 +127,3 @@ let g:jedi#pydoc = "<space>K"
 let g:jedi#rename_command = "<leader>R"
 let g:jedi#related_names_command = "<leader>n"
 let g:jedi#popup_on_dot = 0
-NeoBundleSource jedi-vim
