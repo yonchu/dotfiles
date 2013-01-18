@@ -179,7 +179,13 @@ let nerdshutup=1
 "  ツリー型ファイルエクスプローラ
 "  http://blog.livedoor.jp/kumonopanya/archives/51048805.html
 "-------------------------------------------------------------
-" F5でツリー表示をトグル
+" 自動実行
+let file_name = expand("%:p")
+if has('vim_starting') &&  file_name == ""
+    autocmd VimEnter * :NERDTreeToggle
+endif
+
+" トグル
 "nmap <F5> :TMiniBufExplorer<CR>:NERDTreeToggle<CR>:TMiniBufExplorer<CR>
 nmap <F5> :NERDTreeToggle<CR>
 
@@ -203,7 +209,6 @@ let g:NERDTreeDirArrows=0
 " 2 : ディレクトリのみシングルクリックで開く
 " 3 : ファイル、ディレクトリ両方共シングルクリックで開く
 let g:NERDTreeMouseMode=1
-
 "}}}
 
 
