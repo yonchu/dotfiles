@@ -199,12 +199,10 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'jceb/vim-hier'
 
   " Python用入力補完
-  NeoBundleLazy 'Pydiction',  {
-    \ "autoload" : { "filetypes" : [ "python" ] } }
+  NeoBundleLazy 'Pydiction'
 
   " Python補完(オムニ補完で使用)
-  NeoBundleLazy 'pythoncomplete',  {
-    \ "autoload" : { "filetypes" : [ "python" ] } }
+  NeoBundleLazy 'pythoncomplete'
 
   " Python多機能プラグイン
   " pylint, rope, pydoc, pyflakes, pep8, mccabe
