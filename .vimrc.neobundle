@@ -136,6 +136,10 @@ NeoBundle 'Shougo/vimproc', {
   " マルチカーソル
   "  :Multi <word>
   NeoBundle 'mattn/multi-vim'
+
+  " テキストオブジェクトで置換
+  NeoBundle 'kana/vim-operator-replace.git'
+  NeoBundle 'kana/vim-operator-user.git'
 " }}}
 
 

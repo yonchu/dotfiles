@@ -528,6 +528,14 @@ nnoremap <silent> <Leader>hic :HierClear<CR>
 "}}}
 
 
+"### viw-operator-replace {{{
+"------------------------------------
+map R  <Plug>(operator-replace)
+nmap cp <Plug>(operator-replace)iw
+nmap vp <Plug>(operator-replace)iw
+" }}}
+"
+
 "### vim-powerline {{{
 "------------------------------------
 if has("mac")
