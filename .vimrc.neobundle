@@ -202,6 +202,13 @@ NeoBundle 'Shougo/vimproc', {
   " vim-hier : quickfix の該当箇所をハイライト
   NeoBundle 'jceb/vim-hier'
 
+  " Javascript用インデント
+  NeoBundleLazy 'jiangmiao/simple-javascript-indenter',  {
+    \ "autoload" : { "filetypes" : [ "html", "javascript" ] } }
+
+  NeoBundleLazy 'teramako/jscomplete-vim',  {
+    \ "autoload" : { "filetypes" : [ "html", "javascript" ] } }
+
   " Python用入力補完
   NeoBundleLazy 'Pydiction'
 
@@ -289,6 +296,12 @@ NeoBundle 'Shougo/vimproc', {
 " Syntax {{{
   " tmux
   NeoBundle 'zaiste/tmux.vim'
+
+  " javascript
+  NeoBundle 'jelera/vim-javascript-syntax'
+
+  " jQuery
+  NeoBundle 'jQuery'
 " }}}
 
 

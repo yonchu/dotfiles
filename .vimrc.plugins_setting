@@ -128,6 +128,11 @@ let g:indent_guides_color_change_percent = 30
 "}}}
 
 
+"### jQuery {{{
+au BufRead,BufNewFile jquery.*.js setl ft=javascript syntax=jquery
+"}}}
+
+
 "### matchit.vim {{{
 "  %コマンドによる対応括弧ジャンプ機能の拡張
 "--------------------------------------------
