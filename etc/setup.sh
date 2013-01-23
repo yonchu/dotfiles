@@ -110,6 +110,9 @@ create_dotfiles_symlinks() {
     if [ -d "$HOME/dotfiles.local/links" ]; then
         ln -s "$HOME/dotfiles.local/links" "$HOME/links"
     fi
+
+    # .tmux-powerlinerc
+    ln -s "$HOME/.tmux/tmux-powerline-settings/.tmux-powerlinerc "$HOME/.tmux-powerlinerc"
 }
 
 
