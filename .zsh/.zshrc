@@ -120,8 +120,8 @@ setopt sh_word_split
 #  $ cat file1 > file3 > /dev/stdin  # tee
 setopt multios
 
-# 最後がディレクトリ名で終わっている場合末尾の / を自動的に取り除かない
-setopt noautoremoveslash
+# 補完で末尾に補われた / をスペース挿入で自動的に削除
+setopt auto_remove_slash
 # beepを鳴らさない
 setopt no_beep
 # beepを鳴らさない
@@ -389,8 +389,6 @@ setopt hist_expand
 setopt no_beep
 # 辞書順ではなく数字順に並べる。
 setopt numeric_glob_sort
-# 補完で末尾に補われた / をスペース挿入で自動的に削除
-setopt auto_remove_slash
 
 # sudo用pathを設定
 # typeset -T は重複実行できないため一度環境変数を削除する
