@@ -55,11 +55,13 @@ setup_vim() {
 }
 
 create_symlink() {
-  if [ -e "$2" ]; then
-    echo "既にファイルが存在します: $file"
+  if [ ! -e "$1" ]; then
+    echo "リンク先が存在しません: $1"
+  elif [ -e "$2" ]; then
+    echo "同名のファイルが既に存在します: $2"
   else
     ln -s "$1" "$2"
-    echo "シンボリックリンクを作成しました: $file"
+    echo "シンボリックリンクを作成しました: $2 -> $1"
   fi
 }
 
@@ -88,31 +90,33 @@ create_dotfiles_symlinks() {
         .vimrc
         .zsh)
 
-    for file in ${DOT_FILES[@]}; do
-        create_symlink "$HOME/dotfiles/$file" "$HOME/$file"
-    done
+    (
+        cd "$HOME"
 
-    # For Mac
-    if [ $(uname -s) = 'Darwin' ]; then
-        ln -s "$HOME/dotfiles/.MacOSX" "$HOME/.MacOSX"
-    fi
+        for file in ${DOT_FILES[@]}; do
+            create_symlink "dotfiles/$file" "$HOME/$file"
+        done
 
-    # .zshenv
-    ln -s "$HOME/.zsh/.zshenv" "$HOME/.zshenv"
+        # For Mac
+        if [ $(uname -s) = 'Darwin' ]; then
+            create_symlink "dotfiles/.MacOSX" "$HOME/.MacOSX"
+        fi
 
-    # .gitignore
-    ln -s "$HOME/dotfiles/.gitignore.default" "$HOME/.gitignore"
+        # .zshenv
+        create_symlink ".zsh/.zshenv" "$HOME/.zshenv"
 
-    # .dir_colors
-    ln -s "$HOME/dotfiles/Cellar/dircolors-solarized/dircolors.ansi-universal" "$HOME/.dir_colors"
+        # .gitignore
+        create_symlink "dotfiles/.gitignore.default" "$HOME/.gitignore"
 
-    # links
-    if [ -d "$HOME/dotfiles.local/links" ]; then
-        ln -s "$HOME/dotfiles.local/links" "$HOME/links"
-    fi
+        # .dir_colors
+        create_symlink "dotfiles/Cellar/dircolors-solarized/dircolors.ansi-universal" "$HOME/.dir_colors"
 
-    # .tmux-powerlinerc
-    ln -s "$HOME/.tmux/tmux-powerline-settings/.tmux-powerlinerc "$HOME/.tmux-powerlinerc"
+        # links
+        create_symlink dotfiles.local/links "$HOME/links"
+
+        # .tmux-powerlinerc
+        create_symlink .tmux/tmux-powerline-settings/.tmux-powerlinerc "$HOME/.tmux-powerlinerc"
+    )
 }
 
 
