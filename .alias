@@ -277,12 +277,23 @@ alias cur='curl -OLv'
 
 #
 # rsync
-#  -a 属性、タイムスタンプ等を保存
-#  -v 情報の詳細表示
-#  -z 転送時に圧縮
-#  -u 更新
 #
+# options are:
+#  -a - archive mode
+#  -v - increase verbosity
+#  -z - compress file data during the transfer
+#  -u - skip files that are newer on the receiver
+#  -p - preserve permissions
+#  -o - preserve owner
+#  -g - preserve group
+#  -h - output in human-readable format
+#  --progress - display progress
+#  -b - instead of just overwriting an existing file, save the original
+#  --backup-dir=/tmp/rsync - move backup copies to "/tmp/rsync"
+#  -e /dev/null - only work on local files
+#  -- - everything after this is an argument, even if it looks like an option
 alias rsync='rsync -avzu'
+alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
 
 #
