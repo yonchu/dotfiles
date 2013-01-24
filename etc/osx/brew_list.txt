@@ -30,6 +30,7 @@ hub
 jpeg
 libevent
 libffi
+libmpdclient
 libpng
 libspiro
 libtiff
