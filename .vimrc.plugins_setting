@@ -109,6 +109,11 @@ nmap U :<C-u>GundoToggle<CR>
 "}}}
 
 
+"### HybridText {{{
+autocmd BufEnter * if &filetype == "" | setlocal ft=hybrid | endif
+" }}}
+
+
 "### indent-guides {{{
 "  インデント量の違いをハイライト表示
 "-------------------------------------

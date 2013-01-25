@@ -294,6 +294,9 @@ NeoBundle 'Shougo/vimproc', {
 
 
 " Syntax {{{
+  " テキストファイルをハイライト
+  NeoBundle 'HybridText'
+
   " tmux
   NeoBundle 'zaiste/tmux.vim'
 
