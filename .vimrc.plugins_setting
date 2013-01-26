@@ -414,7 +414,9 @@ nnoremap <Space>ts :<C-u>TweetVimSay<CR>
 "------------------------------------
 " The prefix key.
 nnoremap    [unite]   <Nop>
-nmap    f [unite]
+xnoremap    [unite]   <Nop>
+nmap    ;f   [unite]
+xmap    ;f   [unite]
 
 " 入力モードで開始する
 let g:unite_enable_start_insert = 1
