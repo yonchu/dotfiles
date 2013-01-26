@@ -467,14 +467,14 @@ vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 " 3.s*  4.置換後文字列を編集して
 " (ヤンクした文字列を貼り付け : <C-r>")
 " (クリップボードから貼り付け : <C-r>+)
-nnoremap <expr> s* ':%s/' . expand('<cword>') . '/<C-r>"/gc<Left><Left>'
+nnoremap <expr> <C-s> ':%s/' . expand('<cword>') . '/<C-r>"/gc<Left><Left>'
 "nnoremap <expr> ss* ':%s/\<' . expand('<cword>') . '\>/<C-r>"/g'
 
 " 選択した文字列で置換
 " 1.置換後文字列をヤンク(あれば)  2.ビジュアルモードで置換元文字列を選択
 " 3.s*  4.置換後文字列を編集して実行
 " 5./g 入力後に実行
-vnoremap s* "vy:%s/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR>/<C-r>+/gc<Left><Left>
+vnoremap <C-s> "vy:%s/\V<C-r>=substitute(escape(@v,'\/'),"\n",'\\n','g')<CR>/<C-r>+/gc<Left><Left>
 vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
 
 " 選択範囲のみ置換
