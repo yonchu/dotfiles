@@ -399,7 +399,8 @@ set hlsearch                     " 検索文字をハイライト
 " 検索結果に移動したとき、その位置を画面の中央へ
 nnoremap n nzz
 nnoremap N Nzz
-nnoremap * *zz
+"nnoremap * *zz
+nmap * *N
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
