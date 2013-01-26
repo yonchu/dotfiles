@@ -60,10 +60,15 @@ fi
 PROMPT_NORMAL_SYMBOL="♪ "
 PROMPT_ERROR_SYMBOL="✘ "
 
+PROMPT_HOST_COLOR="%{${fg[green]}%}"
+if [ -n "${SSH_CONNECTION}" ]; then
+    PROMPT_HOST_COLOR="%{${fg[red]}%}"
+fi
+
 DEFAULT_PROMPT='%{${reset_color}%}'
-DEFAULT_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
+#DEFAULT_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
 DEFAULT_PROMPT+='[%{${fg_bold[magenta]}%}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")%{${reset_color}%}'
-DEFAULT_PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}%{${fg[green]}%}%m%{${reset_color}%}'
+DEFAULT_PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}${PROMPT_HOST_COLOR}%m%{${reset_color}%}'
 DEFAULT_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}'
 DEFAULT_PROMPT+=':%~%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
 
