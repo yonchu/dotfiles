@@ -157,6 +157,9 @@ NeoBundle 'Shougo/vimproc', {
   " <Leader><Leader>w/fなどで、motion先をhilightする
   NeoBundle 'EasyMotion'
 
+  " s + 検索文字(2文字)で移動(fの代替)
+  NeoBundle 'goldfeld/vim-seek'
+
   " grep.vim : 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
   NeoBundle 'grep.vim'
 
