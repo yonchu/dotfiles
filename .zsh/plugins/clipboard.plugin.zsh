@@ -30,8 +30,14 @@ function copy_prev_cmd_to_clipboard () {
         return 1
     fi
     local num=${1:-1};
-    num=$((num + 1))
-    tail "-$num" "$HISTFILE" | perl -e '<> =~  m/;(.+)/; print $1;' | pbcopy
+    fc -ln -$num | head -n 1 | sed 's/^[ \t]*//' | tr -d '\n' | pbcopy
+    #if [ -n "$BASH_VERSION" ]; then
+        #history | tail -n $num | head -n 1 | sed 's/^[ \t]*//' | cut -d ' ' -f 5- | sed 's/^[ \t]*//' | pbcopy
+    #else
+        #num=$((num + 1))
+        #tail -n $num "$HISTFILE" | perl -e '<> =~  m/;(.+)/; print $1;' | pbcopy
+        ##tail -n $num "$HISTFILE" | head -n 1 | cut -d ';' -f 2- | pbcopy
+    #fi
 }
 alias pbcc='copy_prev_cmd_to_clipboard'
 
