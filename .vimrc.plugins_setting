@@ -591,6 +591,20 @@ endfunction
 "}}}
 
 
+"### vim-seek {{{
+"------------------------------------
+"let g:seek_no_default_key_mappings = 1
+"nmap <silent> s <Plug>(seek-seek)
+"omap <silent> s <Plug>(seek-seek)
+"nmap <silent> S <Plug>(seek-back)
+"omap <silent> S <Plug>(seek-back)
+"omap <silent> x <Plug>(seek-seek-cut)
+"omap <silent> X <Plug>(seek-back-cut)
+"omap <silent> j <Plug>(seek-jump)
+"omap <silent> J <Plug>(seek-jump-back)
+" }}}
+
+
 " ### sumartword {{{
 "   単語移動がスマートに
 "------------------------------------
