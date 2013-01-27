@@ -160,6 +160,9 @@ NeoBundle 'Shougo/vimproc', {
   " s + 検索文字(2文字)で移動(fの代替)
   NeoBundle 'goldfeld/vim-seek'
 
+  " f連打で検索文字移動
+  NeoBundle 'rhysd/clever-f.vim'
+
   " grep.vim : 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
   NeoBundle 'grep.vim'
 
