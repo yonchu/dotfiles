@@ -37,3 +37,6 @@
 [submodule ".zsh/zsh-syntax-highlighting"]
 	path = .zsh/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "Cellar/used-mem"]
+	path = Cellar/used-mem
+	url = git://github.com/yonchu/used-mem.git
