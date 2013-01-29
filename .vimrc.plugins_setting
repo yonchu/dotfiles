@@ -15,6 +15,12 @@ let autodate_format="%Y/%m/%d %H:%M:%S"
 "}}}
 
 
+"### closetag.vim {{{
+" <C-_> 閉じタグ入力
+:let g:closetag_html_style=1
+" }}}
+
+
 "### eregex.vim {{{
 "  検索/置換にRubyやPerlの正規表現が使用できる
 "  うまく動作しないので不可
@@ -220,6 +226,15 @@ let g:NERDTreeDirArrows=0
 " 3 : ファイル、ディレクトリ両方共シングルクリックで開く
 let g:NERDTreeMouseMode=1
 "}}}
+
+
+"### number-marks {{{
+map <silent> <unique> mm <Plug>Place_sign
+map <silent> <unique> mb <Plug>Goto_next_sign
+map <silent> <unique> mv <Plug>Goto_prev_sign
+map <unique> mD <Plug>Remove_all_signs
+map <silent> <unique> m. <Plug>Move_sign
+" }}}
 
 
 "### open-browser.vim {{{

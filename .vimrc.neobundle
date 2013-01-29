@@ -140,6 +140,12 @@ NeoBundle 'Shougo/vimproc', {
   " テキストオブジェクトで置換
   NeoBundle 'kana/vim-operator-replace.git'
   NeoBundle 'kana/vim-operator-user.git'
+
+  " 最後に保存してから変更を加えられた行を+、-、*で表示
+  NeoBundle 'Changed'
+
+  " 括弧の閉じ忘れをハイライト
+  NeoBundle 'Highlight-UnMatched-Brackets'
 " }}}
 
 
@@ -235,6 +241,10 @@ NeoBundle 'Shougo/vimproc', {
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   NeoBundleLazy 'scrooloose/syntastic',  {
     \ "autoload" : { "filetypes" : [ "python" ] } }
+
+  " <C-_>でhtmlタグの閉じタグを入力
+  NeoBundle 'closetag.vim', {
+    \ "autoload" : { "filetypes" : [ "html", "xml", "xsl", "ant" ] } }
 " }}}
 
 
@@ -279,6 +289,15 @@ NeoBundle 'Shougo/vimproc', {
 
   " ShowMarks7 : マークを表示
   NeoBundle 'ShowMarks7'
+
+  " マーク移動
+  " mm 連番マーク
+  " mb 前のマークへ
+  " mv 後のマークへ
+  " m. マークへ
+  " F6 save marks
+  " F5 reload marks
+  NeoBundle 'number-marks'
 
   " TweetVim : vimでtwitter
   "   https://github.com/basyura/TweetVim
