@@ -203,7 +203,8 @@ endif
 
 " トグル
 "nmap <F5> :TMiniBufExplorer<CR>:NERDTreeToggle<CR>:TMiniBufExplorer<CR>
-nmap <F5> :NERDTreeToggle<CR>
+" To duplicate number-marks mapping
+autocmd Filetype * nmap <F5> :NERDTreeToggle<CR>
 
 " ツリー表示幅
 "let g:NERDTreeWinSize=31
