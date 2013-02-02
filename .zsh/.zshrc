@@ -512,9 +512,9 @@ case "${TERM}" in
 
         _change_terminal_title_precmd_hook() {
             if [ "$STY" ]; then
-                echo -ne "\ek$(basename $(pwd))\e\\"
+                echo -ne "\ek$(basename "$(pwd)")\e\\"
             else
-                echo -ne "\033]0;$(basename $(pwd))\007"
+                echo -ne "\033]0;$(basename "$(pwd)")\007"
             fi
             return 0
         }
