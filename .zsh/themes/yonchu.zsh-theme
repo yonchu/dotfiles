@@ -48,6 +48,10 @@ if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
     source ~/.zsh/zsh-vcs-prompt/zshrc.sh
     ## Enable caching.
     ZSH_VCS_PROMPT_ENABLE_CACHING='true'
+    ## Logging level.
+    ZSH_VCS_PROMPT_LOGGING_LEVEL='1'
+    ##
+    ZSH_VCS_PROMPT_LOGGING_THRESHOLD_MICRO_SEC=350000  # 350ms
     ZSH_VCS_PROMPT_GIT_FORMATS_USING_PYTHON="${ZSH_VCS_PROMPT_GIT_FORMATS}"
     ZSH_VCS_PROMPT_GIT_FORMATS+='!'
     ZSH_VCS_PROMPT_GIT_ACTION_FORMATS+='!'
