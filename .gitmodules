@@ -40,3 +40,6 @@
 [submodule "Cellar/used-mem"]
 	path = Cellar/used-mem
 	url = git://github.com/yonchu/used-mem.git
+[submodule "Cellar/git-check"]
+	path = Cellar/git-check
+	url = git://github.com/yonchu/git-check.git
