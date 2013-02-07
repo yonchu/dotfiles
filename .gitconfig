@@ -12,6 +12,7 @@
   branch      = auto
   interactive = auto
   grep        = auto
+  ui          = auto
 [core]
   excludesfile = ~/.gitignore
   autocrlf     = input            # CRLFを自動変換
@@ -47,6 +48,8 @@
   stat = true
 [grep]
   lineNumber = true
+[pretty]
+  medium-reverse = format:%C(red reverse)%d%Creset%C(white reverse) %h% Creset %C(green reverse) %an %Creset %C(cyan)%ar%Creset%n%C(white bold)%w(80)%s%Creset%n%n%w(80,2,2)%b
 [alias]
   # alias list
   alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
@@ -158,6 +161,7 @@
   # 詳細なログ
   ll  = log --date=iso --graph --pretty=format:'%x09%C(magenta)%h %C(cyan)%cd %C(green)%cn%x09%C(yellow)%d%C(reset)%s'
   lls = log --date=iso --graph --stat --pretty=format:'%C(cyan),%ad [%cn] <commit:%h tree:%t parent:%p>%C(reset)%n %s%C(yellow)%d%C(reset)%n'
+  gl  = log --pretty='medium-reverse' --graph --name-status
   # 指定ブランチの変更点のみ抽出(分岐元:master) 最後にブランチ名を指定すること
   #  --reverse 逆順表示
   log-branch = log --oneline --decorate master..
