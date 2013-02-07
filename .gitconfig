@@ -130,11 +130,11 @@
   amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 
   # checkout
-  ch   = checkout           # WorkingTreeをIndexの状態に戻す
-  chh  = checkout HEAD      # WorkingTreeとIndexをRepositoryの状態に戻す
-  chb  = checkout -b        # branch切ってcheckoutする
-  cht  = checkout -t        # remoteのbranchを追跡
-  chm  = checkout master    # masterブランチへ切り替え
+  ch   = checkout             # WorkingTreeをIndexの状態に戻す
+  chh  = checkout HEAD        # WorkingTreeとIndexをRepositoryの状態に戻す
+  chb  = checkout -b          # branch切ってcheckoutする
+  cht  = checkout --track -b  # remoteのbranchを追跡
+  chm  = checkout master      # masterブランチへ切り替え
 
   # branch関連
   br   = branch
