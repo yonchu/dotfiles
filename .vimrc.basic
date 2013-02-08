@@ -47,14 +47,24 @@ set clipboard+=unnamedplus,unnamed
 " ClipMenuの除外対象APL+YankRingの最少文字数で対応
 "nnoremap <silent>x "_x
 
-" ターミナルでマウスを使用できるようにする
+" Using the mouse on a terminal.
 " http://vim-users.jp/2009/12/hack107/
-set mouse=a
-" 通常版vimではマウス選択によるビジュアルモード機能を無効にする
-if ! has("kaoriya")
-  set mouse-=a
+" http://yskwkzhr.blogspot.jp/2013/02/use-mouse-on-terminal-vim.html
+if has('mouse')
+  set mouse=a
+  " 通常版vimではマウス選択機能を無効にする
+  if ! has("kaoriya")
+    set mouse-=a
+  endif
+  if has('mouse_sgr')
+    set ttymouse=sgr
+  elseif v:version > 703 || v:version is 703 && has('patch632')
+    set ttymouse=sgr
+  else
+    " screenでもマウスを使用できるように
+    set ttymouse=xterm2
+  endif
 endif
-set ttymouse=xterm2              " screenでもマウスを使用できるように
 
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるようにする "
 "imap <C-k>  <ESC>"*pa
