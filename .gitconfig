@@ -78,6 +78,8 @@
   shro = remote show origin  # リモートリポジトリの詳細表示(origin)
   shrg = remote show github  # リモートリポジトリの詳細表示(github)
 
+  sb   = show-branch --all --color
+
   # remote
   remadd = remote add        # git remote add origin <https://..., git://...>
 
