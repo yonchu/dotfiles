@@ -54,6 +54,7 @@ bindkey '^Qd' zaw-dirstack
 bindkey '^Qgf' zaw-git-files
 bindkey '^Qgd' zaw-git-dirs
 bindkey '^Qgl' zaw-git-log
+bindkey '^Qgs' zaw-git-show-branch
 
 
 ## zaw-src-cdd
@@ -110,4 +111,8 @@ zaw-register-src -n git-dirs zaw-src-git-dirs
 ## zaw-src-git-log
 # https://github.com/yonchu/zaw-src-git-log
 source "${${funcsourcetrace[1]%:*}:h}"/../zaw-src-git-log/zaw-git-log.zsh
+
+## zaw-src-git-show-branch
+# https://github.com/yonchu/zaw-src-git-show-branch
+source "${${funcsourcetrace[1]%:*}:h}"/../zaw-src-git-show-branch/zaw-git-show-branch.zsh
 

@@ -43,3 +43,6 @@
 [submodule "Cellar/git-check"]
 	path = Cellar/git-check
 	url = git://github.com/yonchu/git-check.git
+[submodule ".zsh/zaw-src-git-show-branch"]
+	path = .zsh/zaw-src-git-show-branch
+	url = git://github.com/yonchu/zaw-src-git-show-branch.git
