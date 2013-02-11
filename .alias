@@ -273,6 +273,7 @@ alias diffr='diff -rq'
 #  -v 詳細表示
 #
 alias cur='curl -OLv'
+alias curr='curl -OLkfsS'
 
 
 #
