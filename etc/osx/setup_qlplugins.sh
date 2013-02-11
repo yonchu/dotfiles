@@ -10,7 +10,6 @@ http://quicklook-csv.googlecode.com/files/QuickLookCSV.dmg
 http://macitbetter.com/BetterZipQL.zip
 http://www.mothersruin.com/software/downloads/SuspiciousPackage.dmg
 https://github.com/downloads/Nyx0uf/qlImageSize/qlImageSize.qlgenerator.zip
-http://brushviewer.sourceforge.net/brushviewql.zip
 https://github.com/downloads/mootoh/DayOneQuickLookPlugin/DayOneQuickLookPlugin.qlgenerator.zip
 https://github.com/downloads/planbnet/QuickNFO/QuickNFO.qlgenerator.zip
 )
@@ -24,6 +23,7 @@ BUILD_DIRS=(
 QLSqlite3
 )
 
+#http://brushviewer.sourceforge.net/brushviewql.zip
 #http://sourceforge.net/projects/animgifqlgen/
 
 
@@ -49,8 +49,8 @@ download() {
 
 extract() {
     local archive
-    local dmg
     local file
+    local mount_point
     for archive in *; do
         if [ ! -f "$archive" ] ; then
             continue
@@ -69,13 +69,12 @@ extract() {
                 ;;
             *.dmg)
                 echo "Mount ${archive}..."
-                dmg=$(hdiutil mount "$archive")
+                mount_point='dmg_mp'
+                hdiutil attach -nobrowse -mountpoint "$mount_point" "$archive" > /dev/null
                 sleep 1
-                dmg=$(echo "$dmg" | tail -n 1)
-                dmg=$(echo "$dmg" | cut -f 3 | sed '/^$/d')
-                file=$(ls -1 "$dmg" | grep '\.qlgenerator')
-                cp -r "$dmg/$file" .
-                hdiutil unmount "$dmg" > /dev/null
+                file=$(ls -1 "$mount_point" | grep '\.qlgenerator')
+                cp -r "$mount_point/$file" .
+                hdiutil unmount "$mount_point" > /dev/null
                 mv "$archive" "$SRC_DIR"
                 ;;
             *)
