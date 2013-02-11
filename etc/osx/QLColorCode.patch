@@ -1,0 +1,16 @@
+diff -tbBE -u -r /Library/QuickLook/QLColorCode.qlgenerator/Contents/Resources/colorize.sh QLColorCode.qlgenerator/Contents/Resources/colorize.sh
+--- /Library/QuickLook/QLColorCode.qlgenerator/Contents/Resources/colorize.sh	2013-02-11 23:46:58.000000000 +0900
++++ QLColorCode.qlgenerator/Contents/Resources/colorize.sh	2013-02-11 23:48:07.000000000 +0900
+@@ -42,7 +42,11 @@
+ #for o in $cmdOpts; do echo $o\<br/\>; done
+
+ debug Setting reader
+-reader=(cat $target)
++if type nkf > /dev/null 2>&1; then
++    reader=(nkf -w -Lu "$target")
++else
++    reader=(cat "$target")
++fi
+
+ debug Handling special cases
+ case $target in
