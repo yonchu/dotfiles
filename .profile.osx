@@ -115,6 +115,14 @@ export PATH=$HOME/.rvm/bin:$PATH
 
 
 #
+# nodebrew
+#
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+# Default node version.
+export DEFAULT_NODE_VERSION="v0.8.19"
+
+
+#
 # Coreutils
 #  GNU版Coreutilsの使用
 #export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH

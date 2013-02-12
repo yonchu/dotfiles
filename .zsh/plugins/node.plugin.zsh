@@ -11,3 +11,19 @@ type node >/dev/null 2>&1 || { echo '...skip'; return; }
 function node-docs {
 	open "http://nodejs.org/docs/$(node --version)/api/all.html#all_$1"
 }
+
+# nodebrew automatically running.
+if type nodebrew > /dev/null 2>&1; then
+    echo
+    echo 'nodebrew automatically running...'
+    echo "$(nodebrew -v | head -n 1)"
+    if [ -n "$DEFAULT_NODE_VERSION" ]; then
+        nodebrew use "$DEFAULT_NODE_VERSION"
+    fi
+    echo
+fi
+
+if type npm > /dev/null 2>&1; then
+    eval "$(npm completion 2>/dev/null)"
+fi
+
