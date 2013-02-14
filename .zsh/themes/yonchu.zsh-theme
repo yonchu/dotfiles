@@ -160,5 +160,5 @@ function _python_type() {
     echo "$pytype"
 }
 
-# vim: ft=zsh fdm=marker fen fdl=0
+# vim: ft=zsh fdm=marker fdl=0
 

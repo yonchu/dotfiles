@@ -865,4 +865,4 @@ nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 " }}}
 
 
-" vim: fdm=marker fen fdl=0
+" vim: fdm=marker fdl=0

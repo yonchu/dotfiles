@@ -220,5 +220,5 @@ esac
 ### Complete Messages
 echo "Loading .zalias completed!!"
 
-# vim: ft=zsh fdm=marker fen fdl=0
+# vim: ft=zsh fdm=marker fdl=0
 

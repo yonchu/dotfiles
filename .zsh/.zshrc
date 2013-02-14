@@ -662,5 +662,5 @@ echo '(」・ω・)」うー！(／・ω・)／にゃー！'
 # Print log
 log
 
-# vim: fdm=marker fen fdl=0
+# vim: fdm=marker fdl=0
 

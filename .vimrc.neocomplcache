@@ -365,4 +365,4 @@ autocmd BufReadPost,BufEnter,BufWritePost :NeoComplCacheCachingBuffer <buffer>
 " }}}
 
 
-" vim: fdm=marker fen fdl=0:
+" vim: fdm=marker fdl=0:

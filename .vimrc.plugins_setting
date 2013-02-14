@@ -182,7 +182,6 @@ command! Mt :TMiniBufExplorer
 "------------------------------------
 " 補完にneocomplcacheを使う
 source ~/dotfiles/.vimrc.neocomplcache
-
 "}}}
 
 
@@ -609,7 +608,7 @@ map R  <Plug>(operator-replace)
 nmap cp <Plug>(operator-replace)iw
 nmap vp <Plug>(operator-replace)iw
 " }}}
-"
+
 
 "### vim-powerline {{{
 "------------------------------------
@@ -699,4 +698,4 @@ let g:yankring_min_element_length = 2
 
 "}}}
 
-" vim: fdm=marker fen fdl=0
+" vim: fdm=marker fdl=0
