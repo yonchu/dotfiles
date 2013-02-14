@@ -258,8 +258,9 @@ if has("autocmd")
   "autocmd FileType php filetype indent off
 
   " typescript
-  autocmd BufNewFile,BufRead,BufReadPre *.ts setf typescript
-  autocmd BufRead,BufNewFile,BufReadPre *.ts set filetype=typescript
+  autocmd BufRead,BufNewFile,BufReadPre *.ts setl filetype=typescript
+  " less
+  autocmd BufRead,BufNewFile,BufReadPre *.less setl filetype=less
 
   " sw  : shiftwidth (インデント時に使用されるスペースの数)
   " sts : softtabstop (0でないなら、タブを入力時、その数値分だけ半角スペースを挿入)
@@ -295,14 +296,14 @@ if has("autocmd")
   autocmd FileType vb         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType vim        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType wsh        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xhtml      setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType xml        setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType xhtml      setlocal sw=2 sts=2 ts=2 et
+  autocmd FileType xml        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
 
   " インデント無効
-  autocmd FileType html :set indentexpr=
-  autocmd FileType xhtml :set indentexpr=
+  "autocmd FileType html :set indentexpr=
+  "autocmd FileType xhtml :set indentexpr=
 endif
 
 " }}}

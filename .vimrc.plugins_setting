@@ -424,8 +424,8 @@ let g:syntastic_auto_loc_list = 1
 " Automatically running
 "   mode(active/passive)
 let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': ['ruby', 'php', 'perl', 'html', 'javascript', 'coffee'],
-      \ 'passive_filetypes': ['python'] }
+      \ 'active_filetypes': ['ruby', 'php', 'perl', 'javascript', 'coffee'],
+      \ 'passive_filetypes': ['python', 'html'] }
 
 " python
 let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
@@ -602,6 +602,15 @@ nnoremap <silent> <Leader>hic :HierClear<CR>
 "}}}
 
 
+"### vim-less-autocompile {{{
+"------------------------------------
+"自動で変換
+let g:less_autocompile=1
+"圧縮しない
+let g:less_compress=0
+" }}}
+
+
 "### viw-operator-replace {{{
 "------------------------------------
 map R  <Plug>(operator-replace)
@@ -696,6 +705,63 @@ nmap ,y :YRShow<CR>
 " ヤンク履歴についかする最少文字数(1文字は対象外)
 let g:yankring_min_element_length = 2
 
+"}}}
+
+
+"### zencoding.vim {{{
+"------------------------------------
+let g:user_zen_removetag_key = ''
+let g:use_zen_complete_tag = 1
+let g:user_zen_settings = {
+\  'lang' : 'ja',
+\  'html' : {
+\    'filters' : 'html',
+\    'snippets' : {
+\      'jq' : "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></script>\n<script>\n\\$(function() {\n\t|\n})()\n</script>",
+\      'cd' : "<![CDATA[|]]>",
+\    },
+\  },
+\  'perl' : {
+\    'aliases' : {
+\      'req' : "require '|'"
+\    },
+\    'snippets' : {
+\      'use' : "use strict\nuse warnings\n\n",
+\      'w' : "warn \"${cursor}\";",
+\    },
+\  },
+\  'php' : {
+\    'extends' : 'html',
+\    'filters' : 'html,c',
+\  },
+\  'javascript' : {
+\    'snippets' : {
+\      'jq' : "\\$(function() {\n\t\\${cursor}\\${child}\n});",
+\      'jq:json' : "\\$.getJSON(\"${cursor}\", function(data) {\n\t\\${child}\n});",
+\      'jq:each' : "\\$.each(data, function(index, item) {\n\t\\${child}\n});",
+\      'fn' : "(function() {\n\t\\${cursor}\n})();",
+\      'tm' : "setTimeout(function() {\n\t\\${cursor}\n}, 100);",
+\    },
+\    'use_pipe_for_cursor' : 0,
+\  },
+\  'css' : {
+\    'filters' : 'fc',
+\    'snippets' : {
+\      'box-shadow' : "-webkit-box-shadow: 0 0 0 # 000;\n-moz-box-shadow: 0 0 0 0 # 000;\nbox-shadow: 0 0 0 # 000;",
+\    },
+\  },
+\  'less' : {
+\    'filters' : 'fc',
+\    'extends' : 'css',
+\  },
+\ 'java' : {
+\  'snippets' : {
+\   'main': "public static void main(String[] args) {\n\t|\n}",
+\   'println': "System.out.println(\"|\");",
+\   'class': "public class | {\n}\n",
+\  },
+\ },
+\}
 "}}}
 
 " vim: fdm=marker fdl=0

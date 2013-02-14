@@ -249,6 +249,22 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'closetag.vim', {
     \ "autoload" : { "filetypes" : [ "html", "xml", "xsl", "ant" ] } }
 
+  " html
+  NeoBundleLazy 'mattn/zencoding-vim',  {
+    \ "autoload" : { "filetypes" : [ "html", "xml", "javascript", "coffee", "css", "less", "scss", "sass", "haml" ] } }
+
+  NeoBundleLazy 'plasticscafe/vim-less-autocompile',  {
+    \ "autoload" : { "filetypes" : [ "less" ] } }
+
+  NeoBundleLazy 'groenewege/vim-less',  {
+    \ "autoload" : { "filetypes" : [ "less" ] } }
+
+  NeoBundleLazy 'tpope/vim-haml',  {
+    \ "autoload" : { "filetypes" : [ "haml", "scss", "sass" ] } }
+
+  NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
+    \ "autoload" : { "filetypes" : [ "sass" ] } }
+
   " ブラウザリロード
   " http://d.hatena.ne.jp/tell-k/20110606/1307369935
   if has("mac")
@@ -347,6 +363,7 @@ NeoBundle 'Shougo/vimproc', {
 
   " typescript
   NeoBundle 'leafgarland/typescript-vim'
+  NeoBundle 'cakebaker/scss-syntax.vim'
 " }}}
 
 
