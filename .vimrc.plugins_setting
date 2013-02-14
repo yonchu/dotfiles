@@ -139,6 +139,13 @@ let g:indent_guides_color_change_percent = 30
 "}}}
 
 
+"### jscomplete-vim {{{
+"------------------------------------
+" DOMとMozilla関連とES6のメソッドを補完
+let g:jscomplete_use = ['dom', 'moz', 'es6th']
+" }}}
+
+
 "### jQuery {{{
 au BufRead,BufNewFile jquery.*.js setl ft=javascript syntax=jquery
 "}}}
@@ -336,6 +343,26 @@ highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black gui=NONE gui=bold g
 "}}}
 
 
+"### Simple-Javascript-Indenter {{{
+"------------------------------------
+" shiftwidthを1にしてインデント
+let g:SimpleJsIndenter_BriefMode = 1
+" switchのインデント改善
+let g:SimpleJsIndenter_CaseIndentLevel = -1
+" }}}
+
+
+" ### sumartword {{{
+"   単語移動がスマートに
+"------------------------------------
+map W   <Plug>(smartword-w)
+map B   <Plug>(smartword-b)
+map E   <Plug>(smartword-e)
+map ge  <Plug>(smartword-ge)
+
+" }}}
+
+
 "### smooth_scroll {{{
 "  スクロールをスムーズに
 "------------------------------------
@@ -375,6 +402,9 @@ command! WS :w sudo:%
 "### Syntastic {{{
 "  Syntastic が使用するコマンド
 "   http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+"  実行：,s
+"  自動実行のトグル：,S
+"  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
 " シンタックスチェックを実行
 nnoremap <silent> <Leader>s :SyntasticCheck<CR>
@@ -389,11 +419,21 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_enable_balloons =1
 " エラーhighligt表示
 let g:syntastic_enable_highlighting = 1
+" エラー時にquickfix起動
+let g:syntastic_auto_loc_list = 1
 
-let g:syntastic_mode_map = { 'mode': 'passive',
-      \ 'active_filetypes': ['ruby', 'php', 'perl'],
-      \ 'passive_filetypes': [] }
+" Automatically running
+"   mode(active/passive)
+let g:syntastic_mode_map = { 'mode': 'active',
+      \ 'active_filetypes': ['ruby', 'php', 'perl', 'html', 'javascript', 'coffee'],
+      \ 'passive_filetypes': ['python'] }
 
+" python
+let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
+" javascript
+let g:syntastic_javascript_checkers = [ "gjshlint", "jshint" ]
+" coffee
+let g:syntastic_coffee_checkers = [ "coffee", "coffeelint" ]
 "}}}
 
 
@@ -538,6 +578,13 @@ command! UM :Unite -no-start-insert mapping
 " }}}
 
 
+"### vim-coffee-script {{{
+"------------------------------------
+"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+"autocmd BufWritePost *.coffee :CoffeeCompile watch vert
+" }}}
+
+
 "### vim-hier {{{
 "------------------------------------
 " エラーを赤字の波線で
@@ -621,17 +668,6 @@ endfunction
 " }}}
 
 
-" ### sumartword {{{
-"   単語移動がスマートに
-"------------------------------------
-map W   <Plug>(smartword-w)
-map B   <Plug>(smartword-b)
-map E   <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
-
-" }}}
-
-
 "### VTreeExplorer {{{
 "  ツリー状にファイルやディレクトリの一覧を表示
 "  NERDTreeを使用するので削除
@@ -662,6 +698,5 @@ nmap ,y :YRShow<CR>
 let g:yankring_min_element_length = 2
 
 "}}}
-
 
 " vim: fdm=marker fen fdl=0

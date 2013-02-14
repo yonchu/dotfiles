@@ -28,7 +28,7 @@
 "     other ftplugin sources     -> [plugin-name-prefix]
 "
 "------------------------------------------------------------------------------
-
+,
 " j,k の移動を表示行単位にする
 " スニペット展開後のプレースホルダ移動がうまく行かない場合に設定
 "nnoremap j gj
@@ -206,7 +206,8 @@ let g:neocomplcache_same_filetype_lists = {
   \ 'perl'    : 'man',
   \ 'erlang'  : 'man',
   \ 'objc'    : 'c',
-  \ 'tt2html' : 'html,perl'
+  \ 'tt2html' : 'html,perl',
+  \ 'coffee'  : 'javascript'
   \ }
 
 " }}}
@@ -250,7 +251,7 @@ let g:neocomplcache_include_suffixes = {
 inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplcache#manual_omni_complete()
 
 " FileType毎のOmni補完を設定
-autocmd FileType javascript     setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType javascript,coffee setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html,markdown  setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css            setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml            setlocal omnifunc=xmlcomplete#CompleteTags

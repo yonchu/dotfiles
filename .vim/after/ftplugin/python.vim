@@ -40,28 +40,6 @@ setl foldlevel=99
 " オムに補完はpython-mode(RopeOmni)を使用
 
 "------------------------------------
-" Syntastic
-"  多言語対応のシンタックスチェック
-"
-"  実行：,s
-"  自動実行のトグル：,S
-"  エラー一覧(QiuickFix)表示：,e
-"------------------------------------
-" 優先順位: flake8 > pyflakes
-"let g:syntastic_python_checker = "flake8"
-let g:syntastic_python_checker = 'pyflakes'
-
-" Automatically running
-"   mode(active/passive)
-"if !exists('syntastic_mode_map')
-  "let syntastic_mode_map = {}
-"endif
-"let syntastic_mode_map.mode = 'active'
-"let syntastic_mode_map = { 'mode': 'passive',
-  "\ 'active_filetypes': ['python'],
-  "\ 'passive_filetypes': [''] }
-
-"------------------------------------
 " python-mode
 "  https://github.com/klen/python-mode
 "  :help PythonModeOptions

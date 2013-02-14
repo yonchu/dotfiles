@@ -209,17 +209,20 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'mojako/ref-sources.vim'
 
   " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
-  NeoBundle 'quickfixstatus.vim'
+  "NeoBundle 'quickfixstatus.vim'
 
   " vim-hier : quickfix の該当箇所をハイライト
   NeoBundle 'jceb/vim-hier'
 
   " Javascript用インデント
   NeoBundleLazy 'jiangmiao/simple-javascript-indenter',  {
-    \ "autoload" : { "filetypes" : [ "html", "javascript" ] } }
+    \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
 
   NeoBundleLazy 'teramako/jscomplete-vim',  {
-    \ "autoload" : { "filetypes" : [ "html", "javascript" ] } }
+    \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
+
+  NeoBundleLazy 'kchmck/vim-coffee-script', {
+    \ "autoload" : { "filetypes" : [ "coffee" ] } }
 
   " Python用入力補完
   NeoBundleLazy 'Pydiction'
@@ -240,11 +243,18 @@ NeoBundle 'Shougo/vimproc', {
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   NeoBundleLazy 'scrooloose/syntastic',  {
-    \ "autoload" : { "filetypes" : [ "python" ] } }
+    \ "autoload" : { "filetypes" : [ "python", "html", "javascript", "coffee" ] } }
 
   " <C-_>でhtmlタグの閉じタグを入力
   NeoBundle 'closetag.vim', {
     \ "autoload" : { "filetypes" : [ "html", "xml", "xsl", "ant" ] } }
+
+  " ブラウザリロード
+  " http://d.hatena.ne.jp/tell-k/20110606/1307369935
+  if has("mac")
+    NeoBundle 'tell-k/vim-browsereload-mac'
+  endif
+
 " }}}
 
 
@@ -330,6 +340,10 @@ NeoBundle 'Shougo/vimproc', {
 
   " jQuery
   NeoBundle 'jQuery'
+
+  " html5/css3
+  NeoBundle 'taichouchou2/html5.vim'
+  NeoBundle 'hail2u/vim-css3-syntax'
 " }}}
 
 
