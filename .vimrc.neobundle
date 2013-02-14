@@ -344,6 +344,9 @@ NeoBundle 'Shougo/vimproc', {
   " html5/css3
   NeoBundle 'taichouchou2/html5.vim'
   NeoBundle 'hail2u/vim-css3-syntax'
+
+  " typescript
+  NeoBundle 'leafgarland/typescript-vim'
 " }}}
 
 

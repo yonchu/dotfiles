@@ -257,6 +257,10 @@ if has("autocmd")
   " インデントを無効
   "autocmd FileType php filetype indent off
 
+  " typescript
+  autocmd BufNewFile,BufRead,BufReadPre *.ts setf typescript
+  autocmd BufRead,BufNewFile,BufReadPre *.ts set filetype=typescript
+
   " sw  : shiftwidth (インデント時に使用されるスペースの数)
   " sts : softtabstop (0でないなら、タブを入力時、その数値分だけ半角スペースを挿入)
   " ts  : tabstop (タブを画面で表示する際の幅)
@@ -279,6 +283,7 @@ if has("autocmd")
   autocmd FileType java       setlocal sw=4 sts=4 ts=4 noet
   autocmd FileType javascript setlocal sw=4 sts=4 ts=4 et
   autocmd FileType coffee     setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType typescript setlocal sw=4 sts=4 ts=4 et
   autocmd FileType make       setlocal sw=4 sts=4 ts=4 noet
   autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
