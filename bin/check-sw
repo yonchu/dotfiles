@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+path() {
+    if which "$1" > /dev/null 2>&1; then
+        echo " ($(which "$1"))"
+    else
+        echo "not installed"
+    fi
+}
+
+check() {
+    ## bash
+    echo "bash:         $(bash --version | head -n 1)$(path bash)"
+    ## zsh
+    echo "zsh:          $(zsh --version)$(path zsh)"
+    ## ssh
+    echo "SSH:          $(ssh -V 2>&1)$(path ssh)"
+    ## mosh
+    echo "mosh:         $(mosh --version 2>&1 | head -n 1)$(path mosh)"
+    ## GCC
+    echo "gcc:          $(gcc --version | head -n 1)$(path gcc)"
+    ## Java
+    echo "Java:         $(java -version 2>&1 | head -n 2 | tr '\n' ' ')$(path java)"
+    ## Perl
+    echo "Perl:         $(perl --version | sed '/^$/d' | head -1)$(path perl)"
+    ## PHP
+    echo "PHP:          $(php --version | head -n 1)$(path php)"
+    ## Python
+    echo "Python:       $(python --version 2>&1)$(path python)"
+    echo "easy_install: $(easy_install --version)$(path easy_install)"
+    echo "pip:          $(pip --version)"
+    ## Ruby
+    echo "Ruby:         $(ruby --version)$(path ruby)"
+    echo "gem:          $(gem --version)$(path gem)"
+    echo "rvm:          $(rvm --version | sed '/^$/d' | cut -d ' ' -f 1,2,3)$(path rvm)"
+    ## node
+    echo "node:         $(node --version)$(path perl)"
+    echo "npm:          $(npm --version)$(path npm)"
+    echo "coffee:       $(coffee --version)$(path coffee)"
+    echo "typescript:   $(typescript --version)$(path typescript)"
+    ## Apache
+    echo "Apache:       $(httpd -v | head -n 1)$(path httpd)"
+    ## MySQL
+    echo "MySQL:        $(mysql --version)$(path mysql)"
+    ## tmux
+    echo "tmux:         $(tmux -V)$(path tmux)"
+    ## screen
+    echo "screen:       $(screen -v)"
+    echo "             $(path screen)"
+    ## git
+    echo "Git:          $(git --version)$(path git)"
+    ## Xcode
+    [ $(uname -s) = 'Darwin' ] && echo "Xcode:        $(xcodebuild -version | tr '\n' ' ' | cut -d ' ' -f 1,2,5)$(path xcodebuild)"
+    ## homebrew
+    [ $(uname -s) = 'Darwin' ] && echo "Homebrew:     $(brew --version)$(path brew)"
+}
+
+check 2> /dev/null
+

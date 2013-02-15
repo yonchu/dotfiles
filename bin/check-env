@@ -1,95 +1,13 @@
 #!/bin/bash
 
-### OS
-
-# ifconfig w
-
-run() {
-    echo "## $1"
-    type "$1" > /dev/null 2>&1 || { echo "Not installed"; return 1; }
-    if [ "$3" = '-w' ]; then
-        echo "($(which "$1"))"
-    fi
-    eval "$1 $2" 2>&1
-}
-
-LANG() {
-    echo "$LANG"
-}
-
-user() {
-    echo "$(whoami)@$(hostname)"
-}
-
-info() {
-    echo '### OS'
-    run uname -srp
-    run uptime
-    run "du -s /"
-    run LANG
-
-    echo
-
-    echo '### User'
-    run user
-    run tty
-    run w
-}
-
-version() {
-    echo '### Version check...'
-    ## GCC
-    run gcc --version -w
-
-    ## Xcode
-    run xcodebuild -version
-    run xcode-select -print-path
-    echo
-
-    ## Java
-    run java -version -w
-    echo
-
-    ## Python
-    run python --version -w
-    run easy_install --version
-    run pip --version
-    echo
-
-    ## Ruby
-    run ruby --version -w
-    run gem --version
-    run rvm "--version | sed '/^$/d'"
-    echo
-
-    ## Perl
-    run perl "--version | sed '/^$/d' | head -1" -w
-    echo
-
-    ## Apache
-    run httpd -v -w
-    echo
-
-    ## MySQL
-    run mysql --version -w
-    echo
-
-    ## tmux
-    run tmux -V -w
-    echo
-
-    ## screen
-    run screen -v -w
-    echo
-
-    ## git
-    run git --version -w
-}
-
-echo 'Check environment...'
-date
+echo "OS    : $(uname -srp)"
+echo "Uptime: $(uptime)"
+echo "LANG  : $LANG"
+echo "TTY   : $(tty)"
+echo "User  : $(whoami)@$(hostname)"
 echo
-info
+df -h
 echo
-version
-
+w
+echo
+id
