@@ -16,6 +16,10 @@ else
     alias vim='vi'
 fi
 
+# エンコードを指定して開く
+alias viwin='vim -c "edit ++fileformat=dos ++enc=cp932"'
+alias vienc='vim -c "edit ++enc=euc-jp"'
+
 # vim起動時にUniteをオープン
 alias viu='vim -c "Unite -no-start-insert -no-split file_mru buffer file"'
 

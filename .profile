@@ -123,8 +123,9 @@ export PAGER=less
 #  -xn, --tabs=n タブストップをn文字に
 #  --LONG-PROMPT プロンプトを詳細表示に
 #  -P プロンプトのフォーマットを変更
+#  -Q or --QUIET or --SILENT ベルを鳴らさない
 #export LESS='-R -X -i -x4 -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
-export LESS='-R -X -i -x4 --LONG-PROMPT'
+export LESS='-R -X -i -x4 -Q --LONG-PROMPT'
 
 #export JLESSCHARSET=utf-8
 export JLESSCHARSET=japanese-utf-8

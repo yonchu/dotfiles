@@ -339,7 +339,8 @@ alias lv='lv -cl'
 # -N 日本語文字化け対応
 # -a 隠しファイルも表示
 # -I 例外設定(ワイルドカード)
-alias tree="tree -N -a -I '.git|.svn'"
+# -F ファイルの種類を表示
+alias tree="tree -F -N -a -I '.git|.svn'"
 
 
 #
@@ -431,11 +432,23 @@ decode64(){ echo -n $1 | base64 -D; }
 alias e64=encode64
 alias d64=decode64
 
-
-#
 # rmtrash
-#
 alias rmt='rmtrash'
+
+# Make a directory named date and move in it.
+make_date_dir_and_cd() {
+    mkdir "$(date +'%Y%m%d')" || return 1
+    cd "$(date +'%Y%m%d')"
+}
+alias mkdd='make_date_dir_and_cd'
+
+# Make archive.
+alias mkzip='zip -q -r'
+mktar() {
+    [ -z "$1" ] && return 1
+    [ -e "$1" ] || return 1
+    tar czf "$1.tar.gz" "$1"
+}
 
 
 ### Complete Messages

@@ -124,8 +124,8 @@ setopt multios
 setopt auto_remove_slash
 # beepを鳴らさない
 setopt no_beep
-# beepを鳴らさない
-setopt nolistbeep
+setopt no_list_beep
+setopt no_hist_beep
 # =command を command のパス名に展開する
 setopt equals
 # Ctrl+S/Ctrl+Q によるフロー制御を使わないようにする
@@ -165,7 +165,10 @@ autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
 # 改行のない出力をプロンプトで上書きするのを防ぐ
-unsetopt promptcr
+setopt no_prompt_cr
+
+# メールが届いていたら知らせる
+setopt mail_warning
 
 # 全てのユーザのログイン・ログアウトを監視
 watch="all"
@@ -184,8 +187,6 @@ watch="all"
 bindkey -e
 # fn + delete の有効
 bindkey "^[[3~" delete-char
-# delete
-bindkey '^D' delete-char
 # Backspace
 bindkey '^T' backward-delete-char
 # カーソル位置から後方全削除
@@ -205,6 +206,44 @@ bindkey "^C" send-break
 # screenのエスケープとかぶるので割り当てなし
 bindkey -r "^O"
 
+bindkey '^V' vi-quoted-insert
+bindkey "^[u" undo
+bindkey "^[r" redo
+
+# Smart insert-last-word (ESC+.)
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+zstyle :insert-last-word match '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
+bindkey '^]' insert-last-word
+
+# カーソルが行末だったら1文字削除,それ以外ならlist-expand
+function _delete-char-or-list-expand() {
+    if [[ -z "${RBUFFER}" ]]; then
+        # the cursor is at the end of the line
+        zle list-expand
+    else
+        zle delete-char
+    fi
+}
+zle -N _delete-char-or-list-expand
+bindkey '^D' _delete-char-or-list-expand
+
+# カーソル前の単語をシングルコーテーションで囲む
+autoload -Uz modify-current-argument
+_quote-previous-word-in-single() {
+    modify-current-argument '${(qq)${(Q)ARG}}'
+    zle vi-forward-blank-word
+}
+zle -N _quote-previous-word-in-single
+bindkey '^[s' _quote-previous-word-in-single
+# カーソル前の単語をダブルコーテーションで囲む
+_quote-previous-word-in-double() {
+    modify-current-argument '${(qqq)${(Q)ARG}}'
+    zle vi-forward-blank-word
+}
+zle -N _quote-previous-word-in-double
+bindkey '^[d' _quote-previous-word-in-double
+
 # back-wordでの単語境界の設定
 autoload -Uz select-word-style
 select-word-style default
@@ -212,7 +251,7 @@ zstyle ':zle:*' word-chars " /@*?_-.[]~=&;!#$%^(){}<>"
 zstyle ':zle:*' word-style unspecified
 
 # コマンド履歴
-autoload history-search-end
+autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
@@ -295,7 +334,7 @@ bindkey '^x^p' pbcopy-buffer
 #
 HISTFILE=~/.zsh_history
 HISTSIZE=10000   # メモリ内の履歴の数
-SAVEHIST=100000  # 保存される履歴の数
+SAVEHIST=1000000  # 保存される履歴の数
 LISTMAX=50       # 補完リストを尋ねる数(0=ウィンドウから溢れる時は尋ねる)
 # rootのコマンドはヒストリに追加しない
 if [ $UID = 0 ]; then
@@ -305,6 +344,7 @@ fi
 
 # 登録済コマンド行は古い方を削除
 setopt hist_ignore_all_dups
+setopt hist_save_nodups
 # historyの共有 (悩みどころ)
 setopt share_history
 #unsetopt share_history
@@ -385,10 +425,13 @@ setopt always_last_prompt
 setopt glob_complete
 # 補完時にヒストリを自動的に展開する。
 setopt hist_expand
-# 補完候補がないときなどにビープ音を鳴らさない。
-setopt no_beep
 # 辞書順ではなく数字順に並べる。
 setopt numeric_glob_sort
+# ドット無しでもドッtファイルにマッチ
+setopt globdots
+
+# プロセス補完
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
 # sudo用pathを設定
 # typeset -T は重複実行できないため一度環境変数を削除する
@@ -404,7 +447,7 @@ zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
 # 補完候補がない場合の曖昧検索
 #  m:{a-z}={A-Z}: 大文字小文字無視
 #  r:|[._-]=*: 「.」「_」「-」の前にワイルドカード「*」があるものとして補完
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z} r:|[._-]=*' '+m:{A-Z}={a-z}'
 
 # 補完候補を矢印キーで選択
 #  select=n: 補完候補がn以上なければすぐに補完

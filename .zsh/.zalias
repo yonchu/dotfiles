@@ -55,6 +55,8 @@ alias -g H='| head'
 alias -g T='| tail'
 alias -g S='| sed'
 alias -g V='| vim -R -'
+alias -g U=' --help | head'
+alias -g P=' --help | $PAGER'
 
 # }}}
 
