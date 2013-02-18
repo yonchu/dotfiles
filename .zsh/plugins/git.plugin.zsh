@@ -105,6 +105,10 @@ function cdg() {
     return 0
 }
 
+function gi() {
+    curl http://gitignore.io/api/$@
+}
+
 alias gs='git status -sb'
 compdef _git gs=git-status
 
