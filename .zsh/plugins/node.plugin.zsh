@@ -18,7 +18,8 @@ if type nodebrew > /dev/null 2>&1; then
     echo 'nodebrew automatically running...'
     echo "$(nodebrew -v | head -n 1)"
     if [ -n "$DEFAULT_NODE_VERSION" ]; then
-        nodebrew use "$DEFAULT_NODE_VERSION"
+        nodebrew use "$DEFAULT_NODE_VERSION" \
+            && export NODE_PATH=$HOME/.nodebrew/current/lib/node_modules
     fi
     echo
 fi
