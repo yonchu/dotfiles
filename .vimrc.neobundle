@@ -379,6 +379,7 @@ NeoBundle 'Shougo/vimproc', {
   "NeoBundle 'nanotech/jellybeans.vim'
    NeoBundle 'molokai'
    NeoBundle 'aereal/vim-magica-colors'
+   NeoBundle 'w0ng/vim-hybrid'
 " }}}
 
 
