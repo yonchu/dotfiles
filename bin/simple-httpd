@@ -1,0 +1,22 @@
+#!/bin/sh
+# http://blog.kamipo.net/entry/2013/02/20/122225
+
+PORT=5000
+
+if which python > /dev/null; then
+    if python -V 2>&1 | grep -qm1 'Python 3\.'; then
+          python -m http.server $PORT
+    else
+        python -m SimpleHTTPServer $PORT
+    fi
+elif which ruby > /dev/null; then
+    ruby -rwebrick -e "WEBrick::HTTPServer.new(:Port => $PORT, :DocumentRoot => '.').start"
+elif which node > /dev/null; then
+    node -e "var c=require('connect'), d=process.env.PWD; c().use(c.logger()).use(c.static(d)).use(c.directory(d)).listen($PORT);"
+elif which plackup > /dev/null; then
+    plackup -MPlack::App::Directory -e 'Plack::App::Directory->new(root => ".")->to_app'
+elif which php > /dev/null && php -v | grep -qm1 'PHP 5\.[45]\.'; then
+    php -S 0.0.0.0:$PORT
+elif which erl > /dev/null; then
+    erl -eval "inets:start(), inets:start(httpd, [{server_name, 'httpd'}, {server_root, '.'}, {document_root, '.'}, {port, $PORT}])"
+fi
