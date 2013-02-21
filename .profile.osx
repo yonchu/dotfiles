@@ -26,7 +26,7 @@ fi
 #  PATHの追加はここより後に行うこと
 #
 
-PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share:$PATH
+PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$PATH:/usr/X11/bin
 export PATH
 
