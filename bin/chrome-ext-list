@@ -1,0 +1,141 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Usage:
+#   $ chrome-ext-list
+#   Extensions directory: ~/Library/Application Support/Google/Chrome/Default/Extensions
+#   01: jincbkepokdimkkecpcmjjfhjepllkdj - 2chRevival 2.0.0
+#   02: cfhdojbkjhnklbpkdaibdccddilifddb - Adblock Plus 1.3.4
+#   03: cpbmgiffkljiglnpdbljhlenaikojapc - Always Clear Downloads 1.1
+#   04: kanbnempkjnhadplbfgdaagijdbdbjeb - Auto Replay for YouTube 1.9.24
+#   05: aeolcjbaammbkgaiagooljfdepnjmkfd - AutoPatchWork 1.9.7
+#   ...
+#   77: bdlpibfahpdkgecbngkoifbmoobhbjeo - ニコニコ生放送ダラ見ちゃん 1.1.1
+#   78: cjfmeecodnibclajaofkinnebeklbkjm - ニコニコ除ニコレポ 3.4
+#   79: fhflmkedbfijbjhbiihejhkkejjahebp - ニコ生次枠移動Zero 0.1.3
+#   80: odncdkhnnoclkbomkbflglagdibfeede - 英辞郎 on the WEB Pro 1.0.1
+#   81: oonalfdoahlmjaoloddjenihohbfodme - 英辞郎 on the WEB 拡張機能 1.4.2
+
+from __future__ import print_function
+import json
+import logging
+import os
+import sys
+from subprocess import check_output
+
+logging.basicConfig(level=logging.INFO,
+                    format="[%(levelname)s]%(message)s")
+logger = logging.getLogger(__name__)
+
+
+EXTENSIONS_DIRECTORY = '~/Library/Application Support/Google/Chrome/Default/Extensions'
+
+
+class Extension(object):
+    def __init__(self, ext_id, name, version):
+        self.ext_id = ext_id
+        self.name = name
+        self.version = version
+
+    def __str__(self):
+        return ('ext_id={} name={} version={}'
+                .format(self.ext_id, repr(self.name), self.version))
+
+
+def get_extensions(extensions_dir):
+    logger.debug('Call get_extensions({})'.format(extensions_dir))
+    extensions_dir = os.path.expanduser(extensions_dir)
+    ext_dirs = os.listdir(extensions_dir)
+    logger.debug('Total dir: {}'.format(len(ext_dirs)))
+
+    extensions = []
+    for ext_dir in ext_dirs:
+        if ext_dir == 'Temp':
+            continue
+        extension = get_extension(os.path.join(extensions_dir, ext_dir))
+        logger.debug('extension = {}'.format(extension))
+        extensions.append(extension)
+    return extensions
+
+
+def get_extension(ext_dir):
+        logger.debug('Call get_extension({})'.format(ext_dir))
+        # Get extension id.
+        ext_id = os.path.basename(ext_dir)
+        logger.debug('ext_id = {}'.format(ext_id))
+
+        # Get version directory.
+        ver_dir = check_output(['ls', '-1t', ext_dir]).splitlines()[0]
+        ver_dir = ver_dir.decode('utf-8')
+        logger.debug('ver_dir = {}'.format(ver_dir))
+
+        # Open manifest.json in version directory.
+        ext_ver_dir = os.path.join(ext_dir, ver_dir)
+        with open(os.path.join(ext_ver_dir, 'manifest.json')) as manifest_file:
+            # Get extension name and version from manifest.json.
+            manifest_json = json.load(manifest_file, encoding='utf-8')
+            ext_name = manifest_json['name']
+            ext_version = manifest_json['version']
+            logger.debug('ext_name = {}, ext_version = {}'.format(ext_name.encode('utf-8'), ext_version))
+
+            if 'MSG' in ext_name:
+                # Get extension name in messages.json.
+                locale_dir = select_locale_dir(os.path.join(ext_ver_dir, '_locales'))
+                logger.debug('locale_dir = {}'.format(locale_dir))
+
+                # Convert __MSG_xxx_ to xxx.
+                ext_name_key = ext_name.strip('_')[4:]
+                logger.debug('ext_name_key = {}'.format(ext_name_key))
+
+                # Open messages.json in locale directory.
+                with open(os.path.join(locale_dir, 'messages.json')) as messages_file:
+                    # Get extension name in messages.json.
+                    ext_name = get_msg_from_messages_file(messages_file, ext_name_key)
+                    if not ext_name:
+                        raise Exception('{}: {} is not found in {}'
+                                        .format(ext_id, ext_name_key, messages_file))
+                    logger.debug('ext_name = {}'.format(ext_name.encode('utf-8')))
+
+            return Extension(ext_id, ext_name, ext_version)
+
+
+def select_locale_dir(locales_dir):
+    # Search locale directory like ja and en.
+    locale_dirs = os.listdir(locales_dir)
+    if 'ja' in locale_dirs:
+        locale_dir = os.path.join(locales_dir, 'ja')
+    elif 'en' in locale_dirs:
+        locale_dir = os.path.join(locales_dir, 'en')
+    else:
+        locale_dir = os.path.join(locales_dir, locale_dirs[0])
+    return locale_dir
+
+
+def get_msg_from_messages_file(messages_file, key):
+    messages_json = json.load(messages_file, encoding='utf-8')
+    if key in messages_json:
+        msg = messages_json[key]['message']
+    elif key.lower() in messages_json:
+        msg = messages_json[key.lower()]['message']
+    else:
+        return
+    return msg
+
+
+def main(argv):
+    """main function"""
+    logger.debug('argv = {}'.format(argv))
+    extensions_dir = argv[0] if len(argv) > 0 else EXTENSIONS_DIRECTORY
+    print('Extensions directory: {}'.format(extensions_dir))
+    extensions = get_extensions(extensions_dir)
+    extensions.sort(key=lambda x: x.name)
+    for i, ext in enumerate(extensions):
+        try:
+            ext_name = ext.name.encode('utf-8')
+            ext_name = str(ext_name, 'utf-8')
+        except TypeError:
+            pass
+        print('{:>02d}: {} - {} {}'.format(i + 1, ext.ext_id, ext_name, ext.version))
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
