@@ -221,6 +221,9 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundleLazy 'teramako/jscomplete-vim',  {
     \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
 
+  NeoBundleLazy 'myhere/vim-nodejs-complete',  {
+    \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
+
   NeoBundleLazy 'kchmck/vim-coffee-script', {
     \ "autoload" : { "filetypes" : [ "coffee" ] } }
 

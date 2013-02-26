@@ -611,6 +611,21 @@ let g:less_compress=0
 " }}}
 
 
+"### vim-nodejs-complete {{{
+"  Close the method preview window.
+"    ctrl-w_ctrl-z or :pc
+"  Clear the chache for node modules.
+"   :unlet b:npm_module_names
+"------------------------------------
+let g:nodejs_complete_config = {
+\  'js_compl_fn': 'javascriptcomplete#CompleteJS',
+\  'max_node_compl_len': 15
+\}
+" automatically open and close the popup menu / preview window
+"au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+" }}}
+
+
 "### viw-operator-replace {{{
 "------------------------------------
 map R  <Plug>(operator-replace)
