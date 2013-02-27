@@ -1,21 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Edit command source
 #
 
-if [ $# -lt 1 ]; then
-    echo 'Should specify commands you want to edit' 1>&2
-    exit 1
-fi
+edit_commans() {
+    if [ $# -eq 0 ]; then
+        echo 'Should specify commands you want to edit.' 1>&2
+        return 1
+    fi
 
-cmds=()
-while [ $# -gt 0 ]; do
-    cmds+=($(which "$1" 2> /dev/null))
-    [ $? -ne 0 ] && echo "Command not found: $1" 1>&2
-    shift
-done
+    local -a cmds=()
+    while [ $# -gt 0 ]; do
+        cmds+=($(which "$1" 2> /dev/null))
+        [ $? -ne 0 ] && echo "Command not found: $1" 1>&2
+        shift
+    done
 
-if [ ${#cmds[@]} -lt 1 ]; then
-    exit 1
-fi
-exec ${EDITOR:-vim} "${cmds[@]}"
+    if [ ${#cmds[@]} -eq 0 ]; then
+        return 1
+    fi
+    exec ${EDITOR:-vim} "${cmds[@]}"
+}
+edit_commans "$@"
