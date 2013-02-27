@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #  sudo.vim を使用して vim で開く
 #
@@ -6,7 +6,7 @@
 args=()
 
 for file in "$@"; do
-    args[$((1 + ${#args[@]}))]="sudo:$file"
+    args+=("sudo:$file")
 done
 
 exec ${EDITOR:-vim} "${args[@]}"
