@@ -115,3 +115,4 @@ compdef _git gs=git-status
 alias gsi='git status -b --ignored'
 compdef _git gsi=git-status
 
+alias gitsearch='git rev-list --all | xargs git grep -F'

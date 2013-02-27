@@ -57,6 +57,7 @@ alias -g S='| sed'
 alias -g V='| vim -R -'
 alias -g U=' --help | head'
 alias -g E=' --help | $PAGER'
+alias -g C='| cut | sort | uniq -c | sort -n'
 
 # }}}
 

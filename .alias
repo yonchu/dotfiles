@@ -102,7 +102,7 @@ alias pwd='pwd -P'
 alias df='df -h'
 alias du='du -h'
 alias dus='du -s'
-
+alias ddu='du -sm ./* | sort -n | tail'
 
 #
 # mv rm cp
@@ -224,13 +224,16 @@ alias 755='chmod 755'
 
 #
 # ps
-#  a すべてのユーザを対象にする
-#  u 実行したユーザを表示
-#  x デーモンを表示
-#  f fork(フォーク：分岐)-プロセスの親子関係を表示(Mac非対応)
-#  w 表示幅をオーバしても改行して表示する
+#  -a すべてのユーザを対象にする
+#  -u 実行したユーザを表示
+#  -x デーモンを表示
+#  -f fork(フォーク：分岐)-プロセスの親子関係を表示(Mac非対応)
+#  -w 表示幅をオーバしても改行して表示する
+#  -L List the set of keywords available for the -O and -o options.
 #
 alias psa='ps auxw'
+alias pspgid='ps axwww -o "ppid pgid pid user fname args"'
+alias iops='ps auxwwww -L|awk "\$10 ~ /(D|STAT)/{print}"'
 
 
 #
@@ -296,6 +299,37 @@ alias curr='curl -OLkfsS'
 alias rsync='rsync -avzu'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
+
+#
+# tcpdump
+# options are:
+#   -n : Don't convert address to names.
+#   -s : Data length (default: 65535, if setting snaplen to 0 sets it to the default of 65535)
+#   -i <eth0> : Listen on interface.
+#   -w : Write  the  raw packets to file.
+#   -X : print the data of each packet in hex and ASCII.
+#
+#   port <PORT> : Port number.
+#   host <ADDRESS> : IP adress.
+#   <...> and <...>
+#
+alias tcpdump80='tcpdump port 80 -n -s 0'
+
+
+#
+# strace
+#
+alias strace_x='strace -s 9999 -fttTCxv'
+
+
+#
+# date
+#
+alias dates='date "+%Y-%m-%d %T.%N"'
+alias today="date '+%Y%m%d'"
+alias today_="date '+%Y-%m-%d'"
+alias now="date '+%Y%m%d_%H%M%S'"
+alias now_="date '+%Y-%m-%d_%H%M%S'"
 
 #
 # Japanese env
@@ -448,6 +482,22 @@ mktar() {
     [ -z "$1" ] && return 1
     [ -e "$1" ] || return 1
     tar czf "$1.tar.gz" "$1"
+}
+
+
+# http://d.hatena.ne.jp/hirose31/20130227/1361929795
+https2text() { # FQDN[:PORT]
+  case $1 in
+    *:*)
+      URL=$1
+      ;;
+    *)
+      URL="$1:443"
+      ;;
+  esac
+  echo | openssl s_client -connect $URL 2>/dev/null | \
+    sed -n -e '/BEGIN /,/END /p' | \
+    openssl x509 -text
 }
 
 

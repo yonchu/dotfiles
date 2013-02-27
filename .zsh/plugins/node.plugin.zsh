@@ -28,3 +28,22 @@ if type npm > /dev/null 2>&1; then
     eval "$(npm completion 2>/dev/null)"
 fi
 
+# LiveReloadX
+# http://tech.nitoyon.com/ja/blog/2013/02/27/livereloadx/
+#
+# # Default:
+#   $ livereloadx path/to/dir
+#
+#   Add the following js to your html.
+#    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+#    ':35729/livereload.js?snipver=2"></' + 'script>')</script>
+#   or
+#   use Chrome extensions.
+#
+# Static web server mode:
+#   $ livereloadx -s [-p 35729] [path/to/dir]
+#
+# Reverse proxy mode:
+#   $ livereloadx -y http://example.com/ [-p 35729] [-l] [path/to/dir]
+#   $ livereloadx --proxy http://example.com/ [-p 35729] [-l] [path/to/dir]
+#
