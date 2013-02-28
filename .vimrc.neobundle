@@ -179,6 +179,10 @@ NeoBundle 'Shougo/vimproc', {
 
   " open-browser.vim : カーソルの下のURLを開くor単語を検索エンジンで検索
   NeoBundle 'tyru/open-browser.vim'
+
+  " ag.vim: The silver searcher (ag)
+  "   :Ag [options] {pattern} [{directory}]
+  NeoBundle 'rking/ag.vim'
 " }}}
 
 
