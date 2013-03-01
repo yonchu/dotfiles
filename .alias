@@ -161,7 +161,7 @@ alias grepr='grep -R'
 
 # grepの結果をviで表示(gfやgFでカーソル下のファイルへジャンプ)
 grepv () {
-    grep "$@" | vim -R -
+    grep "$@" | \vim -R -
 }
 
 
@@ -423,7 +423,19 @@ alias ackn='ack -n'
 
 # ackの結果をviで表示(gfやgFでカーソル下のファイルへジャンプ)
 ackv () {
-    ack "$@" | vim -R -
+    ack "$@" | \vim -R -
+}
+
+
+#
+# ag
+#   -z : Search in achives.
+#   -G <PATTERN>: Only search file names matching PATTERN
+#
+alias ag='ag -S --stats --pager "less -F"'
+alias agh='ag --hidden'
+agv () {
+    \ag -S --stats --nogroup "$@" | \vim -R -
 }
 
 

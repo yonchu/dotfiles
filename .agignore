@@ -1,0 +1,8 @@
+tmp
+bak
+old
+.vim/bundle
+.vim/dict
+.git
+.svn
+zsh-completions

@@ -529,7 +529,6 @@ endfunction"}}}
 " 最近使ったファイルの数
 let g:unite_source_file_mru_limit = 200
 
-
 " ----- unite-plugins -----
 " unite-line
 " uniteでバッファ内検索//
@@ -556,6 +555,14 @@ command! UG :Unite -no-start-insert -buffer-name=search -no-quit grep
 "     auto : 出力先に応じて判断 - パイプ時などはカラーコードをつけない
 "     never : カラーコードOFF
 let g:unite_source_grep_default_opts="-niE --color=never"
+
+" For ag
+if system('which ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '-S --nocolor --nogroup'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_max_candidates = 200
+endif
 
 
 " unite-help
