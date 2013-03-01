@@ -112,6 +112,22 @@ alias gvim='open -a MacVim'
 alias chrome='open -a Google\ Chrome'
 alias edit='open -a CotEditor'
 
+# Open current directory in Finder.
+alias f='open .'
+
+# cd to the path of the front Finder window.
+# http://blog.glidenote.com/blog/2013/02/26/jumping-to-the-finder-location-in-terminal/
+function cdf() {
+    local target="$(osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)')"
+    if [ -z "$target" ]; then
+        echo 'Error: no Finder window found' 1>&2
+        return 1
+    fi
+    echo "$target"
+    cd "$target"
+}
+
+
 #
 # Trash
 #
