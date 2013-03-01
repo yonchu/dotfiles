@@ -28,6 +28,31 @@ if type npm > /dev/null 2>&1; then
     eval "$(npm completion 2>/dev/null)"
 fi
 
+# CoffeeScriptRedux
+function coffee-redux() {
+    if [ $# -eq 0 ]; then
+        echo 'Error: specify coffeescript files.'
+        return 1
+    fi
+    local in_file out_file
+    local coffee_redux=~/work/dev/github_tracking/CoffeeScriptRedux/bin/coffee
+    for in_file in "$@"; do
+        if [ ! -f "$in_file" ]; then
+            echo "Error: $1 is not found." 1>&2
+            continue
+        fi
+        if [[ ! "$in_file" =~ .*\.coffee ]]; then
+            #echo " ! Ignore $1." 1>&2
+            continue
+        fi
+        out_file=${in_file%.coffee}
+        "$coffee_redux" --js -i "$in_file" >| "$out_file".js \
+            && echo "//@ sourceMappingURL=$out_file.js.map" >> "$out_file".js \
+            && "$coffee_redux" --source-map -i "$in_file" >| "$out_file".js.map \
+            && echo "$in_file -> $out_file.js $out_file.js.map"
+    done
+}
+
 # LiveReloadX
 # http://tech.nitoyon.com/ja/blog/2013/02/27/livereloadx/
 #
