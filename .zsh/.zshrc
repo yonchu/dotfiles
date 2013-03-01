@@ -378,18 +378,19 @@ setopt bang_hist
 #
 # 重複パスを登録しない
 typeset -U fpath
-#  zsh-completions
-#   https://github.com/zsh-users/zsh-completions.git
-fpath=(~/.zsh/functions/Completion/zsh-completions(N-/) ${fpath})
-# /usr/local 配下
-#fpath=(/usr/local/share/zsh/functions(N-/) /usr/local/share/zsh/site-functions(N-/) ${fpath})
-# homebrewでインストールしたコマンドの補完関数
 #if type brew >/dev/null 2>&1; then
+    ## homebrewでインストールしたコマンドの補完関数
     #BREW_PREFIX=$(brew --prefix)
     #fpath=($BREW_PREFIX/share/zsh/functions(N-/) $BREW_PREFIX/share/zsh/site-functions(N-/) ${fpath})
+#else
+    ## /usr/local
+    #fpath=($USER_LOCAL/share/zsh/functions(N-/) $USER_LOCAL/share/zsh/site-functions(N-/) ${fpath})
 #fi
 # ユーザ固有の補完関数
 fpath=(~/.zsh/functions/Completion(N-/) ${fpath})
+#  zsh-completions
+#   https://github.com/zsh-users/zsh-completions.git
+fpath+=(~/.zsh/functions/Completion/zsh-completions/src(N-/))
 
 autoload -U compinit
 # -u : 安全ではないファイルを補完しようとした場合に警告を表示しない
