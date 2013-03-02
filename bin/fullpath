@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #  引数に指定したファイル or ディレクトリの絶対パスを表示
 #  引数未指定の場合はカレントディレクトリの絶対パスを表示
@@ -16,35 +16,42 @@ usage() {
 
 print_fullpath() {
     local target=$1
-    local fullpath
-    # 絶対パスを取得
-    if [ -z "$target" ]; then
-        fullpath=$(pwd)
-    elif ! [ -e "$target" ]; then
+    if ! [ -e "$target" ]; then
         echo "Error: Not found ($target)" 1>&2
         return 1
-    else
-        # シンボリックリンクを解決
-        if [ "$opt_s" = "true" -a -h "$target" ]; then
-            local sym_dir=$(cd $(dirname "$target") && pwd)
-            sym_dir=${sym_dir%/}
+    fi
 
-            case `uname -s` in
-                Darwin|FreeBSD)
-                    target="$sym_dir"/$(readlink -n "$target")
-                    ;;
-                *)
-                    target="$sym_dir"/$(readlink -fq "$target")
-                    ;;
-            esac
+    if [ "$opt_s" = 'true' -a -h "$target" ]; then
+        case "$(uname -s)" in
+            Darwin|FreeBSD)
+                target=$(readlink -n "$target")
+
+                ;;
+            *)
+                target=$(readlink -fq "$target")
+                ;;
+        esac
+    fi
+
+    local fullpath
+    if [ -d "$target" ]; then
+        if [ "$opt_s" = 'true' ]; then
+            fullpath=$(cd "$target" && pwd -P)
+        else
+            fullpath=$(cd "$target" && pwd -L)
         fi
-        local dir=$(cd $(dirname "$target") && pwd)
+    else
+        local dir
+        local base
+        if [ "$opt_s" = 'true' ]; then
+            dir=$(cd "$(dirname "$target")" && pwd -P)
+        else
+            dir=$(cd "$(dirname "$target")" && pwd -L)
+        fi
         dir=${dir%/}
-        local base=$(basename "$target")
+        base=$(basename "$target")
         base=${base%/}
         fullpath="$dir"/"$base"
-
-        #fullpath=$(cd $(dirname "$target") && pwd)/$(basename "$target")
     fi
 
     # $HOMEを~に変換
@@ -75,11 +82,10 @@ while getopts as option; do
             ;;
     esac
 done
-shift `expr ${OPTIND} - 1`
+shift $((${OPTIND} - 1))
 
-if [ $# -lt 1 ]; then
-    print_fullpath && exit 0
-    exit 1
+if [ $# -eq 0 ]; then
+    set "$(pwd)"
 fi
 
 ret=0
