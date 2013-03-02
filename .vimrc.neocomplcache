@@ -303,7 +303,7 @@ inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
 
 " TAB
 imap <expr><TAB> neosnippet#jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_jump_or_expand)" : "\<Tab>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " S-TAB
 imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
