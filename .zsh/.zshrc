@@ -151,6 +151,9 @@ setopt auto_resume
 # 自動的に消費時間の統計情報を表示
 REPORTTIME=3
 
+# glob展開時に大文字小文字を無視
+setopt no_case_glob
+
 # *, ~, ^ の 3 文字を正規表現として扱う
 # Match without pattern
 #  ex. > rm *~398
