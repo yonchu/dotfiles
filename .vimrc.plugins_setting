@@ -430,7 +430,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 " python
 let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
 " javascript
-let g:syntastic_javascript_checkers = [ "gjshlint", "jshint" ]
+let g:syntastic_javascript_checkers = [ "gjslint", "jshint" ]
 " coffee
 let g:syntastic_coffee_checkers = [ "coffee", "coffeelint" ]
 "}}}
