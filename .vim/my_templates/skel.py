@@ -9,11 +9,9 @@ from __future__ import print_function
 #import os
 
 
-## Main
-def main():
+def main(argv):
     """main function"""
     pass
 
-
 if __name__ == '__main__':
-    main()
+    sys.exit(main(sys.argv[1:]))
