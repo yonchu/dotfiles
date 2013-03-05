@@ -1,4 +1,3 @@
-adamv/alt
 homebrew/boneyard
 homebrew/dupes
 homebrew/versions
