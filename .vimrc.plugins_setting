@@ -760,7 +760,7 @@ let g:watchdogs_check_BufWritePost_enables = {
 \  'javascript' : 1,
 \  'perl'       : 1,
 \  'php'        : 1,
-\  'python'     : 1,
+\  'python'     : 0,
 \  'ruby'       : 1,
 \  'sass'       : 1,
 \  'scss'       : 1,

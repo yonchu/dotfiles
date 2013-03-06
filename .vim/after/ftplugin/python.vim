@@ -60,7 +60,7 @@ let g:pymode_doc_key = 'K'
 
 " ## Lint
 " Load pylint code plugin
-let g:pymode_lint = 0
+let g:pymode_lint = 1
 " Disable pylint checking every save
 let g:pymode_lint_write = 1
 " Switch pylint, pyflakes, pep8, mccabe code-checkers
