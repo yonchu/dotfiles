@@ -250,7 +250,7 @@ NeoBundle 'Shougo/vimproc', {
     \ "autoload" : { "filetypes" : [ "python", "html", "javascript", "coffee" ] } }
 
   " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
-  NeoBundle 'dannyob/quickfixstatus'
+  NeoBundle 'yonchu/quickfixstatus'
 
   " 非同期シンタックスチェック
   NeoBundle "osyo-manga/vim-watchdogs"
