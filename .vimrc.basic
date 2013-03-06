@@ -468,6 +468,7 @@ nnoremap <silent> cw :call <SID>toggle_qf_window()<CR>
 autocmd QuickfixCmdPost make,grep,grepadd,vimgrep,Sgrep call s:auto_qf_open()
 function! s:auto_qf_open()
   if len(getqflist()) != 0
+    execute 'HierUpdate'
     execute 'QuickfixStatusEnable'
     execute 'copen'
     " 画面を消去して再描画

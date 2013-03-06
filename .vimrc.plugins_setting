@@ -277,35 +277,70 @@ autocmd FileType quickrun nnoremap <buffer> q :q<CR>
 autocmd FileType quickrun nnoremap <buffer> <ESC> :q<CR>
 
 " コンフィグ設定
-"   横分割で開く
-let g:quickrun_config = {
-      \   '_': {
-      \     'split': '',
-      \   },
-      \ }
-
+" 常に横分割
 " markdownについて
 "  htmlを開くデフォルトアプリケーションがブラウザの場合は
 "   'outputter': 'multi:buffer:browser'
 "  とすることでブラウザにて開くことができる
-if has("mac")
-  let g:quickrun_config = {
-        \   '_': {
-        \     'split': '',
-        \   },
-        \   'markdown': {
-        \     'type': executable('markdown') ? 'markdown/markdown': '',
-        \   },
-        \   'markdown/markdown': {
-        \     'split': winwidth(0) < winheight(0) * 3  ? "" : "vertical",
-        \     'command': 'markdown',
-        \     'cmdopt': '--html4tags',
-        \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
-        \     'outputter': 'multi:buffer',
-        \   },
-        \ }
-endif
-
+let g:quickrun_config = {
+      \   '_': {
+      \     'split': '',
+      \   },
+      \   'markdown': {
+      \     'type': executable('markdown') ? 'markdown/markdown':
+      \             executable('Markdown.pl') ? 'markdown/Markdown.pl':
+      \             executable('kramdown') ? 'markdown/kramdown':
+      \             executable('bluecloth') ? 'markdown/bluecloth':
+      \             executable('redcarpet') ? 'markdown/redcarpet':
+      \             executable('pandoc') ? 'markdown/pandoc':
+      \             executable('markdown_py') ? 'markdown/markdown_py': '',
+      \   },
+      \   'markdown/markdown': {
+      \     'split': winwidth(0) < winheight(0) * 3  ? "" : "vertical",
+      \     'command': 'markdown',
+      \     'cmdopt': '--html4tags',
+      \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
+      \     'outputter': 'multi:buffer',
+      \   },
+      \   'watchdogs_checker/_' : {
+      \     'runner/vimproc/updatetime' : 40,
+      \     'hook/copen/enable_exist_data' : 0,
+      \     'hook/unite_quickfix/enable_exit' : 0,
+      \     'hook/quickfix_stateus_enable/enable_exit' : 1,
+      \     'hook/hier_update/enable_exit' : 1,
+      \     'hook/back_buffer/enable_exit' : 0,
+      \     'hook/back_tabpage/enable_exit' : 0,
+      \     'hook/back_window/enable_exit' : 1,
+      \     'hook/close_quickfix/enable_exit' : 0,
+      \     'hook/close_unite_quickfix/enable_exit' : 0,
+      \     'hook/quickfix_replate_tempname_to_bufnr/enable_exit' : 1,
+      \     'hook/quickfix_replate_tempname_to_bufnr/priority_exit' : -10,
+      \   },
+      \   "python/watchdogs_checker" : {
+      \      "type" : "watchdogs_checker/flake8",
+      \   },
+      \   "watchdogs_checker/pyflakes" : {
+      \      "command" : "pyflakes",
+      \      "exec"    : "%c %o %s:p",
+      \   },
+      \   "watchdogs_checker/flake8" : {
+      \      "command" : "flake8",
+      \      "exec"    : "%c %o %s:p",
+      \      "quickfix/errorformat" : "%E%f:%l: could not compile,%-Z%p^,%E%f:%l:%c: %m,%W%f:%l: %m,%-G%.%#",
+      \   },
+      \   "coffee/watchdogs_checker" : {
+      \      "type" : "watchdogs_checker/coffeelint",
+      \   },
+      \    "javascript/watchdogs_checker" : {
+      \      "type" : "watchdogs_checker/gjslint",
+      \      "cmdopt" : " --nosummary --unix_mode --nodebug_indentation --nobeep",
+      \   },
+      \    "watchdogs_checker/gjslint" : {
+      \      "command" : "gjslint",
+      \      "exec"    : "%c %o %s:p",
+      \      "quickfix/errorformat" : "%f:%l:(New Error -%\\?\%n) %m,%f:%l:(-%\\?%n) %m,%-G1 files checked, no errors found.,%-G%.%#",
+      \   },
+      \ }
 "}}}
 
 
@@ -424,15 +459,15 @@ let g:syntastic_auto_loc_list = 1
 " Automatically running
 "   mode(active/passive)
 let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': ['ruby', 'php', 'perl', 'javascript', 'coffee'],
-      \ 'passive_filetypes': ['python', 'html'] }
+      \ 'active_filetypes': ['ruby', 'php', 'perl'],
+      \ 'passive_filetypes': ['python', 'html', 'coffee', 'javascript'] }
 
 " python
 let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
 " javascript
 let g:syntastic_javascript_checkers = [ "gjslint", "jshint" ]
 " coffee
-let g:syntastic_coffee_checkers = [ "coffee", "coffeelint" ]
+let g:syntastic_coffee_checkers = [ "coffeelint", "coffee" ]
 "}}}
 
 
@@ -702,6 +737,43 @@ endfunction
 "omap <silent> X <Plug>(seek-back-cut)
 "omap <silent> j <Plug>(seek-jump)
 "omap <silent> J <Plug>(seek-jump-back)
+" }}}
+
+
+"### vim-watchdogs {{{
+"  シンタックスチェックを実行
+"    :WatchdogsRun
+"  チェッカーを指定して実行
+"    :WatchdogsRun watchdogs_checker/g++
+"  :QuickRun と同様の引数を渡す
+"    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
+"------------------------------------
+
+" 自動実行
+" 全てのfiletypeを有効
+"let g:watchdogs_check_BufWritePost_enable = 1
+" filetype毎に指定
+let g:watchdogs_check_BufWritePost_enables = {
+\  'c'          : 0,
+\  'coffee'     : 1,
+\  'cpp'        : 0,
+\  'javascript' : 1,
+\  'perl'       : 1,
+\  'php'        : 1,
+\  'python'     : 1,
+\  'ruby'       : 1,
+\  'sass'       : 1,
+\  'scss'       : 1,
+\}
+
+" 一定時間キー入力がなかった場合にシンタックスチェックを行う
+" バッファに書き込み後、1度だけ行われる
+"let g:watchdogs_check_CursorHold_enable = 1
+"let g:watchdogs_check_CursorHold_enables = {
+"\  "haskell" : 1,
+"\}
+
+call watchdogs#setup(g:quickrun_config)
 " }}}
 
 

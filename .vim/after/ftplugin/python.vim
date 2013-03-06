@@ -60,11 +60,11 @@ let g:pymode_doc_key = 'K'
 
 " ## Lint
 " Load pylint code plugin
-let g:pymode_lint = 1
+let g:pymode_lint = 0
 " Disable pylint checking every save
 let g:pymode_lint_write = 1
 " Switch pylint, pyflakes, pep8, mccabe code-checkers
-let g:pymode_lint_checker = "pyflakes,pep8,mccabe"
+let g:pymode_lint_checker = "pep8,pyflakes,mccabe"
 " on django
 "let g:pymode_lint_cheker = "pylint"
 

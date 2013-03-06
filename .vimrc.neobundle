@@ -212,9 +212,6 @@ NeoBundle 'Shougo/vimproc', {
   " vim-refのjavascript/jquery用ソース
   NeoBundle 'mojako/ref-sources.vim'
 
-  " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
-  "NeoBundle 'quickfixstatus.vim'
-
   " vim-hier : quickfix の該当箇所をハイライト
   NeoBundle 'jceb/vim-hier'
 
@@ -251,6 +248,13 @@ NeoBundle 'Shougo/vimproc', {
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
   NeoBundleLazy 'scrooloose/syntastic',  {
     \ "autoload" : { "filetypes" : [ "python", "html", "javascript", "coffee" ] } }
+
+  " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
+  NeoBundle 'dannyob/quickfixstatus'
+
+  " 非同期シンタックスチェック
+  NeoBundle "osyo-manga/vim-watchdogs"
+  NeoBundle "osyo-manga/shabadou.vim"
 
   " <C-_>でhtmlタグの閉じタグを入力
   NeoBundle 'closetag.vim', {
