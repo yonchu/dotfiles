@@ -394,6 +394,7 @@ NeoBundle 'Shougo/vimproc', {
    NeoBundle 'molokai'
    NeoBundle 'aereal/vim-magica-colors'
    NeoBundle 'w0ng/vim-hybrid'
+   NeoBundle 'vol2223/vim-colorblind-colorscheme'
 " }}}
 
 
