@@ -591,6 +591,13 @@ command! UM :Unite -no-start-insert mapping
 " }}}
 
 
+"### vim-gitgutter {{{
+"------------------------------------
+nnoremap <silent> ]v :GitGutterNextHunk<CR>
+nnoremap <silent> [v :GitGutterPrevHunk<CR>
+" }}}
+
+
 "### vim-hier {{{
 "------------------------------------
 " エラーを赤字の波線で

@@ -348,6 +348,9 @@ NeoBundle 'Shougo/vimproc', {
 
   " pseudo clipboard register for non-GUI version of Vim
   NeoBundle 'fakeclip'
+
+  " This plugin is a port of the Git Gutter plugin for Sublime Text 2.
+  NeoBundle 'airblade/vim-gitgutter'
 " }}}
 
 
