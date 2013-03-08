@@ -4,9 +4,6 @@
 [submodule ".tmux/tmux-powerline"]
 	path = .tmux/tmux-powerline
 	url = git://github.com/erikw/tmux-powerline.git
-[submodule ".zsh/z"]
-	path = .zsh/z
-	url = git://github.com/rupa/z.git
 [submodule ".zsh/zsh-vcs-prompt"]
 	path = .zsh/zsh-vcs-prompt
 	url = https://github.com/yonchu/zsh-vcs-prompt.git
