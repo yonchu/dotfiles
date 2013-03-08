@@ -43,3 +43,6 @@
 [submodule ".zsh/zaw-src-git-show-branch"]
 	path = .zsh/zaw-src-git-show-branch
 	url = git://github.com/yonchu/zaw-src-git-show-branch.git
+[submodule ".zsh/z"]
+	path = .zsh/z
+	url = git://github.com/knu/z.git
