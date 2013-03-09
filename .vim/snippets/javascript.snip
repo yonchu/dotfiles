@@ -587,3 +587,13 @@ snippet width
     ${1:obj}.width(${2:integer})${3}
 snippet wrap
     ${1:obj}.wrap('${2:&lt;div class="extra-wrapper"&gt;&lt;/div&gt;}')${3}
+
+snippet     log
+abbr        console.log(arg);
+prev_word   '^'
+  console.log(${1:#arg});
+
+snippet     llog
+abbr        console.log(label + arg);
+prev_word   '^'
+  console.log("${1:#label}: " + ${2:#arg});
