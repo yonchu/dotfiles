@@ -130,6 +130,10 @@ endif
 " zencoding連携
 "let g:use_zen_complete_tag = 1
 
+let g:neocomplcache_source_rank = {
+  \ 'javascriptcomplete' : 500,
+  \ 'jscomplete' : 500,
+  \}
 " }}}
 
 

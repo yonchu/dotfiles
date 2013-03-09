@@ -219,10 +219,17 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundleLazy 'jiangmiao/simple-javascript-indenter',  {
     \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
 
+  " Javascript補完
   NeoBundleLazy 'teramako/jscomplete-vim',  {
     \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
 
+  " Javascript補完 + node.js
   NeoBundleLazy 'myhere/vim-nodejs-complete',  {
+    \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
+
+  " JSDoc生成
+  "   :JsDoc or <C-l>
+  NeoBundleLazy 'heavenshell/vim-jsdoc',  {
     \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
 
   NeoBundleLazy 'kchmck/vim-coffee-script', {
@@ -357,6 +364,12 @@ NeoBundle 'Shougo/vimproc', {
 
   " This plugin is a port of the Git Gutter plugin for Sublime Text 2.
   NeoBundle 'airblade/vim-gitgutter'
+
+  " UnicodeエスケープシーケンスやURLエスケースされた文字を表示する
+  "   :HideoutOn
+  "   :HideoutClear
+  "   :HideoutRefreshCache
+  NeoBundle "osyo-manga/vim-hideout"
 " }}}
 
 
