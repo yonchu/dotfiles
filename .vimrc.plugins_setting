@@ -429,6 +429,11 @@ let g:quickrun_config = {
 "}}}
 
 
+"### quickfixsigns_vim {{{
+let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
+"}}}
+
+
 "### showmarks.vim {{{
 "  <Leader>mt ON/OFFトグル
 "  <Leader>mo Forces ShowMarks on.

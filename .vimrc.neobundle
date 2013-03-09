@@ -212,9 +212,6 @@ NeoBundle 'Shougo/vimproc', {
   " vim-refのjavascript/jquery用ソース
   NeoBundle 'mojako/ref-sources.vim'
 
-  " vim-hier : quickfix の該当箇所をハイライト
-  NeoBundle 'jceb/vim-hier'
-
   " Javascript用インデント
   NeoBundleLazy 'jiangmiao/simple-javascript-indenter',  {
     \ "autoload" : { "filetypes" : [ "html", "javascript", "coffee" ] } }
@@ -260,6 +257,12 @@ NeoBundle 'Shougo/vimproc', {
 
   " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
   NeoBundle 'yonchu/quickfixstatus'
+
+  " vim-hier : quickfix の該当箇所をハイライト
+  NeoBundle 'jceb/vim-hier'
+
+  " quickfixに対応する行にsignを表示
+  NeoBundle 'tomtom/quickfixsigns_vim'
 
   " 非同期シンタックスチェック
   NeoBundle "osyo-manga/vim-watchdogs"
