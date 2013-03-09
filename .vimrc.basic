@@ -313,8 +313,9 @@ endif
 "-------------------------------------------------------------------------------
 set wildmenu               " コマンド補完を強化
 set wildchar=<tab>         " コマンド補完を開始するキー
-" コマンド補完候補が複数ある場合：リスト表示，共通する最長の文字列まで補完
-set wildmode=list:longest
+" コマンド補完候補
+"   最長マッチ補完 > リスト表示
+set wildmode=longest,list:longest
 set history=1000           " コマンド・検索パターンの履歴数
 set complete+=k            " 補完に辞書ファイル追加
 set completeopt=menuone,preview  " 補完形式 (menu/menuone/longest/preview)
