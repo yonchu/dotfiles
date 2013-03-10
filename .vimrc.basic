@@ -471,8 +471,7 @@ function! s:auto_qf_open()
   if len(getqflist()) != 0
     execute 'HierUpdate'
     execute 'QuickfixStatusEnable'
-    execute 'copen'
-    " 画面を消去して再描画
+    execute 'cwindow'
     execute 'redraw!'
   endif
 endfunction
