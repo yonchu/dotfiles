@@ -460,6 +460,12 @@ zstyle ':completion:*:default' menu select=1
 # 詳細な情報を使う。
 zstyle ':completion:*' verbose true
 
+# 変数の添字補完
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# 補完を無視する対象
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+
 ## cd
 # カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補にする
 zstyle ':completion:*:cd:*' tag-order local-directories path-directories
@@ -478,7 +484,7 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%B%d:%b'
 zstyle ':completion:*:options' description 'yes'
 
-# manのセクション番号を表示
+# manのセクション番号別に表示
 zstyle ':completion:*:manuals' separate-sections true
 
 # 補完方法の設定:指定した順番に実行
