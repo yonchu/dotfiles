@@ -15,6 +15,30 @@ let autodate_format="%Y/%m/%d %H:%M:%S"
 "}}}
 
 
+"### ag.vim {{{
+"  :Ag [options] {pattern} [{directory}]
+"  :bufdo AgAdd {pattern}
+"  :LAg, LAgAdd
+"  :AgFile
+"  :AgHelp
+"
+"  If [!] is not given the first error is jumped to.
+"
+"   o    to open (same as enter)
+"   go   to preview file (open but maintain focus on ack.vim results)
+"   t    to open in new tab
+"   T    to open in new tab silently
+"   h    to open in horizontal split
+"   H    to open in horizontal split silently
+"   v    to open in vertical split
+"   gv   to open in vertical split silently
+"   q    to close the quickfix window
+"-------------------------------------------------
+" フォーマット
+let g:agprg="ag -S --nogroup --column"
+"}}}
+
+
 "### closetag.vim {{{
 " <C-_> 閉じタグ入力
 :let g:closetag_html_style=1
