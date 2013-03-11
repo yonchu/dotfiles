@@ -7,7 +7,11 @@
 	# Show which segment fails and its exit code.
 	export TMUX_POWERLINE_DEBUG_MODE_ENABLED="false"
 	# Use patched font symbols.
+if [ "$(uname -s)" = 'Darwin' ]; then
 	export TMUX_POWERLINE_PATCHED_FONT_IN_USE="true"
+else
+	export TMUX_POWERLINE_PATCHED_FONT_IN_USE="false"
+fi
 	# The theme to use.
 	export TMUX_POWERLINE_THEME="yonchu-theme"
 	# Overlay dirctory to look for themes. There you can put your own themes outside the repo. Fallback will still be the "themes" directory in the repo.
