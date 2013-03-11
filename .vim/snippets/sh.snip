@@ -68,7 +68,7 @@ abbr        IdentifiesOSTYPE
 
 snippet     ostypeuname
 abbr        IdentifiesOSTYPE with uname
-    case \`uname -s\` in
+    case "$(uname -s)" in
         Darwin)
             ;;
         FreeBSD)
@@ -80,9 +80,9 @@ abbr        IdentifiesOSTYPE with uname
     esac
 
 snippet     ifostype
-abbr        [ $(uname -s) = 'Linux' ] || return
+abbr        [ "$(uname -s)" = 'Linux' ] || return
 options     head
-    [ $(uname -s) = '${0:Darwin|FreeBSD|Linux}' ] || return
+    [ "$(uname -s)" = '${0:Darwin|FreeBSD|Linux}' ] || return
 
 snippet     sedspace
 abbr        Deletes leading spaces
