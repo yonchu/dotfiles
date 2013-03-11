@@ -42,6 +42,10 @@ set horizontal-scroll-mode off
 #  visible 鳴らさない代わりに画面を点滅
 set bell-style visible
 
+# Home/Endが使えるようにする
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
 # MySQL
 $if mysql
     "\C-xd": "show databases;"
