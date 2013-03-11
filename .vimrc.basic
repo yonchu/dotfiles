@@ -445,6 +445,8 @@ set grepprg=grep\ -niE\ $*\ /dev/null
 "  grep! 検索後に自動でジャンプしない
 command! -nargs=+ Sgrep execute 'silent grep! <args>'
 
+" 開いているバッファ内を検索
+command! -nargs=1 Bgrep execute 'silent vimgrepadd /<args>/ %'
 
 " QuickFixの結果をクリア
 "nnoremap <silent> ,qc :cexpr ""<CR>
