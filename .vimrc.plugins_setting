@@ -561,14 +561,30 @@ let g:syntastic_coffee_checkers = [ "coffeelint", "coffee" ]
 "}}}
 
 
-"### toggle.vim {{{
+"### switch.vim {{{
 "------------------------------------
-"imap <C-A> <Plug>ToggleI
-nmap <C-A> <Plug>ToggleN
-vmap <C-A> <Plug>ToggleV
+" CamelCase <-> SneakCase
+let g:variable_style_switch_definitions = [
+  \   {
+  \     '\<[a-z0-9]\+_\k\+\>': {
+  \       '_\(.\)': '\U\1'
+  \     },
+  \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
+  \       '\([A-Z]\)': '_\l\1'
+  \     },
+  \   }
+  \ ]
 
-let g:toggle_pairs = { 'and':'or', 'or':'and', 'if':'unless', 'unless':'if', 'yes':'no', 'no':'yes', 'enable':'disable', 'disable':'enable', 'pick':'reword', 'reword':'fixup', 'fixup':'squash', 'squash':'edit', 'edit':'exec', 'exec':'pick' }
-
+let g:switch_custom_definitions =
+  \ [
+  \   ['and', 'or'],
+  \   ['if', 'unless'],
+  \   ['yes', 'no'],
+  \   ['enable', 'disable'],
+  \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
+  \ ]
+nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
+nnoremap <silent> - :Switch<cr>
 "}}}
 
 
