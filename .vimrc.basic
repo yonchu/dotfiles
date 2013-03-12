@@ -878,7 +878,32 @@ nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 " 補完中にESCで補完キャンセル
 "inoremap <silent><expr><ESC> pumvisible() ? neocomplcache#cancel_popup()."<ESC>" : "<ESC>"
 
-" }}}
 
+" vimコマンドの結果をキャプチャ
+" http://webtech-walker.com/archive/2010/04/27173007.html
+" https://github.com/edsono/vim-viewoutput/blob/master/plugin/viewoutput.vim
+command!
+  \ -nargs=1
+  \ -complete=command
+  \ Capture
+  \ call Capture(<f-args>)
+
+function! Capture(cmd)
+  redir => result
+  silent execute a:cmd
+  redir END
+
+  let bufname = 'Capture: ' . a:cmd
+  new
+  setlocal bufhidden=unload
+  setlocal nobuflisted
+  setlocal buftype=nofile
+  setlocal noswapfile
+  setlocal filetype=vim
+  silent file `=bufname`
+  silent put =result
+  1,2delete _
+endfunction
+" }}}
 
 " vim: fdm=marker fdl=0
