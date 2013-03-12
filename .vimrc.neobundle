@@ -428,6 +428,18 @@ NeoBundle 'Shougo/vimproc', {
 
   " Uniteでカラースキーマを気軽に変更
   NeoBundle 'ujihisa/unite-colorscheme'
+
+  " 履歴
+  NeoBundle 'thinca/vim-unite-history'
+
+  " Quickfix
+  NeoBundle 'osyo-manga/unite-quickfix'
+
+  " tag
+  NeoBundle 'tsukkee/unite-tag'
+
+  " Mark
+  NeoBundle 'tacroe/unite-mark'
 "}}}
 
 
