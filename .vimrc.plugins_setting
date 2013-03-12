@@ -503,10 +503,10 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 " ### sumartword {{{
 "   単語移動がスマートに
 "------------------------------------
-map W   <Plug>(smartword-w)
-map B   <Plug>(smartword-b)
-map E   <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
+"map W   <Plug>(smartword-w)
+"map B   <Plug>(smartword-b)
+"map E   <Plug>(smartword-e)
+"map ge  <Plug>(smartword-ge)
 
 " }}}
 

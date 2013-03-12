@@ -146,6 +146,9 @@ NeoBundle 'Shougo/vimproc', {
 
   " 括弧の閉じ忘れをハイライト
   NeoBundle 'Highlight-UnMatched-Brackets'
+
+  " Quickfixを利用した一斉置換
+  NeoBundle 'thinca/vim-qfreplace'
 " }}}
 
 
@@ -158,7 +161,10 @@ NeoBundle 'Shougo/vimproc', {
   NeoBundle 'thinca/vim-visualstar'
 
   " vim-smartword : 単語移動がスマートな感じで
-  NeoBundle 'kana/vim-smartword'
+  "NeoBundle 'kana/vim-smartword'
+
+  " 日本語を含んだ文章を文節区切りで移動(W/B/E)
+  NeoBundle 'deton/jasegment.vim'
 
   " <Leader><Leader>w/fなどで、motion先をhilightする
   NeoBundle 'EasyMotion'
