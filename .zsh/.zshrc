@@ -455,7 +455,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z} r:|[._-]=*' '+m:{A-Z}={a-z
 
 # 補完候補を矢印キーで選択
 #  select=n: 補完候補がn以上なければすぐに補完
-zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*:default' menu select=2
 
 # 詳細な情報を使う。
 zstyle ':completion:*' verbose true
