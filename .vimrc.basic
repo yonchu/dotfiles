@@ -467,21 +467,8 @@ function! s:toggle_qf_window()
 endfunction
 nnoremap <silent> cw :call <SID>toggle_qf_window()<CR>
 
-" QuickFixを自動で開く
-autocmd QuickfixCmdPost make,grep,grepadd,vimgrep,Sgrep call s:auto_qf_open()
-function! s:auto_qf_open()
-  if len(getqflist()) != 0
-    execute 'HierUpdate'
-    execute 'QuickfixStatusEnable'
-    execute 'cwindow'
-    execute 'redraw!'
-  endif
-endfunction
-
-
 " 選択した文字列を検索
 vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
-
 
 " カーソル下の単語で置換
 " 1.置換後文字列をヤンク(あれば)  2.置換元単語にカーソルを移動
@@ -836,6 +823,37 @@ if has("mac")
   endfunction
   command! -nargs=* Dash call <SID>dash(<f-args>)
 endif
+
+
+" Quickfix自動Open/Close
+augroup QfAutoCommands
+  autocmd!
+  autocmd QuickfixCmdPost make,grep,grepadd,vimgrep,Sgrep call s:auto_qf_open()
+  autocmd WinEnter * call s:auto_qf_close()
+augroup END
+
+" QuickFixを自動で開く
+function! s:auto_qf_open()
+  if len(getqflist()) != 0
+    execute 'HierUpdate'
+    execute 'QuickfixStatusEnable'
+    execute 'cwindow'
+    execute 'redraw!'
+  endif
+endfunction
+
+" Quickfixを自動で閉じる
+function! s:auto_qf_close()
+  for winnr in range(1, winnr('$'))
+    let buftype = getwinvar(winnr, '&buftype')
+    let ft = getwinvar(winnr, '&filetype')
+    if buftype ==# 'quickfix' || ft ==# 'nerdtree' || ft ==# 'help'
+    else
+      return
+    endif
+  endfor
+  quitall
+endfunction
 
 
 "### Default Skeleton File
