@@ -57,6 +57,13 @@ let g:agprg="ag -S --nogroup --column"
 "}}}
 
 
+"### errormarker.vim {{{
+"----------------------------------------------
+let g:errormarker_disablemappings = 1
+"let g:loaded_errormarker = 1
+"nmap <silent> <unique> <Leader>cc :ErrorAtCursor<CR>
+"}}}
+
 "### Fugitive.vim {{{
 "------------------------------------
 " 現在のソースの変更点をvimdiffで表示

@@ -269,6 +269,7 @@ NeoBundle 'Shougo/vimproc', {
 
   " quickfixに対応する行にsignを表示
   NeoBundle 'tomtom/quickfixsigns_vim'
+  "NeoBundle 'errormarker.vim'
 
   " 非同期シンタックスチェック
   NeoBundle "osyo-manga/vim-watchdogs"
