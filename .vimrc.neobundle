@@ -258,8 +258,8 @@ NeoBundle 'Shougo/vimproc', {
 
   " syntastic : 多言語対応のシンタックスチェックツール
   "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-  NeoBundleLazy 'scrooloose/syntastic',  {
-    \ "autoload" : { "filetypes" : [ "python", "html", "javascript", "coffee" ] } }
+  "NeoBundleLazy 'scrooloose/syntastic',  {
+    "\ "autoload" : { "filetypes" : [ "python", "html", "javascript", "coffee" ] } }
 
   " quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
   NeoBundle 'yonchu/quickfixstatus'
@@ -272,8 +272,15 @@ NeoBundle 'Shougo/vimproc', {
   "NeoBundle 'errormarker.vim'
 
   " 非同期シンタックスチェック
-  NeoBundle "osyo-manga/vim-watchdogs"
-  NeoBundle "osyo-manga/shabadou.vim"
+  NeoBundleLazy 'yonchu/vim-watchdogs',  {
+    \ "depends" : [ "osyo-manga/shabadou.vim" ],
+    \ "rev" : 'multi-checker',
+    \ "autoload" : { "filetypes" : [
+      \ "python", "html", "javascript", "coffee", "perl", "php",
+      \ "ruby", "scss", "sass", "coffee",
+      \ ]
+    \ },
+  \ }
 
   " <C-_>でhtmlタグの閉じタグを入力
   NeoBundle 'closetag.vim', {

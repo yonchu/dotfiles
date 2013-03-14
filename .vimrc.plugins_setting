@@ -328,7 +328,7 @@ let g:pymode_doc_key = 'K'
 
 " ## Lint
 " Load pylint code plugin
-let g:pymode_lint = 1
+let g:pymode_lint = 0
 " Disable pylint checking every save
 let g:pymode_lint_write = 1
 " Switch pylint, pyflakes, pep8, mccabe code-checkers
@@ -417,44 +417,6 @@ let g:quickrun_config = {
       \     'cmdopt': '--html4tags',
       \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
       \     'outputter': 'multi:buffer',
-      \   },
-      \   'watchdogs_checker/_' : {
-      \     'runner/vimproc/updatetime' : 40,
-      \     'hook/copen/enable_exist_data' : 0,
-      \     'hook/unite_quickfix/enable_exit' : 0,
-      \     'hook/quickfix_stateus_enable/enable_exit' : 1,
-      \     'hook/hier_update/enable_exit' : 1,
-      \     'hook/back_buffer/enable_exit' : 0,
-      \     'hook/back_tabpage/enable_exit' : 0,
-      \     'hook/back_window/enable_exit' : 1,
-      \     'hook/close_quickfix/enable_exit' : 0,
-      \     'hook/close_unite_quickfix/enable_exit' : 0,
-      \     'hook/quickfix_replate_tempname_to_bufnr/enable_exit' : 1,
-      \     'hook/quickfix_replate_tempname_to_bufnr/priority_exit' : -10,
-      \   },
-      \   "python/watchdogs_checker" : {
-      \      "type" : "watchdogs_checker/flake8",
-      \   },
-      \   "watchdogs_checker/pyflakes" : {
-      \      "command" : "pyflakes",
-      \      "exec"    : "%c %o %s:p",
-      \   },
-      \   "watchdogs_checker/flake8" : {
-      \      "command" : "flake8",
-      \      "exec"    : "%c %o %s:p",
-      \      "quickfix/errorformat" : "%E%f:%l: could not compile,%-Z%p^,%E%f:%l:%c: %m,%W%f:%l: %m,%-G%.%#",
-      \   },
-      \   "coffee/watchdogs_checker" : {
-      \      "type" : "watchdogs_checker/coffeelint",
-      \   },
-      \    "javascript/watchdogs_checker" : {
-      \      "type" : "watchdogs_checker/gjslint",
-      \      "cmdopt" : " --nosummary --unix_mode --nodebug_indentation --nobeep",
-      \   },
-      \    "watchdogs_checker/gjslint" : {
-      \      "command" : "gjslint",
-      \      "exec"    : "%c %o %s:p",
-      \      "quickfix/errorformat" : "%f:%l:(New Error -%\\?\%n) %m,%f:%l:(-%\\?%n) %m,%-G1 files checked, no errors found.,%-G%.%#",
       \   },
       \ }
 "}}}
@@ -886,18 +848,34 @@ endfunction
 "    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
 "------------------------------------
 
+let g:watchdogs_filetype_checkers = {
+\  'coffee' : [ 'coffeelint', 'coffee' ],
+\  'python' : [ 'flake8', 'pyflakes', 'pep8' ],
+\}
+
+let g:watchdogs_quickrun_config = {
+\  'runner/vimproc/updatetime' : 40,
+\}
+
+let g:watchdogs_quickrun_post_config = {
+\  'hook/close_quickfix/enable_exit' : 0,
+\}
+
+let g:watchdogs_checkers = {
+\}
+
 " 自動実行
 " 全てのfiletypeを有効
-"let g:watchdogs_check_BufWritePost_enable = 1
+"let g:watchdogs_check_BufWritePost_enable = 0
 " filetype毎に指定
 let g:watchdogs_check_BufWritePost_enables = {
 \  'c'          : 0,
-\  'coffee'     : 1,
+\  'coffee'     : 3,
 \  'cpp'        : 0,
-\  'javascript' : 1,
+\  'javascript' : 3,
 \  'perl'       : 1,
 \  'php'        : 1,
-\  'python'     : 0,
+\  'python'     : 3,
 \  'ruby'       : 1,
 \  'sass'       : 1,
 \  'scss'       : 1,
@@ -910,7 +888,6 @@ let g:watchdogs_check_BufWritePost_enables = {
 "\  "haskell" : 1,
 "\}
 
-call watchdogs#setup(g:quickrun_config)
 " }}}
 
 
