@@ -24,6 +24,7 @@
   autocorrect = 1
 [commit]
   template = ~/.gittemplate
+  #cleanup = whitespace
 [push]
   # defaultのpush先はtrackingしているリポジトリ
   # git push はデフォルトでは、同じブランチ名がリモート上にあるならそれらを全てpushしてしまう
@@ -264,6 +265,10 @@
 
   # git browse-remote
   brr = browse-remote
+
+  # check-ignore (ver >= 1.8.2)
+  # .gitignoreに対応したignoreファイルをチェック
+  chig = check-ignore -v
 
 [http]
   sslVerify = false
