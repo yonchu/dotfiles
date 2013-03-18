@@ -150,6 +150,8 @@
   brr  = branch -r           # remote branchを表示
   # git branch を最終更新時間でソート
   brt  = "!f() { for i in `git branch | colrm 1 2` ; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i ; done ; }; f | sort -r"
+  # ローカルブランチとリモートブランチを削除
+  brdd = !git branch -d "$1" && !git push --delete origin "$1"
 
   # log関連
   #   --stat : 変更されたファイルを表示
