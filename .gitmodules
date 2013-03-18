@@ -46,3 +46,6 @@
 [submodule ".zsh/z"]
 	path = .zsh/z
 	url = git://github.com/knu/z.git
+[submodule ".zsh/zaw-git-directories"]
+	path = .zsh/zaw-git-directories
+	url = git://github.com/syohex/zaw-git-directories.git

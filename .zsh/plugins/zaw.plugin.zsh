@@ -52,7 +52,7 @@ bindkey '^Qr' zaw-cdr
 bindkey '^Qt' zaw-cdd
 bindkey '^Qd' zaw-dirstack
 bindkey '^Qgf' zaw-git-files
-bindkey '^Qgd' zaw-git-dirs
+bindkey '^Qgd' zaw-git-directories
 bindkey '^Qgl' zaw-git-log
 bindkey '^Qgs' zaw-git-show-branch
 
@@ -87,26 +87,10 @@ function zaw-src-dirstack() {
 }
 zaw-register-src -n dirstack zaw-src-dirstack
 
-
 ## zaw-src-git-dirs
 # http://d.hatena.ne.jp/syohex/20121219/1355925874
-function zaw-src-git-dirs () {
-    local _dir=$(git rev-parse --show-cdup 2>/dev/null)
-    if [ $? -eq 0 ]
-    then
-        candidates=( $(git ls-files ${_dir} | perl -MFile::Basename -nle \
-                       '$a{dirname $_}++; END{delete $a{"."}; print for sort keys %a}') )
-    fi
-
-    actions=("zaw-src-git-dirs-cd")
-    act_descriptions=("change directory in git repos")
-}
-function zaw-src-git-dirs-cd () {
-    BUFFER="cd $1"
-    zle accept-line
-}
-zaw-register-src -n git-dirs zaw-src-git-dirs
-
+# https://github.com/syohex/zaw-git-directories
+source "${${funcsourcetrace[1]%:*}:h}"/../zaw-git-directories/git-directories.zsh
 
 ## zaw-src-git-log
 # https://github.com/yonchu/zaw-src-git-log
