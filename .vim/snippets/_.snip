@@ -17,6 +17,14 @@ snippet     copyright
 abbr        Copyright
     Copyright `&enc[:2] == "utf" ? "©" : "(c)"` `strftime("%Y")` ${1:author}. All Rights Reserved.${2}
 
+snippet now
+options word
+    "`strftime("%Y/%m/%d %H:%M:%S")`"${0}
+
+snippet fname
+alias filename
+options word
+  `bufname('%') =='[Command Line]' ? expand('#:t') : expand('%:t')`${0}
 # }}}
 
 
