@@ -1,0 +1,316 @@
+# https://github.com/Shinnya/dotfiles
+
+snippet $.ajax
+alias jQuery.ajax
+abbr $.ajax(url[, settings])
+options word
+	$.ajax(${1:url}, {
+		${0:#:code...}
+	});
+
+snippet $.cssHooks
+alias jQuery.cssHooks
+abbr $.cssHooks
+options head
+	$.cssHooks["${1:#:someCSSProp}"] = {
+		get: function(elem, computed, extra) {
+			${2:#:// handle getting the CSS property}
+		},
+		set: function(elem, value) {
+			${0:#:// handle setting the CSS value}
+		}
+	};
+
+snippet $.each
+alias jQuery.each
+abbr $.each(collection, function(i, elem)) {});
+options word
+	$.each(${1:#:collection}, function(index, element) {
+		${2:#:code...}
+	})${0}
+
+snippet $.grep
+alias jQuery.grep
+abbr $.grep(array, function(elem, i[, invert])) {});
+options word
+	$.grep(${1:#:array}, function(element, index) {
+		${2:#:code...}
+	})${0}
+
+snippet $.proxy
+alias jQuery.proxy
+abbr $.proxy(callback, context)
+options word
+	$.proxy(${1:#:callback}, ${2:this})${0}
+
+snippet $.ready
+alias ready $(document).ready jQuery.ready
+abbr $.ready(function($) {})
+options head
+options word
+	$(document).ready(function($) {
+		${0:#:code...}
+	});
+
+snippet .always
+abbr .always(alwaysCallbacks[, alwaysCallbacks])
+options word
+	.always(function() {
+		${1:#:code...}
+	})${0}
+
+snippet .bind
+abbr .bind(eventType[, eventData], handler(event))
+options word
+	.bind(${1:#:eventType}${2:, eventData}, function(event) {
+		${0:#:code...}
+	});
+
+snippet .blur
+abbr .blur(function(event) {})
+options word
+	.blur(function(event) {
+		${0:#:code...}
+	});
+
+snippet .change
+abbr .change(function(event) {})
+options word
+	.change(function(event) {
+		${0:#:code...}
+	});
+
+snippet .click
+abbr .click(function(event) {})
+options word
+	.click(function(event) {
+		${0:#:code...}
+	});
+
+snippet .dbclick
+abbr .dbclick(function(event) {})
+options word
+	.dbclick(function(event) {
+		${0:#:code...}
+	});
+
+snippet .delegate
+abbr .delegate(selector, eventType, handler(event))
+options word
+	.delegate("${1:#:selector}", "${2:#:eventType}", function(event) {
+		${0:#:code...}
+	});
+
+snippet .done
+abbr .done(doneCallbacks[, doneCallbacks])
+options word
+	.done(function() {
+		${1:#:code...}
+	})${0}
+
+snippet .each
+abbr .each(function(i, elem)) {});
+options word
+	.each(function(index, element) {
+		${1:#:code...}
+	})${0}
+
+snippet .fail
+abbr .fail(failCallbacks[, failCallbacks])
+options word
+	.fail(function() {
+		${1:#:code...}
+	})${0}
+
+snippet .filter
+abbr .filter(function(index)) {});
+options word
+	.filter(function(index) {
+		${1:#:code...}
+	})${0}
+
+snippet .focus
+abbr .focus([eventData], function(event)) {})
+options word
+	.focus(function(event) {
+		${0:#:code...}
+	});
+
+snippet .focusin
+abbr .focusin([eventData], function(event)) {})
+options word
+	.focusin(function(event) {
+		${0:#:code...}
+	});
+
+snippet .focusout
+abbr .focusout([eventData], function(event)) {})
+options word
+	.focusout(function(event) {
+		${0:#:code...}
+	});
+
+snippet .hover
+abbr .hover(handlerIn(event), handlerOut(event))
+options word
+	.hover(
+		function(event) {
+			${1:#:code...}
+		},
+		function(event) {
+			${0:#:code...}
+		}
+	);
+
+snippet .keydown
+abbr .keydown([eventData], function(event)) {})
+options word
+	.keydown(function(event) {
+		${0:#:code...}
+	});
+
+snippet .keypress
+abbr .keypress([eventData], function(event)) {})
+options word
+	.keypress(function(event) {
+		${0:#:code...}
+	});
+
+snippet .keyup
+abbr .keyup([eventData], function(event)) {})
+options word
+	.keyup(function(event) {
+		${0:#:code...}
+	});
+
+snippet .live
+abbr .live(events[, data], handler(event))
+options word
+	.live("${1:#:events}", function(event) {
+		${0:#:code...}
+	});
+
+snippet .load
+abbr .load([eventData], handler(event))
+options word
+	.load(function(event) {
+		${0:#:code...}
+	});
+
+snippet .map
+abbr .map(function(index, element) {})
+options word
+	.map(function(index, element) {
+		${1:#:code...}
+	})${0}
+
+snippet .mousedown
+abbr .mousedown([eventData], function(event) {})
+options word
+	.mousedown(function(event) {
+		${0:#:code...}
+	});
+
+snippet .mouseenter
+abbr .mouseenter([eventData], function(event) {})
+options word
+	.mouseenter(function(event) {
+		${0:#:code...}
+	});
+
+snippet .mouseleave
+abbr .mouseleave([eventData], function(event) {})
+options word
+	.mouseleave(function(event) {
+		${0:#:code...}
+	});
+
+snippet .mouseout
+abbr .mouseout([eventData], function(event) {})
+options word
+	.mouseout(function(event) {
+		${0:#:code...}
+	});
+
+snippet .mouseover
+abbr .mouseover([eventData], function(event) {})
+options word
+	.mouseover(function(event) {
+		${0:#:code...}
+	});
+
+snippet .mouseup
+abbr .mouseup([eventData], function(event) {})
+options word
+	.mouseup(function(event) {
+		${0:#:code...}
+	});
+
+snippet .submit
+abbr .submit([eventData], handler(event))
+options word
+	.submit(function(event) {
+		${0:#:code...}
+	})
+
+snippet .then
+abbr .then(doneFilter [, failFilter ] [[, progressFilter]])
+options word
+	.then(function() {
+		${1:#:done...}
+	})${0}
+
+snippet .thenfail
+abbr .then(doneFilter [, failFilter ] [[, progressFilter]])
+options word
+	.then(
+		function() {
+			${1:#:done...}
+		},
+		function() {
+			${2:#:fail...}
+		}
+	)${0}
+
+snippet .thenfailprogress
+abbr .then(doneFilter [, failFilter ] [[, progressFilter]])
+options word
+	.then(
+		function() {
+			${1:#:done...}
+		},
+		function() {
+			${2:#:fail...}
+		},
+		function() {
+			${3:#:progress...}
+		}
+	)${0}
+
+snippet .on
+abbr .on(events [, selector] [, data], handler(event))
+options word
+	.on("${1:#:events}", "${2:#:selector}", function(event) {
+		${0:#:code...}
+	});
+
+snippet .progress
+abbr .progress(progressCallbacks)
+options word
+	.progress(function() {
+		${1:#:code...}
+	})${0}
+
+snippet .undelegate
+abbr .undelegate(selector, eventType, handler(event))
+options word
+	.undelegate("${1:#:selector}", "${2:#:eventType}", function(event) {
+		${0:#:code...}
+	});
+
+snippet .unload
+abbr .unload([eventData], handler(event))
+options word
+	.unload(function(event) {
+		${0:#:code...}
+	});
