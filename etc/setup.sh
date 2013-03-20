@@ -35,7 +35,7 @@ create_dotfiles() {
     (
         if [ ! -e ~/dotfiles ]; then
             cd ~/
-            git clone https://github.com/yonchu/dotfiles.git
+            git clone --recursive https://github.com/yonchu/dotfiles.git
         fi
         cd ~/dotfiles
         git submodule update --init

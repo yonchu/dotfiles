@@ -49,3 +49,6 @@
 [submodule ".zsh/zaw-git-directories"]
 	path = .zsh/zaw-git-directories
 	url = git://github.com/syohex/zaw-git-directories.git
+[submodule "Cellar/git-now"]
+	path = Cellar/git-now
+	url = git://github.com/iwata/git-now.git

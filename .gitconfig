@@ -272,6 +272,11 @@
   # .gitignoreに対応したignoreファイルをチェック
   chig = check-ignore -v
 
+  # git-now
+  n  = now
+  nr = now rebase master
+  ng = now grep
+
 [http]
   sslVerify = false
 

@@ -455,7 +455,9 @@ function! bundle.hooks.on_source(bundle)
   " 補完候補が出ていたら確定、なければ改行
   "inoremap <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
   " スニペット展開が可能なら展開、通常補完なら補完確定、それ以外は改行
-  imap <expr><CR> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#smart_close_popup() : "\<CR>"
+  imap <expr><CR> neosnippet#expandable() ?
+        \ '<Plug>(neosnippet_expand_or_jump)' : pumvisible() ?
+        \ neocomplcache#smart_close_popup() : '<CR>'
 
   " Uniteでスニペットを表示
   imap <C-s>  i_<Plug>(neosnippet_start_unite_snippet)
