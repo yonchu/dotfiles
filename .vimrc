@@ -234,6 +234,7 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 
+NeoBundle 'itchyny/landscape.vim'
 " }}}
 
 " === Edit {{{2
@@ -850,19 +851,19 @@ NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
 
 " === ColorScheme {{{2
 
+NeoBundle 'aereal/vim-magica-colors'
 NeoBundle 'altercation/vim-colors-solarized'
-"NeoBundle 'Railscasts-Theme-GUIand256color'
+"NeoBundle 'w0ng/vim-hybrid'
 
+"NeoBundle 'Railscasts-Theme-GUIand256color'
 "NeoBundle 'desert256.vim'
 "NeoBundle 'mrkn256.vim'
 "NeoBundle 'tomasr/molokai'
 "NeoBundle 'Lucius'
 "NeoBundle 'Zenburn'
 "NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'molokai'
-NeoBundle 'aereal/vim-magica-colors'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'vol2223/vim-colorblind-colorscheme'
+"NeoBundle 'molokai'
+"NeoBundle 'vol2223/vim-colorblind-colorscheme'
 
 " }}}
 
@@ -1499,11 +1500,14 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
 
   " カラー設定読み込み
   if $ITERM_PROFILE =~ "Magica.*"
-    source ~/.vim/colors/my-magica.vim
+    " let g:terminal_magica = 1
+    source ~/.vim/colors/my-landscape.vim
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
+  elseif has('gui_running')
+    source ~/.vim/colors/my-solarized.vim
   else
-    source ~/.vim/colors/my-magica.vim
+    colorscheme yonchu
   endif
 elseif &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
   set t_Co=16
@@ -1529,10 +1533,6 @@ endif
 
 
 " ---------- 他のカラー設定をここより前に書かない ----------
-
-" 全角スペースの表示：ハイライト
-highlight ZenkakuSpace cterm=underline ctermfg=blue ctermbg=gray gui=underline guifg=blue guibg=gray
-match ZenkakuSpace /　/
 
 " カラーカラムを表示する列
 if exists('+colorcolumn')
@@ -2273,6 +2273,27 @@ endfunction
 " 挿入モードでクリップボード貼り付け
 "imap <C-k>  <ESC>"*pa
 
+" Visual Mode のカラーテスト
+" let b:visual_color=0
+" nnoremap <C-m> :call <SID>change_color('+')<cr>
+" vnoremap <C-m> <ESC>:call <SID>change_color('+')<cr>
+" nnoremap <C-q> :call <SID>change_color('-')<cr>
+" vnoremap <C-q> <ESC>:call <SID>change_color('-')<cr>
+"function! s:change_color(flag)
+"  if a:flag == '+'
+"    let b:visual_color = b:visual_color + 1
+"  else
+"    let b:visual_color = b:visual_color - 1
+"  endif
+"  if b:visual_color < 0
+"    let b:visual_color = 0
+"  endif
+"  execute 'hi Visual ctermbg=' . b:visual_color
+"  -15
+"  normal! VG
+"  echo b:visual_color
+"endfunction
+
 " }}}
 
 " }}}
@@ -2646,5 +2667,6 @@ if !has('vim_starting')
 endif
 
 set secure
+
 
 " vim: fdm=marker:

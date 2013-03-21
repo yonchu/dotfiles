@@ -168,10 +168,6 @@ nnoremap U :<C-u>GundoToggle<CR>
 " }}}
 
 " === hier {{{
-" エラーを赤字の波線で
-highlight qf_error_ucurl gui=undercurl guisp=red ctermfg=none cterm=undercurl
-" 警告を青字の波線で
-highlight qf_warning_ucurl gui=undercurl guisp=blue ctermfg=none cterm=undercurl
 let g:hier_highlight_group_qf  = 'qf_error_ucurl'
 let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
 
@@ -684,12 +680,6 @@ let showmarks_ignore_type = "hmq"
 " Hilight lower & upper marks
 "let showmarks_hlline_lower = 1
 "let showmarks_hlline_upper = 1
-
-" Highlighting
-highlight ShowMarksHLl cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLu cterm=NONE ctermfg=blue ctermbg=lightyellow gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLo cterm=NONE ctermfg=blue ctermbg=black gui=NONE guifg=blue guibg=black
-highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black gui=NONE gui=bold guifg=blue guibg=black
 " }}}
 
 " === Simple-Javascript-Indenter {{{
