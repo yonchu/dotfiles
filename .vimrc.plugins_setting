@@ -480,7 +480,7 @@ call Pl#Hi#Allocate({
 let g:Powerline#Colorschemes#my#colorscheme = Pl#Colorscheme#Init([
   \ Pl#Hi#Segments(['SPLIT'], {
     \ 'n': ['white', 'gray2'],
-    \ 'N': ['gray0', 'gray0'],
+    \ 'N': ['gray1', 'gray1'],
     \ }),
   \
   \ Pl#Hi#Segments(['mode_indicator'], {

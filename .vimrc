@@ -234,7 +234,7 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 
-NeoBundle 'itchyny/landscape.vim'
+NeoBundle 'yonchu/landscape.vim', 'my-settings'
 " }}}
 
 " === Edit {{{2
@@ -1500,8 +1500,8 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
 
   " カラー設定読み込み
   if $ITERM_PROFILE =~ "Magica.*"
-    " let g:terminal_magica = 1
-    source ~/.vim/colors/my-landscape.vim
+    colorscheme landscape
+    " colorscheme yonchu
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
   elseif has('gui_running')
@@ -2274,25 +2274,30 @@ endfunction
 "imap <C-k>  <ESC>"*pa
 
 " Visual Mode のカラーテスト
-" let b:visual_color=0
+" let g:highlight_test_set = {}
+" let g:highlight_test_group = 'Comment'
 " nnoremap <C-m> :call <SID>change_color('+')<cr>
 " vnoremap <C-m> <ESC>:call <SID>change_color('+')<cr>
 " nnoremap <C-q> :call <SID>change_color('-')<cr>
 " vnoremap <C-q> <ESC>:call <SID>change_color('-')<cr>
-"function! s:change_color(flag)
-"  if a:flag == '+'
-"    let b:visual_color = b:visual_color + 1
-"  else
-"    let b:visual_color = b:visual_color - 1
-"  endif
-"  if b:visual_color < 0
-"    let b:visual_color = 0
-"  endif
-"  execute 'hi Visual ctermbg=' . b:visual_color
-"  -15
-"  normal! VG
-"  echo b:visual_color
-"endfunction
+" function! s:change_color(flag)
+"   let val = get(g:highlight_test_set, g:highlight_test_group, -1)
+"   if a:flag == '+'
+"     let val = val + 1
+"   else
+"     let val = val - 1
+"   endif
+"   if val < 0
+"     let val = 0
+"   elseif val > 255
+"     let val = 255
+"   endif
+"   let g:highlight_test_set[g:highlight_test_group] = val
+"   execute 'hi' g:highlight_test_group 'ctermfg=' . val
+"   " -15
+"   " normal! VG
+"   echo g:highlight_test_group . '=' . val
+" endfunction
 
 " }}}
 
