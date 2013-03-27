@@ -979,7 +979,7 @@ NeoBundleLazy 'mattn/zencoding-vim',  {
       \ 'autoload' : {
       \   'filetypes' : [
       \     'html', 'xml', 'javascript', 'coffee', 'css', 'less',
-      \     'scss', 'sass', 'haml'
+      \     'scss', 'sass', 'haml', 'markdown',
       \ ]}}
 
 NeoBundleLazy 'plasticscafe/vim-less-autocompile',  {
@@ -1099,7 +1099,12 @@ endif
 " fileencodings 設定
 " https://github.com/Shougo/shougo-s-github
 if !exists('did_encoding_settings')
-  if has('iconv')
+  if has("kaoriya")
+    " Kaoriya版ではguess指定で独自の自動判別が可能
+    set fileencodings=guess,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
+    " Kaoriya版以外では banyan/recognize_charcode.vim にて文字コードを判定
+    " https://github.com/banyan/recognize_charcode.vim
+  elseif has('iconv')
     let s:enc_euc = 'euc-jp'
     let s:enc_jis = 'iso-2022-jp'
 
@@ -1134,11 +1139,6 @@ if !exists('did_encoding_settings')
     unlet s:enc_jis
 
     let did_encoding_settings = 1
-  elseif has("kaoriya")
-    " Kaoriya版ではguess指定で独自の自動判別が可能
-    set fileencodings=guess,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932,utf-8
-    " Kaoriya版以外では banyan/recognize_charcode.vim にて文字コードを判定
-    " https://github.com/banyan/recognize_charcode.vim
   endif
 endif
 
