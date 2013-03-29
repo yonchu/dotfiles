@@ -68,7 +68,9 @@ create_symlink() {
 create_dotfiles_symlinks() {
     ## 各種シンボリックリンク作成
     #
-    DOT_FILES=(.ackrc
+    DOT_FILES=(
+        .ackrc
+        .agignore
         .bash_profile
         .bashrc
         .config
