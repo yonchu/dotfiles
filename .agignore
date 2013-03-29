@@ -6,3 +6,5 @@ old
 .git
 .svn
 zsh-completions
+lib
+libs
