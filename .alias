@@ -88,6 +88,13 @@ alias ....='cd ../../..'
 alias cdp='cd -P'
 alias cdl='cd -L'
 
+cd() {
+    if [ -e "$1" -a ! -d "$1" ]; then
+        builtin cd -- "$(dirname -- "$1")"
+    else
+        builtin cd "$@"
+    fi
+}
 
 #
 # pwd
