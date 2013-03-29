@@ -210,6 +210,7 @@ function! bundle.hooks.on_source(bundle)
   "let g:neocomplcache_keyword_patterns['default'] = '[\h,]\w*'
   let g:neocomplcache_keyword_patterns['default'] = '[0-9a-zA-Z:#_]\+'
   let g:neocomplcache_keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+  let g:neocomplcache_keyword_patterns.coffee = '\h\w*@\h\w*'
 
   " }}}
 
