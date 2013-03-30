@@ -237,6 +237,20 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'yonchu/landscape.vim', 'my-settings'
 " }}}
 
+" === txtobj {{{2
+NeoBundle 'kana/vim-textobj-user'
+
+" ( { " に反応する textobj
+NeoBundleLazy "osyo-manga/vim-textobj-multiblock", {
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     ['o', '<Plug>(textobj-multiblock-a)'],
+      \     ['o', '<Plug>(textobj-multiblock-i)'],
+      \     ['v', '<Plug>(textobj-multiblock-a)'],
+      \     ['v', '<Plug>(textobj-multiblock-i)'],
+      \ ]}}
+" }}}
+
 " === Edit {{{2
 
 " autofmt : Text Formatting Plugin.

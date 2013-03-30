@@ -1033,6 +1033,14 @@ nnoremap <silent><Space>tm :<C-u>TweetVimMentions<CR>
 "nnoremap <Space>ts :<C-u>TweetVimSay<CR>
 " }}}
 
+" === txtobj {{{
+" vim-textobj-multiblock
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
+" }}}
+
 " === unite.vim {{{
 " The prefix key.
 nnoremap    [unite]   <Nop>
@@ -1066,6 +1074,12 @@ command! Ufd :<C-u>Unite file:~/dotfiles -input=. -no-start-insert -winwidth=60
 command! Uba :<C-u>UniteBookmarkAdd<CR>
 
 " ----- unite-plugins -----
+" yank/history
+xnoremap <silent> ;y
+      \ d:<C-u>Unite -buffer-name=register register history/yank<CR>
+nnoremap <silent> ;y
+      \ :<C-u>Unite -buffer-name=register register history/yank<CR>
+
 " unite-line
 " uniteでバッファ内検索//
 "  <C-u> 余計な文字が入っていた場合に行頭まで削除することで正常に動作させる
