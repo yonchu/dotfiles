@@ -1297,8 +1297,15 @@ endif
 "   http://yakinikunotare.boo.jp/orebase2/vim/dont_work_arrow_keys_in_insert_mode
 "   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ibus
 "   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ctrl-hat
-set timeout timeoutlen=1000 ttimeoutlen=75
-
+" set timeout timeoutlen=1000 ttimeoutlen=75
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
 
 "### ペースモードを自動解除
 autocmd MyAutoCmd InsertLeave *
