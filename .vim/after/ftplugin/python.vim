@@ -22,4 +22,6 @@ setl cinwords=if,elif,else,for,while,try,except,finally,def,class
 
 " Folding
 setl foldmethod=indent
-setl foldlevel=99
+setl foldlevel=0
+setl foldnestmax=1
+" setl foldcolumn=1

@@ -1279,6 +1279,7 @@ set foldenable
 set foldmethod=marker
 " Folding レベル
 set foldcolumn=3
+set foldnestmax=3
 set fillchars=vert:\|
 set commentstring=%s
 
