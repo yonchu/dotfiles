@@ -15,6 +15,7 @@
 [ -f ~/.zsh/z/z.sh ] || { echo '...skip'; return; }
 
 _Z_CMD=j
+_Z_NO_COMPLETE_CD=1
 source ~/.zsh/z/z.sh
 
 # Define completion function to aliases.
