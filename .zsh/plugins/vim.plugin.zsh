@@ -15,6 +15,7 @@ elif type vim > /dev/null 2>&1; then
 else
     alias vim='vi'
 fi
+alias v='vi'
 
 # エンコードを指定して開く
 alias viwin='vim -c "edit ++fileformat=dos ++enc=cp932"'

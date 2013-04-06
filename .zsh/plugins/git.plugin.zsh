@@ -7,6 +7,8 @@ type git >/dev/null 2>&1 || { echo '...skip'; return; }
 # Aliases
 alias g='git'
 compdef g=git
+alias gi='git'
+compdef gi=git
 alias gst='git status'
 compdef _git gst=git-status
 alias gl='git pull'
