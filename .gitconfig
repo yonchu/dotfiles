@@ -143,11 +143,11 @@
   chm  = checkout master      # masterブランチへ切り替え
 
   # branch関連
-  br   = branch
-  bra  = branch -a           # originも含めた全てのbranchを表示
+  br   = branch -vv
+  bra  = branch -avv         # originも含めた全てのbranchを表示
   brm  = branch --merged     # merge済みのbranchを表示
   brn  = branch --no-merged  # mergeしてないbranchを表示
-  brr  = branch -r           # remote branchを表示
+  brr  = branch -rvv         # remote branchを表示
   # git branch を最終更新時間でソート
   brt  = "!f() { for i in `git branch | colrm 1 2` ; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i ; done ; }; f | sort -r"
   # ローカルブランチとリモートブランチを削除
