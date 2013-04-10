@@ -8,3 +8,6 @@ old
 zsh-completions
 lib
 libs
+jquery-*.js
+bootstrap*.css
+jquery.js
