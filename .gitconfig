@@ -122,7 +122,8 @@
   mergetool-p4  = mergetool --tool=p4merge  # p4mergeでマージ
 
   # add
-  ad  = add
+  add = add -v
+  ad  = add -v
   adp = add -p              # ハンク毎にadd
   addall = add -A           # 全てadd：add . && add -u
   adN = add -N              # ファイルの内容を登録せずファイルが追加されたということだけを記録
@@ -188,6 +189,7 @@
   rhh3 = reset --hard HEAD~~~
   rhh4 = reset --hard HEAD~~~~
   rhh5 = reset --hard HEAD~~~~~
+  cancel = !git commit -a -m 'Temporary commit for cancel' && git reset --hard HEAD~
 
   # diff関連
   d   = diff
