@@ -52,3 +52,9 @@
 [submodule "Cellar/git-now"]
 	path = Cellar/git-now
 	url = git://github.com/iwata/git-now.git
+[submodule ".zsh/promptway"]
+	path = .zsh/promptway
+	url = git://github.com/pasberth/promptway.git
+[submodule "Cellar/pathf"]
+	path = Cellar/pathf
+	url = git://github.com/pasberth/pathf.git
