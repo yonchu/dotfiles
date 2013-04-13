@@ -24,7 +24,7 @@ zstyle ':prompt:backward:way' formats "%a"
 function _update_prompt_way() {
   promptway
   PROMPT_WAY=$_prompt_way
+  PROMPT_BACKWARD=$_prompt_backward
 }
 add-zsh-hook chpwd _update_prompt_way
-promptway
-PROMPT_WAY=$_prompt_way
+_update_prompt_way
