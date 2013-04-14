@@ -21,10 +21,6 @@ zstyle ':prompt:backward:dir' formats "%U%a%u"
 zstyle ':prompt:backward:dir:symlink' formats "%U%F{cyan}%a@%f%u"
 zstyle ':prompt:backward:way' formats "%a"
 
-function _update_prompt_way() {
-  promptway
-  PROMPT_WAY=$_prompt_way
-  PROMPT_BACKWARD=$_prompt_backward
-}
-add-zsh-hook chpwd _update_prompt_way
-_update_prompt_way
+#$_prompt_way/$_prompt_backward
+add-zsh-hook chpwd promptway
+promptway
