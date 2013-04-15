@@ -88,8 +88,10 @@ umask 022
 # 指定したコマンド名がなく、ディレクトリ名と一致した場合 cd する
 setopt auto_cd
 # cd でTabを押すとdir list を表示
-# cd - <tab>で履歴表示->表示された番号を押してReturn
+# cd -<tab> or cd +<tab> で履歴表示->表示された番号を押してReturn
 setopt auto_pushd
+# cd - と cd + を入れ替える
+setopt pushd_minus
 # ディレクトリスタックに同じディレクトリを追加しないようになる
 setopt pushd_ignore_dups
 # pushd 引数ナシ == pushd $HOME
@@ -592,7 +594,7 @@ ls_abbrev() {
     # -F : Append indicator (one of */=>@|) to entries.
     local cmd_ls='ls'
     local -a opt_ls
-    opt_ls=('-aCF' '--color=always')
+    opt_ls=('-aCF' '--color=always' '--group-directories-first')
     case "${OSTYPE}" in
         freebsd*|darwin*)
             if type gls > /dev/null 2>&1; then

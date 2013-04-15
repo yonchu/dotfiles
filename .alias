@@ -55,11 +55,12 @@ alias quit='exit';
 #    --time-style=STYLE : タイムスタンプの表示スタイル (gls only)
 #    --show-control-chars : Show non graphic characters as-is.
 #    --width=COL : Assume screen width instead of current value.
+#    --group-directories-first : Group directories before files.
 #
 case "${OSTYPE}" in
 freebsd*|darwin*)
     if type gls > /dev/null 2>&1; then
-        alias ls='gls -aFhv --color=auto --show-control-chars'
+        alias ls='gls -aFhv --color=auto --show-control-chars --group-directories-first'
         alias ll='ls -l --time-style=long-iso'
     else
         alias ls='ls -aFGhv'
