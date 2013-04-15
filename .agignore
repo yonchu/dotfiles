@@ -11,3 +11,4 @@ libs
 jquery-*.js
 bootstrap*.css
 jquery.js
+node_modules
