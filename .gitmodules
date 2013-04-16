@@ -1,24 +1,9 @@
-[submodule ".zsh/functions/Completion/zsh-completions"]
-	path = .zsh/functions/Completion/zsh-completions
-	url = git://github.com/zsh-users/zsh-completions.git
 [submodule ".tmux/tmux-powerline"]
 	path = .tmux/tmux-powerline
 	url = git://github.com/erikw/tmux-powerline.git
-[submodule ".zsh/zsh-vcs-prompt"]
-	path = .zsh/zsh-vcs-prompt
-	url = https://github.com/yonchu/zsh-vcs-prompt.git
 [submodule ".vim/neobundle.vim"]
 	path = .vim/neobundle.vim
 	url = git://github.com/Shougo/neobundle.vim.git
-[submodule ".zsh/cdd"]
-	path = .zsh/cdd
-	url = git://github.com/m4i/cdd.git
-[submodule ".zsh/zaw"]
-	path = .zsh/zaw
-	url = git://github.com/nakamuray/zaw.git
-[submodule ".zsh/zaw-src-git-log"]
-	path = .zsh/zaw-src-git-log
-	url = https://github.com/yonchu/zaw-src-git-log.git
 [submodule "Cellar/shell-color-pallet"]
 	path = Cellar/shell-color-pallet
 	url = https://github.com/yonchu/shell-color-pallet.git
@@ -31,33 +16,15 @@
 [submodule "Cellar/git-edit"]
 	path = Cellar/git-edit
 	url = https://github.com/yonchu/git-edit.git
-[submodule ".zsh/zsh-syntax-highlighting"]
-	path = .zsh/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "Cellar/used-mem"]
 	path = Cellar/used-mem
 	url = git://github.com/yonchu/used-mem.git
 [submodule "Cellar/git-check"]
 	path = Cellar/git-check
 	url = git://github.com/yonchu/git-check.git
-[submodule ".zsh/zaw-src-git-show-branch"]
-	path = .zsh/zaw-src-git-show-branch
-	url = git://github.com/yonchu/zaw-src-git-show-branch.git
-[submodule ".zsh/z"]
-	path = .zsh/z
-	url = git://github.com/knu/z.git
-[submodule ".zsh/zaw-git-directories"]
-	path = .zsh/zaw-git-directories
-	url = git://github.com/syohex/zaw-git-directories.git
 [submodule "Cellar/git-now"]
 	path = Cellar/git-now
 	url = git://github.com/iwata/git-now.git
-[submodule ".zsh/promptway"]
-	path = .zsh/promptway
-	url = git://github.com/pasberth/promptway.git
 [submodule "Cellar/pathf"]
 	path = Cellar/pathf
 	url = git://github.com/pasberth/pathf.git
-[submodule ".zsh/slipd"]
-	path = .zsh/slipd
-	url = git://github.com/pasberth/slipd.git
