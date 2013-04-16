@@ -1,0 +1,31 @@
+snippet     debug
+abbr        console.log "arg
+options     word
+    console.log "${1} = #{$1}"
+
+
+snippet     alertmap
+abbr        alert ("#{key}: #{value}" for key, value of message).join(', ')
+options     word
+    alert ("#{key}: #{value}" for key, value of ${1}).join(', ')
+
+snippet     class
+abbr        class
+options     head
+    class ${1:#:ClassName}${2: extends ${3:#:Ancestor\}}
+      @CLASS_VAR: null
+
+      _private_var: null
+
+      constructor: (${4:#:@args}) ->
+        super @arg
+        ${5:TARGET}
+
+      @class_method: (arg) ->
+        console.log "Call class_method()"
+
+      _private_method: (arg) ->
+        console.log "Call private_method()"
+
+      public_method: (arg) ->
+        console.log "Call public_method()"
