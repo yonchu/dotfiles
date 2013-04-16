@@ -58,3 +58,6 @@
 [submodule "Cellar/pathf"]
 	path = Cellar/pathf
 	url = git://github.com/pasberth/pathf.git
+[submodule ".zsh/slipd"]
+	path = .zsh/slipd
+	url = git://github.com/pasberth/slipd.git
