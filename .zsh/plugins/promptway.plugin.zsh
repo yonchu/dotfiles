@@ -4,14 +4,14 @@
 #  https://github.com/pasberth/promptway
 #
 
-[ -f ~/.zsh/promptway/promptway.zsh ] || { echo '...skip'; return; }
+[ -f ~/.zsh/plugins/promptway/promptway.zsh ] || { echo '...skip'; return; }
 
 if ! (type realpath || type grealpath) > /dev/null 2>&1; then
     echo '...skip (command not found: realpath or grealpath)'
     return
 fi
 
-source ~/.zsh/promptway/promptway.zsh
+source ~/.zsh/plugins/promptway/promptway.zsh
 
 zstyle ':prompt:way' formats "%a"
 zstyle ':prompt:dir' formats "%F{red}%a%f"

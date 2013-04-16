@@ -1,8 +1,8 @@
 setopt transient_rprompt
 
 ## For zsh-vcs-prompt (vcs_super_info)
-if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
-    source ~/.zsh/zsh-vcs-prompt/zshrc.sh
+if [ -f ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh ]; then
+    source ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh
 fi
 
 ## Left prompt (1st line)

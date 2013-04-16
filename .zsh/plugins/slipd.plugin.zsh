@@ -4,9 +4,9 @@
 #  https://github.com/pasberth/slipd
 #
 
-[ -f ~/.zsh/slipd/slipd.sh ] || { echo '...skip'; return; }
+[ -f ~/.zsh/plugins/slipd/slipd.sh ] || { echo '...skip'; return; }
 
-source ~/.zsh/slipd/slipd.sh
+source ~/.zsh/plugins/slipd/slipd.sh
 
 alias ..=slipd
 compdef _slipd ..

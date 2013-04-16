@@ -44,8 +44,8 @@
 ########################################################################### }}}
 
 ## For zsh-vcs-prompt (vcs_super_info)
-if [ -f ~/.zsh/zsh-vcs-prompt/zshrc.sh ]; then
-    source ~/.zsh/zsh-vcs-prompt/zshrc.sh
+if [ -f ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh ]; then
+    source ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh
     # Unabale using python.
     #ZSH_VCS_PROMPT_USING_PYTHON='false'
     ## Enable caching.

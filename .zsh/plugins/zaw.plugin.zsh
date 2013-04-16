@@ -34,9 +34,9 @@
 #   screens          zaw-screens
 #   tmux             zaw-tmux
 
-[ -f ~/.zsh/zaw/zaw.zsh ] || { echo '...skip'; return; }
+[ -f ~/.zsh/plugins/zaw/zaw.zsh ] || { echo '...skip'; return; }
 
-source ~/.zsh/zaw/zaw.zsh || { echo '...skip(source error)'; return 1; }
+source ~/.zsh/plugins/zaw/zaw.zsh || { echo '...skip(source error)'; return 1; }
 
 ## Basic settings
 zstyle ':filter-select' case-insensitive yes
@@ -90,13 +90,13 @@ zaw-register-src -n dirstack zaw-src-dirstack
 ## zaw-src-git-dirs
 # http://d.hatena.ne.jp/syohex/20121219/1355925874
 # https://github.com/syohex/zaw-git-directories
-source "${${funcsourcetrace[1]%:*}:h}"/../zaw-git-directories/git-directories.zsh
+source "${${funcsourcetrace[1]%:*}:h}"/zaw-git-directories/git-directories.zsh
 
 ## zaw-src-git-log
 # https://github.com/yonchu/zaw-src-git-log
-source "${${funcsourcetrace[1]%:*}:h}"/../zaw-src-git-log/zaw-git-log.zsh
+source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-log/zaw-git-log.zsh
 
 ## zaw-src-git-show-branch
 # https://github.com/yonchu/zaw-src-git-show-branch
-source "${${funcsourcetrace[1]%:*}:h}"/../zaw-src-git-show-branch/zaw-git-show-branch.zsh
+source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-show-branch/zaw-git-show-branch.zsh
 

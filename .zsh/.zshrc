@@ -392,10 +392,10 @@ typeset -U fpath
     #fpath=($USER_LOCAL/share/zsh/functions(N-/) $USER_LOCAL/share/zsh/site-functions(N-/) ${fpath})
 #fi
 # ユーザ固有の補完関数
-fpath=(~/.zsh/functions/Completion(N-/) ${fpath})
+fpath=(~/.zsh/completions(N-/) ${fpath})
 #  zsh-completions
 #   https://github.com/zsh-users/zsh-completions.git
-fpath+=(~/.zsh/functions/Completion/zsh-completions/src(N-/))
+fpath+=(~/.zsh/completions/zsh-completions/src(N-/))
 
 autoload -U compinit
 # -u : 安全ではないファイルを補完しようとした場合に警告を表示しない

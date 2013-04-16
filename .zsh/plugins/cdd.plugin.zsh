@@ -11,9 +11,9 @@
 #  $ cdd delete <name> <dir>
 #
 
-[ -f ~/.zsh/cdd/cdd ] || { echo '...skip'; return; }
+[ -f ~/.zsh/plugins/cdd/cdd ] || { echo '...skip'; return; }
 
-source ~/.zsh/cdd/cdd
+source ~/.zsh/plugins/cdd/cdd
 
 [ -f ~/.cdd ] || touch ~/.cdd
 

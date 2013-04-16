@@ -28,3 +28,36 @@
 [submodule "Cellar/pathf"]
 	path = Cellar/pathf
 	url = git://github.com/pasberth/pathf.git
+[submodule ".zsh/plugins/cdd"]
+	path = .zsh/plugins/cdd
+	url = git://github.com/m4i/cdd.git
+[submodule ".zsh/plugins/promptway"]
+	path = .zsh/plugins/promptway
+	url = git://github.com/pasberth/promptway.git
+[submodule ".zsh/plugins/slipd"]
+	path = .zsh/plugins/slipd
+	url = git://github.com/pasberth/slipd.git
+[submodule ".zsh/plugins/z"]
+	path = .zsh/plugins/z
+	url = git://github.com/knu/z.git
+[submodule ".zsh/plugins/zaw"]
+	path = .zsh/plugins/zaw
+	url = git://github.com/nakamuray/zaw.git
+[submodule ".zsh/plugins/zaw-git-directories"]
+	path = .zsh/plugins/zaw-git-directories
+	url = git://github.com/syohex/zaw-git-directories.git
+[submodule ".zsh/plugins/zaw-src-git-log"]
+	path = .zsh/plugins/zaw-src-git-log
+	url = git://github.com/yonchu/zaw-src-git-log.git
+[submodule ".zsh/plugins/zaw-src-git-show-branch"]
+	path = .zsh/plugins/zaw-src-git-show-branch
+	url = git://github.com/yonchu/zaw-src-git-show-branch.git
+[submodule ".zsh/plugins/zsh-syntax-highlighting"]
+	path = .zsh/plugins/zsh-syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule ".zsh/plugins/zsh-vcs-prompt"]
+	path = .zsh/plugins/zsh-vcs-prompt
+	url = git://github.com/yonchu/zsh-vcs-prompt.git
+[submodule ".zsh/completions/zsh-completions"]
+	path = .zsh/completions/zsh-completions
+	url = git://github.com/zsh-users/zsh-completions.git
