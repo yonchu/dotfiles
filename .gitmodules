@@ -61,3 +61,6 @@
 [submodule ".zsh/completions/zsh-completions"]
 	path = .zsh/completions/zsh-completions
 	url = git://github.com/zsh-users/zsh-completions.git
+[submodule ".zsh/completions/grunt-zsh-completion"]
+	path = .zsh/completions/grunt-zsh-completion
+	url = git://github.com/yonchu/grunt-zsh-completion.git
