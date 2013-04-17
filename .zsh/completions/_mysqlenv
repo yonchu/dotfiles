@@ -1,0 +1,90 @@
+#compdef mysqlenv
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for mysqlenv (https://github.com/xaicron/mysqlenv).
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * Kazuya Takeshima (https://github.com/mitukiii)
+#
+# ------------------------------------------------------------------------------
+
+_mysqlenv() {
+    if (( CURRENT > 2 )); then
+        (( CURRENT-- ))
+        shift words
+        _call_function 1 _mysqlenv_${words[1]}
+    else
+        _arguments \
+            ':command:__mysqlenv_commands'
+    fi
+}
+
+__mysqlenv_commands() {
+    _mysqlenv_commands=(
+        'mysqlenv command'
+        'help[show usage]'
+        'available[list available mysql versions]'
+        'install[install mysql binary]'
+        'list[list installed mysqls]'
+        'exec[execute command on current mysql]'
+        'global[change global default mysql]'
+        'local[change local mysql]'
+        'rehash[run this command after install, contains executable script.]'
+        "which[locate a program file in the mysql's path]"
+        'version[show current mysql version]'
+    )
+
+    _values $_mysqlenv_commands
+}
+
+__mysql_versions() {
+    _mysql_versions=($(mysqlenv available))
+
+    _describe -t mysql_versions 'mysql versions' _mysql_versions
+}
+
+__mysql_installed_versions() {
+    _mysql_installed_versions=($(mysqlenv list | sed 's/^\*//'))
+
+    _describe -t mysql_installed_versions 'mysql installed versions' _mysql_installed_versions
+}
+
+_mysqlenv_install() {
+    if (( CURRENT > 3 )); then
+        return
+    fi
+
+    _arguments \
+        ':mysql versions:__mysql_versions'
+}
+
+_mysqlenv_exec() {
+    _normal
+}
+
+_mysqlenv_global() {
+    if (( CURRENT > 3 )); then
+        return
+    fi
+
+    _arguments \
+        ':mysql installed versions:__mysql_installed_versions'
+}
+
+_mysqlenv_local() {
+    if (( CURRENT > 3 )); then
+        return
+    fi
+
+    _arguments \
+        ':mysql installed versions:__mysql_installed_versions'
+}
+
+_mysqlenv_which() {
+    _normal
+}
