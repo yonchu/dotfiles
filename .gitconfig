@@ -279,6 +279,17 @@
   nr = now rebase master
   ng = now grep
 
+  # hub
+  # https://github.com/defunkt/hub
+  # http://defunkt.io/hub/
+  # PR
+  # hub pull-request -h <owner>:<branch> -b <owner>:<branch>
+  #   -h PR先
+  #   -b PR元 (省略するとカレントブランチ)
+  #   other format: <owner/repo>:<branch>
+  # hub pull-request -i <issue-no>
+  iss = git browse -- issues
+
 [http]
   sslVerify = false
 
