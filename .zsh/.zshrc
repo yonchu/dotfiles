@@ -254,6 +254,7 @@ autoload -Uz select-word-style
 select-word-style default
 zstyle ':zle:*' word-chars " /@*?_-.[]~=&;!#$%^(){}<>"
 zstyle ':zle:*' word-style unspecified
+WORDCHARS=' /@*?_-.[]~=&;!#$%^(){}<>'
 
 # コマンド履歴
 autoload -Uz history-search-end
@@ -401,10 +402,11 @@ fpath=(~/.zsh/completions(N-/) ${fpath})
 #   https://github.com/zsh-users/zsh-completions.git
 fpath+=(~/.zsh/completions/zsh-completions/src(N-/))
 
-autoload -U compinit
-# -u : 安全ではないファイルを補完しようとした場合に警告を表示しない
-# -d : .zcompdumpの場所
-compinit -u -d ~/.zcompdump
+# Load and initialize the completion system ignoring insecure directories.
+# compinit
+#   -u : 安全ではないファイルを補完しようとした場合に警告を表示しない
+#   -d : .zcompdumpの場所
+autoload -Uz compinit && compinit -u -d ~/.zcompdump
 
 # 補完候補リストを詰めて表示
 setopt list_packed
@@ -428,6 +430,8 @@ setopt chase_links
 setopt auto_menu
 # カーソル位置で補完する。
 setopt complete_in_word
+# Move cursor to the end of a completed word.
+setopt always_to_end
 # プロンプトを保持したままファイル名一覧を順次その場で表示(default=on)
 setopt always_last_prompt
 # globを展開しないで候補の一覧から補完する。
@@ -440,8 +444,59 @@ setopt numeric_glob_sort
 # ドット無しでもドッtファイルにマッチ
 setopt globdots
 
-# プロセス補完
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+# 補完候補を矢印キーで選択
+#  select=n: 補完候補がn以上なければすぐに補完
+zstyle ':completion:*:*:*:*:*' menu select=2
+zstyle ':completion:*:default' menu select=2
+
+# 補完方法毎にグループ化し、グループ名に説明を付加
+#  %F...%f : カラー
+#  %B...%b : 太字
+#  %U...%u : 下線
+#  %d      : 補完候補の説明(ラベル)
+# Group matches and describe.
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+
+# 補完方法の設定:指定した順番に実行
+#  _oldlist 前回の補完結果を再利用
+#  _complete: 補完
+#  _match: globを展開しないで候補の一覧から補完
+#  _history: ヒストリのコマンドから補完
+#  _ignored: 補完候補にださないと指定したものもから補完
+#  _approximate: 似ている候補を補完
+#  _correct: 綴り修正(入力を終えた部分のみ修正)
+#  _prefix: カーソル以降を無視してカーソル位置までで補完
+#  _list, expand, etc
+zstyle ':completion:*' completer \
+    _oldlist _complete _match _history _ignored _approximate _prefix
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+## 補完キャッシュの設定
+# 一部のコマンドライン定義は、展開時に時間のかかる処理を行う
+# apt-get, dpkg (Debian), rpm (Redhat), urpmi (Mandrake), perlの-Mオプション,
+# bogofilter (zsh 4.2.1以降), fink, mac_apps (MacOS X)(zsh 4.2.2以降)
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zcompcache
+
+## 補完候補の色分け
+if [ -n "$LS_COLORS" ]; then
+    # LS_COLORSの色と対応
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+fi
+
+# Increase the number of errors based on the length of the typed word.
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 
 # sudo用pathを設定
 # typeset -T は重複実行できないため一度環境変数を削除する
@@ -457,54 +512,84 @@ zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
 # 補完候補がない場合の曖昧検索
 #  m:{a-z}={A-Z}: 大文字小文字無視
 #  r:|[._-]=*: 「.」「_」「-」の前にワイルドカード「*」があるものとして補完
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z} r:|[._-]=*' '+m:{A-Z}={a-z}'
-
-# 補完候補を矢印キーで選択
-#  select=n: 補完候補がn以上なければすぐに補完
-zstyle ':completion:*:default' menu select=2
-
-# 詳細な情報を使う。
-zstyle ':completion:*' verbose true
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*' '+m:{A-Z}={a-z}'
 
 # 変数の添字補完
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
 # 補完を無視する対象
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 
 ## cd
 # カレントディレクトリに候補がない場合のみ cdpath 上のディレクトリを候補にする
-zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 # 親ディレクトリから補完時にカレントディレクトリ表示しない (e.g. cd ../<TAB>):
-zstyle ':completion:*:cd:*' ignore-parents parent pwd ..
+zstyle ':completion:*:*:cd:*' ignore-parents parent pwd ..
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+zstyle ':completion:*' squeeze-slashes true
 # 重複パスを登録しない
 typeset -U cdpath
 cdpath=($HOME{,/links}(N-/))
 
-# 補完方法毎にグループ化し、グループ名に説明を付加
-#  %F...%f : カラー
-#  %B...%b : 太字
-#  %U...%u : 下線
-#  %d      : 補完候補の説明(ラベル)
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:descriptions' format '%B%d:%b'
-zstyle ':completion:*:options' description 'yes'
+# History
+zstyle ':completion:*:history-words' stop yes
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' list false
+zstyle ':completion:*:history-words' menu yes
+
+# Environmental Variables
+zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
+
+# Populate hostname completion.
+zstyle -e ':completion:*:hosts' hosts 'reply=(
+  ${=${=${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) 2>/dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
+  ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2>/dev/null))"}%%\#*}
+  ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
+)'
+# Don't complete uninteresting users...
+zstyle ':completion:*:*:*:users' ignored-patterns \
+  adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
+  dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
+  hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
+  mailman mailnull mldonkey mysql nagios \
+  named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
+  operator pcap postfix postgres privoxy pulse pvm quagga radvd \
+  rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
+# ... unless we really want to.
+zstyle '*' single-ignored show
+
+# Ignore multiple entries.
+zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
+zstyle ':completion:*:rm:*' file-patterns '*:all-files'
+
+# Kill
+# zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*' insert-ids single
 
 # manのセクション番号別に表示
 zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.(^1*)' insert-sections true
 
-# 補完方法の設定:指定した順番に実行
-#  _oldlist 前回の補完結果を再利用
-#  _complete: 補完
-#  _match: globを展開しないで候補の一覧から補完
-#  _history: ヒストリのコマンドから補完
-#  _ignored: 補完候補にださないと指定したものもから補完
-#  _approximate: 似ている候補を補完
-#  _correct: 綴り修正(入力を終えた部分のみ修正)
-#  _prefix: カーソル以降を無視してカーソル位置までで補完
-#  _list, expand, etc
-zstyle ':completion:*' completer \
-    _oldlist _complete _match _history _ignored _approximate _prefix
+# Media Players
+zstyle ':completion:*:*:mpg123:*' file-patterns '*.(mp3|MP3):mp3\ files *(-/):directories'
+zstyle ':completion:*:*:mpg321:*' file-patterns '*.(mp3|MP3):mp3\ files *(-/):directories'
+zstyle ':completion:*:*:ogg123:*' file-patterns '*.(ogg|OGG|flac):ogg\ files *(-/):directories'
+zstyle ':completion:*:*:mocp:*' file-patterns '*.(wav|WAV|mp3|MP3|ogg|OGG|flac):ogg\ files *(-/):directories'
+
+# SSH/SCP/RSYNC
+zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
 ## cdr <TAB> (最近移動したディレクトリ履歴からcd)
 autoload -U chpwd_recent_dirs cdr
@@ -514,21 +599,6 @@ zstyle ':chpwd:*' recent-dirs-file ~/.chpwd-recent-dirs
 zstyle ":chpwd:*" recent-dirs-max 500
 zstyle ":completion:*" recent-dirs-insert both
 zstyle ":completion:*:*:cdr:*:*" menu select=2
-
-## 補完キャッシュの設定
-# 一部のコマンドライン定義は、展開時に時間のかかる処理を行う
-# apt-get, dpkg (Debian), rpm (Redhat), urpmi (Mandrake), perlの-Mオプション,
-# bogofilter (zsh 4.2.1以降), fink, mac_apps (MacOS X)(zsh 4.2.2以降)
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zcompcache
-
-
-## 補完候補の色分け
-if [ -n "$LS_COLORS" ]; then
-    # LS_COLORSの色と対応
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-fi
-
 
 ## Prediction configuration
 #   先方予測機能(学習機能付き)
