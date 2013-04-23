@@ -121,11 +121,15 @@ export PAGER=less
 #  -X, --no-init 終了後に画面をクリアしない
 #  -i, --ignore-case 検索時に大文字小文字を区別しない
 #  -xn, --tabs=n タブストップをn文字に
-#  --LONG-PROMPT プロンプトを詳細表示に
+#  -M, --LONG-PROMPT プロンプトを詳細表示に
 #  -P プロンプトのフォーマットを変更
-#  -Q or --QUIET or --SILENT ベルを鳴らさない
+#  -Q, --QUIET, --SILENT ベルを鳴らさない
+#  -g, --hilite-search 最後に見つかったもののみハイライト (デフォルトは全てハイライト)
+#  -S, --chop-long-lines
+#  -w, --hilite-unread
+#  -zn, --window=n Changes  the  default  scrolling window size to n lines.
 #export LESS='-R -X -i -x4 -P ?f%f:(stdin).  ?lb%lb?L/%L..  [?eEOF:?pb%pb\%..]'
-export LESS='-R -X -i -x4 -Q --LONG-PROMPT'
+export LESS='-R -X -i -x4 -z-4 -Q -S -w --LONG-PROMPT'
 
 #export JLESSCHARSET=utf-8
 export JLESSCHARSET=japanese-utf-8
