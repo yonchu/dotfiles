@@ -64,3 +64,6 @@
 [submodule ".zsh/completions/grunt-zsh-completion"]
 	path = .zsh/completions/grunt-zsh-completion
 	url = git://github.com/yonchu/grunt-zsh-completion.git
+[submodule ".zsh/plugins/zsh-history-substring-search"]
+	path = .zsh/plugins/zsh-history-substring-search
+	url = git://github.com/zsh-users/zsh-history-substring-search.git
