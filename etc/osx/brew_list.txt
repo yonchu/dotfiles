@@ -25,6 +25,7 @@ git-now
 glib
 gnu-getopt
 gnu-sed
+gnu-tar
 grep
 harfbuzz
 htop-osx
