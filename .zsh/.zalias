@@ -28,6 +28,13 @@ alias reload='exec zsh -l'
 alias pd="pushd"
 alias po="popd"
 
+# Print directory stack.
+alias d='dirs -v'
+
+# Move back to dir stack.
+# alias n='cd +n'
+for index ({1..9}) alias "$index"="cd +${index}"; unset index
+
 # history時間表示
 alias history="history -i"
 

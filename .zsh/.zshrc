@@ -90,6 +90,8 @@ setopt auto_cd
 # cd でTabを押すとdir list を表示
 # cd -<tab> or cd +<tab> で履歴表示->表示された番号を押してReturn
 setopt auto_pushd
+# Do not print the directory stack after pushd or popd.
+# setopt pushd_silent
 # cd - と cd + を入れ替える
 setopt pushd_minus
 # ディレクトリスタックに同じディレクトリを追加しないようになる
@@ -100,17 +102,17 @@ setopt pushd_to_home
 setopt correct
 # コマンドライン全てのスペルチェックをする
 setopt correct_all
-# 上書きリダイレクトの禁止
+# > or >> を使用した上書きリダイレクトの禁止 (Use >! and >>! to bypass.)
 setopt no_clobber
 # {a-c} を a b c に展開する機能を使えるようにする
 setopt brace_ccl
 # 8ビットクリーン表示
 #  補完候補リストの日本語表示対応
 setopt print_eight_bit
+# 変数に格納されたパスでcd
+#setopt cdable_vars
 # "~$var" でディレクトリにアクセス
 #setopt auto_name_dirs
-# 先頭に "~" を付けたもので展開
-#setopt cdable_vars
 # 変数内の文字列分解のデリミタ
 setopt sh_word_split
 

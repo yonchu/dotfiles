@@ -83,9 +83,15 @@ alias lll='ll | less'
 #  -P シンボリックリンクをたどらず実ディレクトリに移動
 #  -L シンボリックリンクをたどったディレクトリに移動
 #
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
+# alias ..='cd ..'
+lvalue='.'
+rvalue=''
+for index in {1..9}; do
+    lvalue="${lvalue}."
+    rvalue="${rvalue}../"
+    alias "$lvalue"="cd $rvalue"
+done
+unset lvalue rvalue index
 alias cdp='cd -P'
 alias cdl='cd -L'
 
