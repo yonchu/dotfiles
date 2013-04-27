@@ -59,7 +59,7 @@
   this = !git init && git add . && git commit -m \"Initial commit\"
 
   # Quickly add a file/dir to .gitignore.
-  ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
+  ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
 
   # config
   cfl  = config --global --list   # グローバルConfigを参照
@@ -259,6 +259,7 @@
   tc  = tag -a        # タグ作成
   ptg = push --tags   # tagをpush
   #ptgd = push origin :refs/tags/  # リモートのタグ削除
+  tver = !git tag -a $1 -m "Release ver.$1"
 
   search-near-tag = name-rev --name-only  # 指定したコミットが番近いタグからどの位置にあるか表示
   search-branch   = branch --contains     # 指定したコミットがどのブランチに含まれるか表示
@@ -288,7 +289,7 @@
   #   -b PR元 (省略するとカレントブランチ)
   #   other format: <owner/repo>:<branch>
   # hub pull-request -i <issue-no>
-  iss = git browse -- issues
+  iss = !git browse -- issues
 
 [http]
   sslVerify = false
