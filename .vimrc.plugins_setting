@@ -77,6 +77,16 @@ let g:closetag_html_style = 1
 "nmap <silent> <unique> <Leader>cc :ErrorAtCursor<CR>
 " }}}
 
+" === foldCC {{{
+let g:foldCCtext_enable_autofdc_adjuster = 1
+let g:foldCCtext_head = '">>> "'
+" set foldtext=FoldCCtext()
+autocmd MyAutoCmd FileType *
+      \   if &filetype !=# 'help' && exists('*FoldCCtext()')
+      \ |   setlocal foldtext=foldCC#foldtext()
+      \ | endif
+" }}}
+
 " === fontzoom.vim {{{
 if has('gui_running')
   nmap + <Plug>(fontzoom-larger)

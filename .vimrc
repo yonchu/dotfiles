@@ -716,6 +716,9 @@ NeoBundleLazy 'yuratomo/w3m.vim', {
 "NeoBundleLazy 'mattn/webapi-vim'
 NeoBundleLazy 'basyura/webapi-vim'
 
+" foldingを良い感じに
+NeoBundle 'LeafCage/foldCC'
+
 " }}}
 
 " === Unite {{{2
@@ -1282,14 +1285,6 @@ set foldcolumn=3
 set foldnestmax=3
 set fillchars=vert:\|
 set commentstring=%s
-
-if exists('*FoldCCtext')
-  set foldtext=FoldCCtext()
-  autocmd MyAutoCmd FileType *
-        \               if &filetype !=# 'help'
-        \             |   setlocal foldtext=FoldCCtext()
-        \             | endif
-endif
 
 
 "### ESC後のモード表示の即時反映(msec)
@@ -2201,8 +2196,26 @@ xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
 " 閉じる(全て) : zr (zR)
 " 作成 : zf
 " 削除 : zd
-noremap zz zc
 noremap zu :<C-u>Unite outline:foldings<CR>
+" noremap zz zc
+nnoremap <silent> zz :<C-u>call <SID>smart_foldcloser()<CR>
+function! s:smart_foldcloser()
+  if foldlevel('.') == 0
+    norm! zM
+    return
+  endif
+
+  let foldc_lnum = foldclosed('.')
+  norm! zc
+  if foldc_lnum == -1
+    return
+  endif
+
+  if foldclosed('.') != foldc_lnum
+    return
+  endif
+  norm! zM
+endfunction
 
 
 "### Tab pages (Vim 7)
