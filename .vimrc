@@ -362,6 +362,14 @@ NeoBundle 'yonchu/Smooth-Scroll', {
 
 " === Search {{{2
 
+" vim-anzu: 検索時の位置情報を表示する
+NeoBundleLazy "osyo-manga/vim-anzu", {
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     '<Plug>(anzu-n-with-echo)', '<Plug>(anzu-N-with-echo)',
+      \     '<Plug>(anzu-star-with-echo)', '<Plug>(anzu-sharp-with-echo)',
+      \ ]}}
+
 " ag.vim: The silver searcher (ag)
 "   :Ag [options] {pattern} [{directory}]
 NeoBundleLazy 'rking/ag.vim', {
@@ -440,6 +448,9 @@ NeoBundleLazy 'kana/vim-fakeclip', {
        \     ['nv', '<Plug>(fakeclip-p)'], ['nv', '<Plug>(fakeclip-P)'],
        \     ['nv', '<Plug>(fakeclip-gp)']]
        \ }}
+
+" foldingを良い感じに
+NeoBundle 'LeafCage/foldCC'
 
 " fontzoom : フォント拡大 (gvim)
 NeoBundleLazy 'thinca/vim-fontzoom', {
@@ -715,9 +726,6 @@ NeoBundleLazy 'yuratomo/w3m.vim', {
 "   tweetvimで使用していたが今は同梱している
 "NeoBundleLazy 'mattn/webapi-vim'
 NeoBundleLazy 'basyura/webapi-vim'
-
-" foldingを良い感じに
-NeoBundle 'LeafCage/foldCC'
 
 " }}}
 
