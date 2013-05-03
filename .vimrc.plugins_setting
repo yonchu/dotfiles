@@ -12,6 +12,16 @@ nmap <silent>k <Plug>(accelerated_jk_gk)
 nmap gk k
 " }}}
 
+" === accelerated-smooth-scroll {{{
+" let g:ac_smooth_scroll_enable_accelerating = 0
+
+let g:ac_smooth_scroll_du_sleep_time_msec = 5
+let g:ac_smooth_scroll_fb_sleep_time_msec = 5
+" let g:ac_smooth_scroll_skip_redraw_line_size = 0
+
+" let g:ac_smooth_scroll_limit_msec = 200
+" }}}
+
 " === anzu {{{
 nmap <silent><expr> n '<Plug>(anzu-n-with-echo):normal! zz<cr>'
 nmap <silent><expr> N '<Plug>(anzu-N-with-echo):normal! zz<cr>'
@@ -856,15 +866,6 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 "omap <Leader>w  <Plug>(smartword-w)
 "omap <Leader>b  <Plug>(smartword-b)
 "omap <Leader>ge  <Plug>(smartword-ge)
-" }}}
-
-" === smooth_scroll {{{
-
-" スクロール速度
-let g:smooth_scroll_latency = 1000
-" g:scroll_skip_line_size = 1
-" g:smooth_scroll_no_default_key_mappings = 1
-
 " }}}
 
 " === submode {{{

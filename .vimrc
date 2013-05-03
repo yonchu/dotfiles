@@ -319,6 +319,13 @@ NeoBundleLazy 'rhysd/accelerated-jk', {
       \     '<Plug>(accelerated_jk_gj)', '<Plug>(accelerated_jk_gk)',
       \ ]}}
 
+" accelerated-smooth-scroll: 加速可能なスムーススクロール
+NeoBundle 'yonchu/accelerated-smooth-scroll', {
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     "\<C-d>", "\<C-u>", "\<C-f>", "\<C-b>"
+      \ ]}}
+
 " clever-f.vim : f連打で検索文字移動
 NeoBundleLazy 'rhysd/clever-f.vim', {
       \ 'autoload' : {
@@ -349,14 +356,6 @@ NeoBundleLazy 'goldfeld/vim-seek', {
       "\   'mappings' : [
       "\     '<Plug>(smartword-w)', '<Plug>(smartword-b)', '<Plug>(smartword-ge)'
       "\ ]}}
-
-" Smooth-Scroll : スクロールをスムーズに
-NeoBundle 'yonchu/Smooth-Scroll', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>smooth-scroll-c-d', '<Plug>smooth-scroll-c-u',
-      \     '<Plug>smooth-scroll-c-f', '<Plug>smooth-scroll-c-b',
-      \ ]}}
 
 " }}}
 
