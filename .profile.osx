@@ -115,6 +115,13 @@ export PATH=$HOME/.rvm/bin:$PATH
 
 
 #
+# node
+#
+# homebrew版nodeのnpm
+export PATH=/usr/local/share/npm/bin:$PATH
+
+
+#
 # nodebrew
 #
 export PATH=$HOME/.nodebrew/current/bin:$PATH
