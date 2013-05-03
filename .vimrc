@@ -922,16 +922,16 @@ NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
       \ }}
 
 " Javascript補完
-NeoBundleLazy 'teramako/jscomplete-vim',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
-      \ }}
+" NeoBundleLazy 'teramako/jscomplete-vim',  {
+"       \ 'autoload' : {
+"       \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
+"       \ }}
 
 " Javascript補完 + node.js
-NeoBundleLazy 'myhere/vim-nodejs-complete', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
-      \ }}
+" NeoBundleLazy 'myhere/vim-nodejs-complete', {
+"       \ 'autoload' : {
+"       \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
+"       \ }}
 
 " JSDoc生成
 "   :JsDoc or <C-l>
@@ -1024,6 +1024,15 @@ NeoBundleLazy 'tpope/vim-haml',  {
 NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'sass' ]
+      \ }}
+
+" Javascript補完
+" $ cd ~/.vim/bundle/tern_for_vim && npm install
+" 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
+" http://ternjs.net/doc/manual.html
+NeoBundleLazy 'marijnh/tern_for_vim', {
+      \ 'autoload' : {
+      \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
       \ }}
 
 " vimの変数を表示 (plug-in制作で便利)
