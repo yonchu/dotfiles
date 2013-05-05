@@ -985,7 +985,6 @@ NeoBundleLazy 'scrooloose/syntastic',  {
 " 非同期シンタックスチェック
 NeoBundleLazy 'yonchu/vim-watchdogs',  {
       \ 'depends' : [ 'osyo-manga/shabadou.vim' ],
-      \ 'rev' : 'multi-checker',
       \ 'autoload' : {
       \   'filetypes' : [
       \     'python', 'html', 'javascript', 'coffee', 'perl',
