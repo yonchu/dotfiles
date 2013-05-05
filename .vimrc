@@ -300,7 +300,7 @@ NeoBundleLazy 'AndrewRadev/switch.vim', {
 "   <C-_>n 指定したftでコメントをトグル
 "   <C-_>s 詳細にコメント形式を指定してトグル
 "   <C-_>p 関数などブロック全体をトグル
-"   gcc 　　<C-_><C-_>と一緒
+"   gcc <C-_><C-_>と一緒
 NeoBundleLazy 'tomtom/tcomment_vim' , {
       \ 'autoload' : {
       \   'commands' : [
@@ -875,9 +875,9 @@ NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
 
 " === ColorScheme {{{2
 
-NeoBundle 'aereal/vim-magica-colors'
-NeoBundle 'altercation/vim-colors-solarized'
-"NeoBundle 'w0ng/vim-hybrid'
+" NeoBundle 'aereal/vim-magica-colors'
+" NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'w0ng/vim-hybrid'
 
 "NeoBundle 'Railscasts-Theme-GUIand256color'
 "NeoBundle 'desert256.vim'
@@ -1534,13 +1534,12 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
   " カラー設定読み込み
   if $ITERM_PROFILE =~ "Magica.*"
     colorscheme landscape
-    " colorscheme yonchu
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
   elseif has('gui_running')
     source ~/.vim/colors/my-solarized.vim
   else
-    colorscheme yonchu
+    source ~/.vim/colors/my-hybrid.vim
   endif
 elseif &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
   set t_Co=16
