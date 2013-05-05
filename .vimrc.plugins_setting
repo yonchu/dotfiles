@@ -27,6 +27,8 @@ nmap <silent><expr> n '<Plug>(anzu-n-with-echo):normal! zz<cr>'
 nmap <silent><expr> N '<Plug>(anzu-N-with-echo):normal! zz<cr>'
 nmap <silent><expr> * '<Plug>(anzu-star-with-echo):normal! N<cr>'
 nmap <silent><expr> # '<Plug>(anzu-sharp-with-echo):normal! N<cr>'
+
+nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<cr>'
 " }}}
 
 " === ag.vim {{{
