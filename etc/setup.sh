@@ -75,7 +75,7 @@ create_dotfiles_symlinks() {
         .bashrc
         .config
         .gitconfig
-        .gittemplate
+        .gittemplates
         .gitk
         .gvimrc
         .inputrc

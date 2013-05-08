@@ -23,7 +23,7 @@
 [help]
   autocorrect = 1
 [commit]
-  template = ~/.gittemplate
+  template = ~/.gittemplates/commit-template
   #cleanup = whitespace
 [push]
   # defaultのpush先はtrackingしているリポジトリ
