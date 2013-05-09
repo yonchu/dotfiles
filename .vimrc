@@ -475,6 +475,17 @@ NeoBundleLazy "gregsexton/gitv", {
       \   'commands' : 'Gitv',
       \ }}
 
+" git-vim : Git操作
+NeoBundleLazy "motemen/git-vim", {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'GitStatus', 'GitLog', 'GitBlame'
+      \   ],
+      \   'mappings' : [
+      \     '<Leader>gd', '<Leader>gs', '<Leader>gb'
+      \   ]
+      \ }}
+
 " gundo.vim : undo履歴管理 (U)
 NeoBundleLazy 'sjl/gundo.vim', {
       \ 'autoload' : {
