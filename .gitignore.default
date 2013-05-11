@@ -37,6 +37,9 @@ a.out
 *.war
 *.ear
 
+## JavaScript
+.tern-port
+
 ## Python
 *.py[cod]
 .ropeproject
