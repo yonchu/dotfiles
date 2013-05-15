@@ -1897,6 +1897,10 @@ endfunction
 
 " === Search & Yank & Replace {{{2
 
+"### Search with very magic.
+" http://deris.hatenablog.jp/entry/2013/05/15/024932
+nnoremap / /\v
+
 "### 選択した文字列を検索
 vnoremap <silent> // y/<C-R>=escape(@", '\\/.*$^~[]')<CR><CR>
 
