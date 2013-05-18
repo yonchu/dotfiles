@@ -1546,8 +1546,6 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
     colorscheme landscape
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
-  elseif has('gui_running')
-    source ~/.vim/colors/my-solarized.vim
   else
     source ~/.vim/colors/my-hybrid.vim
   endif
@@ -1592,7 +1590,7 @@ autocmd MyAutoCmd BufEnter,WinEnter,BufRead * set cursorline
 autocmd MyAutoCmd FileType markdown hi! def link markdownItalic Normal
 
 "### Clear modeline highlight.
-autocmd MyAutoCmd VimEnter * highlight ModeMsg guifg=bg guibg=bg
+" autocmd MyAutoCmd VimEnter * highlight ModeMsg guifg=bg guibg=bg
 
 " }}}
 

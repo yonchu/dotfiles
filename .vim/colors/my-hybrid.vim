@@ -84,20 +84,20 @@ hi! default link DiffAdded DiffAdd
 
 " Cursor/Menu {{{
 if version >= 700
-  hi! CursorLine ctermbg=235
-  hi! CursorColumn ctermbg=235
+  hi! CursorLine ctermbg=235 guibg=#282a2e
+  hi! CursorColumn ctermbg=235 guibg=#282a2e
 
   hi! ColorColumn ctermbg=232
 
   autocmd MyHybridAu InsertLeave *
-        \ hi! CursorLine   ctermbg=235 |
-        \ hi! CursorLineNr ctermbg=235
+        \ hi! CursorLine   ctermbg=235 guibg=#282a2e |
+        \ hi! CursorLineNr ctermbg=235 guibg=#282a2e
   autocmd MyHybridAu InsertEnter *
-        \ hi! CursorLine   ctermbg=18 |
-        \ hi! CursorLineNr ctermbg=18
+        \ hi! CursorLine   ctermbg=18 guibg=#0000AF |
+        \ hi! CursorLineNr ctermbg=18 guibg=#0000AF
 
-  hi! LineNr ctermfg=58 ctermbg=NONE
-  hi! CursorLineNr ctermfg=148 ctermbg=235 cterm=bold
+  hi! LineNr ctermfg=58 ctermbg=NONE guifg=#5f5f00 guibg=bg
+  hi! CursorLineNr ctermfg=148 ctermbg=235 cterm=bold guifg=#afdf00 guibg=#262626 gui=bold
 endif
 " }}}
 
