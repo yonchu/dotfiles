@@ -2590,7 +2590,7 @@ augroup MyAutoCmdEx
   autocmd FileType css        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType diff       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType eruby      setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType gitcommit  setlocal sw=4 sts=4 ts=4 et noml nofen tw=72 foldcolumn=0
+  autocmd FileType gitcommit  setlocal sw=4 sts=4 ts=4 et tw=72
   autocmd FileType gitconfig  setlocal sw=2 sts=2 ts=2 et
   autocmd FileType haml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType html       setlocal sw=2 sts=2 ts=2 et
@@ -2614,8 +2614,8 @@ augroup MyAutoCmdEx
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
 
-  autocmd FileType qf,qfreplace,quickrun,git,diff,gitv
-        \ setlocal nofoldenable nomodeline foldcolumn=0
+  autocmd FileType qf,qfreplace,quickrun,git,diff,gitv,gitcommit
+        \ setlocal nofoldenable nomodeline foldcolumn=0 foldlevel=0
 
   " インデント無効
   "autocmd FileType html :set indentexpr=

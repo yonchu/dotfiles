@@ -19,7 +19,8 @@ let g:ac_smooth_scroll_du_sleep_time_msec = 5
 let g:ac_smooth_scroll_fb_sleep_time_msec = 5
 " let g:ac_smooth_scroll_skip_redraw_line_size = 0
 
-" let g:ac_smooth_scroll_limit_msec = 200
+" let g:ac_smooth_scroll_max_limit_msec = 300
+let g:ac_smooth_scroll_min_limit_msec = 80
 " }}}
 
 " === anzu {{{
@@ -148,6 +149,33 @@ let g:Gitv_OpenHorizontal = 0
 nnoremap <Space>gv :<C-u>Gitv --all<cr>
 nnoremap <Space>gV :<C-u>Gitv! --all<cr>
 vnoremap <Space>gV :<C-u>Gitv! --all<cr>
+
+" http://d.hatena.ne.jp/cohama/20130517/1368806202
+function! s:gitv_get_current_hash()
+  return matchstr(getline('.'), '\[\zs.\{7\}\ze\]$')
+endfunction
+
+autocmd MyAutoCmd FileType gitv call s:my_gitv_settings()
+function! s:my_gitv_settings()
+  setlocal iskeyword+=/,-,.
+  " カーソル下のブランチ名で checkout
+  " ブランチ間移動 r/R
+  nnoremap <silent><buffer> C :<C-u>Git checkout <C-r><C-w><CR>
+
+  " カーソル位置のコミットに対する操作
+  nnoremap <buffer> <Space>rb :<C-u>Git rebase <C-r>=GitvGetCurrentHash()<CR><Space>
+  nnoremap <buffer> <Space>R :<C-u>Git revert <C-r>=GitvGetCurrentHash()<CR><CR>
+  nnoremap <buffer> <Space>h :<C-u>Git cherry-pick <C-r>=GitvGetCurrentHash()<CR><CR>
+  nnoremap <buffer> <Space>rh :<C-u>Git reset --hard <C-r>=GitvGetCurrentHash()<CR>
+
+  nnoremap <silent><buffer> T :<C-u>windo call <SID>toggle_git_folding()<CR>1<C-w>w
+endfunction
+
+function! s:toggle_git_folding()
+  if &filetype ==# 'git'
+    setlocal foldenable!
+  endif
+endfunction
 " }}}
 
 " === git-vim {{{
