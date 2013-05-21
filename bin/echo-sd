@@ -1,0 +1,824 @@
+#!/bin/bash
+## -*- encoding: utf-8 -*- vim:tabstop=8:shiftwidth=2
+##
+## ＿人人人人人人＿
+## ＞　突然の死　＜ ジェネレーター (Echo "sudden death" message)
+## ￣Y^Y^Y^Y^Y^Y￣
+## Copyright (C) 2013 SATOH Fumiyasu @ OSS Technology Corp., Japan
+##               <https://github.com/fumiyas/home-commands/blob/master/echo-sd>
+##               <http://www.OSSTech.co.jp/cgi-bin/echo-sd>
+##               <https://twitter.com/satoh_fumiyasu>
+##
+## License: GNU General Public License version 3
+##
+## Requirements: bash 4.0, ksh 93u or zsh 4.3
+##
+## How to install:
+##
+##   $ mkdir -p $HOME/bin
+##   $ cd $HOME/bin
+##   $ wget -q https://raw.github.com/fumiyas/home-commands/master/echo-sd
+##   $ chmod +x echo-sd
+##   $ export PATH="$HOME/bin:$PATH"
+##   $ alias echo=echo-sd
+##   $ alias banner=echo-sd
+##
+## Examples for Command-line mode:
+##
+##   $ echo-sd --help
+##   ...
+##   $ echo-sd
+##    ＿人人人人人人＿
+##   ＞　突然の死　＜
+##   ￣Y^Y^Y^Y^Y^Y￣
+##   $ echo-sd ぬるぽっ！!
+##   ＿人人人人人人人人＿
+##   ＞　ぬるぽっ！！　＜
+##   ￣Y^Y^Y^Y^Y^YY^^Y￣
+##   $ echo-sd -v ガッ！
+##   ＿人人＿
+##   ＞ ガ ＜
+##   ＞ ッ ＜
+##   ＞ ！ ＜
+##   ￣Y^Y￣
+##   $ echo-sd -m 1 ズキュウウゥン！！
+##   ＿人人人人人人人人人人人人＿
+##   ＞　　　　　　　　　　　　＜
+##   ＞　 ズキュウウゥン！！ 　＜
+##   ＞　　　　　　　　　　　　＜
+##   ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
+##   $ echo-sd -v -t 1 -b 1 -l 2 -r 4 ｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞ 「世界」ッ！ 時よ止まれ！
+##     ＿人人人人人人人人＿
+##    ＞　　　　　　　 　＜
+##   ＞　　時　 ┐ ｺﾞ　　 ＜
+##   ＞　　よ　世　ｺﾞ　　 ＜
+##   ＞　　止　界　ｺﾞ　　 ＜
+##   ＞　　ま └　 ｺﾞ　　 ＜
+##   ＞　　れ　ッ　ｺﾞ　　 ＜
+##   ＞　　！　！　ｺﾞ　　 ＜
+##   ＞　　　　　　ｺﾞ　　 ＜
+##   ＞　　　　　　ｺﾞ　　 ＜
+##    ＞　　　　　　　 　＜
+##     ￣Y^Y^Y^Y^Y^Y^Y^Y￣
+##
+## Examples for CGI mode:
+##
+##   $ GATEWAY_INTERFACE=CGI/1.0 QUERY_STRING=s=おっす！\&o=v echo-sd
+##   Content-Type: text/html; charset=UTF-8
+##   ...
+##   <pre>
+##   ＿人人＿
+##   ＞ お ＜
+##   ＞ っ ＜
+##   ＞ す ＜
+##   ＞ ！ ＜
+##   ￣Y^Y￣
+##   </pre><hr>
+##   ...
+##
+## On-line demo site:
+##
+##   http://www.OSSTech.co.jp/cgi-bin/echo-sd
+##
+## TODO:
+##
+##   * Nothing
+##
+## Inspired by:
+##
+##   * 突然の死ジェネレータ - powered by starwing.net, created by @karno.
+##     http://starwing.net/suddenly_death.html
+##   * 突然の死ジェネレータ - 純粋関数空間
+##     http://tanakh.jp/tools/sudden.html
+##   * 元ネタ
+##     http://dic.nicovideo.jp/a/%E7%AA%81%E7%84%B6%E3%81%AE%E6%AD%BB
+##
+
+if [[ ${0##*/} == echo-sd ]] && [[ ${zsh_eval_context-toplevel} == toplevel ]]; then
+  set -u
+
+  case "${BASH_VERSION-}" in
+  [1-3].*)
+    if type zsh >/dev/null 2>&1; then
+      unset BASH_VERSION
+      exec zsh "$0" ${1+"$@"}
+      exit 1
+    fi
+    echo "${0##*/}: ERROR: bash 4 or later required" 1>&2
+    exit 1
+    ;;
+  esac
+fi
+
+typeset SD_arg0="$0"
+typeset SD_copyright='(C) 2013 SATOH Fumiyasu @ OSS Technology Corp., Japan'
+typeset SD_url='https://github.com/fumiyas/home-commands/blob/master/echo-sd'
+typeset SD_lang_orig SD_lang
+typeset SD_c_tl SD_c_t SD_c_tr
+typeset SD_c_l SD_c_r
+typeset SD_c_bl SD_c_b SD_c_br
+typeset -A SD_v_map
+
+function SD_die {
+  SD_echo_command "${SD_arg0##*/}: ERROR: $1" 1>&2
+  SD_echo_command 1>&2
+  exit ${2-1}
+}
+
+function SD_init {
+  if [[ -n ${ZSH_VERSION-} ]]; then
+    setopt SH_WORD_SPLIT
+    setopt KSH_GLOB
+    setopt KSH_ARRAYS
+  fi
+
+  typeset lang_ja lang
+
+  SD_lang_orig="${LANG-}"
+  if [[ ${SD_lang_orig#*.} != @(UTF-8|utf-8|UTF8|utf8) ]]; then
+    if type SD_locale >/dev/null 2>&1; then
+      while read -r SD_locale; do
+	if [[ ${SD_locale#*.} == @(UTF-8|utf-8|UTF8|utf8) ]]; then
+	  if [[ ${SD_locale%.*} == ja_JP ]]; then
+	    lang_ja="$SD_locale"
+	  else
+	    lang="$SD_locale"
+	  fi
+	fi
+      done < <(locale -a)
+    fi
+  fi
+  SD_lang="${lang_ja-${lang-ja_JP.UTF-8}}"
+
+  SD_c_tl="＿人"
+  SD_c_t="人"
+  SD_c_tr="人＿"
+  SD_c_l="＞"
+  SD_c_r="＜"
+  SD_c_bl="￣Y^"
+  SD_c_b="Y^"
+  SD_c_br="Y￣"
+
+  if [[ -n ${ZSH_VERSION-} ]]; then
+    SD_v_map=()
+  else
+    SD_v_map=
+  fi
+  SD_v_map[。]='  。'
+  SD_v_map[、]='  、'
+  SD_v_map[ー]=' ｜ '
+  SD_v_map[…]=' ︙ '
+  SD_v_map[‥]=' ︰ '
+  SD_v_map[（]=' ⏜  '
+  SD_v_map[\(]=' ⏜  '
+  SD_v_map[）]=' ⏝  '
+  SD_v_map[\)]=' ⏝  '
+  SD_v_map[［]=' ⎴  '
+  SD_v_map[\[]=' ⎴  '
+  SD_v_map[］]=' ⎵  '
+  SD_v_map[\]]=' ⎵  '
+  SD_v_map[｛]=' ⏞  '
+  SD_v_map[\{]=' ⏞  '
+  SD_v_map[｝]=' ⏟  '
+  SD_v_map[\}]=' ⏟  '
+  SD_v_map[「]='  ┐'
+  SD_v_map[」]='└  '
+  SD_v_map[｢]='  ┐'
+  SD_v_map[｣]='└  '
+  SD_v_map[-]=' |  '
+  SD_v_map[ｰ]=' |  '
+  SD_v_map[,]="  ' "
+  SD_v_map[､]='  ` '
+}
+
+function _SD_fill_string_by_char {
+  typeset str char
+  str="$1"; shift
+  char="$1"; shift
+
+  ## Why bash on ja_JP.UTF-8 locale matches '[¥]' with '︙' (and others?)
+  #str="${str//[ -~｡-ﾟ¢£¥¦¬¯]/$char}"
+  str="${str//[ -~｡-ﾟ¢£¦¬¯]/$char}"
+  str="${str//¥/$char}"
+  str="${str//[! ]/$char$char}"
+
+  echo "$str"
+}
+
+function _SD_pad_space {
+  printf "%${1}s" ''
+}
+
+function _SD_string_width {
+  typeset str
+  str=$(_SD_fill_string_by_char "$1" ' ')
+
+  echo "${#str}"
+}
+
+function _SD_echo_with_padding {
+  typeset str width
+  str="$1"; shift
+  width="$1"; shift
+
+  echo "${str}$(_SD_pad_space "$((width-$(_SD_string_width "${1-$str}")))")"
+}
+
+function SD_echo_header {
+  typeset round="set"
+  if [[ ${1-} == @(-R|--no-round) ]]; then
+    round=""
+    shift
+  fi
+  typeset width="$1"; shift
+  typeset margin="$1"; shift
+  typeset template left=
+  typeset -a margins
+
+  if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+    left=" "
+    let width--
+  else
+    left=""
+  fi
+  template=$(_SD_pad_space "$width")
+  while [[ $margin -gt 0 ]]; do
+    if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+      template="${template#?}"
+      let width--
+    fi
+
+    margins=(
+      "$left${SD_c_l}　${template//  /　}　${SD_c_r}"
+      ${margins[@]+"${margins[@]}"}
+    )
+
+    if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+      template="${template#?}"
+      left="$left "
+      let width--
+    fi
+    let margin--
+  done
+
+  template="${template//  /${SD_c_t}}"
+  echo "$left${SD_c_tl}${template// /}${SD_c_tr}"
+  for margin_s in ${margins[@]+"${margins[@]}"}; do
+    echo "$margin_s"
+  done
+}
+
+function SD_echo_footer {
+  typeset round="set"
+  if [[ ${1-} == @(-R|--no-round) ]]; then
+    round=""
+    shift
+  fi
+  typeset width="$1"; shift
+  typeset margin="$1"; shift
+  typeset template left=
+
+  if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+    left=" "
+    let width--
+  fi
+  template=$(_SD_pad_space "$width")
+  while [[ $margin -gt 0 ]]; do
+    if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+      template="${template#?}"
+      let width--
+    fi
+
+    echo "$left${SD_c_l}　${template//  /　}　${SD_c_r}"
+
+    if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
+      template="${template#?}"
+      left="$left "
+    fi
+    let margin--
+  done
+
+  template="${template//  /${SD_c_b}}"
+  echo "$left${SD_c_bl}${template// /}${SD_c_br}"
+}
+
+function SD_echo_horizontal {
+  typeset opt
+  typeset round
+  typeset margin_top=0 margin_bottom=0 margin_left=0 margin_right=0
+
+  while [ "$#" -gt 0 ]; do
+    opt="$1"; shift
+
+    if [[ -z "${opt##-[!-]?*}" ]]; then
+      set -- "-${opt#??}" ${1+"$@"}
+      opt="${opt%${1#-}}"
+    fi
+    if [[ -z "${opt##--*=*}" ]]; then
+      set -- "${opt#--*=}" ${1+"$@"}
+      opt="${opt%%=*}"
+    fi
+
+    case "$opt" in
+    -R|--no-round)
+      no_round="set"
+      ;;
+    -m|--margin)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      margin_top="$((($1 + 1) / 2))"
+      margin_bottom="$margin_top"
+      margin_left="$1"
+      margin_right="$1"
+      shift
+      ;;
+    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      case "$opt" in
+      -t|--margin-top)
+	margin_top="$1"
+	;;
+      -b|--margin-bottom)
+	margin_bottom="$1"
+	;;
+      -l|--margin-left)
+	margin_left="$1"
+	;;
+      -r|--margin-right)
+	margin_right="$1"
+	;;
+      esac
+      shift
+      ;;
+    --)
+      break
+      ;;
+    -*)
+      SD_die "Invalid option: $opt"
+      ;;
+    *)
+      set -- "$opt" ${1+"$@"}
+      break
+      ;;
+    esac
+  done
+
+  export LANG="$SD_lang"
+
+  typeset -a scripts
+  typeset script width width_tmp
+  typeset margin_left_s margin_right_s
+  width=0
+  margin_left_s=$(_SD_pad_space "$margin_left")
+  margin_right_s=$(_SD_pad_space "$margin_right")
+  for script in ${1+"$@"}; do
+    script="$margin_left_s$script$margin_right_s"
+    scripts[${#scripts[@]}]="$script"
+    width_tmp=$(_SD_string_width "$script")
+    if [[ $width_tmp -gt $width ]]; then
+      width="$width_tmp"
+    fi
+  done
+
+  SD_echo_header ${no_round:+-R} "$width" "$margin_top"
+  typeset line
+  for script in ${scripts[@]+"${scripts[@]}"}; do
+    line="${SD_c_l}　$(_SD_echo_with_padding "${script}" "$width")　${SD_c_r}"
+    echo "${line//  /　}"
+  done
+  SD_echo_footer ${no_round:+-R} "$width" "$margin_bottom"
+
+  export LANG="$SD_lang_orig"
+}
+
+function SD_echo_vertical {
+  typeset opt
+  typeset round
+  typeset margin_top=0 margin_bottom=0 margin_left=0 margin_right=0
+
+  while [ "$#" -gt 0 ]; do
+    opt="$1"; shift
+
+    if [[ -z "${opt##-[!-]?*}" ]]; then
+      set -- "-${opt#??}" ${1+"$@"}
+      opt="${opt%${1#-}}"
+    fi
+    if [[ -z "${opt##--*=*}" ]]; then
+      set -- "${opt#--*=}" ${1+"$@"}
+      opt="${opt%%=*}"
+    fi
+
+    case "$opt" in
+    -R|--round)
+      round="set"
+      ;;
+    -m|--margin)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      margin_top="$((($1 + 1) / 2))"
+      margin_bottom="$margin_top"
+      margin_left="$1"
+      margin_right="$1"
+      shift
+      ;;
+    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      case "$opt" in
+      -t|--margin-top)
+	margin_top="$1"
+	;;
+      -b|--margin-bottom)
+	margin_bottom="$1"
+	;;
+      -l|--margin-left)
+	margin_left="$1"
+	;;
+      -r|--margin-right)
+	margin_right="$1"
+	;;
+      esac
+      shift
+      ;;
+    --)
+      break
+      ;;
+    -*)
+      SD_die "Invalid option: $opt"
+      ;;
+    *)
+      set -- "$opt" ${1+"$@"}
+      break
+      ;;
+    esac
+  done
+
+  export LANG="$SD_lang"
+
+  typeset -a lines
+  typeset line line_n pad_n
+  typeset script script_n trailer trailer2 letter letter_width next
+  letter_width=4
+  script_n=0
+  for script in ${1+"$@"}; do
+    line_n=0
+    trailer="$script"
+
+    while [[ -n $script ]]; do
+      trailer="${trailer#?}"
+      letter="${script%$trailer}"
+      script="${script#?}"
+      if [[ -n ${SD_v_map[$letter]-} ]]; then
+	line="${SD_v_map[$letter]}"
+      else
+	trailer2="${trailer#?}"
+	next="${script%$trailer2}"
+	if [[ $next == @(ﾞ|ﾟ) ]] || [[ $letter$next == @([\?!][\?!]) ]]; then
+	  line=" $letter$next "
+	  trailer="$trailer2"
+	  script="${script#?}"
+	else
+	  line=" ${letter} "
+	fi
+      fi
+
+      if [[ -z ${lines[$line_n]-} ]]; then
+	lines[$line_n]="$(_SD_pad_space $((script_n * $letter_width)))"
+      fi
+      lines[$line_n]="$(_SD_echo_with_padding "${line}" $letter_width)${lines[$line_n]}"
+      let line_n+=1
+    done
+
+    while [[ $line_n -lt ${#lines[@]} ]]; do
+      lines[$line_n]="$(_SD_pad_space $letter_width)${lines[$line_n]}"
+      let line_n+=1
+    done
+
+    let script_n+=1
+  done
+
+  typeset line_width=$(((script_n - 1) * $letter_width))
+  let line_width+=$margin_left+$margin_right+1
+
+  typeset margin_left_s margin_right_s
+  margin_left_s=$(_SD_pad_space "$margin_left")
+  margin_right_s=$(_SD_pad_space "$margin_right")
+
+  SD_echo_header ${round:+-R} "$line_width" "$margin_top"
+  for line in ${lines[@]+"${lines[@]}"}; do
+    line="$margin_left_s $line$margin_right_s"
+    echo "${SD_c_l}${line//  /　}${SD_c_r}"
+  done
+  SD_echo_footer ${round:+-R} "$line_width" "$margin_bottom"
+
+  export LANG="$SD_lang_orig"
+}
+
+function SD_echo_command_help {
+  {
+    SD_c_r="＜ ジェネレーター" SD_echo_command
+    cat <<EOT
+Usage: ${SD_arg0##*/} [OPTIONS] [SCRIPT ...]
+
+Options:
+ -h, --help
+    Print this message
+ -s, --read-stdin
+    Read scripts from stdin
+ -v, --vertical
+    Print scripts vertically
+ --stress
+    "Stress" mode
+ --stream
+    Stream mode
+ -R, --no-round
+    Do not round border
+ -m, --margin MARGIN
+ -t, --margin-top MARGIN
+ -b, --margin-bottom MARGIN
+ -l, --margin-left MARGIN
+ -r, --margin-right MARGIN
+    Margin size
+EOT
+  } |SD_echo_command --read-stdin
+}
+
+function SD_echo_command {
+  typeset opt read_stdin vertical stress stream round
+  typeset margin margin_top margin_bottom margin_left margin_right
+
+  while [ "$#" -gt 0 ]; do
+    opt="$1"; shift
+
+    if [[ -z "${opt##-[!-]?*}" ]]; then
+      set -- "-${opt#??}" ${1+"$@"}
+      opt="${opt%${1#-}}"
+    fi
+    if [[ -z "${opt##--*=*}" ]]; then
+      set -- "${opt#--*=}" ${1+"$@"}
+      opt="${opt%%=*}"
+    fi
+
+    case "$opt" in
+    -h|--help)
+      SD_echo_command_help
+      exit 0
+      ;;
+    -s|--read-stdin)
+      read_stdin="set"
+      stream=""
+      ;;
+    -v|--vertical)
+      vertical="set"
+      ;;
+    --stress)
+      stress="set"
+      ;;
+    --stream)
+      stream="set"
+      read_stdin=""
+      ;;
+    -R|--round)
+      round="set"
+      ;;
+    -m|--margin)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      margin="$1"
+      shift
+      ;;
+    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+      if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
+	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
+      fi
+      case "$opt" in
+      -t|--margin-top)
+	margin_top="$1"
+	;;
+      -b|--margin-bottom)
+	margin_bottom="$1"
+	;;
+      -l|--margin-left)
+	margin_left="$1"
+	;;
+      -r|--margin-right)
+	margin_right="$1"
+	;;
+      esac
+      shift
+      ;;
+    --)
+      break
+      ;;
+    -*)
+      SD_die "Invalid option: $opt"
+      ;;
+    *)
+      set -- "$opt" ${1+"$@"}
+      break
+      ;;
+    esac
+  done
+
+  typeset -a sd_opts
+  sd_opts=(
+    ${round:+-R}
+    ${margin:+-m "$margin"}
+    ${margin_top:+-t "$margin_top"}
+    ${margin_bottom:+-b "$margin_bottom"}
+    ${margin_left:+-l "$margin_left"}
+    ${margin_right:+-r "$margin_right"}
+  )
+
+  if [[ -n ${stress-} ]]; then
+    echo "${1-仕事のストレス}"; ${1+shift}
+    echo "　　　　↘"
+    echo "　　　${1-仕事のストレス}"; ${1+shift}
+    echo "　　　　↙"
+    echo "${1-仕事のストレス}"; ${1+shift}
+    echo "　　　　↘"
+    echo "　　　${1-仕事のストレス}"; ${1+shift}
+    echo "　　　　↙"
+  fi
+
+  if [[ -n ${read_stdin-} ]]; then
+    while IFS= read -r line; do
+      set -- ${1+"$@"} "$line"
+    done
+  fi
+
+  if [[ -z ${stream-} ]]; then
+    if [[ $# -eq 0 ]]; then
+      if [[ -n ${stress-} ]]; then
+	set -- '仕事のストレス'
+      else
+	set -- '突然の死'
+      fi
+    fi
+
+    if [[ -z ${vertical-} ]]; then
+      SD_echo_horizontal ${sd_opts[@]+"${sd_opts[@]}"} -- ${1+"$@"}
+    else
+      SD_echo_vertical ${sd_opts[@]+"${sd_opts[@]}"} -- ${1+"$@"}
+    fi
+  else
+    while :; do
+      IFS= read -r line || break
+      set -- ${1+"$@"} "$line"
+
+      if [[ -z ${vertical-} ]]; then
+	SD_echo_horizontal ${sd_opts[@]+"${sd_opts[@]}"} -- ${1+"$@"}
+      else
+	SD_echo_vertical ${sd_opts[@]+"${sd_opts[@]}"} -- ${1+"$@"}
+      fi
+      shift $#
+    done
+  fi
+}
+
+function _SD_escape_html {
+  if [[ -n ${1+set} ]]; then
+    echo "$1"
+  else
+    cat
+  fi \
+  |sed \
+    -e 's/&/\&amp;/g;' \
+    -e 's/</\&lt;/g;' \
+    -e 's/>/\&gt;/g;' \
+    ;
+}
+
+function _SD_urldecode {
+  ## FIXME: Support ksh
+  echo -e "$(echo "$1" |sed 's/+/ /g;s/%\(..\)/\\x\1/g;')"
+}
+
+function SD_echo_cgi {
+  typeset query="${QUERY_STRING-}"
+  typeset param value
+  typeset text vertical margin
+  typeset -a prefaces
+  typeset -a scripts
+
+  while [[ -n $query ]]; do
+    param="${query%%&*}"
+    name="$(_SD_urldecode "${param%%=*}")"
+    value="$(_SD_urldecode "${param#*=}")"
+
+    case "$name" in
+    o|options)
+      case "$value" in
+      text)
+	text="checked"
+	;;
+      v|vertical)
+	vertical="checked"
+	;;
+      m|margin)
+	margin="checked"
+	;;
+      esac
+      ;;
+    p|prefaces)
+      while IFS= read -r line; do
+	prefaces[${#prefaces[@]}]="${line%}"
+      done < <(echo "$value")
+      ;;
+    s|scripts)
+      while IFS= read -r line; do
+	scripts[${#scripts[@]}]="${line%}"
+      done < <(echo "$value")
+      ;;
+    esac
+
+    if [[ -n ${query##*&*} ]]; then
+      break
+    fi
+    query="${query#*&}"
+  done
+
+  set -- \
+    ${vertical:+-v} \
+    ${margin:+-t 1} \
+    ${margin:+-b 1} \
+    ;
+  if [[ ${#scripts[@]} -eq 1 ]] && [[ -z ${scripts[0]} ]]; then
+    set -- ${1+"$@"} -- '突然の死'
+  else
+    set -- ${1+"$@"} -- ${scripts[@]+"${scripts[@]}"}
+  fi
+
+  if [[ -n ${text-} ]]; then
+    echo 'Content-Type: text/plain; charset=UTF-8'
+    echo
+    for preface in ${prefaces[@]+"${prefaces[@]}"}; do
+      echo "$preface"
+    done
+    SD_echo_command "$@"
+  else
+    echo 'Content-Type: text/html; charset=UTF-8'
+    echo
+    echo \
+      '<html>' \
+      '<head><title>＞　突然の死　＜ ジェネレーター</title></head>' \
+      '<style type="text/css"><!--' \
+      '.ul { text-decoration:underline; }' \
+      '--></style>' \
+      '<body><h1>＞　突然の死　＜ ジェネレーター</h1>' \
+      '<form action="./echo-sd" method="GET">' \
+      ;
+    echo -n '<textarea name="scripts" cols="80" rows="4" tabindex="1">'
+    for script in ${scripts[@]+"${scripts[@]}"}; do
+      _SD_escape_html "$script"
+    done
+    echo '</textarea><br>'
+    echo '<label>' \
+      '<input type="checkbox" name="options" value="vertical" accesskey="v" ' \
+      "${vertical-}>縦書き(<span class='ul'>V</span>)</label>"
+    echo '<label>' \
+      '<input type="checkbox" name="options" value="margin" accesskey="m" ' \
+      "${margin-}>余白(<span class='ul'>M</span>)</label>"
+    echo '<label>' \
+      '<input type="checkbox" name="options" value="text" accesskey="t" ' \
+      ">テキスト(<span class='ul'>T</span>)</label>"
+    echo '<br>'
+    echo '<input type='submit' value='＞　ジェネレート　＜' tabindex="2"><br>'
+    echo '</form>'
+    echo '<!--'
+    echo "[$(_SD_escape_html "$*")]"
+    echo '-->'
+    echo '<pre>'
+    for preface in ${prefaces[@]+"${prefaces[@]}"}; do
+      _SD_escape_html "$preface"
+    done
+    SD_echo_command "$@" |_SD_escape_html
+    echo '</pre><hr>'
+    _SD_escape_html "$SD_copyright"
+    echo '<br>'
+    echo "<a href='$(_SD_escape_html "$SD_url")'>$(_SD_escape_html "$SD_url")</a>"
+    echo '<br>'
+    echo "${SD_CGI_FOOTER_HTML-}"
+    echo '</body></html>'
+  fi
+}
+
+if [[ ${0##*/} == echo-sd ]] && [[ ${zsh_eval_context-toplevel} == toplevel ]]; then
+  SD_init
+
+  if [[ ${GATEWAY_INTERFACE-} == @(CGI*) ]]; then
+    SD_echo_cgi "$@"
+  else
+    SD_echo_command "$@"
+  fi
+  exit $?
+fi
+
+return 0
+
