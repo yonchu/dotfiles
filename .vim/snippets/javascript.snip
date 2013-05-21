@@ -597,3 +597,10 @@ snippet     llog
 abbr        console.log(label + arg);
 prev_word   '^'
   console.log("${1:#label}: " + ${2:#arg});
+
+snippet     function-annonymous
+abbr        (function() { })();
+options     head
+    (function() {
+      ${0:TARGET}
+    })();
