@@ -16,6 +16,9 @@
 
 # pudb
 /.config/pudb/saved-breakpoints
+/.config/configstore/insight-yo.yml
+/.config/configstore/update-notifier-yo.yml
+/.config/gtk-2.0/gtkfilechooser.ini
 
 # ipython
 /.ipython/profile_default/db
