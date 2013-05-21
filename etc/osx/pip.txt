@@ -13,10 +13,12 @@ ipython==0.13.2
 mccabe==0.2.1
 paramiko==1.10.1
 pep8==1.4.5
+percol==0.0.3
 pip-tools==0.3.1
 pudb==2012.3
 pycrypto==2.6
 pyflakes==0.7.2
+pymigemo==0.4
 python-gflags==2.0
 readline==6.2.4.1
 see==1.0.1

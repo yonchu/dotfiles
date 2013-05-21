@@ -10,6 +10,7 @@ binutils
 bison
 bsdmake
 cairo
+cmigemo
 colordiff
 coreutils
 ctags
@@ -50,6 +51,7 @@ ncftp
 ngrep
 nkf
 nmap
+node
 pango
 pcre
 pixman
