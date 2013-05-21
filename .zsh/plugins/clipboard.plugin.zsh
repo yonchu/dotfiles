@@ -8,18 +8,18 @@
 if type pbcopy >/dev/null 2>&1; then
     # Mac
     unalias pbcopy > /dev/null 2>&1
-    alias -g P='| pbcopy'
+    alias -g C='| pbcopy'
 elif type xsel >/dev/null 2>&1; then
     # Linux
     alias pbcopy='xsel --input --clipboard'
-    alias -g P='| xsel --input --clipboard'
+    alias -g C='| xsel --input --clipboard'
 elif type putclip >/dev/null 2>&1; then
     # Cygwin
     alias pbcopy='putclip'
-    alias -g P='| putclip'
+    alias -g C='| putclip'
 else
     alias pbcopy='cat'
-    alias -g P='| cat'
+    alias -g C='| cat'
 fi
 
 # 直前のコマンドをクリップボードへ

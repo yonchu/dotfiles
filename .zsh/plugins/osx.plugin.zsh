@@ -112,6 +112,8 @@ alias gvim='open -a MacVim'
 alias chrome='open -a Google\ Chrome'
 alias edit='open -a CotEditor'
 
+alias -g O="| xargs open"
+
 # Open current directory in Finder.
 alias f='open .'
 
