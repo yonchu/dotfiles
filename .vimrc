@@ -1966,11 +1966,11 @@ nnoremap l <Right>
 nnoremap <Down> j
 nnoremap <Up>   k
 
-nnoremap H b
-nnoremap L w
-nnoremap J }
-nnoremap K {
-nnoremap gJ J
+noremap H b
+noremap L w
+noremap J }
+noremap K {
+noremap gJ J
 
 
 "### insert mode でjjでesc
