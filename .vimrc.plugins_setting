@@ -326,6 +326,11 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_color_change_percent = 30
 " }}}
 
+" === jasegment.vim {{{
+nmap <silent> H <Plug>JaSegmentMoveNB
+nmap <silent> L <Plug>JaSegmentMoveNW
+" }}}
+
 " === jscomplete-vim {{{
 " DOMとMozilla関連とES6のメソッドを補完
 let g:jscomplete_use = ['dom', 'moz', 'es6th']
@@ -849,6 +854,9 @@ let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
 " }}}
 
 " === ref {{{
+let g:ref_no_default_key_mappings = 1
+silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
 let bundle = neobundle#get('vim-ref')
 function! bundle.hooks.on_source(bundle)
   let g:ref_use_vimproc = 1

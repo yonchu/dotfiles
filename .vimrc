@@ -341,8 +341,10 @@ NeoBundleLazy 'EasyMotion', {
 " jasegment : 日本語を含んだ文章を文節区切りで移動 (W/B/E)
 NeoBundleLazy 'deton/jasegment.vim', {
       \ 'autoload' : {
-      \   'mappings' : ['W', 'B', 'E']
-      \ }}
+      \   'mappings' : [
+      \     'W', 'B', 'E',
+      \     '<Plug>JaSegmentMoveNW', '<Plug>JaSegmentMoveNB'
+      \ ]}}
 
 " f の2文字入力版 (s + 2char)
 NeoBundleLazy 'goldfeld/vim-seek', {
@@ -887,7 +889,7 @@ NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
 " === ColorScheme {{{2
 
 " NeoBundle 'aereal/vim-magica-colors'
-" NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'w0ng/vim-hybrid'
 
 "NeoBundle 'Railscasts-Theme-GUIand256color'
@@ -911,7 +913,8 @@ NeoBundle 'w0ng/vim-hybrid'
 "   キャッシュ削除 :call ref#rmcache('pydoc')
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
-      \   'commands' : 'Ref'
+      \   'commands' : 'Ref',
+      \   'mappings' : '<Plug>(ref-keyword)'
       \ }}
 
 " vim-refのjavadoc用ソース
@@ -1962,6 +1965,12 @@ nnoremap k gk
 nnoremap l <Right>
 nnoremap <Down> j
 nnoremap <Up>   k
+
+nnoremap H b
+nnoremap L w
+nnoremap J }
+nnoremap K {
+nnoremap gJ J
 
 
 "### insert mode でjjでesc
