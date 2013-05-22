@@ -33,7 +33,9 @@ alias d='dirs -v'
 
 # Move back to dir stack.
 # alias n='cd +n'
-for index ({1..9}) alias "$index"="cd +${index}"; unset index
+cd_plus='cd +'
+setopt | grep -q 'pushdminus' && cd_plus='cd -'
+for index ({1..9}) alias "$index"="${cd_plus}${index}"; unset index cd_plus
 
 # history時間表示
 alias history="history -i"
