@@ -1613,21 +1613,37 @@ function! s:toggle_vimfiler_explorer()
   endif
 endfunction
 
-" 自動実行
-if has('vim_starting') && len(expand('%:p')) == 0 && !argc()
-  augroup AutoOpenVimfilerAu
-    autocmd!
-    autocmd VimEnter * call <SID>auto_open_vimfiler()
-  augroup END
-endif
+" 自動実行 - Helper
 function! s:auto_open_vimfiler()
   call <SID>toggle_vimfiler_explorer()
   execute 'wincmd w'
+  execute 'edit $MYVIMRC'
   augroup AutoOpenVimfilerAu
     autocmd!
   augroup END
   augroup! AutoOpenVimfilerAu
 endfunction
+" http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
+function! s:GetBufByte()
+  let byte = line2byte(line('$') + 1)
+  if byte == -1
+    return 0
+  else
+    return byte - 1
+  endif
+endfunction
+" 自動実行 - Main
+if has('vim_starting')
+      \ && len(expand('%:p')) == 0
+      \ && !argc()
+  augroup AutoOpenVimfilerAu
+    autocmd!
+    autocmd VimEnter * nested
+          \ if @% == '' && s:GetBufByte() == 0
+          \ | call <SID>auto_open_vimfiler()
+          \ | endif
+  augroup END
+endif
 
 " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -no-start-insert -winheight=10 -direction=leftbelow
 let bundle = neobundle#get('vimfiler')
