@@ -2038,6 +2038,7 @@ map <F2> <ESC>:bp<CR>
 map <F3> <ESC>:bn<CR>
 " F4でバッファを削除する
 map <F4> <ESC>:bnext \| bdelete #<CR>
+nnoremap B :ls<CR>:b
 
 
 "### フレームサイズを怠惰に変更する
