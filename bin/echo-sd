@@ -41,25 +41,25 @@
 ##   ＞ ッ ＜
 ##   ＞ ！ ＜
 ##   ￣Y^Y￣
-##   $ echo-sd -m 1 ズキュウウゥン！！
-##   ＿人人人人人人人人人人人人＿
-##   ＞　　　　　　　　　　　　＜
+##   $ echo-sd -p1 ズキュウウゥン！！
+##     ＿人人人人人人人人人人＿
+##    ＞　　　　　　　　　　　＜
 ##   ＞　 ズキュウウゥン！！ 　＜
-##   ＞　　　　　　　　　　　　＜
-##   ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
-##   $ echo-sd -v -t 1 -b 1 -l 2 -r 4 ｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞ 「世界」ッ！ 時よ止まれ！
-##     ＿人人人人人人人人＿
-##    ＞　　　　　　　 　＜
-##   ＞　　時　 ┐ ｺﾞ　　 ＜
-##   ＞　　よ　世　ｺﾞ　　 ＜
-##   ＞　　止　界　ｺﾞ　　 ＜
-##   ＞　　ま └　 ｺﾞ　　 ＜
-##   ＞　　れ　ッ　ｺﾞ　　 ＜
-##   ＞　　！　！　ｺﾞ　　 ＜
-##   ＞　　　　　　ｺﾞ　　 ＜
-##   ＞　　　　　　ｺﾞ　　 ＜
-##    ＞　　　　　　　 　＜
-##     ￣Y^Y^Y^Y^Y^Y^Y^Y￣
+##    ＞　　　　　　　　　　　＜
+##     ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
+##   $ echo-sd -vp1 ｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞｺﾞ 「世界」ッ！ 時よ止まれ！
+##     ＿人人人人人＿
+##    ＞　　　　　　＜
+##   ＞　時　 ┐ ｺﾞ　＜
+##   ＞　よ　世　ｺﾞ　＜
+##   ＞　止　界　ｺﾞ　＜
+##   ＞　ま └　 ｺﾞ　＜
+##   ＞　れ　ッ　ｺﾞ　＜
+##   ＞　！　！　ｺﾞ　＜
+##   ＞　　　　　ｺﾞ　＜
+##   ＞　　　　　ｺﾞ　＜
+##    ＞　　　　　　＜
+##     ￣Y^Y^Y^Y^Y￣
 ##
 ## Examples for CGI mode:
 ##
@@ -114,10 +114,10 @@ typeset SD_arg0="$0"
 typeset SD_copyright='(C) 2013 SATOH Fumiyasu @ OSS Technology Corp., Japan'
 typeset SD_url='https://github.com/fumiyas/home-commands/blob/master/echo-sd'
 typeset SD_lang_orig SD_lang
-typeset SD_c_tl SD_c_t SD_c_tr
-typeset SD_c_l SD_c_r
-typeset SD_c_bl SD_c_b SD_c_br
-typeset -A SD_v_map
+typeset SD_bc_tl SD_bc_t SD_bc_tr
+typeset SD_bc_l SD_bc_r
+typeset SD_bc_bl SD_bc_b SD_bc_br
+typeset -A SD_vc_map
 
 function SD_die {
   SD_echo_command "${SD_arg0##*/}: ERROR: $1" 1>&2
@@ -150,45 +150,45 @@ function SD_init {
   fi
   SD_lang="${lang_ja-${lang-ja_JP.UTF-8}}"
 
-  SD_c_tl="＿人"
-  SD_c_t="人"
-  SD_c_tr="人＿"
-  SD_c_l="＞"
-  SD_c_r="＜"
-  SD_c_bl="￣Y^"
-  SD_c_b="Y^"
-  SD_c_br="Y￣"
+  SD_bc_tl="＿人"
+  SD_bc_t="人"
+  SD_bc_tr="人＿"
+  SD_bc_l="＞"
+  SD_bc_r="＜"
+  SD_bc_bl="￣Y^"
+  SD_bc_b="Y^"
+  SD_bc_br="Y￣"
 
   if [[ -n ${ZSH_VERSION-} ]]; then
-    SD_v_map=()
+    SD_vc_map=()
   else
-    SD_v_map=
+    SD_vc_map=
   fi
-  SD_v_map[。]='  。'
-  SD_v_map[、]='  、'
-  SD_v_map[ー]=' ｜ '
-  SD_v_map[…]=' ︙ '
-  SD_v_map[‥]=' ︰ '
-  SD_v_map[（]=' ⏜  '
-  SD_v_map[\(]=' ⏜  '
-  SD_v_map[）]=' ⏝  '
-  SD_v_map[\)]=' ⏝  '
-  SD_v_map[［]=' ⎴  '
-  SD_v_map[\[]=' ⎴  '
-  SD_v_map[］]=' ⎵  '
-  SD_v_map[\]]=' ⎵  '
-  SD_v_map[｛]=' ⏞  '
-  SD_v_map[\{]=' ⏞  '
-  SD_v_map[｝]=' ⏟  '
-  SD_v_map[\}]=' ⏟  '
-  SD_v_map[「]='  ┐'
-  SD_v_map[」]='└  '
-  SD_v_map[｢]='  ┐'
-  SD_v_map[｣]='└  '
-  SD_v_map[-]=' |  '
-  SD_v_map[ｰ]=' |  '
-  SD_v_map[,]="  ' "
-  SD_v_map[､]='  ` '
+  SD_vc_map[。]='  。'
+  SD_vc_map[、]='  、'
+  SD_vc_map[ー]=' ｜ '
+  SD_vc_map[…]=' ︙ '
+  SD_vc_map[‥]=' ︰ '
+  SD_vc_map[（]=' ⏜  '
+  SD_vc_map[\(]=' ⏜  '
+  SD_vc_map[）]=' ⏝  '
+  SD_vc_map[\)]=' ⏝  '
+  SD_vc_map[［]=' ⎴  '
+  SD_vc_map[\[]=' ⎴  '
+  SD_vc_map[］]=' ⎵  '
+  SD_vc_map[\]]=' ⎵  '
+  SD_vc_map[｛]=' ⏞  '
+  SD_vc_map[\{]=' ⏞  '
+  SD_vc_map[｝]=' ⏟  '
+  SD_vc_map[\}]=' ⏟  '
+  SD_vc_map[「]='  ┐'
+  SD_vc_map[」]='└  '
+  SD_vc_map[｢]='  ┐'
+  SD_vc_map[｣]='└  '
+  SD_vc_map[-]=' |  '
+  SD_vc_map[ｰ]=' |  '
+  SD_vc_map[,]="  ' "
+  SD_vc_map[､]='  ` '
 }
 
 function _SD_fill_string_by_char {
@@ -231,9 +231,9 @@ function SD_echo_header {
     shift
   fi
   typeset width="$1"; shift
-  typeset margin="$1"; shift
+  typeset padding="$1"; shift
   typeset template left=
-  typeset -a margins
+  typeset -a paddings
 
   if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
     left=" "
@@ -242,15 +242,15 @@ function SD_echo_header {
     left=""
   fi
   template=$(_SD_pad_space "$width")
-  while [[ $margin -gt 0 ]]; do
+  while [[ $padding -gt 0 ]]; do
     if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
       template="${template#?}"
       let width--
     fi
 
-    margins=(
-      "$left${SD_c_l}　${template//  /　}　${SD_c_r}"
-      ${margins[@]+"${margins[@]}"}
+    paddings=(
+      "$left${bc_l:-$SD_bc_l}　${template//  /　}　${bc_r:-$SD_bc_r}"
+      ${paddings[@]+"${paddings[@]}"}
     )
 
     if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
@@ -258,13 +258,13 @@ function SD_echo_header {
       left="$left "
       let width--
     fi
-    let margin--
+    let padding--
   done
 
-  template="${template//  /${SD_c_t}}"
-  echo "$left${SD_c_tl}${template// /}${SD_c_tr}"
-  for margin_s in ${margins[@]+"${margins[@]}"}; do
-    echo "$margin_s"
+  template="${template//  /${bc_t:-$SD_bc_t}}"
+  echo "$left${bc_tl:-$SD_bc_tl}${template// /}${bc_tr:-$SD_bc_tr}"
+  for padding_s in ${paddings[@]+"${paddings[@]}"}; do
+    echo "$padding_s"
   done
 }
 
@@ -275,7 +275,7 @@ function SD_echo_footer {
     shift
   fi
   typeset width="$1"; shift
-  typeset margin="$1"; shift
+  typeset padding="$1"; shift
   typeset template left=
 
   if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
@@ -283,29 +283,30 @@ function SD_echo_footer {
     let width--
   fi
   template=$(_SD_pad_space "$width")
-  while [[ $margin -gt 0 ]]; do
+  while [[ $padding -gt 0 ]]; do
     if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
       template="${template#?}"
       let width--
     fi
 
-    echo "$left${SD_c_l}　${template//  /　}　${SD_c_r}"
+    echo "$left${bc_l:-$SD_bc_l}　${template//  /　}　${bc_r:-$SD_bc_r}"
 
     if [[ -n ${round-} ]] && [[ $width -ge 2 ]]; then
       template="${template#?}"
       left="$left "
     fi
-    let margin--
+    let padding--
   done
 
-  template="${template//  /${SD_c_b}}"
-  echo "$left${SD_c_bl}${template// /}${SD_c_br}"
+  template="${template//  /${bc_b:-$SD_bc_b}}"
+  echo "$left${bc_bl:-$SD_bc_bl}${template// /}${bc_br:-$SD_bc_br}"
 }
 
 function SD_echo_horizontal {
   typeset opt
   typeset round
-  typeset margin_top=0 margin_bottom=0 margin_left=0 margin_right=0
+  typeset bc_tl bc_t bc_tr bc_l bc_r bc_bl bc_b bc_br
+  typeset padding_top=0 padding_bottom=0 padding_left=0 padding_right=0
 
   while [ "$#" -gt 0 ]; do
     opt="$1"; shift
@@ -323,32 +324,39 @@ function SD_echo_horizontal {
     -R|--no-round)
       no_round="set"
       ;;
-    -m|--margin)
+    --bc-[tblr]|--bc-t[lr]|--bc-b[lr])
+      if [[ ! -n ${1+set} ]]; then
+	SD_die "Option value required: $opt"
+      fi
+      eval "bc_${opt##*-}=\"\$1\""
+      shift
+      ;;
+    -p|--padding)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
-      margin_top="$((($1 + 1) / 2))"
-      margin_bottom="$margin_top"
-      margin_left="$1"
-      margin_right="$1"
+      padding_top="$((($1 + 1) / 2))"
+      padding_bottom="$padding_top"
+      padding_left="$1"
+      padding_right="$1"
       shift
       ;;
-    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+    -[tblr]|--padding-top|--padding-bottom|--padding-left|--padding-right)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
       case "$opt" in
-      -t|--margin-top)
-	margin_top="$1"
+      -t|--padding-top)
+	padding_top="$1"
 	;;
-      -b|--margin-bottom)
-	margin_bottom="$1"
+      -b|--padding-bottom)
+	padding_bottom="$1"
 	;;
-      -l|--margin-left)
-	margin_left="$1"
+      -l|--padding-left)
+	padding_left="$1"
 	;;
-      -r|--margin-right)
-	margin_right="$1"
+      -r|--padding-right)
+	padding_right="$1"
 	;;
       esac
       shift
@@ -370,12 +378,12 @@ function SD_echo_horizontal {
 
   typeset -a scripts
   typeset script width width_tmp
-  typeset margin_left_s margin_right_s
+  typeset padding_left_s padding_right_s
   width=0
-  margin_left_s=$(_SD_pad_space "$margin_left")
-  margin_right_s=$(_SD_pad_space "$margin_right")
+  padding_left_s=$(_SD_pad_space "$padding_left")
+  padding_right_s=$(_SD_pad_space "$padding_right")
   for script in ${1+"$@"}; do
-    script="$margin_left_s$script$margin_right_s"
+    script="$padding_left_s$script$padding_right_s"
     scripts[${#scripts[@]}]="$script"
     width_tmp=$(_SD_string_width "$script")
     if [[ $width_tmp -gt $width ]]; then
@@ -383,21 +391,22 @@ function SD_echo_horizontal {
     fi
   done
 
-  SD_echo_header ${no_round:+-R} "$width" "$margin_top"
+  SD_echo_header ${no_round:+-R} "$width" "$padding_top"
   typeset line
   for script in ${scripts[@]+"${scripts[@]}"}; do
-    line="${SD_c_l}　$(_SD_echo_with_padding "${script}" "$width")　${SD_c_r}"
+    line="${bc_l:-$SD_bc_l}　$(_SD_echo_with_padding "${script}" "$width")　${bc_r:-$SD_bc_r}"
     echo "${line//  /　}"
   done
-  SD_echo_footer ${no_round:+-R} "$width" "$margin_bottom"
+  SD_echo_footer ${no_round:+-R} "$width" "$padding_bottom"
 
   export LANG="$SD_lang_orig"
 }
 
 function SD_echo_vertical {
   typeset opt
-  typeset round
-  typeset margin_top=0 margin_bottom=0 margin_left=0 margin_right=0
+  typeset no_round
+  typeset bc_tl bc_t bc_tr bc_l bc_r bc_bl bc_b bc_br
+  typeset padding_top=0 padding_bottom=0 padding_left=0 padding_right=0
 
   while [ "$#" -gt 0 ]; do
     opt="$1"; shift
@@ -412,35 +421,42 @@ function SD_echo_vertical {
     fi
 
     case "$opt" in
-    -R|--round)
-      round="set"
+    -R|--no-round)
+      no_round="set"
       ;;
-    -m|--margin)
+    --bc-[tblr]|--bc-t[lr]|--bc-b[lr])
+      if [[ ! -n ${1+set} ]]; then
+	SD_die "Option value required: $opt"
+      fi
+      eval "bc_${opt##*-}=\"\$1\""
+      shift
+      ;;
+    -p|--padding)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
-      margin_top="$((($1 + 1) / 2))"
-      margin_bottom="$margin_top"
-      margin_left="$1"
-      margin_right="$1"
+      padding_top="$((($1 + 1) / 2))"
+      padding_bottom="$padding_top"
+      padding_left="$1"
+      padding_right="$1"
       shift
       ;;
-    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+    -[tblr]|--padding-top|--padding-bottom|--padding-left|--padding-right)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
       case "$opt" in
-      -t|--margin-top)
-	margin_top="$1"
+      -t|--padding-top)
+	padding_top="$1"
 	;;
-      -b|--margin-bottom)
-	margin_bottom="$1"
+      -b|--padding-bottom)
+	padding_bottom="$1"
 	;;
-      -l|--margin-left)
-	margin_left="$1"
+      -l|--padding-left)
+	padding_left="$1"
 	;;
-      -r|--margin-right)
-	margin_right="$1"
+      -r|--padding-right)
+	padding_right="$1"
 	;;
       esac
       shift
@@ -473,8 +489,8 @@ function SD_echo_vertical {
       trailer="${trailer#?}"
       letter="${script%$trailer}"
       script="${script#?}"
-      if [[ -n ${SD_v_map[$letter]-} ]]; then
-	line="${SD_v_map[$letter]}"
+      if [[ -n ${SD_vc_map[$letter]-} ]]; then
+	line="${SD_vc_map[$letter]}"
       else
 	trailer2="${trailer#?}"
 	next="${script%$trailer2}"
@@ -503,25 +519,25 @@ function SD_echo_vertical {
   done
 
   typeset line_width=$(((script_n - 1) * $letter_width))
-  let line_width+=$margin_left+$margin_right+1
+  let line_width+=$padding_left+$padding_right
 
-  typeset margin_left_s margin_right_s
-  margin_left_s=$(_SD_pad_space "$margin_left")
-  margin_right_s=$(_SD_pad_space "$margin_right")
+  typeset padding_left_s padding_right_s
+  padding_left_s=$(_SD_pad_space "$padding_left")
+  padding_right_s=$(_SD_pad_space "$padding_right")
 
-  SD_echo_header ${round:+-R} "$line_width" "$margin_top"
+  SD_echo_header ${no_round:+-R} "$line_width" "$padding_top"
   for line in ${lines[@]+"${lines[@]}"}; do
-    line="$margin_left_s $line$margin_right_s"
-    echo "${SD_c_l}${line//  /　}${SD_c_r}"
+    line="$padding_left_s$line$padding_right_s"
+    echo "${bc_l:-$SD_bc_l}${line//  /　}${bc_r:-$SD_bc_r}"
   done
-  SD_echo_footer ${round:+-R} "$line_width" "$margin_bottom"
+  SD_echo_footer ${no_round:+-R} "$line_width" "$padding_bottom"
 
   export LANG="$SD_lang_orig"
 }
 
 function SD_echo_command_help {
   {
-    SD_c_r="＜ ジェネレーター" SD_echo_command
+    SD_bc_r="＜ ジェネレーター" SD_echo_command
     cat <<EOT
 Usage: ${SD_arg0##*/} [OPTIONS] [SCRIPT ...]
 
@@ -538,28 +554,35 @@ Options:
     Stream mode
  -R, --no-round
     Do not round border
- -m, --margin MARGIN
- -t, --margin-top MARGIN
- -b, --margin-bottom MARGIN
- -l, --margin-left MARGIN
- -r, --margin-right MARGIN
-    Margin size
+ --square
+    Square border
+ -p, --padding SIZE
+ -t, --padding-top SIZE
+ -b, --padding-bottom SIZE
+ -l, --padding-left SIZE
+ -r, --padding-right SIZE
+    Padding size
 EOT
   } |SD_echo_command --read-stdin
 }
 
 function SD_echo_command {
-  typeset opt read_stdin vertical stress stream round
-  typeset margin margin_top margin_bottom margin_left margin_right
+  typeset opt read_stdin vertical stress stream no_round square
+  typeset padding padding_top padding_bottom padding_left padding_right
 
   while [ "$#" -gt 0 ]; do
     opt="$1"; shift
 
-    if [[ -z "${opt##-[!-]?*}" ]]; then
+    ## -ovalue → -o value
+    if [[ -z "${opt##-[ptblr]?*}" ]]; then
+      set -- "${opt#??}" ${1+"$@"}
+      opt="${opt%$1}"
+    ## -abc → -a -bc
+    elif [[ -z "${opt##-[!-]?*}" ]]; then
       set -- "-${opt#??}" ${1+"$@"}
       opt="${opt%${1#-}}"
-    fi
-    if [[ -z "${opt##--*=*}" ]]; then
+    ## --option=value → --option value
+    elif [[ -z "${opt##--*=*}" ]]; then
       set -- "${opt#--*=}" ${1+"$@"}
       opt="${opt%%=*}"
     fi
@@ -583,32 +606,36 @@ function SD_echo_command {
       stream="set"
       read_stdin=""
       ;;
-    -R|--round)
-      round="set"
+    -R|--no-round)
+      no_round="set"
       ;;
-    -m|--margin)
+    --square)
+      square="set"
+      no_round="set"
+      ;;
+    -p|--padding)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
-      margin="$1"
+      padding="$1"
       shift
       ;;
-    -[tblr]|--margin-top|--margin-bottom|--margin-left|--margin-right)
+    -[tblr]|--padding-top|--padding-bottom|--padding-left|--padding-right)
       if [[ ${1-BAD} == @(*[!0-9]*) ]]; then
 	SD_die "Invalid option value: $opt ${1-UNSPECIFIED}"
       fi
       case "$opt" in
-      -t|--margin-top)
-	margin_top="$1"
+      -t|--padding-top)
+	padding_top="$1"
 	;;
-      -b|--margin-bottom)
-	margin_bottom="$1"
+      -b|--padding-bottom)
+	padding_bottom="$1"
 	;;
-      -l|--margin-left)
-	margin_left="$1"
+      -l|--padding-left)
+	padding_left="$1"
 	;;
-      -r|--margin-right)
-	margin_right="$1"
+      -r|--padding-right)
+	padding_right="$1"
 	;;
       esac
       shift
@@ -628,12 +655,15 @@ function SD_echo_command {
 
   typeset -a sd_opts
   sd_opts=(
-    ${round:+-R}
-    ${margin:+-m "$margin"}
-    ${margin_top:+-t "$margin_top"}
-    ${margin_bottom:+-b "$margin_bottom"}
-    ${margin_left:+-l "$margin_left"}
-    ${margin_right:+-r "$margin_right"}
+    ${no_round:+-R}
+    ${square:+--bc-tl '┌─' --bc-t '─' --bc-tr '─┐'}
+    ${square:+--bc-l '│' --bc-r '│'}
+    ${square:+--bc-bl '└─' --bc-b '─' --bc-br '─┘'}
+    ${padding:+-p "$padding"}
+    ${padding_top:+-t "$padding_top"}
+    ${padding_bottom:+-b "$padding_bottom"}
+    ${padding_left:+-l "$padding_left"}
+    ${padding_right:+-r "$padding_right"}
   )
 
   if [[ -n ${stress-} ]]; then
@@ -703,7 +733,7 @@ function _SD_urldecode {
 function SD_echo_cgi {
   typeset query="${QUERY_STRING-}"
   typeset param value
-  typeset text vertical margin
+  typeset text vertical padding square
   typeset -a prefaces
   typeset -a scripts
 
@@ -721,8 +751,11 @@ function SD_echo_cgi {
       v|vertical)
 	vertical="checked"
 	;;
-      m|margin)
-	margin="checked"
+      p|padding)
+	padding="checked"
+	;;
+      square)
+	square="checked"
 	;;
       esac
       ;;
@@ -746,8 +779,8 @@ function SD_echo_cgi {
 
   set -- \
     ${vertical:+-v} \
-    ${margin:+-t 1} \
-    ${margin:+-b 1} \
+    ${padding:+-p 1} \
+    ${square:+--square} \
     ;
   if [[ ${#scripts[@]} -eq 1 ]] && [[ -z ${scripts[0]} ]]; then
     set -- ${1+"$@"} -- '突然の死'
@@ -783,11 +816,14 @@ function SD_echo_cgi {
       '<input type="checkbox" name="options" value="vertical" accesskey="v" ' \
       "${vertical-}>縦書き(<span class='ul'>V</span>)</label>"
     echo '<label>' \
-      '<input type="checkbox" name="options" value="margin" accesskey="m" ' \
-      "${margin-}>余白(<span class='ul'>M</span>)</label>"
+      '<input type="checkbox" name="options" value="padding" accesskey="p" ' \
+      "${padding-}>余白(<span class='ul'>P</span>)</label>"
+    echo '<label>' \
+      '<input type="checkbox" name="options" value="square" accesskey="s" ' \
+      "${square-}>四角形(<span class='ul'>S</span>)</label>"
     echo '<label>' \
       '<input type="checkbox" name="options" value="text" accesskey="t" ' \
-      ">テキスト(<span class='ul'>T</span>)</label>"
+      ">テキスト形式(<span class='ul'>T</span>)</label>"
     echo '<br>'
     echo '<input type='submit' value='＞　ジェネレート　＜' tabindex="2"><br>'
     echo '</form>'
