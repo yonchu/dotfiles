@@ -3,7 +3,6 @@ abbr        console.log "arg
 options     word
     console.log "${1} = #{$1}"
 
-
 snippet     alertmap
 abbr        alert ("#{key}: #{value}" for key, value of message).join(', ')
 options     word
@@ -29,3 +28,112 @@ options     head
 
       public_method: (arg) ->
         console.log "Call public_method()"
+
+snippet     ###
+abbr        ### JSDoc ###
+options     word
+    ###*
+     * ${0:TARGET}
+     *
+     * @module myapp
+     *
+     * @namespace MYAPP
+     * @class Hoge fuga
+     *
+     * @class Hoge
+     * @constructor Hoge
+     * @namespace MYAPP
+     * @param {Type} name explanation
+     *
+     * @property name
+     * @type Type
+     *
+     * @method methodName
+     * @param  {Type} name explanation
+     * @return {Type} explanation
+    ###
+
+
+# Asignation if
+snippet if=
+    ${1:variable} = ${2:valor} if ${3:condition}
+
+# Asignation if and
+snippet ifand
+    if ${1} and ${2}
+
+# Asignation if then else
+snippet ifthen=
+    ${1: value} = if ${2:option} then ${3:asignation} else ${4:else}
+
+# Asignation or=
+snippet or=
+    ${1:options} or= ${2:defaults}
+
+# Asignation while
+snippet while
+    ${1:action()} while ${2:condition}
+
+# Asignation until
+snippet until
+    ${1:action()} until ${2:condition}
+
+# Asignation forindo
+snippet forindo
+    for ${1:filename} in ${2:list}
+        do (${3:filename}) ->
+
+# Asignation tryfin
+snippet tryfin
+    try
+        ${1:expresion}
+    catch error
+        ${2:error}
+    finally
+        ${3:cleanAll()}
+
+# Asignation ?=
+snippet ?=
+    ${1:speed} ?= ${2:75}
+
+# Asignation =?
+snippet =?
+    ${1:footprints} = ${2:yetis} ? ${3:bear}
+
+## Backbone.js coffee-script snippets
+##
+## controller
+snippet con
+    class ${1:classname} extends Backbone.Controller
+
+        routes:
+            '${2:route}': '${3:function}'
+
+        $3: ->
+                ${4:#function stuff here...}
+
+## model
+snippet mod
+    class ${1:name} extends Backbone.Model
+
+        ${2}
+
+## view
+snippet view
+    class ${1:name} extends Backbone.View
+
+        initialize: ->
+            @render()
+
+        render: ->
+            $(this.el).html(JST.${2:template}(model: @model))
+            ${3}
+            @
+
+## collection
+snippet col
+    class ${1:name} extends Backbone.Collection
+
+        initialize: ->
+
+        url: '${2:url}'
