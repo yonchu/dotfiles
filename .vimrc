@@ -343,7 +343,9 @@ NeoBundleLazy 'deton/jasegment.vim', {
       \ 'autoload' : {
       \   'mappings' : [
       \     'W', 'B', 'E',
-      \     '<Plug>JaSegmentMoveNW', '<Plug>JaSegmentMoveNB'
+      \     '<Plug>JaSegmentMoveNW',
+      \     '<Plug>JaSegmentMoveNB',
+      \     '<Plug>JaSegmentMoveNE',
       \ ]}}
 
 " f の2文字入力版 (s + 2char)
@@ -1967,7 +1969,8 @@ nnoremap <Down> j
 nnoremap <Up>   k
 
 noremap H b
-noremap L w
+" noremap L w
+noremap L e
 noremap J }
 noremap K {
 noremap gJ J
@@ -2543,6 +2546,8 @@ function! s:separator(width, sep, ...)
   execute 'normal! i'.line
 endfunction
 command! Sep :silent call s:separator(78, '=')
+
+command! -nargs=1 Line :silent :execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 
 " }}}
 

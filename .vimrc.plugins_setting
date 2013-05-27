@@ -330,9 +330,14 @@ let g:indent_guides_color_change_percent = 30
 nmap <silent> H <Plug>JaSegmentMoveNB
 omap <silent> H <Plug>JaSegmentMoveOB
 xmap <silent> H <Plug>JaSegmentMoveVB
-nmap <silent> L <Plug>JaSegmentMoveNW
-omap <silent> L <Plug>JaSegmentMoveOW
-xmap <silent> L <Plug>JaSegmentMoveVW
+
+" nmap <silent> L <Plug>JaSegmentMoveNW
+" omap <silent> L <Plug>JaSegmentMoveOW
+" xmap <silent> L <Plug>JaSegmentMoveVW
+
+nmap <silent> L <Plug>JaSegmentMoveNE
+omap <silent> L <Plug>JaSegmentMoveOE
+xmap <silent> L <Plug>JaSegmentMoveVE
 " }}}
 
 " === jscomplete-vim {{{
