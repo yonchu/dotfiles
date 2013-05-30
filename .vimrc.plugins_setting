@@ -1252,9 +1252,9 @@ nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=bookmark bookmark<CR>
 
 " dotfiles以下のファイルを表示
-command! Ufd :<C-u>Unite file:~/dotfiles -input=. -no-start-insert -winwidth=60
+command! Ufd :Unite file:~/dotfiles -input=. -no-start-insert -winwidth=60
 
-command! Uba :<C-u>UniteBookmarkAdd<CR>
+command! Uba :UniteBookmarkAdd<CR>
 
 " ----- unite-plugins -----
 " yank/history
@@ -1266,12 +1266,12 @@ nnoremap <silent> ;y
 " unite-line
 " uniteでバッファ内検索//
 "  <C-u> 余計な文字が入っていた場合に行頭まで削除することで正常に動作させる
-command! Ul :<C-u>Unite -buffer-name=search -start-insert -no-quit -auto-preview line_migemo
+command! Ul :Unite -buffer-name=search -start-insert -no-quit -auto-preview line_migemo
 
 " unite-grep
 "  Targetに-Rを入れることで再帰検索可能
 " キーマップ
-command! Ug :<C-u>Unite -no-start-insert -buffer-name=search -no-quit grep
+command! Ug :Unite -no-start-insert -buffer-name=search -no-quit grep
 
 
 " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -no-start-insert -winheight=10 -direction=leftbelow
@@ -1312,27 +1312,27 @@ command! Ug :<C-u>Unite -no-start-insert -buffer-name=search -no-quit grep
 
 
 " unit-help
-command! Uh :<C-u>Unite help
+command! Uh :Unite help
 " カーソル上の単語をunite-helpで検索
-command! Uhw :<C-u>UniteWithCursorWord help
+command! Uhw :UniteWithCursorWord help
 
 " unite-outline
 "nnoremap <silent> ;o
       "\ :<C-u>Unite outline -start-insert -resume<CR>
-command! Uo :<C-u>Unite -no-start-insert -winwidth=40 -start-insert -resume -no-quit outline
+command! Uo :Unite -no-start-insert -winwidth=40 -start-insert -resume -no-quit outline
 
 " unite-colorscheme
-command! Uc :<C-u>Unite -auto-preview -no-start-insert -winwidth=15 colorscheme
+command! Uc :Unite -auto-preview -no-start-insert -winwidth=15 colorscheme
 
 " unite-mapping
-command! Um :<C-u>Unite -no-start-insert mapping
+command! Um :Unite -no-start-insert mapping
 
 " unite-quickfix
-command! Uq :<C-u>Unite -no-quit -direction=botright quickfix
-command! Uq :<C-u>Unite -no-quit -direction=botright location_list
+command! Uq :Unite -no-quit -direction=botright quickfix
+command! Uq :Unite -no-quit -direction=botright location_list
 
 " tweetvim
-command! Utw :<C-u>Unite tweetvim
+command! Utw :Unite tweetvim
 
 " Alias
 let g:unite_source_alias_aliases = {}
@@ -1454,8 +1454,8 @@ function! bundle.hooks.on_source(bundle)
     imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
     " ファイルを開く(ウィンドウ横分割)
-    nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
-    inoremap <silent> <buffer> <expr> <C-l> unite#do_action('split')
+    nnoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
+    inoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
 
     " ファイルを開く(ウィンドウ縦分割)
     nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
@@ -1767,6 +1767,9 @@ let g:yankring_history_file = ".yankring_history"
 nmap <Leader>y :YRShow<CR>
 " ヤンク履歴についかする最少文字数(1文字は対象外)
 let g:yankring_min_element_length = 2
+
+let g:yankring_replace_n_nkey = ''
+let g:yankring_replace_n_pkey = ''
 
 autocmd MyAutoCmd BufNewFile *
       \ if bufname('%') ==# '[YankRing]'
