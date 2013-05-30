@@ -24,23 +24,23 @@ set imdisableactivate            " ESCでIM自動OFF、入力モードでIM自�
 set cmdheight=2                  " コマンドラインの高さ(GUI使用時)
 
 if has('mac')
-  set transparency=5
+  set transparency=10
   set antialias
 
   " フォント(Regular Font)
   "set guifont=Osaka-Mono:h13
   "set guifont=Monaco:h13
-  "set guifont=Ricty-RegularForPowerline:h14
-  "set guifont=EnvyCodeRForPowerline:h16
-  " set guifont=CodeM-RegularForPowerline:h16
-  " set guifont=CodeMWide-RegularForPowerline:h16
-  set guifont=CodeMExpanded-RegularForPowerline:h16
+  " set guifont=Ricty-RegularForPowerline:h16
+  " set guifont=EnvyCodeRForPowerline:h16
+  " set guifont=CodeM-RegularForPowerline:h14
+  " set guifont=CodeMWide-RegularForPowerline:h14
+  set guifont=CodeMExpanded-RegularForPowerline:h15
 
   " Non-ACSII Font
   "set guifontwide=Osaka-Mono:h13
   "set guifontwide=Ricty-Regular:h16
 
-  set columns=100                  " width (列)
+  set columns=120                  " width (列)
   set lines=45                     " line (行)
 elseif has('linux')
   set guifont=Monaco\ 12
@@ -54,10 +54,49 @@ endif
 " hi clear CursorLine
 " hi CursorLine gui=underline
 
-" マウス関係
+" カーソル点滅OFF
+set guicursor=a:blinkon0
+
 " マウス移動によるフォーカス切り替えを無効
 set nomousefocus
+
 " GUI版vimでもマウス選択機能有効
 set guioptions+=a
-set guioptions-=r
+
+set go-=T " no icons on the top of window
+set go-=r " no right-hand scrollbar at any time
+set go-=l " no left-hand scrollbar at any time
+set go-=L " no left-hand scrollbar at any time
+set go-=m " no gui menu (not for MacVim?)
+set go+=c
+
+" 起動スプラッシュOFF
 set shortmess+=I
+
+
+" http://vim-users.jp/2010/01/hack120/
+let g:save_window_file = expand('~/.vimwinpos')
+augroup SaveWindow
+  autocmd!
+  autocmd VimLeavePre * call s:save_window()
+  function! s:save_window()
+    let options = [
+      \ 'set columns=' . &columns,
+      \ 'set lines=' . &lines,
+      \ 'winpos ' . getwinposx() . ' ' . getwinposy(),
+      \ ]
+    call writefile(options, g:save_window_file)
+  endfunction
+augroup END
+if filereadable(g:save_window_file)
+  execute 'source' g:save_window_file
+endif
+
+
+augroup dualvim
+  autocmd!
+  if has('mac')
+    autocmd FocusGained * set transparency=10
+    autocmd FocusLost * set transparency=50
+  endif
+augroup END

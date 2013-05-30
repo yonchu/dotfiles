@@ -16,6 +16,8 @@ else
     alias vim='vi'
 fi
 alias v='vi'
+alias gv='gvim'
+alias gvi='gvim'
 
 # エンコードを指定して開く
 alias viwin='vim -c "edit ++fileformat=dos ++enc=cp932"'

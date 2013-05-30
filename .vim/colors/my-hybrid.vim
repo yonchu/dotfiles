@@ -130,8 +130,8 @@ hi! default link Title Identifier
 
 " Other Plugins {{{
 " indent-guides.vim
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray  ctermbg=12
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=239
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#262626 ctermbg=12
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#3c3c3c ctermbg=239
 
 " vim-hier
 hi! qf_error_ucurl cterm=undercurl guisp=red
