@@ -2060,7 +2060,7 @@ nnoremap ) %
 
 
 "### 最後に変更されたテキストを選択する
-nnoremap gc  `[v`]
+nnoremap gc :<C-u>normal! `[v`]<CR>
 vnoremap gc <C-u>normal gc<Enter>
 onoremap gc <C-u>normal gc<Enter>
 
