@@ -24,7 +24,7 @@ set imdisableactivate            " ESCでIM自動OFF、入力モードでIM自�
 set cmdheight=2                  " コマンドラインの高さ(GUI使用時)
 
 if has('mac')
-  set transparency=10
+  set transparency=5
   set antialias
 
   " フォント(Regular Font)
@@ -96,7 +96,7 @@ endif
 augroup dualvim
   autocmd!
   if has('mac')
-    autocmd FocusGained * set transparency=10
+    autocmd FocusGained * set transparency=5
     autocmd FocusLost * set transparency=50
   endif
 augroup END
