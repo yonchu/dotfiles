@@ -263,8 +263,15 @@
 
   search-near-tag = name-rev --name-only  # 指定したコミットが番近いタグからどの位置にあるか表示
   search-branch   = branch --contains     # 指定したコミットがどのブランチに含まれるか表示
-  show-cherry     = cherry -v master      # コミット毎に上流ブランチに既に存在している変更かどうかを見る
 
+  # cherry
+  # cherr -vで出てくる;commitから#1234なチケット番号を切り出す
+  cherry-ticket-numbers = "!f() { git cherry -v "$@" | cut -b 44- | awk 'match($0, /#[0-9]+/) {print substr($0, RSTART, RLENGTH)}' | sort -u ;}; f"
+  show-cherry = cherry -v master  # コミット毎に上流ブランチに既に存在しているかを見る
+  # colorized cheery -v
+  cch = "!f() { git cherry -v "$@" | awk '{ if($1 == \"+\"){ color = \"green\" } if($1 == \"-\"){ color = \"red\" } cmd = \"git show --date=short --no-notes --pretty=format:\\047%C\" color $1 \" %h %Cgreen%cd %Cblue%cn%x09%Creset%s\\047 --summary \" $2; cmd | getline t; close(cmd); print t }' ;}; f"
+
+  # cherry-pick
   chpk  = cherry-pick     # 特定のコミットを取り込む
   chpkn = cherry-pick -n  # 特定のコミットを取り込む(no commit)
 
