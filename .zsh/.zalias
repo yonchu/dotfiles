@@ -182,7 +182,7 @@ zsh_commandselector() {
 set_aliases_for_ext() {
     local target
     # Pagerで開く
-    for target in java c h C cpp txt xml; do
+    for target in java c h cpp txt xml; do
         alias -s ${target}=zsh_pager
     done
 
