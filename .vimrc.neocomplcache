@@ -49,8 +49,8 @@ let g:neocomplcache_enable_at_startup = 1
 
 
 " FileType毎のOmni補完を設定
-autocmd MyAutoCmd FileType javascript,coffee setlocal omnifunc=tern#Complete
-" autocmd MyAutoCmd FileType javascript,coffee setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd MyAutoCmd FileType javascript setlocal omnifunc=tern#Complete
+autocmd MyAutoCmd FileType coffee setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd MyAutoCmd FileType html,markdown  setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd MyAutoCmd FileType css            setlocal omnifunc=csscomplete#CompleteCSS
 autocmd MyAutoCmd FileType xml            setlocal omnifunc=xmlcomplete#CompleteTags

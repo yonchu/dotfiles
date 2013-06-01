@@ -938,16 +938,16 @@ NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
       \ }}
 
 " Javascript補完
-" NeoBundleLazy 'teramako/jscomplete-vim',  {
-"       \ 'autoload' : {
-"       \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
-"       \ }}
+NeoBundleLazy 'teramako/jscomplete-vim',  {
+      \ 'autoload' : {
+      \   'filetypes' : [ 'coffee' ]
+      \ }}
 
 " Javascript補完 + node.js
-" NeoBundleLazy 'myhere/vim-nodejs-complete', {
-"       \ 'autoload' : {
-"       \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
-"       \ }}
+NeoBundleLazy 'myhere/vim-nodejs-complete', {
+      \ 'autoload' : {
+      \   'filetypes' : [ 'coffee' ]
+      \ }}
 
 " JSDoc生成
 "   :JsDoc or <C-l>
@@ -1047,7 +1047,7 @@ NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
 " http://ternjs.net/doc/manual.html
 NeoBundleLazy 'marijnh/tern_for_vim', {
       \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
+      \   'filetypes' : [ 'html', 'javascript' ]
       \ }}
 
 " vimの変数を表示 (plug-in制作で便利)
