@@ -666,6 +666,12 @@ NeoBundleLazy 'kana/vim-submode', {
 " tabpagecd : :cd をタブページ毎に
 NeoBundleLazy 'kana/vim-tabpagecd'
 
+" thumbnail.vim : サムネイルを使用した Buffer selector.
+NeoBundleLazy 'itchyny/thumbnail.vim', {
+      \ 'autoload' : {
+      \   'commands'  : 'Thumbnail'
+      \ }}
+
 " TweetVim : vimでtwitter
 "   https://github.com/basyura/TweetVim
 "   Requrires : cURL
