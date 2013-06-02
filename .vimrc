@@ -2555,6 +2555,21 @@ command! Sep :silent call s:separator(78, '=')
 
 command! -nargs=1 Line :silent :execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 
+
+"### echo-sd
+" https://gist.github.com/yoshikaw/5693185
+if executable('echo-sd')
+  command! -nargs=* -range -bang EchoSd call s:echo_sd(<bang>0, <q-args>)
+  function! s:echo_sd(bang, ...)
+    let tmp = @@
+    silent normal gvy
+    let target = a:bang ? "'<,'>" : ''
+    let selected = map(split(substitute(@@, '[\t]\+', '', 'g'), '[\n]'), 'shellescape(v:val, 1)')
+    execute target . "!echo-sd" join(a:000, ' ') join(selected, ' ')
+    let @@ = tmp
+  endfunction
+endif
+
 " }}}
 
 
