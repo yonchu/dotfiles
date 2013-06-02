@@ -76,9 +76,7 @@ hi! default link DiffAdded DiffAdd
 
 
 " Fold {{{
-" hi! Folded     ctermfg=darkred ctermbg=233 cterm=bold
-" hi! FoldColumn ctermfg=white   ctermbg=233
-" hi! SignColumn ctermfg=247     ctermbg=235 cterm=bold
+hi! Folded ctermfg=darkred cterm=bold guifg=#752D2D gui=bold
 " }}}
 
 
