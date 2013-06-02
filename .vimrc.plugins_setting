@@ -1194,6 +1194,7 @@ autocmd MyAutoCmd TabEnter * NeoBundleSource vim-tabpagecd
 
 " === thumbnail.vim {{{
 nnoremap <silent> <Leader>tb :<C-u>Thumbnail -horizontal -below<CR>
+nnoremap <silent> <Leader>tt :<C-u>Thumbnail<CR>
 autocmd MyAutoCmd FileType thumbnail IndentGuidesDisable
 " }}}
 
@@ -1248,6 +1249,7 @@ nnoremap [unite]u  :<C-u>Unite<Space>
 nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 " 常用セット
 nnoremap <silent> [unite]j  :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> B         :<C-u>Unite buffer file_mru<CR>
 " ファイル一覧
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
 " ファイル一覧 (現在のバッファのカレントディレクトリ配下)
