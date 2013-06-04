@@ -385,19 +385,21 @@ command! Mt :TMiniBufExplorer
 " }}}
 
 " === neocomplcache {{{
-augroup InitNecoSeriesAu
-  autocmd!
-  autocmd InsertEnter * call <SID>init_neco_series()
-augroup END
-function! s:init_neco_series()
-  NeoBundleSource neocomplcache
-  NeoBundleSource neosnippet
-  augroup InitNecoSeriesAu
-    autocmd!
-  augroup END
-endfunction
-
-" 補完にneocomplcacheを使う
+NeoBundle 'Shougo/neocomplcache', '', 'default'
+call neobundle#config('neocomplcache', {
+      \ 'lazy' : 1,
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \ }})
+NeoBundle 'Shougo/neosnippet', '', 'default'
+call neobundle#config('neosnippet', {
+      \ 'lazy' : 1,
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \   'filetypes' : 'snippet',
+      \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
+      \ }})
+" " 補完にneocomplcacheを使う
 source ~/dotfiles/.vimrc.neocomplcache
 " }}}
 

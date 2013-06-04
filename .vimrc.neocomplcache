@@ -64,7 +64,7 @@ function! bundle.hooks.on_source(bundle)
 
   " === Basic {{{2
 
-  let g:neocomplcache_enable_prefetch = 0
+  " let g:neocomplcache_enable_prefetch = 0
 
   " 補完候補の一番先頭を選択状態にする(AutoComplPop互換)
   let g:neocomplcache_enable_auto_select = 0
