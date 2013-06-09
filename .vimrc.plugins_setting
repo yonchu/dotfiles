@@ -1250,8 +1250,8 @@ nnoremap [unite]u  :<C-u>Unite<Space>
 " 全部乗せ
 nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
 " 常用セット
-nnoremap <silent> [unite]j  :<C-u>Unite buffer file_mru<CR>
-nnoremap <silent> B         :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> [unite]j  :<C-u>Unite -quick-match buffer file_mru<CR>
+
 " ファイル一覧
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
 " ファイル一覧 (現在のバッファのカレントディレクトリ配下)
@@ -1265,30 +1265,32 @@ nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
 " ブックマーク
 nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=bookmark bookmark<CR>
 
-" dotfiles以下のファイルを表示
-command! Ufd :Unite file:~/dotfiles -input=. -no-start-insert -winwidth=60
+" Search buffer and mru.
+nnoremap <silent> B         :<C-u>Unite buffer file_mru<CR>
 
-command! Uba :UniteBookmarkAdd<CR>
+" File searching like ctrl.vim
+nnoremap <silent> ;p :<C-u>Unite -buffer-name=file-search file_rec/async<CR>
 
-" ----- unite-plugins -----
+" Content searching like ack.vim (or ag.vim)
+nnoremap <silent> ;/  :<C-u>Unite -buffer-name=search -no-quit grep:.<CR>
+
 " yank/history
 xnoremap <silent> ;y
       \ d:<C-u>Unite -buffer-name=register register history/yank<CR>
 nnoremap <silent> ;y
       \ :<C-u>Unite -buffer-name=register register history/yank<CR>
 
+" ----- Commands -----
+" dotfiles以下のファイルを表示
+command! Ufd :Unite file:~/dotfiles -input=. -winwidth=60
+
+command! Uba :UniteBookmarkAdd<CR>
+
 " unite-line
-" uniteでバッファ内検索//
-"  <C-u> 余計な文字が入っていた場合に行頭まで削除することで正常に動作させる
 command! Ul :Unite -buffer-name=search -start-insert -no-quit -auto-preview line_migemo
 
-" unite-grep
-"  Targetに-Rを入れることで再帰検索可能
-" キーマップ
-command! Ug :Unite -no-start-insert -buffer-name=search -no-quit grep
 
-
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -no-start-insert -winheight=10 -direction=leftbelow
+" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
 " Sources :
 "
 " Unite build -buffer-name=build tabpagenr() -no-quit
@@ -1319,7 +1321,7 @@ command! Ug :Unite -no-start-insert -buffer-name=search -no-quit grep
       "\ file_mru bookmark file
 
 " UniteBookmarkAdd
-" UniteResume search -no-start-insert
+" UniteResume search
 
 " Unite -buffer-name=search -no-split -auto-preview
       "\ -start-insert line:backward
@@ -1333,13 +1335,13 @@ command! Uhw :UniteWithCursorWord help
 " unite-outline
 "nnoremap <silent> ;o
       "\ :<C-u>Unite outline -start-insert -resume<CR>
-command! Uo :Unite -no-start-insert -winwidth=40 -start-insert -resume -no-quit outline
+command! Uo :Unite -winwidth=40 -start-insert -resume -no-quit outline
 
 " unite-colorscheme
-command! Uc :Unite -auto-preview -no-start-insert -winwidth=15 colorscheme
+command! Uc :Unite -auto-preview -winwidth=15 colorscheme
 
 " unite-mapping
-command! Um :Unite -no-start-insert mapping
+command! Um :Unite mapping
 
 " unite-quickfix
 command! Uq :Unite -no-quit -direction=botright quickfix
@@ -1420,11 +1422,11 @@ function! bundle.hooks.on_source(bundle)
 
   let g:unite_enable_start_insert = 0
   "let g:unite_enable_short_source_names = 1
-  let g:unite_enable_split_vertically = 1
+  let g:unite_enable_split_vertically = 0
   let g:unite_winwidth = 40
   let g:unite_winheight = 20
   let g:unite_source_history_yank_enable = 1
-  let g:unite_cursor_line_highlight = 'TabLineSel'
+  " let g:unite_cursor_line_highlight = 'TabLine'
   let g:unite_source_file_mru_filename_format = ':~:.'
   let g:unite_source_file_mru_limit = 300
   let g:unite_source_directory_mru_limit = 300
@@ -1611,7 +1613,7 @@ nnoremap <silent> <Space>gS :<C-u>UniteVersions status:!<CR>
 
 nnoremap <silent> <F6> :VimFilerBufferDir -simple -buffer-name=explorer -split -winwidth=31 -toggle -no-quit<cr>
 
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -no-start-insert -winheight=10 -direction=leftbelow
+" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
 
 "nmap    [Space]v   <Plug>(vimfiler_switch)
 nnoremap <silent> <Space>v   :<C-u>VimFiler<CR>
@@ -1664,7 +1666,7 @@ if has('vim_starting')
   augroup END
 endif
 
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -no-start-insert -winheight=10 -direction=leftbelow
+" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
 let bundle = neobundle#get('vimfiler')
 function! bundle.hooks.on_source(bundle)
   let is_windows = has('win16') || has('win32') || has('win64')
