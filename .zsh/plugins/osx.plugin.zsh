@@ -77,7 +77,7 @@ function pushdf() {
   pushd "$(pfd)"
 }
 
-function quick-look() {
+function ql() {
   (( $# > 0 )) && qlmanage -p $* &>/dev/null &
 }
 
@@ -164,3 +164,27 @@ function __trash_single_file(){
         echo "No such file or directory: $file"
     fi
 }
+
+
+# Delete .DS_Store and __MACOSX directories.
+function rm-osx-cruft {
+  find "${@:-$PWD}" \( \
+    -type f -name '.DS_Store' -o \
+    -type d -name '__MACOSX' \
+  \) -delete
+  # \) -print0 | xargs -0 rm -rf
+}
+
+
+# Opens man pages in Preview.app.
+function manp {
+  local page
+  if (( $# > 0 )); then
+    for page in "$@"; do
+      man -t "$page" | open -f -a Preview
+    done
+  else
+    print 'What manual page do you want?' >&2
+  fi
+}
+
