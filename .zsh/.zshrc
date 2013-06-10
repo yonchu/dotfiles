@@ -31,6 +31,18 @@
 #************************************************************************** }}}
 
 
+### Check for the minimum supported version {{{
+# OS X Moutain Lion : 4.3.11
+# CentOS 6 : 4.3.11
+min_zsh_version='4.3.10'
+if ! autoload -Uz is-at-least || ! is-at-least "$min_zsh_version"; then
+  echo "Old shell detected, minimum required: $min_zsh_version" >&2
+  return 1
+fi
+unset min_zsh_version
+# }}}
+
+
 ### The prompt settings {{{
 #
 
@@ -115,6 +127,10 @@ setopt print_eight_bit
 #setopt auto_name_dirs
 # 変数内の文字列分解のデリミタ
 setopt sh_word_split
+
+# echo 'hoge' \' 'fuga'
+# echo 'hoge '' fuga'  <- これが可能になる
+setopt rc_quotes
 
 # 複数のリダイレクトやパイプなど、必要に応じて tee や cat の機能が使われる
 #  $ < file1  # cat
