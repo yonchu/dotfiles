@@ -4,7 +4,13 @@
 # https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/node/node.plugin.zsh
 #
 
-type node >/dev/null 2>&1 || { echo '...skip'; return; }
+
+# Return if requirements are not found.
+# type node >/dev/null 2>&1 || { echo '...skip'; return; }
+if (( ! $+commands[node] )); then
+    echo '...skip'
+    return
+fi
 
 # Open the node api for your current version to the optional section.
 # TODO: Make the section part easier to use.
@@ -72,3 +78,15 @@ function coffee-redux() {
 #   $ livereloadx -y http://example.com/ [-p 35729] [-l] [path/to/dir]
 #   $ livereloadx --proxy http://example.com/ [-p 35729] [-l] [path/to/dir]
 #
+
+# Load NPM completion.
+if (( $+commands[npm] )); then
+    cache_file=~/.node-completion.cache.zsh
+    if [[ "$commands[npm]" -nt "$cache_file" || ! -s "$cache_file" ]]; then
+        # npm is slow; cache its output.
+        npm completion >! "$cache_file" 2> /dev/null
+    fi
+    source "$cache_file"
+    unset cache_file
+fi
+
