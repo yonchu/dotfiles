@@ -1,16 +1,37 @@
 #!/bin/bash
+# Recommend "git submodule deinit" from ver.1.8.3.
+
+prog=${0##*/}
 
 if [ -z "$1" ]; then
-    echo "Error: Specify a path to the submodule directory" 1>&2
+    echo "$prog: specify a path to the submodule directory" 1>&2
     exit 1
 fi
 
-if [ ! "$(pwd)" = "$(git rev-parse --show-toplevel)" ]; then
-    echo 'Error: Run again after: cd "$(git rev-parse --show-toplevel)"' 1>&2
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" != "true" ]; then
+    echo "$prog: not a repository work tree: $PWD" 1>&2
     exit 1
 fi
 
-git config --remove-section submodule."$1" || exit 1
-git config --file .gitmodules --remove-section submodule."$1" || exit 1
-git rm --cached "$1" || exit 1
-rm -rf "$1" || exit 1
+root="$(git rev-parse --show-toplevel 2> /dev/null)"
+if [ "$PWD" != "$root" ]; then
+  echo "$prog: must be run from the root of the work tree" 1>&2
+  exit 1
+fi
+
+if ! git config --file .gitmodules --get "submodule.${1}.path" > /dev/null 2>&1; then
+  echo "$prog: submodule not found: $1" 1>&2
+  exit 1
+fi
+
+
+git_dir="$PWD/$(git rev-parse --git-dir)"
+
+git config --file "${git_dir}/config" --remove-section "submodule.${1}" || exit 1
+git config --file "${root}/.gitmodules" --remove-section "submodule.${1}" || exit 1
+git add .gitmodules
+
+git rm --cached -rf "${1}" || exit 1
+rm -rf "${1}" || exit 1
+rm -rf "${git_dir}/modules/${1}" || exit 1
+
