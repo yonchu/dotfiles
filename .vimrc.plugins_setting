@@ -710,6 +710,31 @@ let g:Powerline#Colorschemes#my#colorscheme = Pl#Colorscheme#Init([
 let g:Powerline_colorscheme = 'my'
 " }}}
 
+" === precious {{{
+let bundle = neobundle#get('vim-precious')
+function! bundle.hooks.on_source(bundle)
+  " quickrun 用のマッピング
+  nmap <Space>q <Plug>(precious-quickrun-op)
+
+  let g:precious_enable_switch_CursorMoved = {
+        \   "help" : 0
+        \}
+
+  let g:precious_enable_switch_CursorMoved_i = {
+        \   "*" : 0
+        \}
+
+  function! s:precious_leave()
+    setl nofen
+    let bf = precious#base_filetype()
+    let cf = precious#context_filetype()
+    echo 'Switch filetype: '.bf.' -> '.cf
+  endfunction
+  autocmd User PreciousFiletypeLeave_* call s:precious_leave()
+endfunction
+unlet bundle
+" }}}
+
 " === python {{{
 
 " python.vim

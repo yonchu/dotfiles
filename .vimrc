@@ -520,6 +520,15 @@ NeoBundleLazy 'Highlight-UnMatched-Brackets'
 " TODO
 NeoBundleLazy 'tyru/operator-html-escape.vim'
 
+" precious.vim
+" カーソル位置のコンテキストによって filetype を切り換える
+NeoBundleLazy 'osyo-manga/vim-precious', {
+      \ 'depends' : "Shougo/context_filetype.vim",
+      \ 'autoload' : {
+      \   'filetypes' : [
+      \     'markdown'
+      \ ]}}
+
 " quickfixに対応する行にsignを表示
 NeoBundleLazy 'tomtom/quickfixsigns_vim', {
       \ 'autoload' : {
