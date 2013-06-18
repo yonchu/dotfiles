@@ -272,6 +272,14 @@ NeoBundleLazy 'kana/vim-operator-replace', {
       \     ['nx', '<Plug>(operator-replace)'],
       \ ]}}
 
+" operator-html-escape.vim : htmlエスケープ
+NeoBundleLazy 'tyru/operator-html-escape.vim', {
+      \ 'depends' : 'vim-operator-user',
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     ['nx', '<Plug>(operator-html-escape)'],
+      \ ]}}
+
 " qfreplace : Quickfixを利用した一斉置換
 NeoBundleLazy 'thinca/vim-qfreplace', {
       \ 'autoload' : {
@@ -515,10 +523,6 @@ NeoBundleLazy 'jceb/vim-hier', {
 
 " Highlight-UnMatched-Brackets : 括弧の閉じ忘れをハイライト
 NeoBundleLazy 'Highlight-UnMatched-Brackets'
-
-" operator-html-escape.vim : htmlエスケープ
-" TODO
-NeoBundleLazy 'tyru/operator-html-escape.vim'
 
 " precious.vim
 " カーソル位置のコンテキストによって filetype を切り換える
