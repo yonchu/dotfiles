@@ -1979,6 +1979,15 @@ vnoremap /r "xy:%s/<C-R>=escape(@x, '\\/.*$^~[]')<CR>//gc<Left><Left><Left>
 " 3.sv  4.置換後文字列を手入力
 vnoremap sv "vy:%s/\%V<C-r>+//gc<Left><Left><Left><Left>
 
+" ### 選択範囲を囲む
+vnoremap { "zdi<C-V>{<C-R>z}<ESC>
+vnoremap } "zdi<C-V>{<C-R>z}<ESC>
+vnoremap [ "zdi<C-V>[<C-R>z]<ESC>
+vnoremap ] "zdi<C-V>[<C-R>z]<ESC>
+vnoremap ( "zdi<C-V>(<C-R>z)<ESC>
+vnoremap ) "zdi<C-V>(<C-R>z)<ESC>
+vnoremap " "zdi<C-V>"<C-R>z<C-V>"<ESC>
+vnoremap ' "zdi'<C-R>z'<ESC>
 " }}}
 
 " === Move {{{2
@@ -2154,6 +2163,17 @@ inoremap <expr> <Leader>r# repeat('#', 79 - col('.'))
 inoremap <expr> <Leader>r+ repeat('+', 79 - col('.'))
 inoremap <expr> <Leader>r- repeat('-', 79 - col('.'))
 inoremap <expr> <Leader>r= repeat('=', 79 - col('.'))
+
+" ### 自動閉じ括弧入力
+function! s:auto_close_bracket()
+  inoremap <silent> <buffer> { {}<Left>
+  inoremap <silent> <buffer> [ []<Left>
+  inoremap <silent> <buffer> ( ()<Left>
+  inoremap <silent> <buffer> " ""<Left>
+  inoremap <silent> <buffer> ' ''<Left>
+endfunction
+autocmd MyAutoCmd FileType python,coffee,javascript,html,vim,ruby,sh,zsh
+      \ call s:auto_close_bracket()
 
 " }}}
 
