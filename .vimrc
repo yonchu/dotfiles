@@ -1071,7 +1071,7 @@ NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
 " http://ternjs.net/doc/manual.html
 NeoBundleLazy 'marijnh/tern_for_vim', {
       \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'javascript' ]
+      \   'filetypes' : [ 'javascript' ]
       \ }}
 
 " vimの変数を表示 (plug-in制作で便利)

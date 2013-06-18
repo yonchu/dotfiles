@@ -402,7 +402,7 @@ call neobundle#config('neosnippet', {
       \   'filetypes' : 'snippet',
       \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
       \ }})
-" " 補完にneocomplcacheを使う
+" 補完にneocomplcacheを使う
 source ~/dotfiles/.vimrc.neocomplcache
 " }}}
 
