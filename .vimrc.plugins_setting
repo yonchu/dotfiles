@@ -26,6 +26,9 @@ endif
 
 " let g:ac_smooth_scroll_max_limit_msec = 300
 let g:ac_smooth_scroll_min_limit_msec = 80
+
+" autocmd User AcSmoothScrollEnter NumbersToggle
+" autocmd User AcSmoothScrollLeave NumbersToggle
 " }}}
 
 " === anzu {{{

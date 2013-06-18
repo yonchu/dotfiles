@@ -577,6 +577,11 @@ NeoBundleLazy 'scrooloose/nerdtree', {
       \   'commands' : 'NERDTreeToggle',
       \ }}
 
+NeoBundleLazy "myusuf3/numbers.vim", {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'NumbersToggle', 'NumbersOnOff'
+      \ ]}}
 
 " number-marks : 連番マーク
 "   mm 連番マーク
