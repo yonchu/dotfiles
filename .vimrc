@@ -515,7 +515,7 @@ NeoBundleLazy "osyo-manga/vim-hideout", {
       \ }}
 
 " hier : quickfix の該当箇所をハイライト
-NeoBundleLazy 'jceb/vim-hier', {
+NeoBundleLazy 'cohama/vim-hier', {
       \ 'autoload' : {
       \   'commands' : [
       \    'HierStart', 'HierStop', 'HierUpdate', 'HierClear',
