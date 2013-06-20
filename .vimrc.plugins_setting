@@ -147,6 +147,11 @@ nnoremap <Space>gN :<C-u>w<CR>:Git now --all<CR>
 " === gitgutter {{{
 nnoremap <silent> ]v :GitGutterNextHunk<CR>
 nnoremap <silent> [v :GitGutterPrevHunk<CR>
+
+let g:gitgutter_sign_added = '✚'
+let g:gitgutter_sign_modified = '➜'
+let g:gitgutter_sign_removed = '✘'
+let g:gitgutter_sign_modified_removed = '✔'
 " }}}
 
 " === Gitv {{{
