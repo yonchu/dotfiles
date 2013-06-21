@@ -298,6 +298,8 @@
   # hub pull-request -i <issue-no>
   iss = !git browse -- issues
 
+  pbcopy = !printf "$1" | pbcopy
+
 [http]
   sslVerify = false
 
@@ -313,6 +315,8 @@
   generic = ^B move-page-up
   main = H !@hub browse -- commit/%(commit)
   diff = H !@hub browse -- commit/%(commit)
+  main = C !@git pbcopy %(commit)
+  main = c !@git pbcopy %(commit)
 
 [web]
   # Set in .gitconfig.local
