@@ -311,6 +311,8 @@
   generic = G move-last-line
   generic = ^F move-page-down
   generic = ^B move-page-up
+  main = H !@hub browse -- commit/%(commit)
+  diff = H !@hub browse -- commit/%(commit)
 
 [web]
   # Set in .gitconfig.local
