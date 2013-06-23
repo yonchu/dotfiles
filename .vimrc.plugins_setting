@@ -1164,6 +1164,10 @@ nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
 nnoremap <silent> - :Switch<cr>
 " }}}
 
+" === tabpagecd {{{
+autocmd MyAutoCmd TabEnter * NeoBundleSource vim-tabpagecd
+" }}}
+
 " === tagbar {{{
 nmap <Leader>t :TagbarToggle<CR>
 " }}}
@@ -1225,10 +1229,6 @@ function! bundle.hooks.on_source(bundle)
   menu <silent> Tern.Rename :TernRename <CR>
 endfunction
 unlet bundle
-" }}}
-
-" === tabpagecd {{{
-autocmd MyAutoCmd TabEnter * NeoBundleSource vim-tabpagecd
 " }}}
 
 " === thumbnail.vim {{{

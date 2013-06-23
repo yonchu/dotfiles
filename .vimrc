@@ -943,61 +943,62 @@ NeoBundleLazy 'thinca/vim-ref', {
       \   'mappings' : '<Plug>(ref-keyword)'
       \ }}
 
-" vim-refのjavadoc用ソース
+" ref-javadoc : vim-refのjavadoc用ソース
 NeoBundleLazy 'pekepeke/ref-javadoc', {
       \ 'autoload' : {
       \   'commands' : 'Ref',
       \ }}
 
-" vim-refのjavascript/jquery用ソース
+" ref-sources.vim : vim-refのjavascript/jquery用ソース
 NeoBundleLazy 'mojako/ref-sources.vim', {
       \ 'autoload' : {
       \   'commands' : 'Ref',
       \ }}
 
-" Javascript用インデント
+" simple-javascript-indenter : Javascript用インデント
 NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
       \ 'autoload' : {
       \   'filetypes' : [ 'javascript' ]
       \ }}
 
-" Javascript補完
+" jscomplete-vim :Javascript補完
 NeoBundleLazy 'teramako/jscomplete-vim',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'coffee' ]
       \ }}
 
-" Javascript補完 + node.js
+" vim-nodejs-complete : Javascript補完 + node.js
 NeoBundleLazy 'myhere/vim-nodejs-complete', {
       \ 'autoload' : {
       \   'filetypes' : [ 'coffee' ]
       \ }}
 
-" JSDoc生成
+" vim-jsdoc : JSDoc生成
 "   :JsDoc or <C-l>
 NeoBundleLazy 'heavenshell/vim-jsdoc', {
       \ 'autoload' : {
       \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
       \ }}
 
+" "vim-coffee-script
 NeoBundleLazy 'kchmck/vim-coffee-script', {
       \ 'autoload' : {
       \   'filetypes' : [ 'coffee' ]
       \ }}
 
-" Python用入力補完
+" Pydiction :  Python用入力補完
 "NeoBundleLazy 'Pydiction', {
       "\ 'autoload' : {
       "\   'filetypes' : [ 'python' ]
       "\ }}
 
-" Python補完(オムニ補完で使用)
+" pythoncomplete : Python補完(オムニ補完で使用)
 "NeoBundleLazy 'pythoncomplete', {
       "\ 'autoload' : {
       "\   'filetypes' : [ 'python' ]
       "\ }}
 
-" Python多機能プラグイン
+" python-mode : Python多機能プラグイン
 " pylint, rope
 NeoBundleLazy 'klen/python-mode'
       "\ , {
@@ -1022,7 +1023,7 @@ NeoBundleLazy 'scrooloose/syntastic',  {
       \    'Errors',
       \ ]}}
 
-" 非同期シンタックスチェック
+" vim-watchdogs : :非同期シンタックスチェック
 NeoBundleLazy 'yonchu/vim-watchdogs',  {
       \ 'depends' : [ 'osyo-manga/shabadou.vim' ],
       \ 'autoload' : {
@@ -1031,13 +1032,13 @@ NeoBundleLazy 'yonchu/vim-watchdogs',  {
       \     'php', 'ruby', 'scss', 'sass', 'coffee',
       \ ]}}
 
-" <C-_>でhtmlタグの閉じタグを入力
+" closetag.vim : <C-_>でhtmlタグの閉じタグを入力
 NeoBundleLazy 'closetag.vim', {
       \ 'autoload' : {
       \   'filetypes' : [ 'html', 'xml', 'xsl', 'ant' ],
       \ }}
 
-" html
+" zencoding-vim : html
 NeoBundleLazy 'mattn/zencoding-vim',  {
       \ 'autoload' : {
       \   'filetypes' : [
@@ -1045,32 +1046,37 @@ NeoBundleLazy 'mattn/zencoding-vim',  {
       \     'scss', 'sass', 'haml', 'markdown',
       \ ]}}
 
+" vim-less-autocompile
 NeoBundleLazy 'plasticscafe/vim-less-autocompile',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'less' ]
       \ }}
 
+" vim-less
 NeoBundleLazy 'groenewege/vim-less',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'less' ]
       \ }}
 
+" vim-haml
 NeoBundleLazy 'tpope/vim-haml',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'html', 'scss', 'sass' ]
       \ }}
 
+" sass-compile.vim
 NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
       \ 'autoload' : {
       \   'filetypes' : [ 'sass' ]
       \ }}
 
+" tabbar
 NeoBundleLazy 'majutsushi/tagbar', {
       \ "autload": {
       \   "commands": ["TagbarToggle"],
       \ }}
 
-" Javascript補完
+" tern_for_vim : Javascript補完
 " $ cd ~/.vim/bundle/tern_for_vim && npm install
 " 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
 " http://ternjs.net/doc/manual.html
@@ -1079,7 +1085,8 @@ NeoBundleLazy 'marijnh/tern_for_vim', {
       \   'filetypes' : [ 'javascript' ]
       \ }}
 
-" vimの変数を表示 (plug-in制作で便利)
+
+" vim-prettyprint : vimの変数を表示 (plug-in制作で便利)
 NeoBundleLazy 'thinca/vim-prettyprint', {
       \ 'autoload' : {
       \   'commands' : 'PP'
