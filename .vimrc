@@ -1267,10 +1267,10 @@ set keywordprg=:help             " コマンド K で使用されるプログラ
 set spelllang=en_us              " スペルチェック
 set report=0                     " 変更行の報告を行う最小行数 (0:必ず報告)
 set nostartofline
+set switchbuf=useopen            " 既に開いているバッファへジャンプ
 
 
 "### 全てのベルを抑制
-set novisualbell
 set noerrorbells
 set vb t_vb=
 
@@ -2027,9 +2027,9 @@ nnoremap n nzz
 nnoremap N Nzz
 "nnoremap * *zz
 nmap * *N
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+nnoremap # #N
+nnoremap g* g*N
+nnoremap g# g#N
 
 
 "### Insertモードのキーバインドをemacs風に
@@ -2077,9 +2077,13 @@ map <F4> <ESC>:bnext \| bdelete #<CR>
 nnoremap B :ls<CR>:b
 
 
-"### フレームサイズを怠惰に変更する
+"### Window size を怠惰に変更する
 map <kPlus> <C-W>+
 map <kMinus> <C-W>-
+"nnoremap <S-Left>  <C-w><<CR>
+"nnoremap <S-Right> <C-w>><CR>
+"nnoremap <S-Up>    <C-w>-<CR>
+"nnoremap <S-Down>  <C-w>+<CR>
 
 
 "### 最後に編集された位置に移動
@@ -2182,7 +2186,7 @@ autocmd MyAutoCmd FileType python,coffee,javascript,html,vim,ruby,sh,zsh
 "### Escの2回押し
 "   検索ハイライト消去
 "   vim-hierのハイライト消去
-nmap <silent><ESC><ESC> :nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
+nmap <silent><ESC><ESC> :<C-u>nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 
 
 "### vimrc
@@ -2224,6 +2228,19 @@ cnoremap <C-p> <Up>
 cnoremap <Up>  <C-p>
 cnoremap <C-n> <Down>
 cnoremap <Down>  <C-n>
+
+
+"### T + ? で各種設定をトグル
+nnoremap [toggle] <Nop>
+nmap T [toggle]
+nnoremap <silent> [toggle]s :setl spell!<CR>:setl spell?<CR>
+nnoremap <silent> [toggle]l :setl list!<CR>:setl list?<CR>
+nnoremap <silent> [toggle]t :setl expandtab!<CR>:setl expandtab?<CR>
+nnoremap <silent> [toggle]w :setl wrap!<CR>:setl wrap?<CR>
+
+
+"### w!! でスーパーユーザーとして保存（sudoが使える環境限定）
+cmap w!! w !sudo tee > /dev/null %
 
 
 "### q/ESCで Quickfix, help, git windowを閉じる

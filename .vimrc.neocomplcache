@@ -435,6 +435,11 @@ function! bundle.hooks.on_source(bundle)
 
   let g:neosnippet#enable_snipmate_compatibility = 1
 
+  " For snippet_complete marker.
+  if has('conceal')
+    set conceallevel=2 concealcursor=i
+  endif
+
   "### キーマッピング
   " スニペット展開
   imap <C-y> <Plug>(neosnippet_expand_or_jump)
