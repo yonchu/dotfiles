@@ -986,6 +986,9 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
       \   'filetypes' : [ 'coffee' ]
       \ }}
 
+" vim-python-pep8-indent
+NeoBundle 'hynek/vim-python-pep8-indent'
+
 " Pydiction :  Python用入力補完
 "NeoBundleLazy 'Pydiction', {
       "\ 'autoload' : {
@@ -1013,6 +1016,18 @@ NeoBundleLazy 'davidhalter/jedi-vim'
       "\ 'autoload' : {
       "\   'filetypes' : [ 'python' ]
       "\ }}
+
+" vim-django-support : Djangoを正しくVimで読み込めるようにする
+NeoBundleLazy "lambdalisue/vim-django-support", {
+      \ "autoload": {
+      \   "filetypes": ["python", "python3", "djangohtml"]
+      \ }}
+
+" vim-virtualenv : Vimで正しくvirtualenvを処理できるようにする
+NeoBundleLazy "jmcantrell/vim-virtualenv", {
+      \ "autoload": {
+      \   "filetypes": ["python", "python3", "djangohtml"]
+      \ }}
 
 " syntastic : 多言語対応のシンタックスチェックツール
 "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510

@@ -802,6 +802,9 @@ function! bundle.hooks.on_source(bundle)
   " Maximal height of pylint error window
   let g:pymode_lint_maxheight = 6
 
+  " ## Indent
+  let g:pymode_indent = 0
+
   " ## Foldin
   " Enable python folding
   let g:pymode_folding = 1
@@ -831,6 +834,7 @@ function! bundle.hooks.on_source(bundle)
   let g:jedi#rename_command = "<leader>R"
   let g:jedi#related_names_command = "<leader>n"
   let g:jedi#popup_on_dot = 0
+  let g:jedi#popup_select_first = 0
 endfunction
 unlet bundle
 
@@ -839,7 +843,9 @@ augroup InitJediVimAu
   autocmd InsertEnter *.py call <SID>init_jedi()
 augroup END
 function! s:init_jedi()
+  echo 'NeoBundle source jedi-vim'
   NeoBundleSource jedi-vim
+  setl omnifunc=jedi#complete
   augroup InitJediVimAu
     autocmd!
   augroup END
