@@ -987,7 +987,10 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
       \ }}
 
 " vim-python-pep8-indent
-NeoBundle 'hynek/vim-python-pep8-indent'
+NeoBundleLazy 'hynek/vim-python-pep8-indent', {
+      \ "autoload": {
+      \   "filetypes": ["python", "python3", "djangohtml"]
+      \ }}
 
 " Pydiction :  Python用入力補完
 "NeoBundleLazy 'Pydiction', {
