@@ -1164,6 +1164,10 @@ nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
 nnoremap <silent> - :Switch<cr>
 " }}}
 
+" === tagbar {{{
+nmap <Leader>t :TagbarToggle<CR>
+" }}}
+
 " === tcomment_vim {{{
 " let g:tcommentModeExtra = '>>'
 " Set explicitly default mappings for neobundle.

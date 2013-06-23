@@ -1065,6 +1065,11 @@ NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
       \   'filetypes' : [ 'sass' ]
       \ }}
 
+NeoBundleLazy 'majutsushi/tagbar', {
+      \ "autload": {
+      \   "commands": ["TagbarToggle"],
+      \ }}
+
 " Javascript補完
 " $ cd ~/.vim/bundle/tern_for_vim && npm install
 " 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
