@@ -1047,7 +1047,7 @@ NeoBundleLazy 'yonchu/vim-watchdogs',  {
       \ 'autoload' : {
       \   'filetypes' : [
       \     'python', 'html', 'javascript', 'coffee', 'perl',
-      \     'php', 'ruby', 'scss', 'sass', 'coffee',
+      \     'php', 'ruby', 'scss', 'sass'
       \ ]}}
 
 " closetag.vim : <C-_>でhtmlタグの閉じタグを入力
