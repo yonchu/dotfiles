@@ -234,7 +234,7 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 
-NeoBundle 'yonchu/landscape.vim', 'my-settings'
+NeoBundle 'yonchu/landscape.vim'
 " }}}
 
 " === txtobj {{{2
