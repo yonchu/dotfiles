@@ -859,6 +859,11 @@ NeoBundleLazy 'Shougo/vesting', {
 
 " === Syntax {{{2
 
+" AppleScript
+NeoBundleLazy 'applescript.vim', {
+      \ 'autoload' : {
+      \   'filetypes' : 'applescript',
+      \ }}
 " CSS3
 NeoBundleLazy 'hail2u/vim-css3-syntax', {
       \ 'autoload' : {
@@ -2667,6 +2672,9 @@ augroup MyAutoCmdEx
   autocmd BufRead,BufNewFile *.ts setl filetype=typescript
   " less
   autocmd BufRead,BufNewFile *.less setl filetype=less
+  " applescript
+  autocmd BufRead,BufNewFile *.applescript,*.scpt setl filetype=applescript
+  autocmd FileType applescript inoremap <buffer> <S-CR>  ￢<CR>
 
   " Rakefile
   autocmd BufNewfile,BufRead Rakefile foldmethod=syntax foldnestmax=1

@@ -890,6 +890,9 @@ function! bundle.hooks.on_source(bundle)
         \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
         \     'outputter': 'multi:buffer',
         \   },
+        \   'applescript': {
+        \     'command' : 'osascript'
+        \   },
         \ }
 endfunction
 unlet bundle
