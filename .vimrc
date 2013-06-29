@@ -9,6 +9,14 @@
 " viとの互換性をとらない (vim独自の拡張機能を使用する為)
 set nocompatible
 
+if has('vim_starting') && has('reltime')
+  let g:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
+    \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
+  augroup END
+endif
+
 " OS判定フラグ
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
