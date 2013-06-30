@@ -43,23 +43,8 @@ unset min_zsh_version
 # }}}
 
 
-### The prompt settings {{{
+### Default shell configuration {{{
 #
-
-# Theme.
-ZSH_THEME='yonchu'
-#ZSH_THEME='yonchu-2lines'
-
-# Remove any right prompt from display when accepting a command line.
-# This may be useful with terminals with other cut/paste methods.
-#setopt transient_rprompt
-
-# Certain escape sequences may be recognised in the prompt string.
-# e.g. Environmental variables $WINDOW
-setopt prompt_subst
-
-# Certain escape sequences that start with `%' are expanded.
-#setopt prompt_percent
 
 # Initialize colors.
 # Could use `$fg[red]' to get the code for foreground color red.
@@ -70,29 +55,6 @@ colors
 #  http://d.hatena.ne.jp/kiririmode/20120327/p1
 autoload -Uz add-zsh-hook
 
-## Set prompt.
-if [ ${UID} -eq 0 ]; then
-    # Prompt for "root" user (all red characters).
-    # Note: su - or sudo -s を行った場合は環境変数が引き継がれない
-    PROMPT="${reset_color}${fg[red]}[%n@%m:%~]%#${reset_color} "
-    PROMPT2="${reset_color}${fg[red]}%_>${reset_color} "
-    SPROMPT="${reset_color}${fg[red]}%r is correct? [n,y,a,e]:${reset_color} "
-else
-    # Prompt for "normal" user.
-    # Loading theme
-    if [ -f ~/.zsh/themes/"$ZSH_THEME".zsh-theme ]; then
-        echo "Loading theme: $ZSH_THEME"
-        source ~/.zsh/themes/"$ZSH_THEME".zsh-theme
-    else
-        echo "Error: could not load the theme '$ZSH_THEME'"
-    fi
-fi
-
-# }}}
-
-
-### Default shell configuration {{{
-#
 # core抑制
 limit coredumpsize 0
 # 新しく作られたファイルのパーミッションを 644 に
@@ -749,6 +711,43 @@ if [ -f ~/dotfiles.local/.shrc.local ]; then
     source ~/dotfiles.local/.shrc.local
 fi
 
+# }}}
+
+
+### Setup my theme {{{
+#
+
+# Theme.
+ZSH_THEME='yonchu'
+#ZSH_THEME='yonchu-2lines'
+
+# Remove any right prompt from display when accepting a command line.
+# This may be useful with terminals with other cut/paste methods.
+#setopt transient_rprompt
+
+# Certain escape sequences may be recognised in the prompt string.
+# e.g. Environmental variables $WINDOW
+setopt prompt_subst
+
+# Certain escape sequences that start with `%' are expanded.
+#setopt prompt_percent
+
+if [ ${UID} -eq 0 ]; then
+    # Prompt for "root" user (all red characters).
+    # Note: su - or sudo -s を行った場合は環境変数が引き継がれない
+    PROMPT="${reset_color}${fg[red]}[%n@%m:%~]%#${reset_color} "
+    PROMPT2="${reset_color}${fg[red]}%_>${reset_color} "
+    SPROMPT="${reset_color}${fg[red]}%r is correct? [n,y,a,e]:${reset_color} "
+else
+    # Prompt for "normal" user.
+    # Loading theme
+    if [ -f ~/.zsh/themes/"$ZSH_THEME".zsh-theme ]; then
+        echo "Loading theme: $ZSH_THEME"
+        source ~/.zsh/themes/"$ZSH_THEME".zsh-theme
+    else
+        echo "Error: could not load the theme '$ZSH_THEME'"
+    fi
+fi
 # }}}
 
 

@@ -43,23 +43,6 @@
 #
 ########################################################################### }}}
 
-## For zsh-vcs-prompt (vcs_super_info)
-if [ -f ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh ]; then
-    source ~/.zsh/plugins/zsh-vcs-prompt/zshrc.sh
-    # Unabale using python.
-    #ZSH_VCS_PROMPT_USING_PYTHON='false'
-    ## Enable caching.
-    ZSH_VCS_PROMPT_ENABLE_CACHING='true'
-    ## Logging level.
-    ZSH_VCS_PROMPT_LOGGING_LEVEL='2'
-    ## Set threshhold micro seconds.
-    #ZSH_VCS_PROMPT_LOGGING_THRESHOLD_MICRO_SEC=350000  # 350ms
-    ZSH_VCS_PROMPT_GIT_FORMATS_USING_PYTHON="${ZSH_VCS_PROMPT_GIT_FORMATS}"
-    ZSH_VCS_PROMPT_GIT_FORMATS+='!'
-    ZSH_VCS_PROMPT_GIT_ACTION_FORMATS+='!'
-fi
-
-
 ## PROMPT/RPROMT/SPROMPT
 
 # Symbols
@@ -75,8 +58,13 @@ DEFAULT_PROMPT='%{${reset_color}%}'
 #DEFAULT_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
 DEFAULT_PROMPT+='[%{${fg_bold[magenta]}%}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")%{${reset_color}%}'
 DEFAULT_PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}${PROMPT_HOST_COLOR}%m%{${reset_color}%}'
-DEFAULT_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}'
-DEFAULT_PROMPT+=':${_prompt_way}%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
+DEFAULT_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}:'
+if (( $+functions[zaw-bookmark-add] )); then
+    DEFAULT_PROMPT+='${_prompt_way}'
+else
+    DEFAULT_PROMPT+='%~'
+fi
+DEFAULT_PROMPT+='%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
 
 VI_CMD_PROMPT='%{${reset_color}%}'
 VI_CMD_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
