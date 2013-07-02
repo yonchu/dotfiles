@@ -313,6 +313,25 @@ pbcopy-buffer(){
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 
+
+# http://d.hatena.ne.jp/kei_q/20110406/1302091565
+function do_enter() {
+    zle accept-line
+    if [ -n "$BUFFER" ]; then
+        return 0
+    fi
+    echo
+    ls_abbrev
+    if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
+        echo
+        echo -e "\033[0;33m--- git status ---\033[0m"
+        git status -sb 2> /dev/null
+    fi
+    return 0
+}
+zle -N do_enter
+bindkey '^m' do_enter
+
 # }}}
 
 
