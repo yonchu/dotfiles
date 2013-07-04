@@ -502,6 +502,11 @@ make_date_dir_and_cd() {
 }
 alias mkdd='make_date_dir_and_cd'
 
+# Make directories and cd it.
+take() {
+  mkdir -p "$1" && cd "$1"
+}
+
 # Make archive.
 alias mkzip='zip -q -r'
 mktar() {
