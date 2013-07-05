@@ -613,11 +613,13 @@ NeoBundleLazy 'yonchu/number-marks', {
 
 " open-browser.vim : URLをブラウザで開く/単語を検索エンジンで検索
 NeoBundleLazy 'tyru/open-browser.vim', {
+      \ 'depends' : 'vim-operator-user',
       \ 'autoload' : {
       \   'mappings' : [
       \     ['nv', '<Plug>(openbrowser-open)'],
       \     ['nv', '<Plug>(openbrowser-smart-search)'],
       \     ['n', '<Plug>(open-browser-wwwsearch)'],
+      \     ['nv', '<Plug>(operator-open-neobundlepath)'],
       \   ],
       \   'commands'  : [
       \     'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch'
@@ -2856,6 +2858,22 @@ else
   endfunction
 endif
 
+" visualモードで最後に選択したテキストを%sで指定してコマンドを実行する
+"http://deris.hatenablog.jp/entry/2013/07/05/023835
+function! ExecuteWithSelectedText(command)
+  if a:command !~? '%s'
+    return
+  endif
+  let reg = '"'
+  let [save_reg, save_type] = [getreg(reg), getregtype(reg)]
+  normal! gvy
+  let selectedText = @"
+  call setreg(reg, save_reg, save_type)
+  if selectedText == ''
+    return
+  endif
+  execute printf(a:command, selectedText)
+endfunction
 " }}}
 
 

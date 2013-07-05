@@ -558,8 +558,34 @@ function! bundle.hooks.on_source(bundle)
       execute 'OpenBrowserSearch' escape(search_word, '"')
     endif
   endfunction
+
+  call operator#user#define('open-neobundlepath', 'OpenNeoBundlePath')
+  function! OpenNeoBundlePath(motion_wise)
+    if line("'[") != line("']")
+      return
+    endif
+    let start = col("'[") - 1
+    let end = col("']")
+    let sel = strpart(getline('.'), start, end - start)
+    let sel = substitute(sel, '^\%(github\|gh\|git@github\.com\):\(.\+\)', 'https://github.com/\1', '')
+    let sel = substitute(sel, '^\%(bitbucket\|bb\):\(.\+\)', 'https://bitbucket.org/\1', '')
+    let sel = substitute(sel, '^gist:\(.\+\)', 'https://gist.github.com/\1', '')
+    let sel = substitute(sel, '^git://', 'https://', '')
+    if sel =~ '^https\?://'
+      call openbrowser#open(sel)
+    elseif sel =~ '/'
+      call openbrowser#open('https://github.com/'.sel)
+    else
+      call openbrowser#open('https://github.com/vim-scripts/'.sel)
+    endif
+  endfunction
 endfunction
 unlet bundle
+
+" http://deris.hatenablog.jp/entry/2013/07/05/023835
+map gz <Plug>(operator-open-neobundlepath)
+"nnoremap gz vi':<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
+"vnoremap gz :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
 " }}}
 
 " === operator-replace {{{
