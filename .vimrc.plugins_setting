@@ -831,6 +831,16 @@ function! bundle.hooks.on_source(bundle)
   " ## Indent
   let g:pymode_indent = 0
 
+  "## Syntax highlighting
+  let g:pymode_syntax = 1
+  let g:pymode_syntax_all = 1
+  let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+  let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+  "## Enable breakpoints plugin
+  let g:pymode_breakpoint = 1
+  let g:pymode_breakpoint_key = '<leader>b'
+
   " ## Foldin
   " Enable python folding
   let g:pymode_folding = 1
