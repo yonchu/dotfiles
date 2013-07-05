@@ -2172,19 +2172,6 @@ inoremap <C-u>  <C-g>u<C-u>
 inoremap <C-w>  <C-g>u<C-w>
 
 
-"### 括弧を自動補完
-"inoremap { {}<LEFT>
-"inoremap [ []<LEFT>
-"inoremap ( ()<LEFT>
-"inoremap " ""<LEFT>
-"inoremap ' ''<LEFT>
-"vnoremap { "zdi^V{<C-R>z}<ESC>
-"vnoremap [ "zdi^V[<C-R>z]<ESC>
-"vnoremap ( "zdi^V(<C-R>z)<ESC>
-"vnoremap " "zdi^V"<C-R>z^V"<ESC>
-"vnoremap ' "zdi'<C-R>z'<ESC>
-
-
 "### 保存時に行末の空白を除去する
 autocmd MyAutoCmd BufWritePre * :%s/\s\+$//ge
 " 保存時にtabをスペースに変換する
