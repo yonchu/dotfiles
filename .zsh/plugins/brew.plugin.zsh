@@ -1,7 +1,10 @@
 #
 # homebrew
 #
-type brew >/dev/null 2>&1 || { echo '...skip'; return; }
+if [ "$(uname -s)" != 'Darwin' ] || ! type brew >/dev/null 2>&1; then
+    echo '...skip'
+    return
+fi
 
 alias b='brew'
 alias bl='brew list'
@@ -19,3 +22,9 @@ alias cdbr='pushd $(brew --prefix)/'
 
 alias brews='brew list -1'
 
+# Check git completion.
+if [ -f /usr/local/share/zsh/site-functions/_git ]; then
+    echo '---------------------------'
+    echo 'WARNNING: git/_git is used.'
+    echo '---------------------------'
+fi
