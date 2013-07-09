@@ -20,6 +20,9 @@
 /.config/configstore/update-notifier-yo.yml
 /.config/gtk-2.0/gtkfilechooser.ini
 
+# hub
+/.config/hub
+
 # ipython
 /.ipython/profile_default/db
 /.ipython/profile_default/history.sqlite
