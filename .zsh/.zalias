@@ -41,7 +41,7 @@ for index ({1..9}) alias "$index"="${cd_plus}${index}"; unset index cd_plus
 alias history="history -i"
 
 # fpathを表示
-alias printfpath='echo $fpath | tr " " "\n"'
+alias printfpath='echo ${(j:\n:)fpath}'
 
 # vc command completion
 compdef _command vc
