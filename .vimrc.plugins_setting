@@ -70,7 +70,7 @@ let g:agprg="ag -S --nogroup --column"
 " フォーマット
 "let autodate_format="%Y/%m/%d %H:%M:%S"
 let autodate_format = '%d %3m %Y'
-let autodate_keyword_pre = 'Last \%(Change\|Modified\):'
+let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
 " }}}
 
 " === changelog.vim {{{

@@ -441,7 +441,7 @@ NeoBundleLazy 'Shougo/neosnippet', {
 " autodate.vim : カスタマイズ可能な自動タイムスタンプ挿入
 NeoBundleLazy 'autodate.vim'
 if !has('kaoriya')
-  autocmd MyAutoCmd FileType vim NeoBundleSource 'autodate.vim'
+  autocmd MyAutoCmd FileType * NeoBundleSource 'autodate.vim'
 endif
 
 " browsereload-mac : ブラウザリロード
