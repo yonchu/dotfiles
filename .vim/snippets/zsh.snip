@@ -13,3 +13,21 @@ snippet [
     [[ ${1:test} ]]
 snippet always
     { ${1:try} } always { ${2:always} }
+
+## typeset
+snippet     typeset
+abbr        typeset var
+    typeset ${0:#:TARGET}
+
+snippet     echoarray
+abbr        echo ${(j:\n:)fpath}
+echo ${(j:\n:)fpath}
+
+## Parameter expansion
+snippet     basename
+abbr        ${path:t}
+    ${${0:#:TARGET}:t}
+
+snippet     dirname
+abbr        ${path:h}
+    ${${0:#:TARGET}:h}

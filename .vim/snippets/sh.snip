@@ -175,6 +175,12 @@ abbr        Check if arg is zero($#)
         ${0:#:TARGET}
     fi
 
+snippet     ifregexp
+abbr        matching with regular expression
+    if [[ $f =~ '.*\.(txt|jax)' ]]; then
+        ${0:#:TARGET}
+    fi
+
 snippet     forargs
 abbr        for arg in "$@"
     for arg in "D@"; do
@@ -206,3 +212,27 @@ abbr        function() {}
     function ${1:name} (${2:args}) {
         ${3:# body}
     }
+
+## Parameter expansion
+snippet     basename
+abbr        ${path##*/} remove prefix
+    ${${0:#:TARGET}##*/}
+
+snippet     dirname
+abbr        ${path%/*} remove suffix
+    ${${0:#:TARGET}##*/}
+
+snippet     ifprefix
+abbr        if [ "$var" != "${var#\~/}" ]; then
+    if [ "$var" != "${var#\~/}" ]; then
+        ${0:#:TARGET}
+    fi
+
+snippet     home
+abbr        path=${${path/#$HOME/\~}%/}
+    ${1:path}=${${${1:path}/#$HOME/\~}%/}
+
+## typeset
+snippet     typeset
+abbr        typeset -p var
+    typeset -p ${0:#:TARGET}
