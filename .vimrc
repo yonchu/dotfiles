@@ -2278,21 +2278,23 @@ cmap w!! w !sudo tee > /dev/null %
 "### q/ESCで Quickfix, help, git windowを閉じる
 autocmd MyAutoCmd FileType help,git-status,git-log,qf,
       \gitcommit,quickrun,qfreplace,ref,vcs-commit,vcs-status
-      \ nnoremap <buffer><silent> q :<C-u>call <sid>smart_close()<CR>
+      \ nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>
 autocmd MyAutoCmd FileType help,qf,quickrun,ref
-      \ nnoremap <buffer><silent> <ESC> :<C-u>call <sid>smart_close()<CR>
+      \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>Smart_close()<CR>
 
-autocmd MyAutoCmd FileType * if (&readonly || !&modifiable) && !hasmapto('q', 'n')
-      \ | nnoremap <buffer><silent> q :<C-u>call <sid>smart_close()<CR>| endif
+autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
+      \ | nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>| endif
 autocmd MyAutoCmd FileType * if (&readonly || !&modifiable) && !hasmapto('<ESC>', 'n')
-      \ | nnoremap <buffer><silent> <ESC> :<C-u>call <sid>smart_close()<CR>| endif
+      \ | nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>| endif
 
-nnoremap <silent> q :<C-u>call <sid>smart_close()<CR>
+nnoremap <silent> q :<C-u>call <SID>smart_close()<CR>
 nnoremap Q q
 
 function! s:smart_close()
   if winnr('$') != 1
     close
+  elseif &readonly || !&modifiable
+    quitall
   endif
 endfunction
 
