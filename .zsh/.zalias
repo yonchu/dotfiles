@@ -122,26 +122,53 @@ alias zmvW="zmv -W"
 #  e.x.
 #    $ hash -d hoge=/to/path
 #    $ ls ~hoge
-set_hash_in_links() {
-    local links=~/links
-    [ ! -d "$links" ] && return 0
-    [ $(command ls -1 "$links" | wc -l) -eq 0 ] && return 0
-    local src
-    local target
-    for target in "$links"/*; do
-        src=$(basename "$target")
-        case `uname -s` in
-            Darwin|FreeBSD)
-                target=$(readlink -n $target)
-                ;;
-            *)
-                target=$(readlink -fq $target)
-                ;;
-        esac
-        [ -n "$target" ] && hash -d $src="$target"
+# autoload -U is-at-least
+create_named_dir_in_links() {
+    # echo 'Create named directory...'
+    local _is_bsd _cmd_readlink _is_A_flag _name _target
+    case "$(uname -s)" in
+        Darwin|FreeBSD)
+            _is_bsd=1
+            if type greadlink > /dev/null 2>&1; then
+                _cmd_readlink='greadlink -fq'
+            elif type readlink > /dev/null 2>&1; then
+                _cmd_readlink='readlink -n'
+            fi
+            ;;
+        *)
+            if type readlink > /dev/null 2>&1; then
+                _cmd_readlink='readlink -fq'
+            fi
+            ;;
+    esac
+    if is-at-least 4.3.10; then
+        _is_A_flag=1
+    fi
+    for _target in ~/links/*(N-/); do
+        _name=${_target:t}
+        if [[ -n $_is_A_flag  ]]; then
+            _target=${_target:A}
+        elif [[ -n $_cmd_readlink ]]; then
+            _target=$($_cmd_readlink "$_target")
+        else
+            echo "WARNING: could not create named directory." 1>&2
+            return 1
+        fi
+        # echo "    hash -d $_name=$_target"
+        [[ -n $_target ]] && hash -d "$_name=$_target"
     done
 }
-set_hash_in_links
+create_named_dir_in_links
+
+create_named_dir_in_links2() {
+    # echo 'Create named directory...'
+    local _target
+    for _target in ~/links/*(N-/); do
+        # echo "    hash -d ${_target:t}=$_target/"
+        [[ -n $_target ]] && hash -d "${_target:t}=$_target/"
+    done
+}
+# create_named_dir_in_links2
 # }}}
 
 ### Aliases according to extensions {{{
