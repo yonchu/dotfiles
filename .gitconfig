@@ -104,12 +104,14 @@
   pou = push -u origin      # pushと同時に追跡ブランチを設定
 
   # rebase
+  rbt  = rebase --ignore-date
   rbm  = rebase --merge master
   rbmm = rebase master
   rbc  = rebase --continue   # rebase継続(次のコミットへ)
   rba  = rebase --abort      # rebase中止
   # コミット履歴の書き換え
   rbi  = rebase -i
+  rbit = rebase -i --ignore-date
   rbi1 = rebase -i HEAD^
   rbi2 = rebase -i HEAD^^
   rbi3 = rebase -i HEAD^^^
