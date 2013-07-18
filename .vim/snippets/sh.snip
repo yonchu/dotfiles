@@ -24,6 +24,10 @@ snippet     cwd
 abbr        Set current working directory
     cwd=$(cd "$(dirname "d0")" && pwd)
 
+snippet     cwd2
+abbr        (source)Set current working directory
+    cwd=$(cd "$(dirname "${BASH_SOURCE:-d0}")" && pwd)
+
 snippet     cmd_path
 abbr        Set command path
     cmd_path=$(cd "$(dirname "d0")" && pwd)/$(basename "d0")

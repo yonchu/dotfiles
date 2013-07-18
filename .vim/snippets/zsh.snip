@@ -31,3 +31,15 @@ abbr        ${path:t}
 snippet     dirname
 abbr        ${path:h}
     ${${0:#:TARGET}:h}
+
+## cwd
+snippet     cwd_zsh
+abbr        Get cwd with funcsourcetrace
+    if ! (( $+functions[is-at-least] )); then
+        autoload -U is-at-least
+    fi
+    if is-at-least 4.3.10; then
+        cwd_zsh="${${funcsourcetrace[1]%:*}:A:h}"
+    else
+        cwd_zsh="$(cd "${${funcsourcetrace[1]%:*}:h}" > /dev/null 2>&1 && pwd)"
+    fi
