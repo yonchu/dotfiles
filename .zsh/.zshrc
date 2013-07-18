@@ -658,7 +658,7 @@ esac
 #
 # Define action when change directory.
 chpwd() {
-    ls_abbrev
+    ls_abbrev 1>&2
     # cdd
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
