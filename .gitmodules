@@ -25,9 +25,6 @@
 [submodule "Cellar/git-now"]
 	path = Cellar/git-now
 	url = git://github.com/iwata/git-now.git
-[submodule "Cellar/pathf"]
-	path = Cellar/pathf
-	url = git://github.com/pasberth/pathf.git
 [submodule ".zsh/plugins/cdd"]
 	path = .zsh/plugins/cdd
 	url = git://github.com/m4i/cdd.git

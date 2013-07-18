@@ -21,6 +21,15 @@ zstyle ':prompt:backward:dir' formats "%U%a%u"
 zstyle ':prompt:backward:dir:symlink' formats "%U%F{cyan}%a@%f%u"
 zstyle ':prompt:backward:way' formats "%a"
 
+zstyle ':prompt:truncate' enable t
+zstyle ':prompt:truncate' symbol '… '
+# zstyle ':prompt:truncate' max_length 30
+
+zstyle ":prompt:truncate" show_working_parent t
+# zstyle ":prompt:truncate" show_backward_parent t
+zstyle ":prompt:truncate" show_slash_second_root t
+zstyle ":prompt:truncate" show_home_second_root t
+
 #$_prompt_way/$_prompt_backward
 add-zsh-hook chpwd promptway
 promptway
