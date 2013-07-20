@@ -43,6 +43,21 @@ alias history="history -i"
 # fpathを表示
 alias printfpath='echo ${(j:\n:)fpath}'
 
+# zsh の用語検索
+# http://qiita.com/mollifier/items/14bbea7503910300b3ba
+alias zman='man zshall'
+zwman() {
+    PAGER="less -g -s '+/^       "$1"'" zman
+}
+
+zfman() {
+    local w="$1"
+    if [[ ! $1 =~ ':' ]]; then
+        w=${(r,7,)1}
+    fi
+    PAGER="less -g -s '+/       "$w"'" zman zshall
+}
+
 # vc command completion
 compdef _command vc
 
