@@ -1862,7 +1862,9 @@ endif
 " 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
 let g:yankring_history_file = ".yankring_history"
 " Yankの履歴参照
-nmap <Leader>y :YRShow<CR>
+nmap <Leader>y :<C-u>YRShow<CR>
+" nnoremap @ <Nop>
+nnoremap @: :<C-u>normal! @:<CR>
 " ヤンク履歴についかする最少文字数(1文字は対象外)
 let g:yankring_min_element_length = 2
 
