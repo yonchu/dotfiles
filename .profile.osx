@@ -67,9 +67,6 @@ export PATH=$MYSQL_HOME/bin:$PATH
 #
 # Python
 #
-# easy_install/pip/pipでインストールしたコマンドにパスを通す
-export PYTHON_SHARE=/usr/local/share/python
-export PATH=$PYTHON_SHARE:$PATH
 
 # pythonbrewの仮想環境でdistributeを使用(not setuptools)
 export VIRTUALENV_USE_DISTRIBUTE=true

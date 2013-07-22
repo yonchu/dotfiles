@@ -28,3 +28,12 @@ if [ -f /usr/local/share/zsh/site-functions/_git ]; then
     echo 'WARNNING: git/_git is used.'
     echo '---------------------------'
 fi
+
+# Check /usr/local permission
+_owner=($(command ls -l /usr | awk '/local$/ {print $3,$4}'))
+if [[ ${_owner[1]} == 'root' || ${_owner[2]} != 'staff' ]]; then
+    echo '---------------------------'
+    echo "WARNNING: Unexpected permission: /usr/local ($_owner)"
+    echo '---------------------------'
+fi
+unset _owner
