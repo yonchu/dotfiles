@@ -167,6 +167,7 @@
   ranking = shortlog -s -n --no-merges
 
   # 詳細なログ
+  l  = log -n 15 --date=iso --graph --pretty=format:'%x09%C(magenta)%h %C(cyan)%cd %C(green)%cn%x09%C(yellow)%d%C(reset)%s'
   ll  = log --date=iso --graph --pretty=format:'%x09%C(magenta)%h %C(cyan)%cd %C(green)%cn%x09%C(yellow)%d%C(reset)%s'
   lls = log --date=iso --graph --stat --pretty=format:'%C(cyan),%ad [%cn] <commit:%h tree:%t parent:%p>%C(reset)%n %s%C(yellow)%d%C(reset)%n'
   gl  = log --pretty='medium-reverse' --graph --name-status

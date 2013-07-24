@@ -11,8 +11,8 @@ alias gi='git'
 compdef gi=git
 alias gst='git status'
 compdef _git gst=git-status
-alias gl='git pull'
-compdef _git gl=git-pull
+alias gpl='git pull'
+compdef _git gpl=git-pull
 alias gup='git fetch && git rebase'
 compdef _git gup=git-fetch
 alias gp='git push'
@@ -117,7 +117,16 @@ compdef _git gs=git-status
 alias gsi='git status -b --ignored'
 compdef _git gsi=git-status
 
+alias gl='git l'
+compdef _git gl=git-log
+
 alias gitsearch='git rev-list --all | xargs git grep -F'
+
+alias gd='git diff'
+compdef _git gd=git-diff
+
+alias gd1='git diff HEAD~'
+compdef _git gd1=git-diff
 
 alias vg='git-edit'
 compdef _git-edit vg
