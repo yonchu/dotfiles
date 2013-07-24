@@ -261,12 +261,17 @@ autoload -Uz run-help-svn
 bindkey '^@' run-help
 
 # 右プロンプトの表示/非表示
-unsetopt-transient-rprompt(){ unsetopt transient_rprompt; }
-zle -N unsetopt-transient-rprompt
-bindkey '^XR' unsetopt-transient-rprompt
-setopt-transient-rprompt(){ setopt transient_rprompt; }
-zle -N setopt-transient-rprompt
-bindkey '^Xr' setopt-transient-rprompt
+function toggle-transient-rprompt(){
+    if [[ -o transient_rprompt ]]; then
+        unsetopt transient_rprompt
+        zle -M "Toggle transient_rprompt: ON -> OFF"
+    else
+        setopt transient_rprompt
+        zle -M "Toggle transient_rprompt: OFF -> ON"
+    fi
+}
+zle -N toggle-transient-rprompt
+bindkey '^xr' toggle-transient-rprompt
 
 
 # Command Line Stack の改良版
@@ -312,6 +317,7 @@ pbcopy-buffer(){
 }
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
+bindkey '^xp' pbcopy-buffer
 
 
 # http://d.hatena.ne.jp/kei_q/20110406/1302091565
@@ -663,6 +669,9 @@ chpwd() {
     type _cdd_chpwd >/dev/null 2>&1 && _cdd_chpwd
 }
 ls_abbrev() {
+    if [[ ! -r $PWD ]]; then
+        return
+    fi
     # -a : Do not ignore entries starting with ..
     # -C : Force multi-column output.
     # -F : Append indicator (one of */=>@|) to entries.
