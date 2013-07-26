@@ -90,6 +90,9 @@
   # ls-tree
   ls-th = ls-tree HEAD      # treeを表示
 
+  # clone
+  clone = clone --recursive
+
   # fetch
   ft  = fetch
   ftp = fetch --prune
