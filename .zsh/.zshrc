@@ -284,6 +284,13 @@ zle -N push_line_and_show_buffer_stack
 bindkey '^[Q' push_line_and_show_buffer_stack
 bindkey '^[q' push_line_and_show_buffer_stack
 
+call_precmd() {
+    local precmd_func
+    (( $+functions[precmd] )) && precmd
+    for precmd_func in $precmd_functions; do
+        $precmd_func
+    done
+}
 
 # ^でcd ..する
 # http://shakenbu.org/yanagi/d/?date=20120301
@@ -291,13 +298,7 @@ cdup() {
     if [ -z "$BUFFER" ]; then
         echo
         cd ..
-        if type precmd > /dev/null 2>&1; then
-            precmd
-        fi
-        local precmd_func
-        for precmd_func in $precmd_functions; do
-            $precmd_func
-        done
+        call_precmd
         zle reset-prompt
     else
         zle self-insert '^'
@@ -333,6 +334,7 @@ function do_enter() {
         echo -e "\e[0;33m--- git status ---\e[0m"
         git status -sb 2> /dev/null
     fi
+    call_precmd
     zle reset-prompt
     return 0
 }
