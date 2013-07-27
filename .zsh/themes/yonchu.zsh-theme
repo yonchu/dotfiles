@@ -54,13 +54,43 @@ if [ -n "${SSH_CONNECTION}" ]; then
     PROMPT_HOST_COLOR="%{${fg[red]}%}"
 fi
 
+function _backward_basename() {
+    if [[ -z $_prompt_backward ]]; then
+        return
+    fi
+    echo -E " (… /$_prompt_backward:t)"
+}
+
+function _permission_for_pwd() {
+    local _st=
+    if [[ ! -r $PWD ]]; then
+        _st+='r'
+    fi
+    if [[ ! -w $PWD ]]; then
+        _st+='w'
+    fi
+    if [[ ! -x $PWD ]]; then
+        _st+='x'
+    fi
+    _st="${_st:+-}$_st"
+    if [[ ! -O $PWD ]]; then
+        _st="⭤$_st"
+    fi
+    if [[ -z $_st ]]; then
+        return
+    fi
+    echo -E "(%F{red}$_st%f)"
+}
+
 DEFAULT_PROMPT='%{${reset_color}%}'
 #DEFAULT_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
 DEFAULT_PROMPT+='[%{${fg_bold[magenta]}%}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")%{${reset_color}%}'
 DEFAULT_PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}${PROMPT_HOST_COLOR}%m%{${reset_color}%}'
 DEFAULT_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}:'
-if (( $+functions[zaw-bookmark-add] )); then
+# DEFAULT_PROMPT+='$(_permission_for_pwd)'
+if [[ -z $_prompt_way ]] || promptway > /dev/null 2>&1; then
     DEFAULT_PROMPT+='${_prompt_way}'
+    # DEFAULT_PROMPT+='${_prompt_way}$(_backward_basename)'
 else
     DEFAULT_PROMPT+='%~'
 fi
@@ -84,7 +114,9 @@ PROMPT=$DEFAULT_PROMPT
 ## Right prompt
 RPROMPT='%{${reset_color}%}'
 # VCS
-RPROMPT+='$(vcs_super_info)'
+if (( $+functions[vcs_super_info] )); then
+    RPROMPT+='$(vcs_super_info)'
+fi
 # Python
 RPROMPT+='%{${fg_bold[magenta]}%}($(_python_type))%{${reset_color}%}'
 # Date-time
