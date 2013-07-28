@@ -378,6 +378,19 @@ let b:match_ignorecase = 1
 "let b:match_words = "if:endif,foreach:endforeach,\<begin\>:\<end\>"
 " }}}
 
+" === milfeulle {{{
+" 履歴を移動するマッピング
+nmap <C-n> <Plug>(milfeulle-prev)
+nmap <C-m> <Plug>(milfeulle-next)
+
+" カーソル位置の保存・移動方法の仕組み
+" これはウィンドウ、タブ、バッファ番号、位置、行を保持する
+" e.g.
+" 保存した時と現在の行の値が違っていれば移動しない
+" ウィンドウ、タブで別のバッファが開かれていれば移動しない
+" let g:milfeulle_default_jumper_name = 'win_tab_bufnr_pos_line'
+" }}}
+
 " === MiniBufExplorer {{{
 " set minibfexp
 let g:miniBufExplMapWindowNavVim=1 "hjklで移動

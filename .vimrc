@@ -559,6 +559,16 @@ NeoBundleLazy 'yonchu/quickfixstatus', {
 " indent-guides : インデントガイドを表示
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
+" milfeulle : 前のカーソル位置に戻る
+NeoBundleLazy "osyo-manga/vim-milfeulle", {
+      \ 'autoload' : {
+      \   'insert' : 1,
+      \   'mappings' : [
+      \     '<Plug>(milfeulle-prev)', '<Plug>(milfeulle-next)',
+      \     '<Plug>(milfeulle-overlay)', '<Plug>(milfeulle-clear)',
+      \     '<Plug>(milfeulle-refresh)'
+      \ ]}}
+
 " minibufexpl.vim : バッファをタブ風に表示
 NeoBundle 'minibufexpl.vim'
 
