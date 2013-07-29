@@ -2043,6 +2043,10 @@ vnoremap ( "zdi<C-V>(<C-R>z)<ESC>
 vnoremap ) "zdi<C-V>(<C-R>z)<ESC>
 vnoremap " "zdi<C-V>"<C-R>z<C-V>"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
+
+" #### Ctrl-v で insert/command モードで貼り付け
+inoremap <C-v> <ESC>"*pa
+cnoremap <C-v> <C-r>+
 " }}}
 
 " === Move {{{2
@@ -2212,11 +2216,17 @@ inoremap <expr> <Leader>r= repeat('=', 79 - col('.'))
 
 " ### 自動閉じ括弧入力
 function! s:auto_close_bracket()
-  inoremap <silent> <buffer> { {}<Left>
-  inoremap <silent> <buffer> [ []<Left>
-  inoremap <silent> <buffer> ( ()<Left>
-  inoremap <silent> <buffer> " ""<Left>
-  inoremap <silent> <buffer> ' ''<Left>
+  " inoremap <silent> <buffer> { {}<Left>
+  " inoremap <silent> <buffer> [ []<Left>
+  " inoremap <silent> <buffer> ( ()<Left>
+  " inoremap <silent> <buffer> " ""<Left>
+  " inoremap <silent> <buffer> ' ''<Left>
+  inoremap <silent> <buffer> () ()<Left>
+  inoremap <silent> <buffer> [] []<Left>
+  inoremap <silent> <buffer> {} {}<Left>
+  inoremap <silent> <buffer> "" ""<Left>
+  inoremap <silent> <buffer> '' ''<Left>
+  inoremap <silent> <buffer> <> <><Left>
 endfunction
 autocmd MyAutoCmd FileType python,coffee,javascript,html,vim,ruby,sh,zsh
       \ call s:auto_close_bracket()
@@ -2684,6 +2694,8 @@ augroup MyAutoCmdEx
   " applescript
   autocmd BufRead,BufNewFile *.applescript,*.scpt setl filetype=applescript
   autocmd FileType applescript inoremap <buffer> <S-CR>  ￢<CR>
+  " markdown
+  autocmd BufRead,BufNewFile *.md setl filetype=markdown
 
   " Rakefile
   autocmd BufNewfile,BufRead Rakefile foldmethod=syntax foldnestmax=1
