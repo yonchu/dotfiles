@@ -33,8 +33,13 @@ if [ -f ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search
 
     # bind UP and DOWN arrow keys
     zmodload zsh/terminfo
-    bindkey "$terminfo[kcuu1]" history-substring-search-up
-    bindkey "$terminfo[kcud1]" history-substring-search-down
+    bindkey "$terminfo[kcuu1]" history-beginning-search-backward-end
+    bindkey "$terminfo[kcud1]" history-beginning-search-forward-end
+    for keycode in '[' 'O'; do
+          bindkey "^[${keycode}A" history-beginning-search-backward-end
+          bindkey "^[${keycode}B" history-beginning-search-forward-end
+    done
+    unset keycode
 
     # bind P and N for EMACS mode
     bindkey -M emacs '^P' history-substring-search-up
