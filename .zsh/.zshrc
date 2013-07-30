@@ -828,8 +828,9 @@ fi
 # }}}
 
 
-# 重複パスを強制削除
-path=($path)
+# Remove duplicate path.
+path=("${path[@]}")
+typeset -U precmd_functions preexec_functions chpwd_functions
 
 ### Complete Messages
 echo "Loading .zshrc completed!! (ZDOTDIR=${ZDOTDIR})"
