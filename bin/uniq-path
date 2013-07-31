@@ -4,7 +4,10 @@
 #
 
 main() {
-    IFS=: path_array=($1)
+    IFS_SAVE=$IFS
+    IFS=:
+    path_array=($1)
+    IFS=$IFS_SAVE
     q=':'
     for p in "${path_array[@]}"; do
         [ "$q" = "${q/:$p:/}" ] && q="$q$p:"

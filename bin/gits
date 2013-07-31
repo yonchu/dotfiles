@@ -50,7 +50,10 @@ print_submodule_update_info() {
     (
         cd_git_toplevel "$1" || return 1
         local -a submodule_dirs
-        IFS=$'\n' submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
+        IFS_SAVE=$IFS
+        IFS=$'\n'
+        submodule_dirs=($(git submodule | cut -d ' ' -f 3 | sed 's/(.*)$//'))
+        IFS=$IFS_SAVE
         if [ -z "$submodule_dirs" ]; then
             return 0
         fi
