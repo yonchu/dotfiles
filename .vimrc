@@ -1861,7 +1861,7 @@ function! s:auto_qf_close()
     let buftype = getwinvar(winnr, '&buftype')
     let ft = getwinvar(winnr, '&filetype')
     if buftype ==# 'quickfix' || ft ==# 'nerdtree' || ft ==# 'help'
-          \ || ft ==# 'vimfiler'
+          \ || ft ==# 'vimfiler' || ft ==# 'quickrun'
     " exists('b:NERDTreeType') && b:NERDTreeType == 'primary'
     else
       return
