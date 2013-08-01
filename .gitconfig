@@ -100,6 +100,8 @@
 
   # pull
   plr = pull --rebase       # 不必要なマージコミットを作りたくない場合
+  # http://d.hatena.ne.jp/hirose31/20130724/1374648978
+  pull-dry-run  = !"git fetch origin; B=$(git rev-parse --abbrev-ref HEAD); git diff --stat --summary ${B}..origin/${B}"
 
   # push
   po  = push origin         # push先はorigin
