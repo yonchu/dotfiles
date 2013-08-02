@@ -1408,7 +1408,7 @@ if ! has('gui_running')
     set ttimeoutlen=10
     augroup FastEscape
         autocmd!
-        au InsertEnter * set timeoutlen=0
+        au InsertEnter * set timeoutlen=500
         au InsertLeave * set timeoutlen=1000
     augroup END
 endif
@@ -1932,13 +1932,13 @@ autocmd MyAutoCmd FileType *
       \ setl formatoptions& formatoptions-=ro formatoptions+=mM
 
 
-if exists('$TMUX')
+if exists('$TMUX') && !has('gui_running')
   autocmd MyAutoCmd BufEnter * call <SID>set_vim_cwd_to_tmux()
   autocmd MyAutoCmd VimLeave * call <SID>del_vim_cwd_from_tmux()
 endif
 
 function! s:set_vim_cwd_to_tmux()
-  if !exists('$TMUX')
+  if !exists('$TMUX') || has('gui_running')
     return
   endif
 
