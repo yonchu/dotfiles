@@ -26,8 +26,22 @@ window_width=$($TMUX_POWERLINE_DIR_USER_SEGMENTS/../window-width.sh)
 vim_cwd=$(tmux showenv $(tmux display -p 'TMUX_VIM_CWD_#D' | tr -d '%') 2> /dev/null)
 vim_cwd=${vim_cwd#*=}
 
+is_minimum=$(tmux showenv TMUX_MINIMUM_STATUS 2> /dev/null)
 
-if [ -n "$vim_cwd" ]; then
+if [ -n "$is_minimum" ]; then
+    if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
+        TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=()
+        TMUX_POWERLINE_LEFT_STATUS_SEGMENTS+=("tmux_session_info 148 234")
+        TMUX_POWERLINE_LEFT_STATUS_SEGMENTS+=("hostname 63 255")
+    fi
+    if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=()
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("earthquake 3 0")
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("mailcount 9 255")
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("lang 95 248")
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("date-full-en 235 136")
+    fi
+elif [ -n "$vim_cwd" ]; then
     if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
         TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
             "tmux_session_info 148 234" \
