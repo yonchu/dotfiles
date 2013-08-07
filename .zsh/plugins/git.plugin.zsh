@@ -111,6 +111,29 @@ function gi() {
     curl http://gitignore.io/api/$@
 }
 
+# $1: period (e.g. --since=1 hours ago)
+# http://qiita.com/yuku_t/items/7c2077e31b2480a2689e
+function commits_of_the_day() {
+    local  head_branch remote_name url project period
+    local -a remote_show
+    period=${1:-'--since=12 hours ago'}
+    head_branch=$(git symbolic-ref -q --short HEAD) || return 1
+    remote_name=$(git config "branch.${head_branch}.remote") || return 1
+    url=$(git config "remote.${remote_name}.url") || return 1
+    if [[ ! $url =~ 'github.com' ]]; then
+        remote_show=($(git remote -v show | command grep 'github\.com' | head -n 1)) || return 1
+        url=${remote_show[2]}
+    fi
+    [[ -z $url ]] && return 1
+    project="${${url#*github.com?}%.git}"
+    echo "Project: [$project](https://github.com/${project})"
+    echo "Author : $(git config user.name) <$(git config user.email)>"
+    echo "Date   : $(LANG=C date +"%a %D %H:%M:%S")"
+    echo "hash | title"
+    echo "-----|------"
+    git log --oneline "$period" --author=$(git config user.email) --pretty="format:[%h](https://github.com/${project}/commit/%h) | %s" | perl -nle "\$_ =~ s|#(\\d+)|[#\\1](https://github.com/${project}/pull/\\1)|g; print \$_"
+}
+
 alias gs='git status -sb'
 compdef _git gs=git-status
 
