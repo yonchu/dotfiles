@@ -763,6 +763,9 @@ function! bundle.hooks.on_source(bundle)
   " quickrun 用のマッピング
   nmap <Space>q <Plug>(precious-quickrun-op)
 
+  " カーソル位置から前後N行の範囲で判定を行う
+  let g:context_filetype#search_offset = 300
+
   let g:precious_enable_switch_CursorMoved = {
         \   "help" : 0
         \}
