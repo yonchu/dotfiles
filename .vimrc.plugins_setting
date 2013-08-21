@@ -99,7 +99,14 @@ function! GetEncoding()
 endfunction
 
 " Display charcode, fileencoding and fileformat.
-let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} %{GetEncoding()}'
+" let g:airline_section_y .= '%{GetEncoding()} %{g:airline_right_alt_sep} %{GetEncoding()}'
+
+let bundle = neobundle#get('vim-airline')
+function! bundle.hooks.on_source(bundle)
+  let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
+  call airline#update_statusline()
+endfunction
+unlet bundle
 " }}}
 
 " === anzu {{{
