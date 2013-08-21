@@ -438,6 +438,9 @@ NeoBundleLazy 'Shougo/neosnippet', {
 
 " === Misc {{{2
 
+" airline :
+NeoBundle 'bling/vim-airline'
+
 " autodate.vim : カスタマイズ可能な自動タイムスタンプ挿入
 NeoBundleLazy 'autodate.vim'
 if !has('kaoriya')
@@ -636,7 +639,7 @@ NeoBundleLazy 'tyru/open-browser.vim', {
       \ ]}}
 
 " powerline : ステータスラインをカッコよく
-NeoBundle 'Lokaltog/vim-powerline'
+" NeoBundle 'Lokaltog/vim-powerline'
 
 " quickrun : 編集中のファイルを簡単に実行できるプラグイン
 NeoBundleLazy 'thinca/vim-quickrun', {
@@ -1059,12 +1062,12 @@ NeoBundleLazy "jmcantrell/vim-virtualenv", {
 
 " syntastic : 多言語対応のシンタックスチェックツール
 "  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-NeoBundleLazy 'scrooloose/syntastic',  {
-      \ 'autoload' : {
-      \   'commands' : [
-      \    'SyntasticCheck', 'SyntasticToggleMode',
-      \    'Errors',
-      \ ]}}
+" NeoBundleLazy 'scrooloose/syntastic',  {
+"       \ 'autoload' : {
+"       \   'commands' : [
+"       \    'SyntasticCheck', 'SyntasticToggleMode',
+"       \    'Errors',
+"       \ ]}}
 
 " vim-watchdogs : :非同期シンタックスチェック
 NeoBundleLazy 'yonchu/vim-watchdogs',  {

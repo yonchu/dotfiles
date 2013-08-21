@@ -31,6 +31,36 @@ let g:ac_smooth_scroll_min_limit_msec = 80
 " autocmd User AcSmoothScrollLeave NumbersToggle
 " }}}
 
+" === airline {{{
+let g:airline_theme = 'badwolf'
+
+if has('multi_byte')
+  let g:airline_powerline_fonts = 1
+endif
+
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
+
+" old vim-powerline symbols
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline#extensions#branch#symbol = '  ⭠ '
+let g:airline#extensions#readonly#symbol = '⭤ '
+let g:airline_linecolumn_prefix = ' ⭡ '
+
+" gitgutter
+let g:gitgutter_sign_added = '✚'
+let g:gitgutter_sign_modified = '➜'
+let g:gitgutter_sign_removed = '✘'
+let g:airline#extensions#hunks#hunk_symbols = [
+      \ g:gitgutter_sign_added . ' ',
+      \ g:gitgutter_sign_modified . ' ',
+      \ g:gitgutter_sign_removed . ' '
+\ ]
+" }}}
+
 " === anzu {{{
 nmap <silent><expr> n '<Plug>(anzu-n-with-echo):normal! zz<cr>'
 nmap <silent><expr> N '<Plug>(anzu-N-with-echo):normal! zz<cr>'
@@ -207,9 +237,7 @@ nnoremap <Space>gN :<C-u>w<CR>:Git now --all<CR>
 nnoremap <silent> ]v :GitGutterNextHunk<CR>
 nnoremap <silent> [v :GitGutterPrevHunk<CR>
 
-let g:gitgutter_sign_added = '✚'
-let g:gitgutter_sign_modified = '➜'
-let g:gitgutter_sign_removed = '✘'
+" Refer to airline settings.
 let g:gitgutter_sign_modified_removed = '✔'
 " }}}
 
@@ -674,146 +702,148 @@ xmap <Leader>h <Plug>(operator-html-escape)
 " }}}
 
 " === powerline {{{
-if has('multi_byte')
-  " パッチ当てフォントを使用
-  let g:Powerline_symbols = 'fancy'
+if neobundle#is_sourced('vim-powerline')
+  if has('multi_byte')
+    " パッチ当てフォントを使用
+    let g:Powerline_symbols = 'fancy'
+  endif
+
+  "let g:Powerline_stl_path_style = 'full'
+
+  "let g:Powerline_theme = 'solarized256'
+  "let g:Powerline_colorscheme = 'solarized256'
+
+  call Pl#Theme#InsertSegment('charcode', 'before', 'fileformat')
+
+  " http://d.hatena.ne.jp/itchyny/20120609/1339249777
+  let g:Powerline_mode_n = 'NORMAL'
+  call Pl#Hi#Allocate({
+    \ 'black'          : 16,
+    \ 'white'          : 231,
+    \
+    \ 'darkestgreen'   : 22,
+    \ 'darkgreen'      : 28,
+    \
+    \ 'darkestcyan'    : 21,
+    \ 'mediumcyan'     : 117,
+    \
+    \ 'darkestblue'    : 24,
+    \ 'darkblue'       : 31,
+    \
+    \ 'darkestred'     : 52,
+    \ 'darkred'        : 88,
+    \ 'mediumred'      : 124,
+    \ 'brightred'      : 160,
+    \ 'brightestred'   : 196,
+    \
+    \ 'darkestyellow'  : 59,
+    \ 'darkyellow'     : 100,
+    \ 'darkestpurple'  : 57,
+    \ 'mediumpurple'   : 98,
+    \ 'brightpurple'   : 189,
+    \
+    \ 'brightorange'   : 208,
+    \ 'brightestorange': 214,
+    \
+    \ 'gray0'          : 233,
+    \ 'gray1'          : 235,
+    \ 'gray2'          : 236,
+    \ 'gray3'          : 239,
+    \ 'gray4'          : 240,
+    \ 'gray5'          : 241,
+    \ 'gray6'          : 244,
+    \ 'gray7'          : 245,
+    \ 'gray8'          : 247,
+    \ 'gray9'          : 250,
+    \ 'gray10'         : 252,
+    \ })
+  " 'n': normal mode
+  " 'i': insert mode
+  " 'v': visual mode
+  " 'r': replace mode
+  " 'N': not active
+  let g:Powerline#Colorschemes#my#colorscheme = Pl#Colorscheme#Init([
+    \ Pl#Hi#Segments(['SPLIT'], {
+      \ 'n': ['white', 'gray2'],
+      \ 'N': ['gray1', 'gray1'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['mode_indicator'], {
+      \ 'i': ['darkestgreen', 'white', ['bold']],
+      \ 'n': ['darkestcyan', 'white', ['bold']],
+      \ 'v': ['darkestpurple', 'white', ['bold']],
+      \ 'r': ['mediumred', 'white', ['bold']],
+      \ 's': ['white', 'gray5', ['bold']],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['fileinfo', 'filename'], {
+      \ 'i': ['white', 'darkestgreen', ['bold']],
+      \ 'n': ['white', 'darkestcyan', ['bold']],
+      \ 'v': ['white', 'darkestpurple', ['bold']],
+      \ 'r': ['white', 'mediumred', ['bold']],
+      \ 'N': ['gray0', 'gray2', ['bold']],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['branch', 'scrollpercent', 'raw', 'filesize'], {
+      \ 'n': ['gray2', 'gray7'],
+      \ 'N': ['gray0', 'gray2'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['fileinfo.filepath', 'status'], {
+      \ 'n': ['gray10'],
+      \ 'N': ['gray5'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['static_str'], {
+      \ 'n': ['white', 'gray4'],
+      \ 'N': ['gray1', 'gray1'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['fileinfo.flags'], {
+      \ 'n': ['white'],
+      \ 'N': ['gray4'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['currenttag', 'fileformat', 'fileencoding', 'pwd',
+    \'filetype', 'charcode', 'currhigroup'], {
+      \ 'n': ['gray9', 'gray4'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['lineinfo'], {
+      \ 'n': ['gray2', 'gray10'],
+      \ 'N': ['gray2', 'gray4'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['errors'], {
+      \ 'n': ['white', 'gray2'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['lineinfo.line.tot'], {
+      \ 'n': ['gray2'],
+      \ 'N': ['gray2'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['paste_indicator', 'ws_marker'], {
+      \ 'n': ['white', 'brightred', ['bold']],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['gundo:static_str.name'], {
+      \ 'n': ['white', 'mediumred', ['bold']],
+      \ 'N': ['brightred', 'darkestred', ['bold']],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['gundo:static_str.buffer'], {
+      \ 'n': ['white', 'darkred'],
+      \ 'N': ['brightred', 'darkestred'],
+      \ }),
+    \
+    \ Pl#Hi#Segments(['gundo:SPLIT'], {
+      \ 'n': ['white', 'gray2'],
+      \ 'N': ['white', 'gray0'],
+      \ }),
+    \ ])
+  let g:Powerline_colorscheme = 'my'
 endif
-
-"let g:Powerline_stl_path_style = 'full'
-
-"let g:Powerline_theme = 'solarized256'
-"let g:Powerline_colorscheme = 'solarized256'
-
-call Pl#Theme#InsertSegment('charcode', 'before', 'fileformat')
-
-" http://d.hatena.ne.jp/itchyny/20120609/1339249777
-let g:Powerline_mode_n = 'NORMAL'
-call Pl#Hi#Allocate({
-  \ 'black'          : 16,
-  \ 'white'          : 231,
-  \
-  \ 'darkestgreen'   : 22,
-  \ 'darkgreen'      : 28,
-  \
-  \ 'darkestcyan'    : 21,
-  \ 'mediumcyan'     : 117,
-  \
-  \ 'darkestblue'    : 24,
-  \ 'darkblue'       : 31,
-  \
-  \ 'darkestred'     : 52,
-  \ 'darkred'        : 88,
-  \ 'mediumred'      : 124,
-  \ 'brightred'      : 160,
-  \ 'brightestred'   : 196,
-  \
-  \ 'darkestyellow'  : 59,
-  \ 'darkyellow'     : 100,
-  \ 'darkestpurple'  : 57,
-  \ 'mediumpurple'   : 98,
-  \ 'brightpurple'   : 189,
-  \
-  \ 'brightorange'   : 208,
-  \ 'brightestorange': 214,
-  \
-  \ 'gray0'          : 233,
-  \ 'gray1'          : 235,
-  \ 'gray2'          : 236,
-  \ 'gray3'          : 239,
-  \ 'gray4'          : 240,
-  \ 'gray5'          : 241,
-  \ 'gray6'          : 244,
-  \ 'gray7'          : 245,
-  \ 'gray8'          : 247,
-  \ 'gray9'          : 250,
-  \ 'gray10'         : 252,
-  \ })
-" 'n': normal mode
-" 'i': insert mode
-" 'v': visual mode
-" 'r': replace mode
-" 'N': not active
-let g:Powerline#Colorschemes#my#colorscheme = Pl#Colorscheme#Init([
-  \ Pl#Hi#Segments(['SPLIT'], {
-    \ 'n': ['white', 'gray2'],
-    \ 'N': ['gray1', 'gray1'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['mode_indicator'], {
-    \ 'i': ['darkestgreen', 'white', ['bold']],
-    \ 'n': ['darkestcyan', 'white', ['bold']],
-    \ 'v': ['darkestpurple', 'white', ['bold']],
-    \ 'r': ['mediumred', 'white', ['bold']],
-    \ 's': ['white', 'gray5', ['bold']],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['fileinfo', 'filename'], {
-    \ 'i': ['white', 'darkestgreen', ['bold']],
-    \ 'n': ['white', 'darkestcyan', ['bold']],
-    \ 'v': ['white', 'darkestpurple', ['bold']],
-    \ 'r': ['white', 'mediumred', ['bold']],
-    \ 'N': ['gray0', 'gray2', ['bold']],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['branch', 'scrollpercent', 'raw', 'filesize'], {
-    \ 'n': ['gray2', 'gray7'],
-    \ 'N': ['gray0', 'gray2'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['fileinfo.filepath', 'status'], {
-    \ 'n': ['gray10'],
-    \ 'N': ['gray5'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['static_str'], {
-    \ 'n': ['white', 'gray4'],
-    \ 'N': ['gray1', 'gray1'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['fileinfo.flags'], {
-    \ 'n': ['white'],
-    \ 'N': ['gray4'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['currenttag', 'fileformat', 'fileencoding', 'pwd',
-  \'filetype', 'charcode', 'currhigroup'], {
-    \ 'n': ['gray9', 'gray4'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['lineinfo'], {
-    \ 'n': ['gray2', 'gray10'],
-    \ 'N': ['gray2', 'gray4'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['errors'], {
-    \ 'n': ['white', 'gray2'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['lineinfo.line.tot'], {
-    \ 'n': ['gray2'],
-    \ 'N': ['gray2'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['paste_indicator', 'ws_marker'], {
-    \ 'n': ['white', 'brightred', ['bold']],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['gundo:static_str.name'], {
-    \ 'n': ['white', 'mediumred', ['bold']],
-    \ 'N': ['brightred', 'darkestred', ['bold']],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['gundo:static_str.buffer'], {
-    \ 'n': ['white', 'darkred'],
-    \ 'N': ['brightred', 'darkestred'],
-    \ }),
-  \
-  \ Pl#Hi#Segments(['gundo:SPLIT'], {
-    \ 'n': ['white', 'gray2'],
-    \ 'N': ['white', 'gray0'],
-    \ }),
-  \ ])
-let g:Powerline_colorscheme = 'my'
 " }}}
 
 " === precious {{{
@@ -1220,38 +1250,40 @@ imap      <C-G>S <Plug>ISurround
 "  自動実行のトグル：,S
 "  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
-let bundle = neobundle#get('syntastic')
-function! bundle.hooks.on_source(bundle)
-  " エラー行をsignで表示
-  let g:syntastic_enable_signs = 1
-  " エラーバルーン表示 (gvim only)
-  let g:syntastic_enable_balloons =1
-  " エラーhighligt表示
-  let g:syntastic_enable_highlighting = 1
-  " エラー時にquickfix起動
-  let g:syntastic_auto_loc_list = 1
+if neobundle#is_installed('syntastic')
+  let bundle = neobundle#get('syntastic')
+  function! bundle.hooks.on_source(bundle)
+    " エラー行をsignで表示
+    let g:syntastic_enable_signs = 1
+    " エラーバルーン表示 (gvim only)
+    let g:syntastic_enable_balloons =1
+    " エラーhighligt表示
+    let g:syntastic_enable_highlighting = 1
+    " エラー時にquickfix起動
+    let g:syntastic_auto_loc_list = 1
 
-  " Automatically running
-  "   mode(active/passive)
-  let g:syntastic_mode_map = { 'mode': 'active',
-        \ 'active_filetypes': ['ruby', 'php', 'perl'],
-        \ 'passive_filetypes': ['python', 'html', 'coffee', 'javascript'] }
+    " Automatically running
+    "   mode(active/passive)
+    let g:syntastic_mode_map = { 'mode': 'active',
+          \ 'active_filetypes': ['ruby', 'php', 'perl'],
+          \ 'passive_filetypes': ['python', 'html', 'coffee', 'javascript'] }
 
-  " python
-  let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
-  " javascript
-  let g:syntastic_javascript_checkers = [ "gjslint", "jshint" ]
-  " coffee
-  let g:syntastic_coffee_checkers = [ "coffeelint", "coffee" ]
-endfunction
-unlet bundle
+    " python
+    let g:syntastic_python_checkers = [ "flake8", "pyflakes" ]
+    " javascript
+    let g:syntastic_javascript_checkers = [ "gjslint", "jshint" ]
+    " coffee
+    let g:syntastic_coffee_checkers = [ "coffeelint", "coffee" ]
+  endfunction
+  unlet bundle
 
-" シンタックスチェックを実行
-nnoremap <silent> <Leader>s :SyntasticCheck<CR>
-" シンタックスチェックのモードをトグル(active/passive)
-nnoremap <silent> <Leader>S :SyntasticToggleMode<CR>
-" QuickFixによるエラー一覧表示
-nnoremap <silent> <Leader>e :Errors<CR>
+  " シンタックスチェックを実行
+  nnoremap <silent> <Leader>s :SyntasticCheck<CR>
+  " シンタックスチェックのモードをトグル(active/passive)
+  nnoremap <silent> <Leader>S :SyntasticToggleMode<CR>
+  " QuickFixによるエラー一覧表示
+  nnoremap <silent> <Leader>e :Errors<CR>
+endif
 " }}}
 
 " === switch.vim {{{
