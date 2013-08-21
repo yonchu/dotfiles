@@ -1082,7 +1082,7 @@ NeoBundleLazy 'closetag.vim', {
       \ }}
 
 " zencoding-vim : html
-NeoBundleLazy 'mattn/zencoding-vim',  {
+NeoBundleLazy 'mattn/emmet-vim',  {
       \ 'autoload' : {
       \   'filetypes' : [
       \     'html', 'xml', 'javascript', 'coffee', 'css', 'less',
