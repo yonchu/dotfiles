@@ -38,7 +38,8 @@ zstyle ':timetracker:message' format \
     '- Command: %c'
 
 zstyle ':timetracker:command' blacklist \
-    'vi' 'vim' 'man' 'less' 'tail' 'tmux' 'tmuxx' 'screen' 'git'
+    'vi' 'vim' 'man' 'less' 'tail' 'tmux' 'tmuxx' 'screen' 'git' 'ssh' 'mosh' \
+    'telnet' 'nc' 'netcat' 'gdb
 
 
 ## preexec functioin
