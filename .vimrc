@@ -439,7 +439,7 @@ NeoBundleLazy 'Shougo/neosnippet', {
 " === Misc {{{2
 
 " airline :
-NeoBundle 'bling/vim-airline'
+NeoBundleLazy 'bling/vim-airline'
 
 " autodate.vim : カスタマイズ可能な自動タイムスタンプ挿入
 NeoBundleLazy 'autodate.vim'
@@ -561,6 +561,9 @@ NeoBundleLazy 'yonchu/quickfixstatus', {
 
 " indent-guides : インデントガイドを表示
 NeoBundle 'nathanaelkane/vim-indent-guides'
+
+" lightline.vim
+NeoBundle 'itchyny/lightline.vim'
 
 " milfeulle : 前のカーソル位置に戻る
 NeoBundleLazy "osyo-manga/vim-milfeulle", {
