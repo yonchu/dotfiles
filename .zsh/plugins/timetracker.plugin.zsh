@@ -39,7 +39,7 @@ zstyle ':timetracker:message' format \
 
 zstyle ':timetracker:command' blacklist \
     'vi' 'vim' 'man' 'less' 'tail' 'tmux' 'tmuxx' 'screen' 'git' 'ssh' 'mosh' \
-    'telnet' 'nc' 'netcat' 'gdb
+    'telnet' 'nc' 'netcat' 'gdb'
 
 
 ## preexec functioin
