@@ -50,84 +50,49 @@ let g:ac_smooth_scroll_min_limit_msec = 80
 " }}}
 
 " === airline {{{
-let g:airline_theme = 'badwolf'
-
-if has('multi_byte')
-  let g:airline_powerline_fonts = 1
-endif
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-
-" old vim-powerline symbols
-let g:airline_left_sep = '⮀'
-" let g:airline_left_sep = '◤'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-" let g:airline_right_sep = '◥'
-let g:airline_right_alt_sep = '⮃'
-let g:airline#extensions#branch#symbol = '  ⭠ '
-let g:airline#extensions#readonly#symbol = '⭤ '
-let g:airline_linecolumn_prefix = ' ⭡ '
-
-" gitgutter
+" vim-gitgutter
 let g:gitgutter_sign_added = '✚'
 let g:gitgutter_sign_modified = '➜'
 let g:gitgutter_sign_removed = '✘'
-let g:airline#extensions#hunks#hunk_symbols = [
-      \ g:gitgutter_sign_added . ' ',
-      \ g:gitgutter_sign_modified . ' ',
-      \ g:gitgutter_sign_removed . ' '
-\ ]
-
-" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
-function! GetCharCode()
-  if winwidth('.') <= 70
-    return ''
-  endif
-
-  " Get the output of :ascii
-  redir => ascii
-  silent! ascii
-  redir END
-
-  if match(ascii, 'NUL') != -1
-    return 'NUL'
-  endif
-
-  " Zero pad hex values
-  let nrformat = '0x%02x'
-
-  let encoding = (&fenc == '' ? &enc : &fenc)
-
-  if encoding == 'utf-8'
-    " Zero pad with 4 zeroes in unicode files
-    let nrformat = '0x%04x'
-  endif
-
-  " Get the character and the numeric value from the return value of :ascii
-  " This matches the two first pieces of the return value, e.g.
-  " "<F>  70" => char: 'F', nr: '70'
-  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
-
-  " Format the numeric value
-  let nr = printf(nrformat, nr)
-
-  return "'". char ."' ". nr
-endfunction
-
-function! GetEncoding()
-  let fenc = strlen(&fenc) >0 ? &fenc : ''
-  let ff = strlen(&ff) > 0 ? &ff : ''
-  return fenc . '[' . ff . ']'
-endfunction
-
-" Display charcode, fileencoding and fileformat.
-" let g:airline_section_y .= '%{GetEncoding()} %{g:airline_right_alt_sep} %{GetEncoding()}'
 
 if s:bundle_tap('vim-airline')
+  let g:airline_theme = 'badwolf'
+
+  if has('multi_byte')
+    let g:airline_powerline_fonts = 1
+  endif
+
+  let g:unite_force_overwrite_statusline = 0
+  let g:vimfiler_force_overwrite_statusline = 0
+
+  " old vim-powerline symbols
+  let g:airline_left_sep = '⮀'
+  " let g:airline_left_sep = '◤'
+  let g:airline_left_alt_sep = '⮁'
+  let g:airline_right_sep = '⮂'
+  " let g:airline_right_sep = '◥'
+  let g:airline_right_alt_sep = '⮃'
+  let g:airline#extensions#branch#symbol = '  ⭠ '
+  let g:airline#extensions#readonly#symbol = '⭤ '
+  let g:airline_linecolumn_prefix = ' ⭡ '
+
+  let g:airline#extensions#hunks#hunk_symbols = [
+        \ g:gitgutter_sign_added . ' ',
+        \ g:gitgutter_sign_modified . ' ',
+        \ g:gitgutter_sign_removed . ' '
+  \ ]
+
+  function! MyEncoding()
+    let fenc = strlen(&fenc) >0 ? &fenc : ''
+    let ff = strlen(&ff) > 0 ? &ff : ''
+    return fenc . '[' . ff . ']'
+  endfunction
+
+  " Display charcode, fileencoding and fileformat.
+  " let g:airline_section_y .= '%{MyEncoding()} %{g:airline_right_alt_sep} %{MyEncoding()}'
+
   function! s:tapped_bundle.hooks.on_source(bundle)
-    let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
+    let g:airline_section_y = '%{MyCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
     call airline#update_statusline()
   endfunction
 endif
@@ -159,12 +124,14 @@ let g:lightline = {
         \   'fileencoding': 'MyFileencoding',
         \   'mode': 'MyMode',
         \   'syntastic': 'SyntasticStatuslineFlag',
-        \   'charcode': 'GetCharCode',
+        \   'charcode': 'MyCharCode',
         \   'gitgutter': 'MyGitGutter',
-        \ },
-        \ 'separator': {'left': '⮀', 'right': '⮂'},
-        \ 'subseparator': {'left': '⮁', 'right': '⮃'}
-        \ }
+        \ }}
+
+if has('multi_byte')
+    let g:lightline.separator = {'left': '⮀', 'right': '⮂'}
+    let g:lightline.subseparator = {'left': '⮁', 'right': '⮃'}
+endif
 
 function! MyModified()
   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
@@ -229,6 +196,42 @@ function! MyGitGutter()
     endif
   endfor
   return join(ret, ' ')
+endfunction
+
+" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
+function! MyCharCode()
+  if winwidth('.') <= 70
+    return ''
+  endif
+
+  " Get the output of :ascii
+  redir => ascii
+  silent! ascii
+  redir END
+
+  if match(ascii, 'NUL') != -1
+    return 'NUL'
+  endif
+
+  " Zero pad hex values
+  let nrformat = '0x%02x'
+
+  let encoding = (&fenc == '' ? &enc : &fenc)
+
+  if encoding == 'utf-8'
+    " Zero pad with 4 zeroes in unicode files
+    let nrformat = '0x%04x'
+  endif
+
+  " Get the character and the numeric value from the return value of :ascii
+  " This matches the two first pieces of the return value, e.g.
+  " "<F>  70" => char: 'F', nr: '70'
+  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
+
+  " Format the numeric value
+  let nr = printf(nrformat, nr)
+
+  return "'". char ."' ". nr
 endfunction
 " }}}
 
