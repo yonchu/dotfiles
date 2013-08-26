@@ -5,6 +5,24 @@
 "
 "-------------------------------------------------------------------------------
 
+" Helper functions {{{
+" http://blog.supermomonga.com/articles/vim/neobundle-sugoibenri.html
+function! s:bundle_tap(bundle)
+  let s:tapped_bundle = neobundle#get(a:bundle)
+  return neobundle#is_installed(a:bundle)
+endfunction
+
+function! s:bundle_config(config)
+  if exists("s:tapped_bundle") && s:tapped_bundle != {}
+    call neobundle#config(s:tapped_bundle.name, a:config)
+  endif
+endfunction
+
+function! s:bundle_untap()
+  let s:tapped_bundle = {}
+endfunction
+""" }}}
+
 " === accelerated-jk {{{
 nmap <silent>j <Plug>(accelerated_jk_gj)
 nmap gj j
@@ -103,12 +121,13 @@ endfunction
 " Display charcode, fileencoding and fileformat.
 " let g:airline_section_y .= '%{GetEncoding()} %{g:airline_right_alt_sep} %{GetEncoding()}'
 
-let bundle = neobundle#get('vim-airline')
-function! bundle.hooks.on_source(bundle)
-  let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
-  call airline#update_statusline()
-endfunction
-unlet bundle
+if s:bundle_tap('vim-airline')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    let g:airline_section_y = '%{GetCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
+    call airline#update_statusline()
+  endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " === lightline.vim {{{
@@ -260,62 +279,63 @@ let g:closetag_html_style = 1
 " }}}
 
 " === emmet.vim {{{
-let bundle = neobundle#get('emmet-vim')
-function! bundle.hooks.on_source(bundle)
-  let g:user_zen_removetag_key = ''
-  let g:use_zen_complete_tag = 1
-  let g:user_zen_settings = {
-  \  'lang' : 'ja',
-  \  'html' : {
-  \    'filters' : 'html',
-  \    'snippets' : {
-  \      'jq' : "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></script>\n<script>\n\\$(function() {\n\t|\n})()\n</script>",
-  \      'cd' : "<![CDATA[|]]>",
-  \    },
-  \  },
-  \  'perl' : {
-  \    'aliases' : {
-  \      'req' : "require '|'"
-  \    },
-  \    'snippets' : {
-  \      'use' : "use strict\nuse warnings\n\n",
-  \      'w' : "warn \"${cursor}\";",
-  \    },
-  \  },
-  \  'php' : {
-  \    'extends' : 'html',
-  \    'filters' : 'html,c',
-  \  },
-  \  'javascript' : {
-  \    'snippets' : {
-  \      'jq' : "\\$(function() {\n\t\\${cursor}\\${child}\n});",
-  \      'jq:json' : "\\$.getJSON(\"${cursor}\", function(data) {\n\t\\${child}\n});",
-  \      'jq:each' : "\\$.each(data, function(index, item) {\n\t\\${child}\n});",
-  \      'fn' : "(function() {\n\t\\${cursor}\n})();",
-  \      'tm' : "setTimeout(function() {\n\t\\${cursor}\n}, 100);",
-  \    },
-  \    'use_pipe_for_cursor' : 0,
-  \  },
-  \  'css' : {
-  \    'filters' : 'fc',
-  \    'snippets' : {
-  \      'box-shadow' : "-webkit-box-shadow: 0 0 0 # 000;\n-moz-box-shadow: 0 0 0 0 # 000;\nbox-shadow: 0 0 0 # 000;",
-  \    },
-  \  },
-  \  'less' : {
-  \    'filters' : 'fc',
-  \    'extends' : 'css',
-  \  },
-  \ 'java' : {
-  \  'snippets' : {
-  \   'main': "public static void main(String[] args) {\n\t|\n}",
-  \   'println': "System.out.println(\"|\");",
-  \   'class': "public class | {\n}\n",
-  \  },
-  \ },
-  \}
-endfunction
-unlet bundle
+if s:bundle_tap('emmet-vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    let g:user_zen_removetag_key = ''
+    let g:use_zen_complete_tag = 1
+    let g:user_zen_settings = {
+    \  'lang' : 'ja',
+    \  'html' : {
+    \    'filters' : 'html',
+    \    'snippets' : {
+    \      'jq' : "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></script>\n<script>\n\\$(function() {\n\t|\n})()\n</script>",
+    \      'cd' : "<![CDATA[|]]>",
+    \    },
+    \  },
+    \  'perl' : {
+    \    'aliases' : {
+    \      'req' : "require '|'"
+    \    },
+    \    'snippets' : {
+    \      'use' : "use strict\nuse warnings\n\n",
+    \      'w' : "warn \"${cursor}\";",
+    \    },
+    \  },
+    \  'php' : {
+    \    'extends' : 'html',
+    \    'filters' : 'html,c',
+    \  },
+    \  'javascript' : {
+    \    'snippets' : {
+    \      'jq' : "\\$(function() {\n\t\\${cursor}\\${child}\n});",
+    \      'jq:json' : "\\$.getJSON(\"${cursor}\", function(data) {\n\t\\${child}\n});",
+    \      'jq:each' : "\\$.each(data, function(index, item) {\n\t\\${child}\n});",
+    \      'fn' : "(function() {\n\t\\${cursor}\n})();",
+    \      'tm' : "setTimeout(function() {\n\t\\${cursor}\n}, 100);",
+    \    },
+    \    'use_pipe_for_cursor' : 0,
+    \  },
+    \  'css' : {
+    \    'filters' : 'fc',
+    \    'snippets' : {
+    \      'box-shadow' : "-webkit-box-shadow: 0 0 0 # 000;\n-moz-box-shadow: 0 0 0 0 # 000;\nbox-shadow: 0 0 0 # 000;",
+    \    },
+    \  },
+    \  'less' : {
+    \    'filters' : 'fc',
+    \    'extends' : 'css',
+    \  },
+    \ 'java' : {
+    \  'snippets' : {
+    \   'main': "public static void main(String[] args) {\n\t|\n}",
+    \   'println': "System.out.println(\"|\");",
+    \   'class': "public class | {\n}\n",
+    \  },
+    \ },
+    \}
+    endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " === eregex.vim {{{
@@ -488,41 +508,42 @@ endfunction
 " }}}
 
 " === grep.vim {{{
-let bundle = neobundle#get('grep.vim')
-function! bundle.hooks.on_source(bundle)
-  " MacのxargsではRgrepがエラーになる
-  if has('mac')
-    if executable('gxargs')
-      let Grep_Xargs_Path = 'gxargs'
-    else
-      let Grep_Find_Use_Xargs = 0
+if s:bundle_tap('grep.vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " MacのxargsではRgrepがエラーになる
+    if has('mac')
+      if executable('gxargs')
+        let Grep_Xargs_Path = 'gxargs'
+      else
+        let Grep_Find_Use_Xargs = 0
+      endif
     endif
-  endif
-  " デフォルトで設定されるオプション
-  "  -i 大文字小文字を区別しない
-  "  -n 各行の先頭にファイルの行番号を表示します
-  "  -H ファイル名を表示
-  "  -E オプションは、拡張正規表現を使用する場合に指定
-  "     fgrep 正規表現を使わない検索
-  "     egrep 正規表現を使った検索 -E と同じ
-  "  -I バイナリ検索除外
-  let Grep_Default_Options = '-niE'
+    " デフォルトで設定されるオプション
+    "  -i 大文字小文字を区別しない
+    "  -n 各行の先頭にファイルの行番号を表示します
+    "  -H ファイル名を表示
+    "  -E オプションは、拡張正規表現を使用する場合に指定
+    "     fgrep 正規表現を使わない検索
+    "     egrep 正規表現を使った検索 -E と同じ
+    "  -I バイナリ検索除外
+    let Grep_Default_Options = '-niE'
 
-  " 検索外のディレクトリ、ファイルパターン
-  let Grep_Skip_Dirs = '.svn .git .hg'
-  let Grep_Skip_Files = '*.bak *~'
-endfunction
-unlet bundle
+    " 検索外のディレクトリ、ファイルパターン
+    let Grep_Skip_Dirs = '.svn .git .hg'
+    let Grep_Skip_Files = '*.bak *~'
+  endfunction
 
-" :Gb <args> でGrepBufferする
-command! -nargs=1 Gb :GrepBuffer <args>
-" カーソル下の単語をGrepBufferする
-nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
+  " :Gb <args> でGrepBufferする
+  command! -nargs=1 Gb :GrepBuffer <args>
+  " カーソル下の単語をGrepBufferする
+  nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
 
-" :Gr <args>でカレントディレクトリ以下を再帰的にgrepする
-command! -nargs=1 Gr :Rgrep <args> *<Enter><CR>
-" カーソル下の単語をgrepする
-nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
+  " :Gr <args>でカレントディレクトリ以下を再帰的にgrepする
+  command! -nargs=1 Gr :Rgrep <args> *<Enter><CR>
+  " カーソル下の単語をgrepする
+  nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
+endif
+call s:bundle_untap()
 " }}}
 
 " === gundo.vim {{{
@@ -687,45 +708,46 @@ let nerdshutup=1
 "    CD : Change tree root to vims current working directory.
 "    ? : Quick help.
 "-------------------------------------------------------------
-let bundle = neobundle#get('nerdtree')
-function! bundle.hooks.on_source(bundle)
-  " ツリー表示幅
-  "let g:NERDTreeWinSize=31
+if s:bundle_tap('nerdtree')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " ツリー表示幅
+    "let g:NERDTreeWinSize=31
 
-  " 無視するファイルを設定 (正規表現)
-  let g:NERDTreeIgnore = [
-        \ '\.clean$', '\.swp$', '\.bak$', '\~$',
-        \ '\.svn$', '\.git$',
-        \ ]
+    " 無視するファイルを設定 (正規表現)
+    let g:NERDTreeIgnore = [
+          \ '\.clean$', '\.swp$', '\.bak$', '\~$',
+          \ '\.svn$', '\.git$',
+          \ ]
 
-  " 隠しファイル表示ON
-  let g:NERDTreeShowHidden=1
-  " ツリー上部のヘルプ表示OFF
-  let g:NERDTreeMinimalUI=1
-  " ツリーに矢印などを表示OFF
-  let g:NERDTreeDirArrows=0
+    " 隠しファイル表示ON
+    let g:NERDTreeShowHidden=1
+    " ツリー上部のヘルプ表示OFF
+    let g:NERDTreeMinimalUI=1
+    " ツリーに矢印などを表示OFF
+    let g:NERDTreeDirArrows=0
 
-  "マウス操作方法
-  " 1 : ファイル、ディレクトリ両方共ダブルクリックで開く(default)
-  " 2 : ディレクトリのみシングルクリックで開く
-  " 3 : ファイル、ディレクトリ両方共シングルクリックで開く
-  let g:NERDTreeMouseMode=1
-endfunction
-unlet bundle
+    "マウス操作方法
+    " 1 : ファイル、ディレクトリ両方共ダブルクリックで開く(default)
+    " 2 : ディレクトリのみシングルクリックで開く
+    " 3 : ファイル、ディレクトリ両方共シングルクリックで開く
+    let g:NERDTreeMouseMode=1
+  endfunction
 
-" トグル
-" nmap <silent> <F5> :call <SID>toggle_nerdtree()<cr>
-" function! s:toggle_nerdtree()
-"   NERDTreeToggle
-"   if &buftype ==# 'nofile' && bufname('') ==# '-MiniBufExplorer-'
-"     execute 'wincmd w'
-"   endif
-" endfunction
+  " トグル
+  " nmap <silent> <F5> :call <SID>toggle_nerdtree()<cr>
+  " function! s:toggle_nerdtree()
+  "   NERDTreeToggle
+  "   if &buftype ==# 'nofile' && bufname('') ==# '-MiniBufExplorer-'
+  "     execute 'wincmd w'
+  "   endif
+  " endfunction
 
-" 自動実行
-" if has('vim_starting') && len(expand('%:p')) == 0
-"     autocmd MyAutoCmd VimEnter * if !argc() | NERDTreeToggle | execute 'wincmd w'
-" endif
+  " 自動実行
+  " if has('vim_starting') && len(expand('%:p')) == 0
+  "     autocmd MyAutoCmd VimEnter * if !argc() | NERDTreeToggle | execute 'wincmd w'
+  " endif
+endif
+call s:bundle_untap()
 " }}}
 
 " === netrw.vim {{{
@@ -770,59 +792,60 @@ nmap <silent> m. <Plug>number-marks-move-sign
 " }}}
 
 " === open-browser.vim {{{
-" カーソル下のURLをブラウザで開く
-" URLがない場合は単語を検索する
-nmap <Leader>ob <Plug>(openbrowser-smart-search)
-vmap <Leader>ob <Plug>(openbrowser-smart-search)
+if s:bundle_tap('open-browser.vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    nnoremap <Plug>(open-browser-wwwsearch)
+          \ :<C-u>call <SID>www_search()<CR>
+    function! s:www_search()
+      let search_word = input('Please input search word: ', '',
+            \ 'customlist,wwwsearch#cmd_Wwwsearch_complete')
+      if search_word != ''
+        execute 'OpenBrowserSearch' escape(search_word, '"')
+      endif
+    endfunction
 
-" カーソル下のURLをブラウザで開く
-" nmap <Leader>fu <Plug>(openbrowser-open)
-" vmap <Leader>fu <Plug>(openbrowser-open)
-" カーソル下のキーワードをググる
-"nnoremap <Leader>fs :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
-
-" 入力した単語をブラウザで検索
-nmap <Leader>gs <Plug>(open-browser-wwwsearch)
-
-let bundle = neobundle#get('open-browser.vim')
-function! bundle.hooks.on_source(bundle)
-  nnoremap <Plug>(open-browser-wwwsearch)
-        \ :<C-u>call <SID>www_search()<CR>
-  function! s:www_search()
-    let search_word = input('Please input search word: ', '',
-          \ 'customlist,wwwsearch#cmd_Wwwsearch_complete')
-    if search_word != ''
-      execute 'OpenBrowserSearch' escape(search_word, '"')
-    endif
+    call operator#user#define('open-neobundlepath', 'OpenNeoBundlePath')
+    function! OpenNeoBundlePath(motion_wise)
+      if line("'[") != line("']")
+        return
+      endif
+      let start = col("'[") - 1
+      let end = col("']")
+      let sel = strpart(getline('.'), start, end - start)
+      let sel = substitute(sel, '^\%(github\|gh\|git@github\.com\):\(.\+\)', 'https://github.com/\1', '')
+      let sel = substitute(sel, '^\%(bitbucket\|bb\):\(.\+\)', 'https://bitbucket.org/\1', '')
+      let sel = substitute(sel, '^gist:\(.\+\)', 'https://gist.github.com/\1', '')
+      let sel = substitute(sel, '^git://', 'https://', '')
+      if sel =~ '^https\?://'
+        call openbrowser#open(sel)
+      elseif sel =~ '/'
+        call openbrowser#open('https://github.com/'.sel)
+      else
+        call openbrowser#open('https://github.com/vim-scripts/'.sel)
+      endif
+    endfunction
   endfunction
 
-  call operator#user#define('open-neobundlepath', 'OpenNeoBundlePath')
-  function! OpenNeoBundlePath(motion_wise)
-    if line("'[") != line("']")
-      return
-    endif
-    let start = col("'[") - 1
-    let end = col("']")
-    let sel = strpart(getline('.'), start, end - start)
-    let sel = substitute(sel, '^\%(github\|gh\|git@github\.com\):\(.\+\)', 'https://github.com/\1', '')
-    let sel = substitute(sel, '^\%(bitbucket\|bb\):\(.\+\)', 'https://bitbucket.org/\1', '')
-    let sel = substitute(sel, '^gist:\(.\+\)', 'https://gist.github.com/\1', '')
-    let sel = substitute(sel, '^git://', 'https://', '')
-    if sel =~ '^https\?://'
-      call openbrowser#open(sel)
-    elseif sel =~ '/'
-      call openbrowser#open('https://github.com/'.sel)
-    else
-      call openbrowser#open('https://github.com/vim-scripts/'.sel)
-    endif
-  endfunction
-endfunction
-unlet bundle
+  " カーソル下のURLをブラウザで開く
+  " URLがない場合は単語を検索する
+  nmap <Leader>ob <Plug>(openbrowser-smart-search)
+  vmap <Leader>ob <Plug>(openbrowser-smart-search)
 
-" http://deris.hatenablog.jp/entry/2013/07/05/023835
-map gz <Plug>(operator-open-neobundlepath)
-"nnoremap gz vi':<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
-"vnoremap gz :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
+  " カーソル下のURLをブラウザで開く
+  " nmap <Leader>fu <Plug>(openbrowser-open)
+  " vmap <Leader>fu <Plug>(openbrowser-open)
+  " カーソル下のキーワードをググる
+  "nnoremap <Leader>fs :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+
+  " 入力した単語をブラウザで検索
+  nmap <Leader>gs <Plug>(open-browser-wwwsearch)
+
+  " http://deris.hatenablog.jp/entry/2013/07/05/023835
+  map gz <Plug>(operator-open-neobundlepath)
+  "nnoremap gz vi':<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
+  "vnoremap gz :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
+endif
+call s:bundle_untap()
 " }}}
 
 " === operator-replace {{{
@@ -984,31 +1007,32 @@ endif
 " }}}
 
 " === precious {{{
-let bundle = neobundle#get('vim-precious')
-function! bundle.hooks.on_source(bundle)
-  " quickrun 用のマッピング
-  nmap <Space>q <Plug>(precious-quickrun-op)
+if s:bundle_tap('vim-precious')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " quickrun 用のマッピング
+    nmap <Space>q <Plug>(precious-quickrun-op)
 
-  " カーソル位置から前後N行の範囲で判定を行う
-  let g:context_filetype#search_offset = 300
+    " カーソル位置から前後N行の範囲で判定を行う
+    let g:context_filetype#search_offset = 300
 
-  let g:precious_enable_switch_CursorMoved = {
-        \   "help" : 0
-        \}
+    let g:precious_enable_switch_CursorMoved = {
+          \   "help" : 0
+          \}
 
-  let g:precious_enable_switch_CursorMoved_i = {
-        \   "*" : 0
-        \}
+    let g:precious_enable_switch_CursorMoved_i = {
+          \   "*" : 0
+          \}
 
-  function! s:precious_leave()
-    setl nofen
-    let bf = precious#base_filetype()
-    let cf = precious#context_filetype()
-    echo 'Switch filetype: '.bf.' -> '.cf
+    function! s:precious_leave()
+      setl nofen
+      let bf = precious#base_filetype()
+      let cf = precious#context_filetype()
+      echo 'Switch filetype: '.bf.' -> '.cf
+    endfunction
+    autocmd User PreciousFiletypeLeave_* call s:precious_leave()
   endfunction
-  autocmd User PreciousFiletypeLeave_* call s:precious_leave()
-endfunction
-unlet bundle
+endif
+call s:bundle_untap()
 " }}}
 
 " === python {{{
@@ -1037,97 +1061,99 @@ let python_highlight_all = 1
 "  :help PythonModeKeys
 "  :help ropevim.txt
 "------------------------------------
-let bundle = neobundle#get('python-mode')
-function! bundle.hooks.on_source(bundle)
-  " ## Run python
-  " Load run code plugin
-  let g:pymode_run = 0
-  " Key for run python code
-  let g:pymode_run_key = '<Leader>r'
+if s:bundle_tap('python-mode')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " ## Run python
+    " Load run code plugin
+    let g:pymode_run = 0
+    " Key for run python code
+    let g:pymode_run_key = '<Leader>r'
 
-  " ## Show documentation
-  " Load show documentation plugin
-  let g:pymode_doc = 0
-  " Key for show python documentation
-  let g:pymode_doc_key = 'K'
+    " ## Show documentation
+    " Load show documentation plugin
+    let g:pymode_doc = 0
+    " Key for show python documentation
+    let g:pymode_doc_key = 'K'
 
-  " ## Lint
-  " Load pylint code plugin
-  let g:pymode_lint = 0
-  " Disable pylint checking every save
-  let g:pymode_lint_write = 1
-  " Switch pylint, pyflakes, pep8, mccabe code-checkers
-  let g:pymode_lint_checker = "pep8,pyflakes,mccabe"
-  " on django
-  "let g:pymode_lint_cheker = "pylint"
+    " ## Lint
+    " Load pylint code plugin
+    let g:pymode_lint = 0
+    " Disable pylint checking every save
+    let g:pymode_lint_write = 1
+    " Switch pylint, pyflakes, pep8, mccabe code-checkers
+    let g:pymode_lint_checker = "pep8,pyflakes,mccabe"
+    " on django
+    "let g:pymode_lint_cheker = "pylint"
 
-  " ## Window
-  " Hold cursor in current window
-  " when quickfix is open
-  let g:pymode_lint_hold = 0
-  " Minimal height of pylint error window
-  let g:pymode_lint_minheight = 3
-  " Maximal height of pylint error window
-  let g:pymode_lint_maxheight = 6
+    " ## Window
+    " Hold cursor in current window
+    " when quickfix is open
+    let g:pymode_lint_hold = 0
+    " Minimal height of pylint error window
+    let g:pymode_lint_minheight = 3
+    " Maximal height of pylint error window
+    let g:pymode_lint_maxheight = 6
 
-  " ## Indent
-  let g:pymode_indent = 0
+    " ## Indent
+    let g:pymode_indent = 0
 
-  "## Syntax highlighting
-  let g:pymode_syntax = 1
-  let g:pymode_syntax_all = 1
-  let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-  let g:pymode_syntax_space_errors = g:pymode_syntax_all
+    "## Syntax highlighting
+    let g:pymode_syntax = 1
+    let g:pymode_syntax_all = 1
+    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
-  "## Enable breakpoints plugin
-  let g:pymode_breakpoint = 1
-  let g:pymode_breakpoint_key = '<leader>b'
+    "## Enable breakpoints plugin
+    let g:pymode_breakpoint = 1
+    let g:pymode_breakpoint_key = '<leader>b'
 
-  " ## Foldin
-  " Enable python folding
-  let g:pymode_folding = 1
+    " ## Foldin
+    " Enable python folding
+    let g:pymode_folding = 1
 
-  " ## Rope
-  " Load rope plugin
-  let g:pymode_rope = 0
-  " Auto create and open ropeproject
-  let g:pymode_rope_auto_project = 0
+    " ## Rope
+    " Load rope plugin
+    let g:pymode_rope = 0
+    " Auto create and open ropeproject
+    let g:pymode_rope_auto_project = 0
 
-  " ## etc
-  " Auto fix vim python paths if virtualenv enabled
-  let g:pymode_virtualenv = 1
-endfunction
-unlet bundle
+    " ## etc
+    " Auto fix vim python paths if virtualenv enabled
+    let g:pymode_virtualenv = 1
+  endfunction
+endif
+call s:bundle_untap()
 
 "------------------------------------
 " jedi-vim
 "  https://github.com/davidhalter/jedi-vim
 "------------------------------------
-let bundle = neobundle#get('jedi-vim')
-function! bundle.hooks.on_source(bundle)
-  let g:jedi#auto_initialization = 1
-  let g:jedi#goto_command = "<leader>gt"
-  let g:jedi#get_definition_command = "<leader>d"
-  let g:jedi#pydoc = "<space>K"
-  let g:jedi#rename_command = "<leader>R"
-  let g:jedi#related_names_command = "<leader>n"
-  let g:jedi#popup_on_dot = 0
-  let g:jedi#popup_select_first = 0
-endfunction
-unlet bundle
+if s:bundle_tap('jedi-vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    let g:jedi#auto_initialization = 1
+    let g:jedi#goto_command = "<leader>gt"
+    let g:jedi#get_definition_command = "<leader>d"
+    let g:jedi#pydoc = "<space>K"
+    let g:jedi#rename_command = "<leader>R"
+    let g:jedi#related_names_command = "<leader>n"
+    let g:jedi#popup_on_dot = 0
+    let g:jedi#popup_select_first = 0
+  endfunction
 
-augroup InitJediVimAu
-  autocmd!
-  autocmd InsertEnter *.py call <SID>init_jedi()
-augroup END
-function! s:init_jedi()
-  echo 'NeoBundle source jedi-vim'
-  NeoBundleSource jedi-vim
-  setl omnifunc=jedi#complete
   augroup InitJediVimAu
     autocmd!
+    autocmd InsertEnter *.py call <SID>init_jedi()
   augroup END
-endfunction
+  function! s:init_jedi()
+    echo 'NeoBundle source jedi-vim'
+    NeoBundleSource jedi-vim
+    setl omnifunc=jedi#complete
+    augroup InitJediVimAu
+      autocmd!
+    augroup END
+  endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " === qfreplace.vim {{{
@@ -1135,54 +1161,55 @@ autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>
 " }}}
 
 " === quickrun {{{
-let bundle = neobundle#get('vim-quickrun')
-function! bundle.hooks.on_source(bundle)
-  " デフォルトのキーマップを無効
-  let g:quickrun_no_default_key_mappings = 1
-  " コンフィグ設定
-  " 常に横分割
-  " markdownについて
-  "  htmlを開くデフォルトアプリケーションがブラウザの場合は
-  "   'outputter': 'multi:buffer:browser'
-  "  とすることでブラウザにて開くことができる
-  let g:quickrun_config = {
-        \   '_': {
-        \     'split': '',
-        \     'runner' : 'vimproc',
-        \     'runner/vimproc/updatetime' : 60,
-        \     'outputter/buffer/close_on_empty' : 1,
-        \   },
-        \   'markdown': {
-        \     'type': executable('markdown') ? 'markdown/markdown':
-        \             executable('Markdown.pl') ? 'markdown/Markdown.pl':
-        \             executable('kramdown') ? 'markdown/kramdown':
-        \             executable('bluecloth') ? 'markdown/bluecloth':
-        \             executable('redcarpet') ? 'markdown/redcarpet':
-        \             executable('pandoc') ? 'markdown/pandoc':
-        \             executable('markdown_py') ? 'markdown/markdown_py': '',
-        \   },
-        \   'markdown/markdown': {
-        \     'split': winwidth(0) < winheight(0) * 3  ? "" : "vertical",
-        \     'command': 'markdown',
-        \     'cmdopt': '--html4tags',
-        \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
-        \     'outputter': 'multi:buffer',
-        \   },
-        \   'applescript': {
-        \     'command' : 'osascript'
-        \   },
-        \ }
-endfunction
-unlet bundle
+if s:bundle_tap('vim-quickrun')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " デフォルトのキーマップを無効
+    let g:quickrun_no_default_key_mappings = 1
+    " コンフィグ設定
+    " 常に横分割
+    " markdownについて
+    "  htmlを開くデフォルトアプリケーションがブラウザの場合は
+    "   'outputter': 'multi:buffer:browser'
+    "  とすることでブラウザにて開くことができる
+    let g:quickrun_config = {
+          \   '_': {
+          \     'split': '',
+          \     'runner' : 'vimproc',
+          \     'runner/vimproc/updatetime' : 60,
+          \     'outputter/buffer/close_on_empty' : 1,
+          \   },
+          \   'markdown': {
+          \     'type': executable('markdown') ? 'markdown/markdown':
+          \             executable('Markdown.pl') ? 'markdown/Markdown.pl':
+          \             executable('kramdown') ? 'markdown/kramdown':
+          \             executable('bluecloth') ? 'markdown/bluecloth':
+          \             executable('redcarpet') ? 'markdown/redcarpet':
+          \             executable('pandoc') ? 'markdown/pandoc':
+          \             executable('markdown_py') ? 'markdown/markdown_py': '',
+          \   },
+          \   'markdown/markdown': {
+          \     'split': winwidth(0) < winheight(0) * 3  ? "" : "vertical",
+          \     'command': 'markdown',
+          \     'cmdopt': '--html4tags',
+          \     'args': '| tee /tmp/__markdown_for_quickrun.html; open -a Google\ Chrome /tmp/__markdown_for_quickrun.html',
+          \     'outputter': 'multi:buffer',
+          \   },
+          \   'applescript': {
+          \     'command' : 'osascript'
+          \   },
+          \ }
+  endfunction
 
-" 通常実行
-nmap <silent> <Leader>r <Plug>(quickrun)
-" 実行後フォーカスをQuickFixへ
-nmap <silent> <Leader>R <Plug>(quickrun)<C-w><C-w>
-" 引数付き実行
-command! -nargs=+ QR :QuickRun '-args' <q-args>
-" Quickrunの強制停止
-nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
+  " 通常実行
+  nmap <silent> <Leader>r <Plug>(quickrun)
+  " 実行後フォーカスをQuickFixへ
+  nmap <silent> <Leader>R <Plug>(quickrun)<C-w><C-w>
+  " 引数付き実行
+  command! -nargs=+ QR :QuickRun '-args' <q-args>
+  " Quickrunの強制停止
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
+endif
+call s:bundle_untap()
 " }}}
 
 " === quickfixsigns_vim {{{
@@ -1190,57 +1217,58 @@ let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
 " }}}
 
 " === ref {{{
-let g:ref_no_default_key_mappings = 1
-silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
-silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
-let bundle = neobundle#get('vim-ref')
-function! bundle.hooks.on_source(bundle)
-  let g:ref_use_vimproc = 1
-  let is_windows = has('win16') || has('win32') || has('win64')
-  if is_windows
-    let g:ref_refe_encoding = 'cp932'
-  else
-    let g:ref_refe_encoding = 'euc-jp'
-  endif
+if s:bundle_tap('vim-ref')
+  let g:ref_no_default_key_mappings = 1
+  silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+  silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
 
-  " ref-lynx.
-  if is_windows
-    let lynx = 'C:/lynx/lynx.exe'
-    let cfg  = 'C:/lynx/lynx.cfg'
-    let g:ref_lynx_cmd = s:lynx.' -cfg='.s:cfg.' -dump -nonumbers %s'
-    let g:ref_alc_cmd = s:lynx.' -cfg='.s:cfg.' -dump %s'
-  endif
-  let g:ref_lynx_use_cache = 1
-  let g:ref_lynx_start_linenumber = 0 " Skip.
-  let g:ref_lynx_hide_url_number = 0
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    let g:ref_use_vimproc = 1
+    let is_windows = has('win16') || has('win32') || has('win64')
+    if is_windows
+      let g:ref_refe_encoding = 'cp932'
+    else
+      let g:ref_refe_encoding = 'euc-jp'
+    endif
 
-  autocmd MyAutoCmd FileType ref call s:ref_my_settings()
-  function! s:ref_my_settings()
-    " Overwrite settings.
-    nmap <buffer> [Tag]t  <Plug>(ref-keyword)
-    nmap <buffer> [Tag]p  <Plug>(ref-back)
-    nmap <buffer> b <Plug>(ref-back)
-    nmap <buffer> f <Plug>(ref-forward)
-    "setlocal nonumber
+    " ref-lynx.
+    if is_windows
+      let lynx = 'C:/lynx/lynx.exe'
+      let cfg  = 'C:/lynx/lynx.cfg'
+      let g:ref_lynx_cmd = s:lynx.' -cfg='.s:cfg.' -dump -nonumbers %s'
+      let g:ref_alc_cmd = s:lynx.' -cfg='.s:cfg.' -dump %s'
+    endif
+    let g:ref_lynx_use_cache = 1
+    let g:ref_lynx_start_linenumber = 0 " Skip.
+    let g:ref_lynx_hide_url_number = 0
+
+    autocmd MyAutoCmd FileType ref call s:ref_my_settings()
+    function! s:ref_my_settings()
+      " Overwrite settings.
+      nmap <buffer> [Tag]t  <Plug>(ref-keyword)
+      nmap <buffer> [Tag]p  <Plug>(ref-back)
+      nmap <buffer> b <Plug>(ref-back)
+      nmap <buffer> f <Plug>(ref-forward)
+      "setlocal nonumber
+    endfunction
+
+    " PHPマニュアルのパスを指定
+    let g:ref_phpmanual_path = $HOME . '/work/dev/docs/php-chunked-xhtml'
+
+    " Javadocのパスを指定
+    let g:ref_javadoc_path = $HOME . '/work/dev/docs/java6_ja_apidocs'
+
+    " jqueryリファレンスのパスを指定
+    let g:ref_jquery_doc_path = $HOME . '/work/dev/docs/jqapi-latest'
+
+    " javascriptリファレンスのパスを指定
+    let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
+
+    " ref-sourcesにてキャッシュを有効
+    let g:ref_use_cache = 1
   endfunction
-
-  " PHPマニュアルのパスを指定
-  let g:ref_phpmanual_path = $HOME . '/work/dev/docs/php-chunked-xhtml'
-
-  " Javadocのパスを指定
-  let g:ref_javadoc_path = $HOME . '/work/dev/docs/java6_ja_apidocs'
-
-  " jqueryリファレンスのパスを指定
-  let g:ref_jquery_doc_path = $HOME . '/work/dev/docs/jqapi-latest'
-
-  " javascriptリファレンスのパスを指定
-  let g:ref_javascript_doc_path = $HOME . '/work/dev/docs/jsref/htdocs'
-
-  " ref-sourcesにてキャッシュを有効
-  let g:ref_use_cache = 1
-
-endfunction
-unlet bundle
+endif
+call s:bundle_untap()
 "}}}
 
 " === restart.vim {{{
@@ -1315,36 +1343,38 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 " }}}
 
 " === submode {{{
-let bundle = neobundle#get('vim-submode')
-function! bundle.hooks.on_source(bundle)
-  " タイムアウト無効
-  let g:submode_timeout = 0
+if s:bundle_tap('vim-submode')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " タイムアウト無効
+    let g:submode_timeout = 0
 
-  " タイムアウト時間 (ms)
-  " let g:submode_timeoutlen = 10000
+    " タイムアウト時間 (ms)
+    " let g:submode_timeoutlen = 10000
 
-  " サブモードに入るためのキーマッピング定義
-  "  submode#enter_with({submode}, {modes}, {options}, {lhs}, [{rhs}])
-  "   {submode} : サブモード名
-  "   {modes} : モートの種類 (複数指定可) (n = normal-mode、i = insert-mode ...)
-  "   {options} : オプション (b = <buffer> e = <expr> ...)
-  "   {lhs}
-  "   [{rhs}]
-  "
-  " サブモード中のキーマッピング
-  " submode#map({submode}, {modes}, {options}, {lhs}, {rhs})
-  "
-  " サブモードから抜ける : ESC
+    " サブモードに入るためのキーマッピング定義
+    "  submode#enter_with({submode}, {modes}, {options}, {lhs}, [{rhs}])
+    "   {submode} : サブモード名
+    "   {modes} : モートの種類 (複数指定可) (n = normal-mode、i = insert-mode ...)
+    "   {options} : オプション (b = <buffer> e = <expr> ...)
+    "   {lhs}
+    "   [{rhs}]
+    "
+    " サブモード中のキーマッピング
+    " submode#map({submode}, {modes}, {options}, {lhs}, {rhs})
+    "
+    " サブモードから抜ける : ESC
 
-  call submode#enter_with('winsize', 'n', '', '<C-w><Space>')
+    call submode#enter_with('winsize', 'n', '', '<C-w><Space>')
 
-  call submode#map('winsize', 'n', '', 'l', '<C-w>>')
-  call submode#map('winsize', 'n', '', 'h', '<C-w><')
-  call submode#map('winsize', 'n', '', 'k', '<C-w>-')
-  call submode#map('winsize', 'n', '', 'j', '<C-w>+')
-endfunction
-unlet bundle
-nnoremap <Space><Space> :NeoBundleSource vim-submode<cr>
+    call submode#map('winsize', 'n', '', 'l', '<C-w>>')
+    call submode#map('winsize', 'n', '', 'h', '<C-w><')
+    call submode#map('winsize', 'n', '', 'k', '<C-w>-')
+    call submode#map('winsize', 'n', '', 'j', '<C-w>+')
+  endfunction
+
+  nnoremap <Space><Space> :NeoBundleSource vim-submode<cr>
+endif
+call s:bundle_untap()
 "}}}
 
 " === sudo.vim {{{
@@ -1387,9 +1417,8 @@ imap      <C-G>S <Plug>ISurround
 "  自動実行のトグル：,S
 "  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
-if neobundle#is_installed('syntastic')
-  let bundle = neobundle#get('syntastic')
-  function! bundle.hooks.on_source(bundle)
+if s:bundle_tap('syntastic')
+  function! s:tapped_bundle.hooks.on_source(bundle)
     " エラー行をsignで表示
     let g:syntastic_enable_signs = 1
     " エラーバルーン表示 (gvim only)
@@ -1412,7 +1441,6 @@ if neobundle#is_installed('syntastic')
     " coffee
     let g:syntastic_coffee_checkers = [ "coffeelint", "coffee" ]
   endfunction
-  unlet bundle
 
   " シンタックスチェックを実行
   nnoremap <silent> <Leader>s :SyntasticCheck<CR>
@@ -1421,36 +1449,38 @@ if neobundle#is_installed('syntastic')
   " QuickFixによるエラー一覧表示
   nnoremap <silent> <Leader>e :Errors<CR>
 endif
+call s:bundle_untap()
 " }}}
 
 " === switch.vim {{{
-let bundle = neobundle#get('switch.vim')
-function! bundle.hooks.on_source(bundle)
-  " CamelCase <-> SneakCase
-  let g:variable_style_switch_definitions = [
-    \   {
-    \     '\<[a-z0-9]\+_\k\+\>': {
-    \       '_\(.\)': '\U\1'
-    \     },
-    \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
-    \       '\([A-Z]\)': '_\l\1'
-    \     },
-    \   }
-    \ ]
+if s:bundle_tap('switch.vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " CamelCase <-> SneakCase
+    let g:variable_style_switch_definitions = [
+      \   {
+      \     '\<[a-z0-9]\+_\k\+\>': {
+      \       '_\(.\)': '\U\1'
+      \     },
+      \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
+      \       '\([A-Z]\)': '_\l\1'
+      \     },
+      \   }
+      \ ]
 
-  let g:switch_custom_definitions =
-    \ [
-    \   ['and', 'or'],
-    \   ['if', 'unless'],
-    \   ['yes', 'no'],
-    \   ['enable', 'disable'],
-    \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
-    \ ]
-endfunction
-unlet bundle
+    let g:switch_custom_definitions =
+      \ [
+      \   ['and', 'or'],
+      \   ['if', 'unless'],
+      \   ['yes', 'no'],
+      \   ['enable', 'disable'],
+      \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
+      \ ]
+  endfunction
 
-nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
-nnoremap <silent> - :Switch<cr>
+  nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
+  nnoremap <silent> - :Switch<cr>
+endif
+call s:bundle_untap()
 " }}}
 
 " === tabpagecd {{{
@@ -1486,38 +1516,39 @@ inoremap <silent> <Leader>c<Space> :TComment<cr>
 "   :TernRefs       Show all references to the variable or property under the cursor.
 "   :TernRename     Rename the variable under the cursor.
 
-let bundle = neobundle#get('tern_for_vim')
-function! bundle.hooks.on_source(bundle)
-  " Show argumet hints. (no/on_move/on_hold) (Default: no)
-  let g:tern_show_argument_hints = 'on_hold'
+if s:bundle_tap('tern_for_vim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " Show argumet hints. (no/on_move/on_hold) (Default: no)
+    let g:tern_show_argument_hints = 'on_hold'
 
-  " Set default key mappings.
-  " let g:tern_map_keys = 1
-  " Set prefix key.
-  " let g:tern_map_prefix = '<leader>'
+    " Set default key mappings.
+    " let g:tern_map_keys = 1
+    " Set prefix key.
+    " let g:tern_map_prefix = '<leader>'
 
-  " Key mapping list.
-  "   prefix + td   :TernDoc<CR>'
-  "   prefix + tb   :TernDocBrowse<CR>'
-  "   prefix + tt   :TernType<CR>'
-  "   prefix + td   :TernDef<CR>'
-  "   prefix + tpd  :TernDefPreview<CR>'
-  "   prefix + tsd  :TernDefSplit<CR>'
-  "   prefix + ttd  :TernDefTab<CR>'
-  "   prefix + tr   :TernRefs<CR>'
-  "   prefix + tR   :TernRename<CR>'
+    " Key mapping list.
+    "   prefix + td   :TernDoc<CR>'
+    "   prefix + tb   :TernDocBrowse<CR>'
+    "   prefix + tt   :TernType<CR>'
+    "   prefix + td   :TernDef<CR>'
+    "   prefix + tpd  :TernDefPreview<CR>'
+    "   prefix + tsd  :TernDefSplit<CR>'
+    "   prefix + ttd  :TernDefTab<CR>'
+    "   prefix + tr   :TernRefs<CR>'
+    "   prefix + tR   :TernRename<CR>'
 
-  " Run ftplugin process.
-  " NeoBundleLazyだと after/ftplugin/javascript_tern.vim が読み込まれない
-  call tern#Enable()
-  " Menu
-  menu <silent> Tern.Jump\ To\ Defintion :TernDef<CR>
-  menu <silent> Tern.See\ Documentation :TernDoc<CR>
-  menu <silent> Tern.DataType :TernType <CR>
-  menu <silent> Tern.Show\ all\ References :TernRefs<CR>
-  menu <silent> Tern.Rename :TernRename <CR>
-endfunction
-unlet bundle
+    " Run ftplugin process.
+    " NeoBundleLazyだと after/ftplugin/javascript_tern.vim が読み込まれない
+    call tern#Enable()
+    " Menu
+    menu <silent> Tern.Jump\ To\ Defintion :TernDef<CR>
+    menu <silent> Tern.See\ Documentation :TernDoc<CR>
+    menu <silent> Tern.DataType :TernType <CR>
+    menu <silent> Tern.Show\ all\ References :TernRefs<CR>
+    menu <silent> Tern.Rename :TernRename <CR>
+  endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " === thumbnail.vim {{{
@@ -1527,32 +1558,33 @@ autocmd MyAutoCmd FileType thumbnail IndentGuidesDisable
 " }}}
 
 " === TweetVim {{{
-let bundle = neobundle#get('TweetVim')
-function! bundle.hooks.on_source(bundle)
-  if has('gui_running')
-    " フレームにアイコンを表示
-    let g:tweetvim_display_icon = 1
-  endif
+if s:bundle_tap('TweetVim')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    if has('gui_running')
+      " フレームにアイコンを表示
+      let g:tweetvim_display_icon = 1
+    endif
 
-  " 1ページのツイート数
-  let g:tweetvim_tweet_per_page = 60
+    " 1ページのツイート数
+    let g:tweetvim_tweet_per_page = 60
 
-  " セパレータOFF
-  let g:tweetvim_display_separator = 0
+    " セパレータOFF
+    let g:tweetvim_display_separator = 0
 
-  autocmd MyAutoCmd FileType tweetvim call s:tweetvim_my_settings()
-  function! s:tweetvim_my_settings()
-    nnoremap <silent><buffer> o :TweetVimSay<CR>
-    nnoremap <silent><buffer> q :close<CR>
-    nmap <silent><buffer> j <Plug>(accelerated_jk_gj)
+    autocmd MyAutoCmd FileType tweetvim call s:tweetvim_my_settings()
+    function! s:tweetvim_my_settings()
+      nnoremap <silent><buffer> o :TweetVimSay<CR>
+      nnoremap <silent><buffer> q :close<CR>
+      nmap <silent><buffer> j <Plug>(accelerated_jk_gj)
+    endfunction
   endfunction
-endfunction
-unlet bundle
 
-nnoremap <silent><Space>tw :<C-u>tabnew <Bar> TweetVimHomeTimeline<CR>
-nnoremap <silent><Space>tl :<C-u>TweetVimHomeTimeline<CR>
-nnoremap <silent><Space>tm :<C-u>TweetVimMentions<CR>
-"nnoremap <Space>ts :<C-u>TweetVimSay<CR>
+  nnoremap <silent><Space>tw :<C-u>tabnew <Bar> TweetVimHomeTimeline<CR>
+  nnoremap <silent><Space>tl :<C-u>TweetVimHomeTimeline<CR>
+  nnoremap <silent><Space>tm :<C-u>TweetVimMentions<CR>
+  "nnoremap <Space>ts :<C-u>TweetVimSay<CR>
+endif
+call s:bundle_untap()
 " }}}
 
 " === txtobj {{{
@@ -1564,312 +1596,312 @@ vmap ib <Plug>(textobj-multiblock-i)
 " }}}
 
 " === unite.vim {{{
-" The prefix key.
-nnoremap    [unite]   <Nop>
-xnoremap    [unite]   <Nop>
-nmap    ;f   [unite]
-xmap    ;f   [unite]
+if s:bundle_tap('unite.vim')
+  " The prefix key.
+  nnoremap    [unite]   <Nop>
+  xnoremap    [unite]   <Nop>
+  nmap    ;f   [unite]
+  xmap    ;f   [unite]
 
 
-nnoremap [unite]u  :<C-u>Unite<Space>
+  nnoremap [unite]u  :<C-u>Unite<Space>
 
-" 全部乗せ
-nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
-" 常用セット
-nnoremap <silent> [unite]j  :<C-u>Unite -quick-match buffer file_mru<CR>
+  " 全部乗せ
+  nnoremap <silent> [unite]a  :<C-u>UniteWithCurrentDir -buffer-name=files buffer file_mru bookmark file<CR>
+  " 常用セット
+  nnoremap <silent> [unite]j  :<C-u>Unite -quick-match buffer file_mru<CR>
 
-" ファイル一覧
-nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
-" ファイル一覧 (現在のバッファのカレントディレクトリ配下)
-nnoremap <silent> [unite]d  :<C-u>UniteWithBufferDir file<CR>
-" バッファ一覧
-nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
-" 最近使用したファイル一覧
-nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
-" 最近使用したファイル一覧 (カレントディレクトリ)
-"nnoremap <silent> [unite]m  :<C-u>UniteWithBufferDir file_mru<CR>
-" ブックマーク
-nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=bookmark bookmark<CR>
+  " ファイル一覧
+  nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file<CR>
+  " ファイル一覧 (現在のバッファのカレントディレクトリ配下)
+  nnoremap <silent> [unite]d  :<C-u>UniteWithBufferDir file<CR>
+  " バッファ一覧
+  nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+  " 最近使用したファイル一覧
+  nnoremap <silent> [unite]m  :<C-u>Unite file_mru<CR>
+  " 最近使用したファイル一覧 (カレントディレクトリ)
+  "nnoremap <silent> [unite]m  :<C-u>UniteWithBufferDir file_mru<CR>
+  " ブックマーク
+  nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=bookmark bookmark<CR>
 
-" Search buffer and mru.
-nnoremap <silent> B         :<C-u>Unite buffer file_mru<CR>
+  " Search buffer and mru.
+  nnoremap <silent> B         :<C-u>Unite buffer file_mru<CR>
 
-" File searching like ctrl.vim
-nnoremap <silent> ;p :<C-u>Unite -buffer-name=file-search file_rec/async<CR>
+  " File searching like ctrl.vim
+  nnoremap <silent> ;p :<C-u>Unite -buffer-name=file-search file_rec/async<CR>
 
-" Content searching like ack.vim (or ag.vim)
-nnoremap <silent> ;/  :<C-u>Unite -buffer-name=search -no-quit grep:.<CR>
+  " Content searching like ack.vim (or ag.vim)
+  nnoremap <silent> ;/  :<C-u>Unite -buffer-name=search -no-quit grep:.<CR>
 
-" yank/history
-xnoremap <silent> ;y
-      \ d:<C-u>Unite -buffer-name=register register history/yank<CR>
-nnoremap <silent> ;y
-      \ :<C-u>Unite -buffer-name=register register history/yank<CR>
+  " yank/history
+  xnoremap <silent> ;y
+        \ d:<C-u>Unite -buffer-name=register register history/yank<CR>
+  nnoremap <silent> ;y
+        \ :<C-u>Unite -buffer-name=register register history/yank<CR>
 
-" ----- Commands -----
-" dotfiles以下のファイルを表示
-command! Ufd :Unite file:~/dotfiles -input=. -winwidth=60
+  " ----- Commands -----
+  " dotfiles以下のファイルを表示
+  command! Ufd :Unite file:~/dotfiles -input=. -winwidth=60
 
-command! Uba :UniteBookmarkAdd<CR>
+  command! Uba :UniteBookmarkAdd<CR>
 
-" unite-line
-command! Ul :Unite -buffer-name=search -start-insert -no-quit -auto-preview line_migemo
-
-
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
-" Sources :
-"
-" Unite build -buffer-name=build tabpagenr() -no-quit
-" Unite change jump
-" Unite grep -buffer-name=search -auto-preview -no-quit -resume
-" Unite help
-" Unite -buffer-name=help help
-" Unite jump
-" Unite history/command command
-" Unite -buffer-name=register register history/yank
-" Unite menu:unite -resume
-" Unite outline -start-insert -resume
-" Unite -buffer-name=register register history/yank
-" Unite source
-" Unite tab
-" Unite window
-
-" Unite -buffer-name=files -no-split -multi-line
-        "\ jump_point file_point buffer_tab
-        "\ file_rec:! file file/new file_mru
-" Unite -buffer-name=files -no-split -multi-line
-        "\ jump_point file_point buffer_tab
-        "\ file_rec/async:! file file/new file_mru
-
-" UniteWithCursorWord help
-" UniteWithCursorWord -buffer-name=tag tag tag/include
-" UniteWithCursorWord -buffer-name=registerbuffer
-      "\ file_mru bookmark file
-
-" UniteBookmarkAdd
-" UniteResume search
-
-" Unite -buffer-name=search -no-split -auto-preview
-      "\ -start-insert line:backward
+  " unite-line
+  command! Ul :Unite -buffer-name=search -start-insert -no-quit -auto-preview line_migemo
 
 
-" unit-help
-command! Uh :Unite help
-" カーソル上の単語をunite-helpで検索
-command! Uhw :UniteWithCursorWord help
+  " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
+  " Sources :
+  "
+  " Unite build -buffer-name=build tabpagenr() -no-quit
+  " Unite change jump
+  " Unite grep -buffer-name=search -auto-preview -no-quit -resume
+  " Unite help
+  " Unite -buffer-name=help help
+  " Unite jump
+  " Unite history/command command
+  " Unite -buffer-name=register register history/yank
+  " Unite menu:unite -resume
+  " Unite outline -start-insert -resume
+  " Unite -buffer-name=register register history/yank
+  " Unite source
+  " Unite tab
+  " Unite window
 
-" unite-outline
-"nnoremap <silent> ;o
-      "\ :<C-u>Unite outline -start-insert -resume<CR>
-command! Uo :Unite -winwidth=40 -start-insert -resume -no-quit outline
+  " Unite -buffer-name=files -no-split -multi-line
+          "\ jump_point file_point buffer_tab
+          "\ file_rec:! file file/new file_mru
+  " Unite -buffer-name=files -no-split -multi-line
+          "\ jump_point file_point buffer_tab
+          "\ file_rec/async:! file file/new file_mru
 
-" unite-colorscheme
-command! Uc :Unite -auto-preview -winwidth=15 colorscheme
+  " UniteWithCursorWord help
+  " UniteWithCursorWord -buffer-name=tag tag tag/include
+  " UniteWithCursorWord -buffer-name=registerbuffer
+        "\ file_mru bookmark file
 
-" unite-mapping
-command! Um :Unite mapping
+  " UniteBookmarkAdd
+  " UniteResume search
 
-" unite-quickfix
-command! Uq :Unite -no-quit -direction=botright quickfix
-command! Uq :Unite -no-quit -direction=botright location_list
+  " Unite -buffer-name=search -no-split -auto-preview
+        "\ -start-insert line:backward
 
-" tweetvim
-command! Utw :Unite tweetvim
 
-" Alias
-let g:unite_source_alias_aliases = {}
-let g:unite_source_alias_aliases.line_migemo = {
-      \ 'source' : 'line',
-      \ }
+  " unit-help
+  command! Uh :Unite help
+  " カーソル上の単語をunite-helpで検索
+  command! Uhw :UniteWithCursorWord help
 
-" unite-menu.
-let g:unite_source_menu_menus = {}
+  " unite-outline
+  "nnoremap <silent> ;o
+        "\ :<C-u>Unite outline -start-insert -resume<CR>
+  command! Uo :Unite -winwidth=40 -start-insert -resume -no-quit outline
 
-let g:unite_source_menu_menus.enc = {
-      \     'description' : 'Open with a specific character code again.',
-      \ }
-let g:unite_source_menu_menus.enc.command_candidates = [
-      \       ['utf8', 'Utf8'],
-      \       ['iso2022jp', 'Iso2022jp'],
-      \       ['cp932', 'Cp932'],
-      \       ['euc', 'Euc'],
-      \       ['utf16', 'Utf16'],
-      \       ['utf16-be', 'Utf16be'],
-      \       ['jis', 'Jis'],
-      \       ['sjis', 'Sjis'],
-      \       ['unicode', 'Unicode'],
-      \     ]
-" nnoremap <silent> ;e :<C-u>Unite menu:enc<CR>
+  " unite-colorscheme
+  command! Uc :Unite -auto-preview -winwidth=15 colorscheme
 
-let g:unite_source_menu_menus.fenc = {
-      \     'description' : 'Change file fenc option.',
-      \ }
-let g:unite_source_menu_menus.fenc.command_candidates = [
-      \       ['utf8', 'WUtf8'],
-      \       ['iso2022jp', 'WIso2022jp'],
-      \       ['cp932', 'WCp932'],
-      \       ['euc', 'WEuc'],
-      \       ['utf16', 'WUtf16'],
-      \       ['utf16-be', 'WUtf16be'],
-      \       ['jis', 'WJis'],
-      \       ['sjis', 'WSjis'],
-      \       ['unicode', 'WUnicode'],
-      \     ]
-" nnoremap <silent> ;f :<C-u>Unite menu:fenc<CR>
+  " unite-mapping
+  command! Um :Unite mapping
 
-let g:unite_source_menu_menus.ff = {
-      \     'description' : 'Change file format option.',
-      \ }
-let g:unite_source_menu_menus.ff.command_candidates = {
-      \       'unix'   : 'WUnix',
-      \       'dos'    : 'WDos',
-      \       'mac'    : 'WMac',
-      \     }
-" nnoremap <silent> ;w :<C-u>Unite menu:ff<CR>
+  " unite-quickfix
+  command! Uq :Unite -no-quit -direction=botright quickfix
+  command! Uq :Unite -no-quit -direction=botright location_list
 
-let g:unite_source_menu_menus.unite = {
-      \     'description' : 'Start unite sources',
-      \ }
-let g:unite_source_menu_menus.unite.command_candidates = {
-      \       'bookmark'   : 'Unite bookmark',
-      \       'history'    : 'Unite history/command',
-      \       'quickfix'   : 'Unite qflist -no-quit',
-      \       'resume'     : 'Unite -buffer-name=resume resume',
-      \       'directory'  : 'Unite -buffer-name=files '.
-      \             '-default-action=lcd directory_mru',
-      \       'mapping'    : 'Unite mapping',
-      \       'message'    : 'Unite output:message',
-      \     }
-" nnoremap <silent> ;u :<C-u>Unite menu:unite -resume<CR>
+  " tweetvim
+  command! Utw :Unite tweetvim
 
-let bundle = neobundle#get('unite.vim')
-function! bundle.hooks.on_source(bundle)
-  autocmd MyAutoCmd FileType unite call s:unite_my_settings()
+  " Alias
+  let g:unite_source_alias_aliases = {}
+  let g:unite_source_alias_aliases.line_migemo = {
+        \ 'source' : 'line',
+        \ }
 
-  let g:unite_enable_start_insert = 0
-  "let g:unite_enable_short_source_names = 1
-  let g:unite_enable_split_vertically = 0
-  let g:unite_winwidth = 40
-  let g:unite_winheight = 20
-  let g:unite_source_history_yank_enable = 1
-  " let g:unite_cursor_line_highlight = 'TabLine'
-  let g:unite_source_file_mru_filename_format = ':~:.'
-  let g:unite_source_file_mru_limit = 300
-  let g:unite_source_directory_mru_limit = 300
-  "let g:unite_abbr_highlight = 'TabLine'
-  "let g:unite_source_file_mru_time_format = ''
-  "let g:unite_source_directory_mru_time_format = ''
+  " unite-menu.
+  let g:unite_source_menu_menus = {}
 
-  " grepデフォルトオプション
-  "  -i 大文字小文字を区別しない
-  "  -n 各行の先頭にファイルの行番号を表示します
-  "  -H ファイル名を表示
-  "  -E オプションは、拡張正規表現を使用する場合に指定
-  "     fgrep 正規表現を使わない検索
-  "     egrep 正規表現を使った検索 -E と同じ
-  "  -R ディレクトリを再帰的にたどる
-  "  -I バイナリ検索除外
-  "  -w 単語マッチ
-  "  --color=[WHEN]
-  "     always: パイプ使用時に強制的にカラーコードをつける
-  "     auto : 出力先に応じて判断 - パイプ時などはカラーコードをつけない
-  "     never : カラーコードOFF
-  let g:unite_source_grep_default_opts="-niE --color=never"
+  let g:unite_source_menu_menus.enc = {
+        \     'description' : 'Open with a specific character code again.',
+        \ }
+  let g:unite_source_menu_menus.enc.command_candidates = [
+        \       ['utf8', 'Utf8'],
+        \       ['iso2022jp', 'Iso2022jp'],
+        \       ['cp932', 'Cp932'],
+        \       ['euc', 'Euc'],
+        \       ['utf16', 'Utf16'],
+        \       ['utf16-be', 'Utf16be'],
+        \       ['jis', 'Jis'],
+        \       ['sjis', 'Sjis'],
+        \       ['unicode', 'Unicode'],
+        \     ]
+  " nnoremap <silent> ;e :<C-u>Unite menu:enc<CR>
 
-  " For ag
-  if executable('ag')
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '-S --nocolor --nogroup'
-    let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_grep_max_candidates = 200
-  endif
+  let g:unite_source_menu_menus.fenc = {
+        \     'description' : 'Change file fenc option.',
+        \ }
+  let g:unite_source_menu_menus.fenc.command_candidates = [
+        \       ['utf8', 'WUtf8'],
+        \       ['iso2022jp', 'WIso2022jp'],
+        \       ['cp932', 'WCp932'],
+        \       ['euc', 'WEuc'],
+        \       ['utf16', 'WUtf16'],
+        \       ['utf16-be', 'WUtf16be'],
+        \       ['jis', 'WJis'],
+        \       ['sjis', 'WSjis'],
+        \       ['unicode', 'WUnicode'],
+        \     ]
+  " nnoremap <silent> ;f :<C-u>Unite menu:fenc<CR>
 
-  function! s:unite_my_settings()
-    " ESCキーを2回押すと終了する
-    nmap <buffer> <ESC>      <Plug>(unite_exit)
-    nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
-    " 入力モードを抜ける
-    imap <buffer> jj      <Plug>(unite_insert_leave)
-    " 入力モード時のプレビュー
-    nnoremap <silent><buffer> <C-p> :<C-u>call unite#mappings#do_action('preview')<CR>
-    " 単語単位からパス単位で削除するように変更
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+  let g:unite_source_menu_menus.ff = {
+        \     'description' : 'Change file format option.',
+        \ }
+  let g:unite_source_menu_menus.ff.command_candidates = {
+        \       'unix'   : 'WUnix',
+        \       'dos'    : 'WDos',
+        \       'mac'    : 'WMac',
+        \     }
+  " nnoremap <silent> ;w :<C-u>Unite menu:ff<CR>
 
-    " ファイルを開く(ウィンドウ横分割)
-    nnoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
-    inoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
+  let g:unite_source_menu_menus.unite = {
+        \     'description' : 'Start unite sources',
+        \ }
+  let g:unite_source_menu_menus.unite.command_candidates = {
+        \       'bookmark'   : 'Unite bookmark',
+        \       'history'    : 'Unite history/command',
+        \       'quickfix'   : 'Unite qflist -no-quit',
+        \       'resume'     : 'Unite -buffer-name=resume resume',
+        \       'directory'  : 'Unite -buffer-name=files '.
+        \             '-default-action=lcd directory_mru',
+        \       'mapping'    : 'Unite mapping',
+        \       'message'    : 'Unite output:message',
+        \     }
+  " nnoremap <silent> ;u :<C-u>Unite menu:unite -resume<CR>
 
-    " ファイルを開く(ウィンドウ縦分割)
-    nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
-    inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    autocmd MyAutoCmd FileType unite call s:unite_my_settings()
 
-    " vimfiler
-    nnoremap <silent> <buffer> <expr> <C-f> unite#do_action('vimfiler')
-    inoremap <silent> <buffer> <expr> <C-f> unite#do_action('vimfiler')
+    let g:unite_enable_start_insert = 0
+    "let g:unite_enable_short_source_names = 1
+    let g:unite_enable_split_vertically = 0
+    let g:unite_winwidth = 40
+    let g:unite_winheight = 20
+    let g:unite_source_history_yank_enable = 1
+    " let g:unite_cursor_line_highlight = 'TabLine'
+    let g:unite_source_file_mru_filename_format = ':~:.'
+    let g:unite_source_file_mru_limit = 300
+    let g:unite_source_directory_mru_limit = 300
+    "let g:unite_abbr_highlight = 'TabLine'
+    "let g:unite_source_file_mru_time_format = ''
+    "let g:unite_source_directory_mru_time_format = ''
 
-    " Overwrite settings.
-    " imap <buffer>  <BS>      <Plug>(unite_delete_backward_path)
-    imap <buffer><expr> j unite#smart_map('j', '')
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    imap <buffer><expr> x
-          \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
-    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-    nmap <buffer> cd     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    nmap <silent><buffer> <Tab>     :call <SID>NextWindow()<CR>
-    nnoremap <silent><buffer><expr> l
-          \ unite#smart_map('l', unite#do_action('default'))
-    nmap <buffer> <C-e>     <Plug>(unite_narrowing_input_history)
+    " grepデフォルトオプション
+    "  -i 大文字小文字を区別しない
+    "  -n 各行の先頭にファイルの行番号を表示します
+    "  -H ファイル名を表示
+    "  -E オプションは、拡張正規表現を使用する場合に指定
+    "     fgrep 正規表現を使わない検索
+    "     egrep 正規表現を使った検索 -E と同じ
+    "  -R ディレクトリを再帰的にたどる
+    "  -I バイナリ検索除外
+    "  -w 単語マッチ
+    "  --color=[WHEN]
+    "     always: パイプ使用時に強制的にカラーコードをつける
+    "     auto : 出力先に応じて判断 - パイプ時などはカラーコードをつけない
+    "     never : カラーコードOFF
+    let g:unite_source_grep_default_opts="-niE --color=never"
 
-    let unite = unite#get_current_unite()
-    if unite.buffer_name =~# '^search'
-      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-    else
-      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+    " For ag
+    if executable('ag')
+      let g:unite_source_grep_command = 'ag'
+      let g:unite_source_grep_default_opts = '-S --nocolor --nogroup'
+      let g:unite_source_grep_recursive_opt = ''
+      let g:unite_source_grep_max_candidates = 200
     endif
 
-    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-          \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+    function! s:unite_my_settings()
+      " ESCキーを2回押すと終了する
+      nmap <buffer> <ESC>      <Plug>(unite_exit)
+      nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
+      " 入力モードを抜ける
+      imap <buffer> jj      <Plug>(unite_insert_leave)
+      " 入力モード時のプレビュー
+      nnoremap <silent><buffer> <C-p> :<C-u>call unite#mappings#do_action('preview')<CR>
+      " 単語単位からパス単位で削除するように変更
+      imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
-    let my_tabopen = {
-          \ 'description' : 'my tabopen items',
-          \ 'is_selectable' : 1,
-          \ }
-    function! my_tabopen.func(candidates)
-      call unite#take_action('tabopen', a:candidates)
+      " ファイルを開く(ウィンドウ横分割)
+      nnoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
+      inoremap <silent> <buffer> <expr> <C-s> unite#do_action('split')
 
-      let dir = isdirectory(a:candidates[0].word) ?
-            \ a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
-      execute g:unite_kind_openable_lcd_command '`=dir`'
+      " ファイルを開く(ウィンドウ縦分割)
+      nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+      inoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
+
+      " vimfiler
+      nnoremap <silent> <buffer> <expr> <C-f> unite#do_action('vimfiler')
+      inoremap <silent> <buffer> <expr> <C-f> unite#do_action('vimfiler')
+
+      " Overwrite settings.
+      " imap <buffer>  <BS>      <Plug>(unite_delete_backward_path)
+      imap <buffer><expr> j unite#smart_map('j', '')
+      imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+      imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+      imap <buffer> '     <Plug>(unite_quick_match_default_action)
+      nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+      imap <buffer><expr> x
+            \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+      nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+      nmap <buffer> cd     <Plug>(unite_quick_match_default_action)
+      nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+      imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+      imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+      nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+      nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+      " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+      " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+      nmap <silent><buffer> <Tab>     :call <SID>NextWindow()<CR>
+      nnoremap <silent><buffer><expr> l
+            \ unite#smart_map('l', unite#do_action('default'))
+      nmap <buffer> <C-e>     <Plug>(unite_narrowing_input_history)
+
+      let unite = unite#get_current_unite()
+      if unite.buffer_name =~# '^search'
+        nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+      else
+        nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+      endif
+
+      nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+      nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+            \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+
+      let my_tabopen = {
+            \ 'description' : 'my tabopen items',
+            \ 'is_selectable' : 1,
+            \ }
+      function! my_tabopen.func(candidates)
+        call unite#take_action('tabopen', a:candidates)
+
+        let dir = isdirectory(a:candidates[0].word) ?
+              \ a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
+        execute g:unite_kind_openable_lcd_command '`=dir`'
+      endfunction
+      call unite#custom_action('file,buffer', 'tabopen', my_tabopen)
+      unlet my_tabopen
+
+      " call unite#custom_source('file,buffer,file_rec', 'matchers', 'matcher_fuzzy')
+      call unite#filters#sorter_default#use(['sorter_rank'])
+      " call unite#custom_filters('file_rec', ['converter_relative_word', 'matcher_default', 'sorter_default', 'converter_relative_abbr'])
+
+      " call unite#set_profile('action', 'context', {'start_insert' : 1})
+
+      " Set "-no-quit" automatically in grep unite source.
+      call unite#set_profile('source/grep', 'context', {'no_quit' : 1})
+
+      " migemo.
+      call unite#custom_source('line_migemo', 'matchers', 'matcher_migemo')
     endfunction
-    call unite#custom_action('file,buffer', 'tabopen', my_tabopen)
-    unlet my_tabopen
-
-    " call unite#custom_source('file,buffer,file_rec', 'matchers', 'matcher_fuzzy')
-    call unite#filters#sorter_default#use(['sorter_rank'])
-    " call unite#custom_filters('file_rec', ['converter_relative_word', 'matcher_default', 'sorter_default', 'converter_relative_abbr'])
-
-    " call unite#set_profile('action', 'context', {'start_insert' : 1})
-
-    " Set "-no-quit" automatically in grep unite source.
-    call unite#set_profile('source/grep', 'context', {'no_quit' : 1})
-
-    " migemo.
-    call unite#custom_source('line_migemo', 'matchers', 'matcher_migemo')
   endfunction
-endfunction
-unlet bundle
-
+endif
+call s:bundle_untap()
 " }}}
 
 " === versions {{{
@@ -1937,161 +1969,162 @@ nnoremap <silent> <Space>gS :<C-u>UniteVersions status:!<CR>
 
 " -------------------------------------------
 
-nnoremap <silent> <F6> :VimFilerBufferDir -simple -buffer-name=explorer -split -winwidth=31 -toggle -no-quit<cr>
+if s:bundle_tap('vimfiler')
+  nnoremap <silent> <F6> :VimFilerBufferDir -simple -buffer-name=explorer -split -winwidth=31 -toggle -no-quit<cr>
 
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
+  " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
 
-"nmap    [Space]v   <Plug>(vimfiler_switch)
-nnoremap <silent> <Space>v   :<C-u>VimFiler<CR>
+  "nmap    [Space]v   <Plug>(vimfiler_switch)
+  nnoremap <silent> <Space>v   :<C-u>VimFiler<CR>
 
-nnoremap <silent> <F5> :<C-u>call <SID>toggle_vimfiler_explorer()<cr>
-function! s:toggle_vimfiler_explorer()
-  VimFilerExplorer -winwidth=33
-  if &filetype == 'vimfiler'
-    if exists('b:vimfiler')
-          \ && !get(b:vimfiler, 'is_visible_dot_files', 1)
-      execute 'normal .'
-      " let b:vimfiler.is_visible_dot_files = 1
-      " call vimfiler#redraw_screen()
+  nnoremap <silent> <F5> :<C-u>call <SID>toggle_vimfiler_explorer()<cr>
+  function! s:toggle_vimfiler_explorer()
+    VimFilerExplorer -winwidth=33
+    if &filetype == 'vimfiler'
+      if exists('b:vimfiler')
+            \ && !get(b:vimfiler, 'is_visible_dot_files', 1)
+        execute 'normal .'
+        " let b:vimfiler.is_visible_dot_files = 1
+        " call vimfiler#redraw_screen()
+      endif
     endif
-  endif
-  if &buftype ==# 'nofile' && bufname('') ==# '-MiniBufExplorer-'
-    execute 'wincmd w'
-  endif
-endfunction
-
-" 自動実行 - Helper
-function! s:auto_open_vimfiler()
-  call <SID>toggle_vimfiler_explorer()
-  execute 'wincmd w'
-  execute 'edit $MYVIMRC'
-  augroup AutoOpenVimfilerAu
-    autocmd!
-  augroup END
-  augroup! AutoOpenVimfilerAu
-endfunction
-" http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
-function! s:GetBufByte()
-  let byte = line2byte(line('$') + 1)
-  if byte == -1
-    return 0
-  else
-    return byte - 1
-  endif
-endfunction
-" 自動実行 - Main
-if has('vim_starting')
-      \ && len(expand('%:p')) == 0
-      \ && !argc()
-  augroup AutoOpenVimfilerAu
-    autocmd!
-    autocmd VimEnter * nested
-          \ if @% == '' && s:GetBufByte() == 0
-          \ | call <SID>auto_open_vimfiler()
-          \ | endif
-  augroup END
-endif
-
-" Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
-let bundle = neobundle#get('vimfiler')
-function! bundle.hooks.on_source(bundle)
-  let is_windows = has('win16') || has('win32') || has('win64')
-  let is_cygwin = has('win32unix')
-  let is_mac = !is_windows && !is_cygwin
-        \ && (has('mac') || has('macunix') || has('gui_macvim')
-        \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
-
-  " let g:vimfiler_enable_clipboard = 0
-  " let g:vimfiler_safe_mode_by_default = 0
-  let g:vimfiler_time_format = '%Y/%m/%d %H:%M:%S'
-  " let g:vimfiler_enable_auto_cd = 0
-  " let g:vimfiler_default_columns = 'type:size:time'
-  " let g:vimfiler_explorer_columns = 'type'
-
-  " let g:vimfiler_edit_action = 'edit'
-
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_detect_drives = is_windows ? [
-        \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
-        \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/'] :
-        \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
-        \ split(glob('/Users/*'), '\n')
-
-  " %p : full path
-  " %d : current directory
-  " %f : filename
-  " %F : filename removed extensions
-  " %* : filenames
-  " %# : filenames fullpath
-  let g:vimfiler_sendto = {
-        \ 'unzip' : 'unzip %f',
-        \ 'zip' : 'zip -r %F.zip %*',
-        \ 'Inkscape' : 'inkspace',
-        \ 'GIMP' : 'gimp %*',
-        \ 'gedit' : 'gedit',
-        \ }
-
-  if is_windows
-    " Use trashbox.
-    let g:unite_kind_file_use_trashbox = 1
-  else
-    let g:vimfiler_tree_leaf_icon = ' '
-    let g:vimfiler_tree_opened_icon = '▾'
-    let g:vimfiler_tree_closed_icon = '▸'
-    let g:vimfiler_file_icon = '-'
-    let g:vimfiler_readonly_file_icon = 'X'
-    let g:vimfiler_marked_file_icon = '*'
-  endif
-
-  let g:vimfiler_quick_look_command =
-        \ is_windows ? 'maComfort.exe -ql' :
-        \ is_mac ? 'qlmanage -p' : 'gloobus-preview'
-
-
-  autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
-  function! s:vimfiler_my_settings()
-    call vimfiler#set_execute_file('vim', 'vim')
-    call vimfiler#set_execute_file('txt', 'vim')
-
-    " Overwrite settings.
-    nmap <buffer><expr> <cr> vimfiler#smart_cursor_map(
-            \ '<Plug>(vimfiler_cd_file)',
-            \ '<Plug>(vimfiler_edit_file)')
-    nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<cr>
-    nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<cr>
-    let s:my_action = { 'is_selectable' : 1 }
-    function! s:my_action.func(candidates)
-      wincmd p
-      exec 'split '. a:candidates[0].action__path
-    endfunction
-    call unite#custom_action('file', 'my_split', s:my_action)
-    unlet s:my_action
-
-    let s:my_action = { 'is_selectable' : 1 }
-    function! s:my_action.func(candidates)
-      wincmd p
-      exec 'vsplit '. a:candidates[0].action__path
-    endfunction
-    call unite#custom_action('file', 'my_vsplit', s:my_action)
-    unlet s:my_action
-
-    nmap <buffer> t <Plug>(vimfiler_expand_tree)
-
-    nnoremap <silent><buffer> J
-          \ <C-u>:Unite -buffer-name=files -default-action=lcd directory_mru<CR>
-
-    nmap <buffer> O <Plug>(vimfiler_sync_with_another_vimfiler)
-    nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
-    nmap <buffer> p <Plug>(vimfiler_quick_look)
-
-    " Migemo search.
-    if !empty(unite#get_filters('matcher_migemo'))
-      nnoremap <silent><buffer><expr> /  line('$') > 10000 ?  'g/' :
-            \ ":\<C-u>Unite -buffer-name=search -start-insert line_migemo\<CR>"
+    if &buftype ==# 'nofile' && bufname('') ==# '-MiniBufExplorer-'
+      execute 'wincmd w'
     endif
   endfunction
-endfunction
-unlet bundle
+
+  " 自動実行 - Helper
+  function! s:auto_open_vimfiler()
+    call <SID>toggle_vimfiler_explorer()
+    execute 'wincmd w'
+    execute 'edit $MYVIMRC'
+    augroup AutoOpenVimfilerAu
+      autocmd!
+    augroup END
+    augroup! AutoOpenVimfilerAu
+  endfunction
+  " http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
+  function! s:GetBufByte()
+    let byte = line2byte(line('$') + 1)
+    if byte == -1
+      return 0
+    else
+      return byte - 1
+    endif
+  endfunction
+  " 自動実行 - Main
+  if has('vim_starting')
+        \ && len(expand('%:p')) == 0
+        \ && !argc()
+    augroup AutoOpenVimfilerAu
+      autocmd!
+      autocmd VimEnter * nested
+            \ if @% == '' && s:GetBufByte() == 0
+            \ | call <SID>auto_open_vimfiler()
+            \ | endif
+    augroup END
+  endif
+
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
+    let is_windows = has('win16') || has('win32') || has('win64')
+    let is_cygwin = has('win32unix')
+    let is_mac = !is_windows && !is_cygwin
+          \ && (has('mac') || has('macunix') || has('gui_macvim')
+          \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
+
+    " let g:vimfiler_enable_clipboard = 0
+    " let g:vimfiler_safe_mode_by_default = 0
+    let g:vimfiler_time_format = '%Y/%m/%d %H:%M:%S'
+    " let g:vimfiler_enable_auto_cd = 0
+    " let g:vimfiler_default_columns = 'type:size:time'
+    " let g:vimfiler_explorer_columns = 'type'
+
+    " let g:vimfiler_edit_action = 'edit'
+
+    let g:vimfiler_as_default_explorer = 1
+    let g:vimfiler_detect_drives = is_windows ? [
+          \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
+          \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/'] :
+          \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
+          \ split(glob('/Users/*'), '\n')
+
+    " %p : full path
+    " %d : current directory
+    " %f : filename
+    " %F : filename removed extensions
+    " %* : filenames
+    " %# : filenames fullpath
+    let g:vimfiler_sendto = {
+          \ 'unzip' : 'unzip %f',
+          \ 'zip' : 'zip -r %F.zip %*',
+          \ 'Inkscape' : 'inkspace',
+          \ 'GIMP' : 'gimp %*',
+          \ 'gedit' : 'gedit',
+          \ }
+
+    if is_windows
+      " Use trashbox.
+      let g:unite_kind_file_use_trashbox = 1
+    else
+      let g:vimfiler_tree_leaf_icon = ' '
+      let g:vimfiler_tree_opened_icon = '▾'
+      let g:vimfiler_tree_closed_icon = '▸'
+      let g:vimfiler_file_icon = '-'
+      let g:vimfiler_readonly_file_icon = 'X'
+      let g:vimfiler_marked_file_icon = '*'
+    endif
+
+    let g:vimfiler_quick_look_command =
+          \ is_windows ? 'maComfort.exe -ql' :
+          \ is_mac ? 'qlmanage -p' : 'gloobus-preview'
+
+
+    autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
+    function! s:vimfiler_my_settings()
+      call vimfiler#set_execute_file('vim', 'vim')
+      call vimfiler#set_execute_file('txt', 'vim')
+
+      " Overwrite settings.
+      nmap <buffer><expr> <cr> vimfiler#smart_cursor_map(
+              \ '<Plug>(vimfiler_cd_file)',
+              \ '<Plug>(vimfiler_edit_file)')
+      nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<cr>
+      nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<cr>
+      let s:my_action = { 'is_selectable' : 1 }
+      function! s:my_action.func(candidates)
+        wincmd p
+        exec 'split '. a:candidates[0].action__path
+      endfunction
+      call unite#custom_action('file', 'my_split', s:my_action)
+      unlet s:my_action
+
+      let s:my_action = { 'is_selectable' : 1 }
+      function! s:my_action.func(candidates)
+        wincmd p
+        exec 'vsplit '. a:candidates[0].action__path
+      endfunction
+      call unite#custom_action('file', 'my_vsplit', s:my_action)
+      unlet s:my_action
+
+      nmap <buffer> t <Plug>(vimfiler_expand_tree)
+
+      nnoremap <silent><buffer> J
+            \ <C-u>:Unite -buffer-name=files -default-action=lcd directory_mru<CR>
+
+      nmap <buffer> O <Plug>(vimfiler_sync_with_another_vimfiler)
+      nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
+      nmap <buffer> p <Plug>(vimfiler_quick_look)
+
+      " Migemo search.
+      if !empty(unite#get_filters('matcher_migemo'))
+        nnoremap <silent><buffer><expr> /  line('$') > 10000 ?  'g/' :
+              \ ":\<C-u>Unite -buffer-name=search -start-insert line_migemo\<CR>"
+      endif
+    endfunction
+  endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " === vinarise.vim {{{
@@ -2129,56 +2162,56 @@ autocmd MyAutoCmd BufNewFile *
 "  :QuickRun と同様の引数を渡す
 "    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
 "------------------------------------
+if s:bundle_tap('vim-watchdogs')
+  function! s:tapped_bundle.hooks.on_source(bundle)
+    let g:watchdogs_filetype_checkers = {
+          \  'coffee' : [ 'coffeelint', 'coffee' ],
+          \  'python' : [ 'flake8', 'pyflakes', 'pep8' ],
+          \}
 
-let bundle = neobundle#get('vim-watchdogs')
-function! bundle.hooks.on_source(bundle)
-  let g:watchdogs_filetype_checkers = {
-        \  'coffee' : [ 'coffeelint', 'coffee' ],
-        \  'python' : [ 'flake8', 'pyflakes', 'pep8' ],
-        \}
+    let g:watchdogs_quickrun_config = {
+          \  'runner/vimproc/updatetime' : 40,
+          \}
 
-  let g:watchdogs_quickrun_config = {
-        \  'runner/vimproc/updatetime' : 40,
-        \}
+    let g:watchdogs_quickrun_post_config = {
+          \  'hook/close_quickfix/enable_exit' : 0,
+          \}
 
-  let g:watchdogs_quickrun_post_config = {
-        \  'hook/close_quickfix/enable_exit' : 0,
-        \}
+    let g:watchdogs_checkers = {
+          \ 'jshint' : {
+          \   'command' : 'jshint',
+          \   'exec'    : '%c --verbose %s:p',
+          \   'errorformat' : '%f: line %l\, col %c\, %m,%-G%.%#error%.%#,%-G',
+          \  },
+          \}
 
-  let g:watchdogs_checkers = {
-        \ 'jshint' : {
-        \   'command' : 'jshint',
-        \   'exec'    : '%c --verbose %s:p',
-        \   'errorformat' : '%f: line %l\, col %c\, %m,%-G%.%#error%.%#,%-G',
-        \  },
-        \}
+    " 自動実行
+    " 全てのfiletypeを有効
+    "let g:watchdogs_check_BufWritePost_enable = 0
+    " filetype毎に指定
+    let g:watchdogs_check_BufWritePost_enables = {
+          \  'c'          : 0,
+          \  'coffee'     : 3,
+          \  'cpp'        : 0,
+          \  'javascript' : 3,
+          \  'perl'       : 1,
+          \  'php'        : 1,
+          \  'python'     : 3,
+          \  'ruby'       : 1,
+          \  'sass'       : 1,
+          \  'scss'       : 1,
+          \}
 
-  " 自動実行
-  " 全てのfiletypeを有効
-  "let g:watchdogs_check_BufWritePost_enable = 0
-  " filetype毎に指定
-  let g:watchdogs_check_BufWritePost_enables = {
-        \  'c'          : 0,
-        \  'coffee'     : 3,
-        \  'cpp'        : 0,
-        \  'javascript' : 3,
-        \  'perl'       : 1,
-        \  'php'        : 1,
-        \  'python'     : 3,
-        \  'ruby'       : 1,
-        \  'sass'       : 1,
-        \  'scss'       : 1,
-        \}
-
-  " 一定時間キー入力がなかった場合にシンタックスチェックを行う
-  " バッファに書き込み後、1度だけ行われる
-  "let g:watchdogs_check_CursorHold_enable = 1
-  " let g:watchdogs_check_CursorHold_enables = {
-  "       \  "haskell" : 1,
-  "       \  'coffee'  : 3,
-  "       \}
-endfunction
-unlet bundle
+    " 一定時間キー入力がなかった場合にシンタックスチェックを行う
+    " バッファに書き込み後、1度だけ行われる
+    "let g:watchdogs_check_CursorHold_enable = 1
+    " let g:watchdogs_check_CursorHold_enables = {
+    "       \  "haskell" : 1,
+    "       \  'coffee'  : 3,
+    "       \}
+  endfunction
+endif
+call s:bundle_untap()
 " }}}
 
 " vim: fdm=marker:

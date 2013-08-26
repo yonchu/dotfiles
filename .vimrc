@@ -439,7 +439,7 @@ NeoBundleLazy 'Shougo/neosnippet', {
 " === Misc {{{2
 
 " airline :
-NeoBundleLazy 'bling/vim-airline'
+" NeoBundleLazy 'bling/vim-airline'
 
 " autodate.vim : カスタマイズ可能な自動タイムスタンプ挿入
 NeoBundleLazy 'autodate.vim'
