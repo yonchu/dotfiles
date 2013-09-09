@@ -4,8 +4,8 @@
 
 if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
     # MacVim-Kaoriya
-    alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-    alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+    alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim'
+    alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim'
     alias vimm='/usr/bin/vim'
     #alias ctags='/Applications/MacVim.app/Contents/MacOS/ctags "$@"'
     alias view='vim -R'
