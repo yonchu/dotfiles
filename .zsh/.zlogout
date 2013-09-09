@@ -9,10 +9,19 @@
 #
 #******************************************************************************
 
-# Logout message.
+### Save session.
+if [[ -n $TMUX ]]; then
+    cat <<- EOF >| ~/.zsh_session
+	echo
+	echo 'Restore zsh session...'
+	cd $PWD
+	EOF
+fi
+
+### Logout message.
 # If <<- is used instead of <<,
 # then all leading tabs are stripped from word and from the document.
-cat <<-EOF
+cat <<- 'EOF'
 
 Don't forget.
 Always, somewhere,

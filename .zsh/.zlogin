@@ -49,3 +49,10 @@ export MANPATH
 
 ### Complete Messages
 echo "Loading .zlogin completed!!"
+
+
+### Restore session.
+if [[ -f ~/.zsh_session && \
+    ( -z $TMUX || $(tmux display -p "#D") == '%0' ) ]]; then
+    source ~/.zsh_session
+fi
