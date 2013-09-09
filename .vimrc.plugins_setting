@@ -292,6 +292,10 @@ let g:changelog_username = 'Yonchu '
 let g:closetag_html_style = 1
 " }}}
 
+" === clever-f.vim {{{
+let g:clever_f_ignore_case = 1
+" }}}
+
 " === coffee-script {{{
 "autocmd MyAutoCmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
 "autocmd MyAutoCmd BufWritePost *.coffee :CoffeeCompile watch vert
