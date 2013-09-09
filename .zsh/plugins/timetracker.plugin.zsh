@@ -44,10 +44,15 @@ zstyle ':timetracker:command' blacklist \
 
 ## preexec functioin
 function __my_preexec_start_timetracker() {
+    local -a cmds blacklist
     local cmd
-    local -a cmd blacklist
     zstyle -a ':timetracker:command' blacklist blacklist
-    cmd="${${(s: :)1}[1]}"
+    cmds=${(z)1}
+    if [[ $#cmds == $#1 ]]; then
+        cmd=$1
+    else
+        cmd=${cmds[1]}
+    fi
     [[ -n "${blacklist[(r)$cmd]}" ]] && return
     zstyle ':timetracker:command' name "$1"
     zstyle ':timetracker:time' start $(date +%s)
