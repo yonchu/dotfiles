@@ -51,6 +51,14 @@ export MANPATH
 echo "Loading .zlogin completed!!"
 
 
+### Print a random, hopefully interesting, adage.
+if (( $+commands[fortune] )); then
+    echo
+    echo '----- fortune -----'
+    fortune -a
+fi
+
+
 ### Restore session.
 if [[ -f ~/.zsh_session && \
     ( -z $TMUX || $(tmux display -p "#D") == '%0' ) ]]; then
