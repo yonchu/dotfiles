@@ -54,8 +54,9 @@ echo "Loading .zlogin completed!!"
 ### Print a random, hopefully interesting, adage.
 if (( $+commands[fortune] )); then
     echo
-    echo '----- fortune -----'
+    echo '===== fortune ====='
     fortune -a
+    echo
 fi
 
 

@@ -12,7 +12,6 @@
 ### Save session.
 if [[ -n $TMUX ]]; then
     cat <<- EOF >| ~/.zsh_session
-	echo
 	echo 'Restore zsh session...'
 	cd $PWD
 	EOF
