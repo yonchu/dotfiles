@@ -29,3 +29,5 @@ someone is fighting for you.
 you are not alone.
 EOF
 
+echo "$(hostname): $(whoami) logged out at $(date)"
+

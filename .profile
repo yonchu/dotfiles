@@ -18,6 +18,11 @@ case ${UID} in
         ;;
 esac
 
+#
+# LC_*
+#
+export LC_CTYPE=ja_JP.UTF-8
+export LC_TIME=C
 
 #
 # User Local Directory
@@ -197,8 +202,7 @@ export RSYNC_RSH=ssh
 #
 # tree
 #  文字コード、ロケールを設定
-export TREE_CHARSET='UTF-8'
-export LC_CTYPE='ja_JP.UTF-8'
+export TREE_CHARSET=UTF-8
 
 
 #

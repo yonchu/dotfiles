@@ -40,6 +40,8 @@ ZDOTDIR=$HOME/.zsh
 # Limit coredump
 limit coredumpsize 0
 
+### Set the permission to 644 for new file
+umask 022
 
 ### Setup command search path (only system basic path)
 #
@@ -79,3 +81,9 @@ export RSYNC_RSH=ssh
 export CVS_RSH=ssh
 export CVSROOT=~/CVSROOT
 
+
+### Complete Messages
+case "$-" in
+    *i*) # interactive shell
+        echo "Loading .zshenv completed!!"
+esac
