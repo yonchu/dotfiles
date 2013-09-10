@@ -1,0 +1,73 @@
+#!/bin/bash
+
+URL='http://www.mizunotomoaki.com/wikipedia_daytopic/api.cgi/'
+
+require_command() {
+    if ! type "$1" > /dev/null 2>&1; then
+        echo "ERROR: command not found: $1" 1>&2
+        return 1
+    fi
+}
+
+fetch() {
+    if type curl > /dev/null 2>&1; then
+        curl -s "$1"
+    elif type wget > /dev/null 2>&1; then
+        wget -q -O - "$1"
+    else
+        echo "ERROR: command not found: curl or wget" 1>&2
+        return 1
+    fi
+}
+
+random_item() {
+    local xml path sum num is_detail
+    if [ "$1" = '-v' ]; then
+        is_detail='on'; shift
+    fi
+    xml=$1
+    path=$2
+    sum=$(echo "$xml" | xpath "count($path)" 2> /dev/null)
+    num=$(random_num "$sum")
+    if [ "$is_detail" ]; then
+        echo "$xml" | xpath "${path}[$num]/title/text()" 2> /dev/null
+        echo
+        echo "$xml" | xpath "${path}[$num]/description/text()" 2> /dev/null
+    else
+        echo "$xml" | xpath "${path}[$num]/text()" 2> /dev/null
+    fi
+    echo
+}
+
+random_num() {
+    local ret max
+    max=$1
+    if type jot > /dev/null 2>&1; then
+        jot -r 1 1 $max
+    elif [ -n $RANDOM ]; then
+        echo $(( $RANDOM % $max + 1 ))
+    else
+        awk 'BEGIN{ srand(); print substr(rand(), 3) % '$max' + 1 }'
+    fi
+}
+
+## Main
+require_command xpath || exit 1
+
+today_url="$URL$(date +%m%d)"
+xml=$(fetch "$today_url") || exit 1
+
+echo '--- Affair ---'
+random_item "$xml" '//dekigoto/item'
+echo
+
+echo '--- Birthday ---'
+random_item "$xml" '//tanjyoubi/item'
+echo
+
+echo "--- Death anniversary ---"
+random_item "$xml" '//imibi/item'
+echo
+
+echo '--- Anniversary ---'
+random_item -v "$xml" '//kinenbi_detail/item'

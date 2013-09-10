@@ -51,6 +51,14 @@ export MANPATH
 echo "Loading .zlogin completed!!"
 
 
+### Print what day it is today.
+if (( $+commands[what-day-is-it-today] )); then
+    echo
+    echo '===== What day is it today? ====='
+    what-day-is-it-today
+fi
+
+
 ### Print a random, hopefully interesting, adage.
 if (( $+commands[fortune] )); then
     echo
