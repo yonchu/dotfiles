@@ -21,7 +21,8 @@
 #
 
 type git >/dev/null 2>&1 || { echo '...skip'; return; }
-type flow >/dev/null 2>&1 || { echo '...skip'; return; }
+type git-flow >/dev/null 2>&1 || { echo '...skip'; return; }
+type git-hf >/dev/null 2>&1 || { echo '...skip'; return; }
 
 _git-hf ()
 {
