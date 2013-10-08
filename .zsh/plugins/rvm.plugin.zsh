@@ -11,6 +11,10 @@
 
 type rvm >/dev/null 2>&1 || { echo '...skip'; return; }
 
+rvm -v
+ruby -v
+echo
+
 alias rubies='rvm list rubies'
 alias gemsets='rvm gemset list'
 
