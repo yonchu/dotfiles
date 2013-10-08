@@ -1,5 +1,6 @@
 ack
 apachetop
+asciidoc
 atool
 autoconf
 automake
@@ -14,14 +15,18 @@ cmigemo
 colordiff
 coreutils
 ctags
+docbook
+docbook-xsl
 findutils
 fontconfig
 fontforge
+fortune
 freetype
 gdbm
 gettext
 git
 git-extras
+git-flow
 git-now
 glib
 gnu-getopt
@@ -31,6 +36,7 @@ grep
 harfbuzz
 htop-osx
 hub
+hubflow
 icu4c
 jpeg
 jq
@@ -73,5 +79,6 @@ tomcat6
 tree
 w3m
 wget
+xmlto
 xz
 zsh
