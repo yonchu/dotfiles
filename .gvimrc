@@ -100,3 +100,7 @@ augroup dualvim
     autocmd FocusLost * set transparency=50
   endif
 augroup END
+
+if has('multi_byte_ime') || has('xim')
+  highlight CursorIM guifg=NONE guibg=DarkRed
+endif
