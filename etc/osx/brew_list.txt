@@ -32,6 +32,7 @@ glib
 gnu-getopt
 gnu-sed
 gnu-tar
+gobject-introspection
 grep
 harfbuzz
 htop-osx
@@ -42,11 +43,14 @@ jpeg
 jq
 libevent
 libffi
+libgpg-error
+libksba
 libmpdclient
 libpng
 libspiro
 libtiff
 libtool
+libyaml
 lv
 markdown
 maven2
@@ -58,6 +62,7 @@ ngrep
 nkf
 nmap
 node
+openssl
 pango
 pcre
 pixman
