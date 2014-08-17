@@ -3,6 +3,8 @@
 # https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/django/django.plugin.zsh
 #
 
+type django >/dev/null 2>&1 || { echo '...skip'; return; }
+
 typeset -ga nul_args
 nul_args=(
   '--settings=-[the Python path to a settings module.]:file:_files'
