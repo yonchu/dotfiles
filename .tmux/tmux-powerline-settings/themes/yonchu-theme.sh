@@ -100,7 +100,7 @@ else
         if [ "$window_width" -ge 122 ]; then
             TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("lang 95 248")
         fi
-        if [ "$window_width" -ge 150 ]; then
+        if [ "$window_width" -ge 160 ]; then
             TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("uptime 64 22")
         fi
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("load 58 107")
