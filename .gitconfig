@@ -319,8 +319,8 @@
   # tig
   #generic = g move-first-line
   generic = G move-last-line
-  generic = ^F move-page-down
-  generic = ^B move-page-up
+  generic = <Ctrl-F> move-page-down
+  generic = <Ctrl-B> move-page-up
   main = H !@hub browse -- commit/%(commit)
   diff = H !@hub browse -- commit/%(commit)
   main = C !@git pbcopy %(commit)
