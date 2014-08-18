@@ -308,6 +308,9 @@
 
   pbcopy = !printf "$1" | pbcopy
 
+  # ag: http://moznion.hatenadiary.com/entry/2014/08/14/124358
+  ag = "!git ls-files | xargs ag --pager=\"less -F -R\" --nogroup --color-match=0\\;31 --color-path=0\\;0 --no-numbers"
+
 [http]
   sslVerify = false
 
