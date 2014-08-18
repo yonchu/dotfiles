@@ -434,6 +434,8 @@ NeoBundleLazy 'Shougo/neosnippet', {
       \     'snippet', 'neosnippet/user', 'neosnippet/runtime',
       \ ]}}
 
+NeoBundle "Shougo/neosnippet-snippets"
+
 " }}}
 
 " === Misc {{{2
