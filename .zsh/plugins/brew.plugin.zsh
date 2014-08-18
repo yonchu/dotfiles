@@ -23,11 +23,11 @@ alias cdbr='pushd $(brew --prefix)/'
 alias brews='brew list -1'
 
 # Check git completion.
-# if [ -f /usr/local/share/zsh/site-functions/_git ]; then
-#     echo '---------------------------'
-#     echo 'WARNNING: git/_git is used.'
-#     echo '---------------------------'
-# fi
+if [ -f /usr/local/share/zsh/site-functions/_git ]; then
+    echo '---------------------------'
+    echo 'WARNNING: git/_git is used.'
+    echo '---------------------------'
+fi
 
 # Check /usr/local permission
 _owner=($(command ls -l /usr | awk '/local$/ {print $3,$4}'))
