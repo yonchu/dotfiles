@@ -2766,6 +2766,15 @@ augroup MyAutoCmdEx
   autocmd FileType php setlocal path+=/usr/local/share/pear
   autocmd FileType apache setlocal path+=./;/
 
+  " Localize search options.
+  " http://d.hatena.ne.jp/tyru/20140129/localize_search_options
+  autocmd WinLeave *
+        \     let b:vimrc_pattern = @/
+        \   | let b:vimrc_hlsearch = &hlsearch
+  autocmd WinEnter *
+        \     let @/ = get(b:, 'vimrc_pattern', @/)
+        \   | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
+
 
 " Set sw/sts/ts.
 " sw  : shiftwidth (インデント時に使用されるスペースの数)
