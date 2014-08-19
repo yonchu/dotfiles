@@ -324,6 +324,14 @@ NeoBundleLazy 'tomtom/tcomment_vim' , {
       \      'TCommentBlock', 'TCommentInline', 'TCommentMaybeInline',
       \ ]}}
 
+" vim-over: プレビュー置換
+NeoBundleLazy 'osyo-manga/vim-over' , {
+      \ 'autoload' : {
+      \   'commands' : [
+      \     'OverCommandLine', 'OverCommandLineNoremap',
+      \     'OverCommandLineCursor', 'OverCommandLineCursorInsert',
+      \ ]}}
+
 " }}}
 
 " === Move {{{2

@@ -2118,6 +2118,18 @@ endif
 call s:bundle_untap()
 " }}}
 
+" === vim-over {{{
+let g:over#command_line#paste_escape_chars = '/.*$^~'
+
+let g:over#command_line#paste_filters = {
+  \  "\n" : '\\n',
+  \  "\r" : '\\r',
+  \}
+
+" 検索中の文字列をデフォルトで入力
+noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR><CR>
+" }}}
+
 " === vim-startify {{{
 " 自動実行しない
 let g:startify_disable_at_vimenter = 1
