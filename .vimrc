@@ -778,6 +778,9 @@ NeoBundleLazy 'Shougo/vinarise', {
       \   'commands' : 'Vinarise',
       \ }}
 
+" vim-startify: vim起動画面のカスタマイズ
+NeoBundle 'mhinz/vim-startify'
+
 " YankRing.vim : ヤンク履歴管理 (<Leader>y)
 " Pythonが必要 (:echo has('python')で1が返ってくればOK)
 NeoBundle 'YankRing.vim'

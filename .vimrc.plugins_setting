@@ -2016,38 +2016,6 @@ if s:bundle_tap('vimfiler')
     endif
   endfunction
 
-  " 自動実行 - Helper
-  function! s:auto_open_vimfiler()
-    call <SID>toggle_vimfiler_explorer()
-    execute 'wincmd w'
-    execute 'edit $MYVIMRC'
-    augroup AutoOpenVimfilerAu
-      autocmd!
-    augroup END
-    augroup! AutoOpenVimfilerAu
-  endfunction
-  " http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
-  function! s:GetBufByte()
-    let byte = line2byte(line('$') + 1)
-    if byte == -1
-      return 0
-    else
-      return byte - 1
-    endif
-  endfunction
-  " 自動実行 - Main
-  if has('vim_starting')
-        \ && len(expand('%:p')) == 0
-        \ && !argc()
-    augroup AutoOpenVimfilerAu
-      autocmd!
-      autocmd VimEnter * nested
-            \ if @% == '' && s:GetBufByte() == 0
-            \ | call <SID>auto_open_vimfiler()
-            \ | endif
-    augroup END
-  endif
-
   function! s:tapped_bundle.hooks.on_source(bundle)
     " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
     let is_windows = has('win16') || has('win32') || has('win64')
@@ -2150,6 +2118,34 @@ endif
 call s:bundle_untap()
 " }}}
 
+" === vim-startify {{{
+" 自動実行しない
+let g:startify_disable_at_vimenter = 1
+
+" ヘッダ設定
+" http://deris.hatenablog.jp/entry/2013/12/15/235606
+let g:startify_custom_header = []
+let g:startify_custom_header +=
+  \ map(split(system('date'), '\n'), '"   ". v:val') + ['', '']
+
+" 最近使ったファイルの指示詞をアルファベットに
+let g:startify_custom_indices = ['f', 'g', 'h', 'r', 'o']
+
+" ブックマーク
+let g:startify_bookmarks = [
+  \ '~/.vimrc',
+  \ '~/.zsh/.zshrc',
+  \ ]
+
+" 表示除外リスト
+let g:startify_skiplist = [
+      \ 'COMMIT_EDITMSG',
+      \ $VIMRUNTIME .'/doc',
+      \ 'bundle/.*/doc',
+      \ '.vimgolf',
+      \ ]
+" }}}
+
 " === vinarise.vim {{{
 let g:vinarise_enable_auto_detect = 1
 " }}}
@@ -2235,6 +2231,46 @@ if s:bundle_tap('vim-watchdogs')
   endfunction
 endif
 call s:bundle_untap()
+" }}}
+
+
+
+" === Sartup {{{
+"### 自動実行
+" Helper
+function! s:auto_open_at_startup()
+  call <SID>toggle_vimfiler_explorer()
+  execute 'wincmd w'
+  execute 'Startify'
+  " execute 'edit $MYVIMRC'
+  augroup AutoOpenAtStartup
+    autocmd!
+  augroup END
+  augroup! AutoOpenAtStartup
+endfunction
+
+" http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
+function! s:GetBufByte()
+  let byte = line2byte(line('$') + 1)
+  if byte == -1
+    return 0
+  else
+    return byte - 1
+  endif
+endfunction
+
+" 自動実行 - Main
+if has('vim_starting')
+      \ && len(expand('%:p')) == 0
+      \ && !argc()
+  augroup AutoOpenAtStartup
+    autocmd!
+    autocmd VimEnter * nested
+          \ if @% == '' && s:GetBufByte() == 0
+          \ | call <SID>auto_open_at_startup()
+          \ | endif
+  augroup END
+endif
 " }}}
 
 " vim: fdm=marker:
