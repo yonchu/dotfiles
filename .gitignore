@@ -19,6 +19,7 @@
 /.config/configstore/insight-yo.yml
 /.config/configstore/update-notifier-yo.yml
 /.config/gtk-2.0/gtkfilechooser.ini
+/.config/configstore
 
 # hub
 /.config/hub
