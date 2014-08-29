@@ -242,6 +242,8 @@ NeoBundle 'Shougo/vimproc', {
   \    },
   \ }
 
+" NeoBundle 'vim-jp/vital.vim'
+
 NeoBundle 'yonchu/landscape.vim'
 " }}}
 
@@ -1861,7 +1863,6 @@ endif
 
 "### Quickfix自動Open/Close
 autocmd MyAutoCmd QuickfixCmdPost make,grep,grepadd,vimgrep,Sgrep call s:auto_qf_open()
-autocmd MyAutoCmd WinEnter * call s:auto_qf_close()
 " QuickFixを自動で開く
 function! s:auto_qf_open()
   if len(getqflist()) != 0
@@ -1875,6 +1876,7 @@ endfunction
 
 
 "### 不要なWindow自動で閉じる
+autocmd MyAutoCmd WinEnter * call s:auto_qf_close()
 function! s:auto_qf_close()
   for winnr in range(1, winnr('$'))
     let buftype = getwinvar(winnr, '&buftype')
@@ -2183,6 +2185,13 @@ onoremap gc <C-u>normal gc<Enter>
 "### ビジュアルモード時vで行末まで選択
 vnoremap v $h
 
+
+" Quickfix 前へ
+nnoremap <buffer> [q :cprevious<CR>
+" Quickfix 次へ
+nnoremap <buffer> ]q :cnext<CR>
+
+
 " }}}
 
 " === Edit {{{2
@@ -2319,14 +2328,15 @@ autocmd MyAutoCmd FileType help,git-status,git-log,qf,
       \gitcommit,quickrun,qfreplace,ref,vcs-commit,vcs-status
       \ nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>
 autocmd MyAutoCmd FileType help,qf,quickrun,ref
-      \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>Smart_close()<CR>
+      \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>
 
 autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
       \ | nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>| endif
 autocmd MyAutoCmd FileType * if (&readonly || !&modifiable) && !hasmapto('<ESC>', 'n')
       \ | nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>| endif
 
-nnoremap <silent> q :<C-u>call <SID>smart_close()<CR>
+" nnoremap <silent> q :<C-u>call <SID>smart_close()<CR>
+nnoremap <silent> q <NOP>
 nnoremap Q q
 
 function! s:smart_close()

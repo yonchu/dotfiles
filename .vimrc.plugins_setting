@@ -2127,7 +2127,7 @@ let g:over#command_line#paste_filters = {
   \}
 
 " 検索中の文字列をデフォルトで入力
-noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR><CR>
+noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR>/<CR>
 " }}}
 
 " === vim-startify {{{
