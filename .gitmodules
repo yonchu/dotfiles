@@ -67,3 +67,6 @@
 [submodule ".zsh/plugins/vimman"]
 	path = .zsh/plugins/vimman
 	url = https://github.com/yonchu/vimman.git
+[submodule ".tmux/tmux-resurrect"]
+	path = .tmux/tmux-resurrect
+	url = git://github.com/tmux-plugins/tmux-resurrect.git

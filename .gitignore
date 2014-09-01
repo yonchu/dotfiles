@@ -14,7 +14,7 @@
 /.zsh/.zcompcache
 *.zwc
 
-# pudb
+# config
 /.config/pudb/saved-breakpoints
 /.config/configstore/insight-yo.yml
 /.config/configstore/update-notifier-yo.yml
@@ -30,3 +30,6 @@
 /.ipython/profile_default/log
 /.ipython/profile_default/pid
 /.ipython/profile_default/security
+
+# tmux
+/.tmux/resurrect
