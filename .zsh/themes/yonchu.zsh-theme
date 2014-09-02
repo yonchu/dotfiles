@@ -118,7 +118,7 @@ if (( $+functions[vcs_super_info] )); then
     RPROMPT+='$(vcs_super_info)'
 fi
 # Python
-RPROMPT+='%{${fg_bold[magenta]}%}($(_python_type))%{${reset_color}%}'
+RPROMPT+='%{${fg_bold[magenta]}%}($ZSH_PYTHON_PROMPT)%{${reset_color}%}'
 # Date-time
 RPROMPT+='[%{${fg[magenta]}%}%D{%y/%m/%d %H:%M:%S}%{${reset_color}%}]'
 
@@ -152,32 +152,6 @@ function _client_ip() {
         # Client IP - Client Port - Server IP - Server Port
         echo "${SSH_CONNECTION}" | awk -F\  '{printf "("$1")>"}'
     fi
-}
-
-# Python
-function _python_type() {
-    local python_path=$(which python 2> /dev/null)
-    local pytype
-    if [ -z "$python_path" ]; then
-        pytype='none'
-    elif [ "$python_path" = '/usr/bin/python' ]; then
-        pytype='def'
-    elif [ "$python_path" = '/usr/local/bin/python' ]; then
-        pytype='local'
-    elif echo "$python_path" | fgrep -q '/.pythonbrew/'; then
-        if [ -n "$VIRTUAL_ENV" ]; then
-            pytype=$(basename "$VIRTUAL_ENV")
-        else
-            pytype='*py'$(echo "$python_path" | sed 's%.*Python-\([^/]*\)/.*%\1%' | tr -d '.')
-        fi
-    else
-        if [ -n "$VIRTUAL_ENV" ]; then
-            pytype=$(basename "$VIRTUAL_ENV")
-        else
-            pytype=$python_path
-        fi
-    fi
-    echo "$pytype"
 }
 
 # vim: ft=zsh fdm=marker fdl=0
