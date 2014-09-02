@@ -806,25 +806,21 @@ fi
 # }}}
 
 
-### pythonbrew {{{
-#
-# Note: Must set this settings after other PATH settings
-#
-# Source
-[ -s $HOME/.pythonbrew/etc/bashrc ] && source $HOME/.pythonbrew/etc/bashrc
-# Automatically running
-if type pybrew > /dev/null 2>&1; then
+### pyenv automatically running {{{
+# pyenv
+if which pyenv > /dev/null; then
     echo
-    echo 'Pybrew automatically running...'
-    echo "pybrew version: $(pybrew --version)"
-    if [ -n "$DEFAULT_PYTHON_VERSION" -a "$DEFAULT_PYTHON_VENV" ]; then
-        pybrew switch "$DEFAULT_PYTHON_VERSION" \
-            && pybrew venv use "$DEFAULT_PYTHON_VENV"
-    fi
+    echo 'Pyenv automatically running...'
+    eval "$(pyenv init -)"
+    echo "pyenv version: $(pyenv --version)"
     echo "Python: $(which python)"
     echo
 fi
 
+# pyenv-virtualenv-init
+if type pyenv-virtualenv-init > /dev/null; then
+    eval "$(pyenv virtualenv-init -)"
+fi
 # }}}
 
 

@@ -68,28 +68,20 @@ export PATH=$MYSQL_HOME/bin:$PATH
 # Python
 #
 
-# pythonbrewの仮想環境でdistributeを使用(not setuptools)
+# 仮想環境でdistributeを使用(not setuptools)
 export VIRTUALENV_USE_DISTRIBUTE=true
 
 # VirtualEnv使用時にプロンプトを変更しない
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # pythonbrew: デフォルトで使用するPythonのバージョン
-export DEFAULT_PYTHON_VERSION="2.7.3"
-# pythonbrew: デフォルトで使用するVirtualEnv
-export DEFAULT_PYTHON_VENV="py273"
+export DEFAULT_PYTHON_VERSION="2.7.8"
 
 # virtualenv setting
 #if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
    #export WORKON_HOME=$HOME/.virtualenvs
    #VIRTUALENVWRAPPER_PYTHON=py2.7.3
    #source /usr/local/share/python/virtualenvwrapper.sh
-#fi
-
-# virtualenv setting for pythonbrew
-#if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
-   #VIRTUALENVWRAPPER_PYTHON=py2.7.3
-   #source ~/.pythonbrew/bin/virtualenvwrapper.sh
 #fi
 
 # Startupスクリプトを設定
@@ -99,9 +91,9 @@ export PYTHONSTARTUP=~/.pythonstartup
 # Pythonの外部ライブラリを指定
 export PYTHONPATH=./lib:~/lib/python
 
-# http://d.hatena.ne.jp/jbking/20071222/readline_on_leopard
-# alias python='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib python'
-# alias ipython='DYLD_INSERT_LIBRARIES=/opt/local/lib/libreadline.dylib ipython'
+## pyenv
+export PYENV_ROOT=$HOME/.pyenv
+export PATH=$PYENV_ROOT/bin:$PATH
 
 
 #
