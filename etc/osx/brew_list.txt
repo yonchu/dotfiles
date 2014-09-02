@@ -71,6 +71,9 @@ potrace
 proctools
 protobuf
 pstree
+pyenv
+pyenv-pip-rehash
+pyenv-virtualenv
 python
 readline
 reattach-to-user-namespace
@@ -86,4 +89,5 @@ w3m
 wget
 xmlto
 xz
+zlib
 zsh
