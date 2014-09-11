@@ -1008,10 +1008,10 @@ NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
       \ }}
 
 " jscomplete-vim :Javascript補完
-NeoBundleLazy 'teramako/jscomplete-vim',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'coffee' ]
-      \ }}
+" NeoBundleLazy 'teramako/jscomplete-vim',  {
+"       \ 'autoload' : {
+"       \   'filetypes' : [ 'coffee' ]
+"       \ }}
 
 " vim-nodejs-complete : Javascript補完 + node.js
 NeoBundleLazy 'myhere/vim-nodejs-complete', {
