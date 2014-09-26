@@ -434,7 +434,11 @@ NeoBundleLazy 'thinca/vim-visualstar', {
 " === Completion {{{2
 
 " neocomplcache : 補完
-NeoBundleLazy 'Shougo/neocomplcache'
+if has("lua")
+  NeoBundleLazy 'Shougo/neocomplete'
+else
+  NeoBundleLazy 'Shougo/neocomplcache'
+endif
 
 " neosnippet : スニペット
 NeoBundleLazy 'Shougo/neosnippet', {

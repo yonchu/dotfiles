@@ -674,12 +674,6 @@ command! Mt :TMiniBufExplorer
 " }}}
 
 " === neocomplcache {{{
-NeoBundle 'Shougo/neocomplcache', '', 'default'
-call neobundle#config('neocomplcache', {
-      \ 'lazy' : 1,
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \ }})
 NeoBundle 'Shougo/neosnippet', '', 'default'
 call neobundle#config('neosnippet', {
       \ 'lazy' : 1,
@@ -688,8 +682,26 @@ call neobundle#config('neosnippet', {
       \   'filetypes' : 'snippet',
       \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
       \ }})
-" 補完にneocomplcacheを使う
-source ~/dotfiles/.vimrc.neocomplcache
+
+if has("lua")
+  NeoBundle 'Shougo/neocomplete', '', 'default'
+  call neobundle#config('neocomplete', {
+        \ 'lazy' : 1,
+        \ 'autoload' : {
+        \   'insert' : 1,
+        \ }})
+  source ~/dotfiles/.vimrc.neocomplete
+else
+  NeoBundle 'Shougo/neocomplcache', '', 'default'
+  call neobundle#config('neocomplcache', {
+        \ 'lazy' : 1,
+        \ 'autoload' : {
+        \   'insert' : 1,
+        \ }})
+
+  source ~/dotfiles/.vimrc.neocomplcache
+endif
+
 " }}}
 
 " === nerd_commenter.vim {{{
@@ -1154,13 +1166,15 @@ call s:bundle_untap()
 if s:bundle_tap('jedi-vim')
   function! s:tapped_bundle.hooks.on_source(bundle)
     let g:jedi#auto_initialization = 1
-    let g:jedi#goto_command = "<leader>gt"
-    let g:jedi#get_definition_command = "<leader>d"
-    let g:jedi#pydoc = "<space>K"
+    let g:jedi#goto_assignments_command = "<leader>gt"
+    let g:jedi#goto_definitions_command = "<leader>d"
+    let g:jedi#documentation_command = "<space>K"
     let g:jedi#rename_command = "<leader>R"
-    let g:jedi#related_names_command = "<leader>n"
+    let g:jedi#usages_command = "<leader>n"
     let g:jedi#popup_on_dot = 0
     let g:jedi#popup_select_first = 0
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
   endfunction
 
   augroup InitJediVimAu
@@ -1170,7 +1184,7 @@ if s:bundle_tap('jedi-vim')
   function! s:init_jedi()
     echo 'NeoBundle source jedi-vim'
     NeoBundleSource jedi-vim
-    setl omnifunc=jedi#complete
+    setl omnifunc=jedi#completions
     augroup InitJediVimAu
       autocmd!
     augroup END
