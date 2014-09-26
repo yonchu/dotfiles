@@ -25,3 +25,8 @@ setl foldmethod=indent
 setl foldlevel=0
 setl foldnestmax=1
 " setl foldcolumn=1
+
+" http://d.hatena.ne.jp/heavenshell/20130917/1379428949
+if get(g:, "jedi#popup_select_first", 0) == 0
+  inoremap <buffer> . .<C-R>=jedi#complete_opened() ? "" : "\<lt>C-X>\<lt>C-O>\<lt>C-P>"<CR>
+endif
