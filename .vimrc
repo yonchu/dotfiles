@@ -1065,10 +1065,10 @@ NeoBundleLazy 'klen/python-mode'
 " Awesome Python autocompletion
 "   To install jedi : git submodule update --init
 NeoBundleLazy 'davidhalter/jedi-vim'
-      "\ , {
-      "\ 'autoload' : {
-      "\   'filetypes' : [ 'python' ]
-      "\ }}
+      " \ , {
+      " \ 'autoload' : {
+      " \   'filetypes' : [ 'python' ]
+      " \ }}
 
 " vim-django-support : Djangoを正しくVimで読み込めるようにする
 NeoBundleLazy "lambdalisue/vim-django-support", {
