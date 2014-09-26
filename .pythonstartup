@@ -65,5 +65,7 @@ igs = inspect.getsource
 igf = inspect.getfile
 igsl = inspect.getsourcelines
 
+# Print python path
+print(os.path.realpath(sys.executable))
 
 # vim: ft=python

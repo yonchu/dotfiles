@@ -812,8 +812,9 @@ if which pyenv > /dev/null; then
     echo
     echo 'Pyenv automatically running...'
     eval "$(pyenv init -)"
-    echo "pyenv version: $(pyenv --version)"
-    echo "Python: $(which python)"
+    echo "$(pyenv --version)"
+    echo "Python: $(pyenv version)"
+    echo "$(python -c 'import sys,os; print(os.path.realpath(sys.executable))')"
     echo
 fi
 
