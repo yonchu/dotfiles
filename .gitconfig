@@ -29,8 +29,7 @@
   # defaultのpush先はtrackingしているリポジトリ
   # git push はデフォルトでは、同じブランチ名がリモート上にあるならそれらを全てpushしてしまう
   # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
-  # tracking=upstream
-  default = tracking
+  default = upstream
 [pull]
   #rebase = true    # from 1.7.9
 [diff]
@@ -69,9 +68,11 @@
   ed   = config --global -e       # グローバルConfigを編集
 
   # status
-  s   = status -sb                # シンプル表示, ブランチ情報も表示
-  st  = status
-  si  = status -b --ignored       # .gitignoreで無視されたファイルも表示
+  s    = status -sb                # シンプル表示, ブランチ情報も表示
+  st   = status
+  stv  = status -v
+  stvv = status -v -v
+  si   = status -b --ignored       # .gitignoreで無視されたファイルも表示
 
   # show
   sh   = show
@@ -255,12 +256,12 @@
   # submoduleの状態確認(最新かどうか)
   smsh = submodule foreach "git remote show origin"
   # submoduleの更新
-  smupdate = submodule foreach "git checkout master; git pull"
+  smupdate = "submodule foreach 'git checkout master; git pull'"
 
   # stash
-  #sl = stash list
-  #sp = stash pop
-  #ss = stash save
+  #stl = stash list -p
+  #stp = stash pop
+  #sts = stash save
 
   # tag
   tl  = tag -l -n     # タグ一覧(説明付き)
@@ -341,3 +342,6 @@
   ref = https://{host}/{path}/tree/{short_ref}
   rev = https://{host}/{path}/commit/{commit}
   file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"
+
+[credential]
+  helper = osxkeychain
