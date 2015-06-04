@@ -5,24 +5,6 @@
 "
 "-------------------------------------------------------------------------------
 
-" Helper functions {{{
-" http://blog.supermomonga.com/articles/vim/neobundle-sugoibenri.html
-function! s:bundle_tap(bundle)
-  let s:tapped_bundle = neobundle#get(a:bundle)
-  return neobundle#is_installed(a:bundle)
-endfunction
-
-function! s:bundle_config(config)
-  if exists("s:tapped_bundle") && s:tapped_bundle != {}
-    call neobundle#config(s:tapped_bundle.name, a:config)
-  endif
-endfunction
-
-function! s:bundle_untap()
-  let s:tapped_bundle = {}
-endfunction
-""" }}}
-
 " === accelerated-jk {{{
 nmap <silent>j <Plug>(accelerated_jk_gj)
 nmap gj j
@@ -55,7 +37,7 @@ let g:gitgutter_sign_added = '✚'
 let g:gitgutter_sign_modified = '➜'
 let g:gitgutter_sign_removed = '✘'
 
-if s:bundle_tap('vim-airline')
+if neobundle#tap('vim-airline')
   let g:airline_theme = 'badwolf'
 
   if has('multi_byte')
@@ -91,12 +73,12 @@ if s:bundle_tap('vim-airline')
   " Display charcode, fileencoding and fileformat.
   " let g:airline_section_y .= '%{MyEncoding()} %{g:airline_right_alt_sep} %{MyEncoding()}'
 
-  function! s:tapped_bundle.hooks.on_source(bundle)
+  function! neobundle#hooks.on_source(bundle)
     let g:airline_section_y = '%{MyCharCode()} %{g:airline_right_alt_sep} ' . g:airline_section_y
     call airline#update_statusline()
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === lightline.vim {{{
@@ -139,23 +121,28 @@ function! MyModified()
 endfunction
 
 function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '⭤' : ''
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
 endfunction
 
 function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+  let fname = expand('%:t')
+  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+        \ fname == '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
         \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 function! MyFugitive()
   try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+      let mark = '⭠ '  " edit here for cool mark
       let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
+      return strlen(_) ? mark._ : ''
     endif
   catch
   endtry
@@ -175,7 +162,32 @@ function! MyFileencoding()
 endfunction
 
 function! MyMode()
-  return winwidth('.') > 60 ? lightline#mode() : ''
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+  return lightline#statusline(0)
+endfunction
+
+augroup AutoSyntastic
+  autocmd!
+  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+augroup END
+function! s:syntastic()
+  SyntasticCheck
+  call lightline#update()
 endfunction
 
 function! MyGitGutter()
@@ -234,6 +246,10 @@ function! MyCharCode()
 
   return "'". char ."' ". nr
 endfunction
+
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimshell_force_overwrite_statusline = 0
 " }}}
 
 " === anzu {{{
@@ -302,8 +318,8 @@ let g:clever_f_ignore_case = 1
 " }}}
 
 " === emmet.vim {{{
-if s:bundle_tap('emmet-vim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('emmet-vim')
+  function! neobundle#hooks.on_source(bundle)
     let g:user_zen_removetag_key = ''
     let g:use_zen_complete_tag = 1
     let g:user_zen_settings = {
@@ -358,7 +374,7 @@ if s:bundle_tap('emmet-vim')
     \}
     endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === eregex.vim {{{
@@ -377,10 +393,9 @@ call s:bundle_untap()
 " === foldCC {{{
 let g:foldCCtext_enable_autofdc_adjuster = 1
 let g:foldCCtext_head = '">>> "'
-" set foldtext=FoldCCtext()
 autocmd MyAutoCmd FileType *
       \   if &filetype !=# 'help' && exists('*FoldCCtext()')
-      \ |   setlocal foldtext=foldCC#foldtext()
+      \ |   setlocal foldtext=FoldCCtext()
       \ | endif
 " }}}
 
@@ -531,8 +546,8 @@ endfunction
 " }}}
 
 " === grep.vim {{{
-if s:bundle_tap('grep.vim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('grep.vim')
+  function! neobundle#hooks.on_source(bundle)
     " MacのxargsではRgrepがエラーになる
     if has('mac')
       if executable('gxargs')
@@ -566,7 +581,7 @@ if s:bundle_tap('grep.vim')
   " カーソル下の単語をgrepする
   nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === gundo.vim {{{
@@ -673,37 +688,6 @@ let g:miniBufExplMaxSize = 10
 command! Mt :TMiniBufExplorer
 " }}}
 
-" === neocomplcache {{{
-NeoBundle 'Shougo/neosnippet', '', 'default'
-call neobundle#config('neosnippet', {
-      \ 'lazy' : 1,
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \   'filetypes' : 'snippet',
-      \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
-      \ }})
-
-if has("lua")
-  NeoBundle 'Shougo/neocomplete', '', 'default'
-  call neobundle#config('neocomplete', {
-        \ 'lazy' : 1,
-        \ 'autoload' : {
-        \   'insert' : 1,
-        \ }})
-  source ~/dotfiles/.vimrc.neocomplete
-else
-  NeoBundle 'Shougo/neocomplcache', '', 'default'
-  call neobundle#config('neocomplcache', {
-        \ 'lazy' : 1,
-        \ 'autoload' : {
-        \   'insert' : 1,
-        \ }})
-
-  source ~/dotfiles/.vimrc.neocomplcache
-endif
-
-" }}}
-
 " === nerd_commenter.vim {{{
 " <Leader>c<Space> : コメントトグル
 "------------------------------------------------
@@ -743,8 +727,8 @@ let nerdshutup=1
 "    CD : Change tree root to vims current working directory.
 "    ? : Quick help.
 "-------------------------------------------------------------
-if s:bundle_tap('nerdtree')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('nerdtree')
+  function! neobundle#hooks.on_source(bundle)
     " ツリー表示幅
     "let g:NERDTreeWinSize=31
 
@@ -782,7 +766,7 @@ if s:bundle_tap('nerdtree')
   "     autocmd MyAutoCmd VimEnter * if !argc() | NERDTreeToggle | execute 'wincmd w'
   " endif
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === netrw.vim {{{
@@ -827,8 +811,8 @@ nmap <silent> m. <Plug>number-marks-move-sign
 " }}}
 
 " === open-browser.vim {{{
-if s:bundle_tap('open-browser.vim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('open-browser.vim')
+  function! neobundle#hooks.on_source(bundle)
     nnoremap <Plug>(open-browser-wwwsearch)
           \ :<C-u>call <SID>www_search()<CR>
     function! s:www_search()
@@ -880,7 +864,7 @@ if s:bundle_tap('open-browser.vim')
   "nnoremap gz vi':<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
   "vnoremap gz :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')<CR>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === operator-replace {{{
@@ -1042,8 +1026,8 @@ endif
 " }}}
 
 " === precious {{{
-if s:bundle_tap('vim-precious')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-precious')
+  function! neobundle#hooks.on_source(bundle)
     " quickrun 用のマッピング
     nmap <Space>q <Plug>(precious-quickrun-op)
 
@@ -1067,7 +1051,7 @@ if s:bundle_tap('vim-precious')
     autocmd User PreciousFiletypeLeave_* call s:precious_leave()
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === python {{{
@@ -1096,8 +1080,8 @@ let python_highlight_all = 1
 "  :help PythonModeKeys
 "  :help ropevim.txt
 "------------------------------------
-if s:bundle_tap('python-mode')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('python-mode')
+  function! neobundle#hooks.on_source(bundle)
     " ## Run python
     " Load run code plugin
     let g:pymode_run = 0
@@ -1157,7 +1141,7 @@ if s:bundle_tap('python-mode')
     let g:pymode_virtualenv = 1
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 
 "------------------------------------
 " jedi-vim
@@ -1175,7 +1159,7 @@ let g:jedi#documentation_command = "<space>K"
 let g:jedi#rename_command = "<leader>R"
 let g:jedi#usages_command = "<leader>n"
 
-if s:bundle_tap('jedi-vim')
+if neobundle#tap('jedi-vim')
   augroup InitJediVimAu
     autocmd!
     autocmd InsertEnter *.py call <SID>init_jedi()
@@ -1189,7 +1173,7 @@ if s:bundle_tap('jedi-vim')
     augroup END
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === qfreplace.vim {{{
@@ -1197,8 +1181,8 @@ autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>
 " }}}
 
 " === quickrun {{{
-if s:bundle_tap('vim-quickrun')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-quickrun')
+  function! neobundle#hooks.on_source(bundle)
     " デフォルトのキーマップを無効
     let g:quickrun_no_default_key_mappings = 1
     " コンフィグ設定
@@ -1245,7 +1229,7 @@ if s:bundle_tap('vim-quickrun')
   " Quickrunの強制停止
   nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === quickfixsigns_vim {{{
@@ -1253,12 +1237,12 @@ let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
 " }}}
 
 " === ref {{{
-if s:bundle_tap('vim-ref')
+if neobundle#tap('vim-ref')
   let g:ref_no_default_key_mappings = 1
   silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
 
-  function! s:tapped_bundle.hooks.on_source(bundle)
+  function! neobundle#hooks.on_source(bundle)
     let g:ref_use_vimproc = 1
     let is_windows = has('win16') || has('win32') || has('win64')
     if is_windows
@@ -1304,7 +1288,7 @@ if s:bundle_tap('vim-ref')
     let g:ref_use_cache = 1
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 "}}}
 
 " === restart.vim {{{
@@ -1379,8 +1363,8 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 " }}}
 
 " === submode {{{
-if s:bundle_tap('vim-submode')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-submode')
+  function! neobundle#hooks.on_source(bundle)
     " タイムアウト無効
     let g:submode_timeout = 0
 
@@ -1410,7 +1394,7 @@ if s:bundle_tap('vim-submode')
 
   nnoremap <Space><Space> :NeoBundleSource vim-submode<cr>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 "}}}
 
 " === sudo.vim {{{
@@ -1453,8 +1437,8 @@ imap      <C-G>S <Plug>ISurround
 "  自動実行のトグル：,S
 "  エラー一覧(QiuickFix)表示：,e
 "------------------------------------
-if s:bundle_tap('syntastic')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('syntastic')
+  function! neobundle#hooks.on_source(bundle)
     " エラー行をsignで表示
     let g:syntastic_enable_signs = 1
     " エラーバルーン表示 (gvim only)
@@ -1485,12 +1469,12 @@ if s:bundle_tap('syntastic')
   " QuickFixによるエラー一覧表示
   nnoremap <silent> <Leader>e :Errors<CR>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === switch.vim {{{
-if s:bundle_tap('switch.vim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('switch.vim')
+  function! neobundle#hooks.on_source(bundle)
     " CamelCase <-> SneakCase
     let g:variable_style_switch_definitions = [
       \   {
@@ -1516,7 +1500,7 @@ if s:bundle_tap('switch.vim')
   nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
   nnoremap <silent> - :Switch<cr>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === tabpagecd {{{
@@ -1552,8 +1536,8 @@ inoremap <silent> <Leader>c<Space> :TComment<cr>
 "   :TernRefs       Show all references to the variable or property under the cursor.
 "   :TernRename     Rename the variable under the cursor.
 
-if s:bundle_tap('tern_for_vim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('tern_for_vim')
+  function! neobundle#hooks.on_source(bundle)
     " Show argumet hints. (no/on_move/on_hold) (Default: no)
     let g:tern_show_argument_hints = 'on_hold'
 
@@ -1584,7 +1568,7 @@ if s:bundle_tap('tern_for_vim')
     menu <silent> Tern.Rename :TernRename <CR>
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === thumbnail.vim {{{
@@ -1594,8 +1578,8 @@ autocmd MyAutoCmd FileType thumbnail IndentGuidesDisable
 " }}}
 
 " === TweetVim {{{
-if s:bundle_tap('TweetVim')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('TweetVim')
+  function! neobundle#hooks.on_source(bundle)
     if has('gui_running')
       " フレームにアイコンを表示
       let g:tweetvim_display_icon = 1
@@ -1620,7 +1604,7 @@ if s:bundle_tap('TweetVim')
   nnoremap <silent><Space>tm :<C-u>TweetVimMentions<CR>
   "nnoremap <Space>ts :<C-u>TweetVimSay<CR>
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === txtobj {{{
@@ -1632,7 +1616,7 @@ vmap ib <Plug>(textobj-multiblock-i)
 " }}}
 
 " === unite.vim {{{
-if s:bundle_tap('unite.vim')
+if neobundle#tap('unite.vim')
   " The prefix key.
   nnoremap    [unite]   <Nop>
   xnoremap    [unite]   <Nop>
@@ -1811,7 +1795,7 @@ if s:bundle_tap('unite.vim')
         \     }
   " nnoremap <silent> ;u :<C-u>Unite menu:unite -resume<CR>
 
-  function! s:tapped_bundle.hooks.on_source(bundle)
+  function! neobundle#hooks.on_source(bundle)
     autocmd MyAutoCmd FileType unite call s:unite_my_settings()
 
     let g:unite_enable_start_insert = 0
@@ -1937,7 +1921,7 @@ if s:bundle_tap('unite.vim')
     endfunction
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === versions {{{
@@ -2005,7 +1989,7 @@ nnoremap <silent> <Space>gS :<C-u>UniteVersions status:!<CR>
 
 " -------------------------------------------
 
-if s:bundle_tap('vimfiler')
+if neobundle#tap('vimfiler')
   nnoremap <silent> <F6> :VimFilerBufferDir -simple -buffer-name=explorer -split -winwidth=31 -toggle -no-quit<cr>
 
   " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
@@ -2029,7 +2013,7 @@ if s:bundle_tap('vimfiler')
     endif
   endfunction
 
-  function! s:tapped_bundle.hooks.on_source(bundle)
+  function! neobundle#hooks.on_source(bundle)
     " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
     let is_windows = has('win16') || has('win32') || has('win64')
     let is_cygwin = has('win32unix')
@@ -2128,7 +2112,7 @@ if s:bundle_tap('vimfiler')
     endfunction
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 " === vim-over {{{
@@ -2206,8 +2190,8 @@ autocmd MyAutoCmd BufNewFile *
 "  :QuickRun と同様の引数を渡す
 "    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
 "------------------------------------
-if s:bundle_tap('vim-watchdogs')
-  function! s:tapped_bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-watchdogs')
+  function! neobundle#hooks.on_source(bundle)
     let g:watchdogs_filetype_checkers = {
           \  'coffee' : [ 'coffeelint', 'coffee' ],
           \  'python' : [ 'flake8', 'pyflakes', 'pep8' ],
@@ -2255,7 +2239,7 @@ if s:bundle_tap('vim-watchdogs')
     "       \}
   endfunction
 endif
-call s:bundle_untap()
+call neobundle#untap()
 " }}}
 
 

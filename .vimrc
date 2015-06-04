@@ -5,6 +5,8 @@
 " ============================================================================
 
 " === Initialization ====================================================={{{1
+" :qaSkip initialization for vim-tiny or vim-small.
+if 0 | endif
 
 " viとの互換性をとらない (vim独自の拡張機能を使用する為)
 set nocompatible
@@ -222,7 +224,7 @@ let g:neobundle#default_options = {
       \ 'default' : { 'overwrite' : 0 },
       \ }
 
-call neobundle#rc($DOTVIM . '/bundle')
+call neobundle#begin($DOTVIM . '/bundle')
 
 " Let NeoBundle manage NeoBundle
 " NeoBundle 'Shougo/neobundle.vim'
@@ -433,20 +435,31 @@ NeoBundleLazy 'thinca/vim-visualstar', {
 
 " === Completion {{{2
 
-" neocomplcache : 補完
+" neocomplete and neocomplcache
 if has("lua")
-  NeoBundleLazy 'Shougo/neocomplete'
+  NeoBundle 'Shougo/neocomplete'
+  source ~/dotfiles/.vimrc.neocomplete
 else
-  NeoBundleLazy 'Shougo/neocomplcache'
+  NeoBundle 'Shougo/neocomplcache', '', 'default'
+  call neobundle#config('neocomplcache', {
+        \ 'lazy' : 1,
+        \ 'autoload' : {
+        \   'insert' : 1,
+        \ }})
+  source ~/dotfiles/.vimrc.neocomplcache
 endif
 
 " neosnippet : スニペット
-NeoBundleLazy 'Shougo/neosnippet', {
-      \ 'autoload' : {
-      \   'filetypes' : 'snippet',
-      \   'unite_sources' : [
-      \     'snippet', 'neosnippet/user', 'neosnippet/runtime',
-      \ ]}}
+NeoBundle 'Shougo/neosnippet'
+" NeoBundle 'Shougo/neosnippet', '', 'default'
+" call neobundle#config('neosnippet', {
+"       \ 'lazy' : 1,
+"       \ 'autoload' : {
+"       \   'insert' : 1,
+"       \   'filetypes' : 'snippet',
+"       \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
+"       \ }})
+source ~/dotfiles/.vimrc.neosnippets
 
 NeoBundle "Shougo/neosnippet-snippets"
 
@@ -1162,6 +1175,8 @@ NeoBundleLazy 'thinca/vim-prettyprint', {
 " }}}
 
 " === NeoBundle Finalialization {{{2
+
+call neobundle#end()
 
 " Disable GetLatestVimPlugin.vim
 let g:loaded_getscriptPlugin = 1
