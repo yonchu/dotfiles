@@ -25,25 +25,11 @@ setup_osx() {
     chflags nohidden ~/Library/
 
     # Mute system audio
-    sudo nvram SystemAudioVolume=%80
-
-    # Setup Homebrew
-    confirm_exe 'Homebrewの設定を行いますか？' && $HOME/dotfiles/etc/osx/setup_brew.sh
-}
-
-create_dotfiles() {
-    (
-        if [ ! -e ~/dotfiles ]; then
-            cd ~/
-            git clone --recursive https://github.com/yonchu/dotfiles.git
-        fi
-        cd ~/dotfiles
-        git submodule update --init
-    )
+    sudo nvram SystemAudioVolume=%05
 }
 
 setup_vim() {
-    vim +NeoBundleInstall
+    vim +NeoBundleInstall +q
     if [ -d ~/.vim/bundle/jedi-vim ]; then
         (
             cd ~/.vim/bundle/jedi-vim
@@ -115,6 +101,15 @@ create_dotfiles_symlinks() {
         # links
         create_symlink dotfiles.local/links "$HOME/links"
 
+        # .ssh
+        create_symlink dotfiles.local/.ssh "$HOME/.ssh"
+
+        # .ssh
+        create_symlink dotfiles.local/.tw.yml "$HOME/.tw.yml"
+
+        # gitconfig.local
+        create_symlink dotfiles.local/.gitconfig.local "$HOME/.gitconfig.local"
+
         # .tmux-powerlinerc
         create_symlink .tmux/tmux-powerline-settings/.tmux-powerlinerc "$HOME/.tmux-powerlinerc"
     )
@@ -124,10 +119,11 @@ create_dotfiles_symlinks() {
 ## Main --------------------
 
 # Macの設定
-setup_osx
+confirm_exe 'Macの基本設定を行いますか？' && setup_osx
 
-# dotfilesを作成
-confirm_exe 'dotfilesを作成しますか？' && create_dotfiles
+if [ $(uname -s) != 'Darwin' ]; then
+    confirm_exe 'Homebrewの設定を行いますか？' && $HOME/dotfiles/etc/osx/setup_brew.sh
+fi
 
 # シンボリックリンク作成
 confirm_exe 'シンボリックリンクを作成しますか？' && create_dotfiles_symlinks

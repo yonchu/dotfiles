@@ -7,7 +7,7 @@ Mac OS X セットアップ時の環境設定方法について記載する。
 
 #### 条件
 
- * OS X 10.6 or later
+ * OS X 10.10(Yosemite) or later
 
 
 #### 必要なもの
@@ -19,54 +19,33 @@ Mac OS X セットアップ時の環境設定方法について記載する。
 設定項目
 --------
 
-## Xcode と Command Line Tools for Xcode のインストール
+## Homebrew をインストール
 
-#### インストール手順
+[Homebrew — The missing package manager for OS X](http://brew.sh/)
+[README](https://github.com/Homebrew/homebrew/tree/master/share/doc/homebrew#readme)
 
-1. Xcode をAppStoreからインストール
-1. Command Line Tools のインストール
-    * Xcodeを起動し、メニューから [Xcode] > [Preferences] > [Downloads] を開き、Command Line Tools をインストール
+上記ページを参考に Homebrew 本体をインストール
+
+    $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    $ ls -la /usr
+    drwxrwxr-x    13 root  admin    442 Jun  2 14:20 local
+
+setup_brew.sh を実行
+
+    $ ~/dotfiles/etc/osx/setup_brew.sh
+
+APIトークンの設定
+
+    $ vi ~/.brew_api_token
+    export HOMEBREW_GITHUB_API_TOKEN=xxxxx
 
 
-#### 確認
+## dotfiles のセットアップ
 
-Xcodeのパスを確認
+    $ git clone --recursive https://github.com/yonchu/dotfiles.git
+    $ cd ~/dotfiles/ && ./etc/setup.sh
 
-    $ xcode-select -print-path
-
-Xcodeのパスが /Developer になっている場合は変更する
-
-    $ sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
-
-Xcodeのパス変更を確認
-
-    $ xcrun -find cc
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
-    $ xcrun -find gcc
-    /Applications/Xcode.app/Contents/Developer/usr/bin/gcc
-    $ xcrun -find clang
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
-
-## Homebrew 導入前準備
-
-参考
-[Macのパッケージ管理をMacPortsからhomebrewへ - よんちゅBlog](http://yonchu.hatenablog.com/entry/20110226/1298723822)
-
-既に /usr/local が作成済みの場合は、/usr/local の所有権限を root:staff に変更
-
-    $ chown root:staff /usr/local
-
-Homebrew をインストール
-
-[Homebrew Wiki](https://github.com/mxcl/homebrew/wiki/installation')
-
-tomcat6.rbを追加(バックアップより)
-
-## セットアップ
-
-    GithubにSSH公開鍵を設定
-
-    $ ~/dotfiles/etc/setup.sh
+zsh, bash のヒストリーファイルの移行
 
 
 ## /etc/zshenv を /etc/zprofile に変更 (OS X 10.7 or later)
@@ -89,7 +68,11 @@ zshをサブシェルとして実行するとPATHの設定がおかしくなっ�
 
       brew install --disable-etcdir zsh
 
-よって以下のように変更する
+よって、下記コマンドで zsh をインストールする。
+
+    $ brew install --disable-etcdir zsh
+
+または、以下のように変更する。
 
     $ ls -l /etc/zshenv
     -r--r--r--   1 root wheel  126 2012-04-06 03:56 zshenv
@@ -121,35 +104,11 @@ zshをサブシェルとして実行するとPATHの設定がおかしくなっ�
         - \-> ~/dotfiles/.alias
         - \-> ~/dotfiles/.shrc.local
 
-## vim
 
-MacVim-KaoriYa インストール
 
-[macvim-kaoriya - MacVim KaoriYa - Google Project Hosting](http://code.google.com/p/macvim-kaoriya/)
-
-vim-powerlineの個別変更(キャラコード/文字数(マルチ文字対応))
-
-    ~/dotfiles/.vim/bundle/vim-powerline/autoload/Powerline/Segments.vim
-    - \ Pl#Segment#Create('line.cur'    , '$LINE %3l'),
-    - \ Pl#Segment#Create('line.tot'    , ':%-2v', Pl#Segment#NoPadding()),
-    + \ Pl#Segment#Create('line.cur'    , '$LINE %3l/%-3L'),
-    + \ Pl#Segment#Create('line.tot'    , ':%-3v', Pl#Segment#NoPadding()),
-
-vim-powerline対応のフォントをインストール
-
-Dropboxのバックアップを使用
-
-Ricty,  Envy Code R, うにフォント, あずきフォント...etc
-<br><br>
-vim-powerlineのキャッシュクリア
-
-    $ vim -c PowerLineClearCache -c quitall
-
-## 動作確認
+## ログインシェルを zsh に変更
 
 ログインシェル変更前に入念に動作チェックを行う。
-
-## ログインシェルをzshに変更
 
 現在のログインシェルを確認
 
@@ -266,18 +225,9 @@ DLしたファイルを実行
 
 ## MacAPPをインストール
 
- - スティッキーズの内容復元
- - Google IME - 不要なモードOFF、ESCなどでIME-OFF
- - KeyRemap4MacBook の設定復元
+ - Stickies.app の内容復元
+ - Karabiner.app の設定復元
  - ClipMenu の内容復元
- - Eclipse の復元
- - KeyBindings の復元
- - workflow/scripts の復元
- - CotEditorの復元
- - clamxav
- - MySQL
- - Ecliplse + jad
- - VirtualBox + CentOSなど
  - etc (その他のアプリはEvernote参照)
 
 
@@ -304,47 +254,35 @@ DLしたファイルを実行
  - authorized\_keys
 
 
-## pythonbrew
+## pyenv のインストール
 
 Evernoteのメモを参照
 
-$ pip freeze
-debug
-distribute
-flake8
-ipython
-pep8
-pudb
-pyflakes
-readline
-wsgiref
-see
+    $ pip freeze
+    autopep8
+    debug
+    distribute
+    flake8
+    flake8_docstrings
+    ipython
+    pep8
+    pudb
+    pyflakes
+    readline
+    wsgiref
+    see
 
     $ ln -s ~/dotfiles/etc/python/sitecustomize.py ~/.pythonbrew/venvs/Python-2.7.3/py273/lib/python2.7/site-packages/sitecustomize.py
+
 
 ## ruby(rvm/gem)
 
 Evernoteのメモを参照
 
-$ gem list
-git-browse-remote
-rvm
-tw
-
-## ディレクトリ構成の復活
-
- - $HOME/
- - $HOME/Documents/\*
- - $HOME/work
- - $HOME/work/dev
- - $HOME/work/tips
- - $HOME/work/usr
- - $HOME/work/usr/local
- - $HOME/work/usr/src
- - /usr/local
-
-
-## その他DropBoxのバックアップから復元
+    $ gem list
+    git-browse-remote
+    rvm
+    tw
 
 
 ## gccのインストール
@@ -360,20 +298,7 @@ tw
 
 dotfiles.local をDropBox上のリモートリポジトリよりクローン
 
-個別環境に応じて設定を変更(適当)
+個別環境に応じて設定を変更
 
 
-## Sublime Text 2 のインストール
-
-DropBoxから設定を復元
-
-    $ cd ~/Library/Application Support
-    $ mv Sublime\ Text\ 2 ~/.Trash
-    $ ln -s $HOME/Dropbox/Repos/Apps/Sublime\ Text\ 2 Sublime\ Text\ 2
-
-実行ファイルのシンボリックリンクを作成
-
-    $ ln -s /Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl ~/bin/subl
-
-
-# vim: ft=markdown
+<!-- vim:set ft=markdown: -->

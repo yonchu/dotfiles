@@ -13,16 +13,14 @@ Font: [S2Gうにフォント(S2G Uni font)](http://s2g.jp/font/index.htm)
 Installation
 ------------
 
-```console
-$ curl -kL https://raw.github.com/yonchu/dotfiles/master/etc/setup.sh | bash
-```
-or
 
 ```console
 $ cd
 $ git clone --recursive https://github.com/yonchu/dotfiles.git
 $ cd dotfiles && ./etc/setup.sh
 ```
+
+For mac, read [setup_manual.md](~/dotfiles/etc/osx/setup_manual.md)
 
 Submodules
 ------------

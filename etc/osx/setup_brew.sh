@@ -9,13 +9,13 @@ ROOT_DIR="$HOME/dotfiles/etc/osx"
 BREW_LIST="$ROOT_DIR/brew_list.txt"
 TAP_LIST="$ROOT_DIR/brew_tap.txt"
 
-EXCLUSION_LIST=(git python)
+EXCLUSION_LIST=(git python zsh fontforge)
 
 # Check for Homebrew
 echo 'Check for Homebrew'
 if ! type brew > /dev/null 2>&1; then
   echo '  x You should probably install Homebrew first:'
-  echo '    https://github.com/mxcl/homebrew/wiki/installation'
+  echo '    http://brew.sh/'
   exit 1
 else
   echo '  + Homebrew found.'
@@ -69,8 +69,9 @@ done
 
 # Install packages
 echo "Install packages individually!!"
-echo 'Install python'
+brew install --use-gcc fontforge
 brew install python
+brew install --disable-etcdir zsh
 
 echo 'Check brew doctor!!'
 brew doctor
