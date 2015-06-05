@@ -31,7 +31,7 @@ fi
 
 # Check /usr/local permission
 _owner=($(command ls -l /usr | awk '/local$/ {print $3,$4}'))
-if [[ ${_owner[2]} != 'admin' && ${_owner[2]} != 'staff' ]]; then
+if [[ ${_owner[1]} != 'root' || ${_owner[2]} != 'admin' ]]; then
     echo '---------------------------'
     echo "WARNNING: Unexpected permission: /usr/local (${_owner[1]}:${_owner[2]})"
     echo '---------------------------'
