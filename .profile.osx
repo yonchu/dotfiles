@@ -12,11 +12,11 @@
 #
 if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
     export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-    export VISUAL=/Applications/MacVim.app/Contents/MacOS/Vim
+    export VISUAL=$EDITOR
 
     # Gitでコミット時に起動するエディタを指定
     # 未指定だとコミット時にエラーになる(絶対パス必須)
-    export GIT_EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+    export GIT_EDITOR=$EDITOR
 fi
 
 
@@ -122,6 +122,29 @@ export DEFAULT_NODE_VERSION="v0.10.31"
 # Coreutils
 #  GNU版Coreutilsの使用
 #export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+
+
+#
+# FDK
+# Adobe Font Development Kit for OpenType (AFDKO)
+#
+# Initialization for FDK command line tools.
+export FDK_EXE=~/bin/FDK/Tools/osx
+export PATH=$PATH:$HOME/bin/FDK/Tools/osx
+
+
+#
+# Homebrew GitHub Api token
+#
+if [ -f ~/.brew_api_token ];then
+    source ~/.brew_api_token
+fi
+
+
+#
+# zsh
+#
+export HELPDIR=/usr/local/share/zsh/help
 
 
 ### Complete Messages
