@@ -24,24 +24,17 @@ set imdisableactivate            " ESCでIM自動OFF、入力モードでIM自�
 set cmdheight=2                  " コマンドラインの高さ(GUI使用時)
 
 if has('mac')
-  set transparency=5
+  " set transparency=5
   set antialias
 
-  " フォント(Regular Font)
-  "set guifont=Osaka-Mono:h13
-  "set guifont=Monaco:h13
-  " set guifont=Ricty-RegularForPowerline:h16
-  " set guifont=EnvyCodeRForPowerline:h16
-  " set guifont=CodeM-RegularForPowerline:h14
-  " set guifont=CodeMWide-RegularForPowerline:h14
-  set guifont=CodeMExpanded-RegularForPowerline:h15
+  " Regular Font
+  set guifont=MyricaM\ Monospace\ for\ Powerline:h16
 
   " Non-ACSII Font
-  "set guifontwide=Osaka-Mono:h13
-  "set guifontwide=Ricty-Regular:h16
+  "set guifontwide=
 
   set columns=120                  " width (列)
-  set lines=45                     " line (行)
+  set lines=50                     " line (行)
 elseif has('linux')
   set guifont=Monaco\ 12
   set columns=100
