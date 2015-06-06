@@ -95,6 +95,7 @@ unset lvalue rvalue index
 alias cdp='cd -P'
 alias cdl='cd -L'
 
+# cd <ファイル名> で親ディレクトリに移動
 cd() {
     if [ -e "$1" -a ! -d "$1" ]; then
         builtin cd -- "$(dirname -- "$1")"
@@ -498,10 +499,8 @@ sjis() {
 
 
 # encode64
-encode64(){ echo -n $1 | base64; }
-decode64(){ echo -n $1 | base64 -D; }
-alias e64=encode64
-alias d64=decode64
+encode64(){ echo -n "$1" | base64; }
+decode64(){ echo -n "$1" | base64 -D; }
 
 # rmtrash
 alias rmt='rmtrash'
