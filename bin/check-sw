@@ -34,7 +34,7 @@ check() {
     echo "gem:          $(gem --version)$(path gem)"
     echo "rvm:          $(rvm --version | sed '/^$/d' | cut -d ' ' -f 1,2,3)$(path rvm)"
     ## node
-    echo "node:         $(node --version)$(path perl)"
+    echo "node:         $(node --version)$(path node)"
     echo "npm:          $(npm --version)$(path npm)"
     echo "coffee:       $(coffee --version)$(path coffee)"
     echo "typescript:   $(typescript --version)$(path typescript)"
