@@ -36,8 +36,6 @@ if [ -n "$is_minimum" ]; then
     fi
     if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=()
-        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("earthquake 3 0")
-        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("mailcount 9 255")
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("lang 95 248")
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("date-full-en 235 136")
     fi
@@ -90,13 +88,6 @@ else
 
     if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=()
-        if [ "$window_width" -ge 180 ]; then
-            TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("earthquake 3 0")
-            TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("mailcount 9 255")
-        fi
-        if [ "$window_width" -ge 220 ]; then
-            TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("now_playing 234 37")
-        fi
         if [ "$window_width" -ge 122 ]; then
             TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("lang 95 248")
         fi
@@ -108,12 +99,6 @@ else
             TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("used-mem-full 58 107 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}")
         else
             TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("used-mem 58 107 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}")
-        fi
-        if [ "$window_width" -ge 180 ]; then
-            TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("battery 137 127")
-        fi
-        if [ "$window_width" -ge 160 ]; then
-            TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("weather 37 255")
         fi
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("date-full-en 235 136")
     fi
