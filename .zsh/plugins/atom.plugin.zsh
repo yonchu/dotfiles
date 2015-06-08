@@ -7,9 +7,11 @@ if [[ $(uname -s) != 'Darwin' || ! -a '/Applications/Atom.app' ]] ; then
     return
 fi
 
-function atom() {
-    if [[ $# -lt 1 ]]; then
-        set -- '.'
-    fi
-    open -a '/Applications/Atom.app' "$@"
-}
+if ! type atom > /dev/null 2>&1; then
+    function atom() {
+        if [[ $# -lt 1 ]]; then
+            set -- '.'
+        fi
+        open -a '/Applications/Atom.app' "$@"
+    }
+fi
