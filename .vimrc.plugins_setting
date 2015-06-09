@@ -674,20 +674,6 @@ nmap <C-m> <Plug>(milfeulle-next)
 " let g:milfeulle_default_jumper_name = 'win_tab_bufnr_pos_line'
 " }}}
 
-" === MiniBufExplorer {{{
-" set minibfexp
-let g:miniBufExplMapWindowNavVim=1 "hjklで移動
-let g:miniBufExplSplitBelow=0  " Put new window above
-let g:miniBufExplMapWindowNavArrows=1
-let g:miniBufExplMapCTabSwitchBufs=1
-let g:miniBufExplModSelTarget=1
-let g:miniBufExplSplitToEdge=1
-let g:miniBufExplMaxSize = 10
-
-" :MtでMiniBufExplorerの表示トグル
-command! Mt :TMiniBufExplorer
-" }}}
-
 " === nerd_commenter.vim {{{
 " <Leader>c<Space> : コメントトグル
 "------------------------------------------------

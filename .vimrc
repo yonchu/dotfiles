@@ -605,9 +605,6 @@ NeoBundleLazy "osyo-manga/vim-milfeulle", {
       \     '<Plug>(milfeulle-refresh)'
       \ ]}}
 
-" minibufexpl.vim : バッファをタブ風に表示
-NeoBundle 'minibufexpl.vim'
-
 " multi-vim : マルチカーソル (:Multi <word>)
 NeoBundleLazy 'mattn/multi-vim', {
       \ 'autoload' : {
@@ -1152,7 +1149,7 @@ NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
       \   'filetypes' : [ 'sass' ]
       \ }}
 
-" tabbar
+" tagbar
 NeoBundleLazy 'majutsushi/tagbar', {
       \ "autload": {
       \   "commands": ["TagbarToggle"],
@@ -1621,7 +1618,7 @@ endif
 "   0: 表示しない
 "   1: 2個以上のタブページがあるときのみ表示
 "   2: 常に表示
-set showtabline=1
+set showtabline=2
 " Set tabline.
 function! s:my_tabline()
   let s = ''
@@ -1634,16 +1631,21 @@ function! s:my_tabline()
     let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
 
     " Use gettabvar().
-    let title = exists('*gettabvar') && gettabvar(i, 'title') != '' ?
-          \ gettabvar(i, 'title') : fnamemodify(bufname(bufnr), ':t')
+    let title =
+          \ !exists('*gettabvar') ?
+          \      fnamemodify(bufname(bufnr), ':t') :
+          \ gettabvar(i, 'title') != '' ?
+          \      gettabvar(i, 'title') :
+          \      fnamemodify((i == tabpagenr() ?
+          \       getcwd() : gettabvar(i, 'cwd')), ':t')
 
     let title = '[' . title . ']'
 
     let s .= '%'.i.'T'
     let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= no . ':' . title
+    let s .= title
     let s .= mod
-    let s .= '%#TabLineFill# '
+    let s .= '%#TabLineFill#'
   endfor
 
   let s .= '%#TabLineFill#%T%=%#TabLine#'
@@ -2434,6 +2436,50 @@ nnoremap <C-t>c  :<C-u>tabclose<CR>
 nnoremap <C-t>o  :<C-u>tabonly<CR>
 nnoremap <C-t>j  :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
 nnoremap <C-t>k  gT
+command! -nargs=* -complete=file E tabnew <args>
+
+nunmap <Tab><Tab>
+nnoremap <silent> <Tab> :call <SID>NextWindowOrTab()<CR>
+nnoremap <silent> <S-Tab> :call <SID>PreviousWindowOrTab()<CR>
+
+function! s:NextWindow()
+  if winnr('$') == 1
+    silent! normal! ``z.
+  else
+    wincmd w
+  endif
+endfunction
+
+function! s:NextWindowOrTab()
+  if tabpagenr('$') == 1 && winnr('$') == 1
+    call s:split_nicely()
+  elseif winnr() < winnr("$")
+    wincmd w
+  else
+    tabnext
+    1wincmd w
+  endif
+endfunction
+
+function! s:PreviousWindowOrTab()
+  if winnr() > 1
+    wincmd W
+  else
+    tabprevious
+    execute winnr("$") . "wincmd w"
+  endif
+endfunction
+
+command! SplitNicely call s:split_nicely()
+function! s:split_nicely()
+  " Split nicely.
+  if winwidth(0) > 2 * &winwidth
+    vsplit
+  else
+    split
+  endif
+  wincmd p
+endfunction
 
 
 "### Tags
