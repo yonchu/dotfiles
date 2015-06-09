@@ -310,9 +310,10 @@ NeoBundleLazy 'tpope/vim-surround', {
       \ ]}}
 
 " switch :  true/false切り替え (+/-)
-NeoBundleLazy 'AndrewRadev/switch.vim', {
+NeoBundle 'AndrewRadev/switch.vim', {
       \ 'autoload' : {
       \   'commands' : 'Switch',
+      \   'mappings' : ['+', '-'],
       \ }}
 
 " tcomment_vim : コメントアウト

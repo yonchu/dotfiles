@@ -400,10 +400,10 @@ autocmd MyAutoCmd FileType *
 " }}}
 
 " === fontzoom.vim {{{
-if has('gui_running')
-  nmap + <Plug>(fontzoom-larger)
-  nmap _ <Plug>(fontzoom-smaller)
-endif
+" if has('gui_running')
+"   nmap + <Plug>(fontzoom-larger)
+"   nmap _ <Plug>(fontzoom-smaller)
+" endif
 " }}}
 
 " === Fugitive.vim {{{
@@ -1473,34 +1473,29 @@ call neobundle#untap()
 " }}}
 
 " === switch.vim {{{
-if neobundle#tap('switch.vim')
-  function! neobundle#hooks.on_source(bundle)
-    " CamelCase <-> SneakCase
-    let g:variable_style_switch_definitions = [
-      \   {
-      \     '\<[a-z0-9]\+_\k\+\>': {
-      \       '_\(.\)': '\U\1'
-      \     },
-      \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
-      \       '\([A-Z]\)': '_\l\1'
-      \     },
-      \   }
-      \ ]
+" CamelCase <-> SneakCase
+let g:variable_style_switch_definitions = [
+  \   {
+  \     '\<[a-z0-9]\+_\k\+\>': {
+  \       '_\(.\)': '\U\1'
+  \     },
+  \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
+  \       '\([A-Z]\)': '_\l\1'
+  \     },
+  \   }
+  \ ]
 
-    let g:switch_custom_definitions =
-      \ [
-      \   ['and', 'or'],
-      \   ['if', 'unless'],
-      \   ['yes', 'no'],
-      \   ['enable', 'disable'],
-      \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
-      \ ]
-  endfunction
+let g:switch_custom_definitions =
+  \ [
+  \   ['and', 'or'],
+  \   ['if', 'unless'],
+  \   ['yes', 'no'],
+  \   ['enable', 'disable'],
+  \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
+  \ ]
 
-  nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
-  nnoremap <silent> - :Switch<cr>
-endif
-call neobundle#untap()
+nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
+nnoremap <silent> - :Switch<cr>
 " }}}
 
 " === tabpagecd {{{
