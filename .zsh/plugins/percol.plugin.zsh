@@ -48,7 +48,7 @@ function percol_select_history() {
     else
         tac="tail -r"
     fi
-    BUFFER=$(history -n 1 | \
+    BUFFER=$(fc -l -n 1 | \
         eval $tac | \
         percol --match-method migemo --query "$LBUFFER")
     CURSOR=$#BUFFER         # move cursor
