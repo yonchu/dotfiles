@@ -2222,8 +2222,13 @@ nnoremap <buffer> ]q :cnext<CR>
 
 
 "### ビジュアルモードで連続インデント
+nnoremap > >>
+nnoremap < <<
 vnoremap < <gv
 vnoremap > >gv
+" <TAB>, <S-TAB>: indent, unindent
+xnoremap <TAB> >
+xnoremap <S-TAB> <
 
 
 "### コンマの後に自動的にスペースを挿入
