@@ -20,19 +20,28 @@
 #   $ zaw-print-src
 #   source name      shortcut widget name
 #   ----------------------------------------
-#   ack              zaw-ack
-#   applications     zaw-applications
-#   bookmark         zaw-bookmark
-#   cdd              zaw-cdd
-#   cdr              zaw-cdr
-#   dirstack         zaw-dirstack
-#   git-branches     zaw-git-branches
-#   git-files        zaw-git-files
-#   history          zaw-history
-#   open-file        zaw-open-file
-#   perldoc          zaw-perldoc
-#   screens          zaw-screens
-#   tmux             zaw-tmux
+#   ack                     zaw-ack
+#   applications            zaw-applications
+#   bookmark                zaw-bookmark
+#   cdd                     zaw-cdd
+#   cdr                     zaw-cdr
+#   dirstack                zaw-dirstack
+#   git-branches            zaw-git-branches
+#   git-directories         zaw-git-directories
+#   git-files               zaw-git-files
+#   git-files-legacy        zaw-git-files-legacy
+#   git-log                 zaw-git-log
+#   git-recent-all-branches zaw-git-recent-all-branches
+#   git-recent-branches     zaw-git-recent-branches
+#   git-show-branch         zaw-git-show-branch
+#   git-status              zaw-git-status
+#   history                 zaw-history
+#   open-file               zaw-open-file
+#   perldoc                 zaw-perldoc
+#   process                 zaw-process
+#   screens                 zaw-screens
+#   ssh-hosts               zaw-ssh-hosts
+#   tmux                    zaw-tmux
 
 [ -f ~/.zsh/plugins/zaw/zaw.zsh ] || { echo '...skip'; return; }
 
