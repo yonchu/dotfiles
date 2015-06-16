@@ -61,18 +61,16 @@ bindkey '^Qgs' zaw-git-show-branch
 # http://blog.kentarok.org/entry/2012/03/24/221522
 if (( $+functions[cdd] )); then
     function zaw-src-cdd () {
-        if [ -r "$CDD_PWD_FILE" ]; then
-            for window in `cat $CDD_PWD_FILE | sed '/^$/d'`; do
+        if [ -r "$CDD_FILE" ]; then
+            for window in `cat $CDD_FILE | sed '/^$/d'`; do
                 candidates+=("${window}")
             done
-
-            actions=(zaw-src-cdd-cd)
+            actions=(zaw-src-cdd-action)
             act_descriptions=("cdd for zaw")
         fi
     }
-    function zaw-src-cdd-cd () {
-        BUFFER="cd `echo $1 | cut -d ':' -f 2`"
-        zle accept-line
+    function zaw-src-cdd-action () {
+    LBUFFER+=$(echo "$1" | cut -d ':' -f 2)
     }
     zaw-register-src -n cdd zaw-src-cdd
 fi
