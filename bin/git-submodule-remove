@@ -35,26 +35,18 @@ fi
 git_ver=$(git --version | cut -d ' ' -f 3)
 
 if [ $(version "$git_ver") -ge $(version 1.8.5) ]; then
-    set -x
     git submodule deinit "$1" || exit 1
     git rm "$1" || exit 1
     rm -rf ".git/modules/${1}" || exit 1
-    set +x
 elif [ $(version "$git_ver") -ge $(version 1.8.3) ]; then
-    set -x
     git submodule deinit "$1" || exit 1
     git config --file ".gitmodules" --remove-section "submodule.${1}" || exit 1
     git rm "$1" || exit 1
     rm -rf ".git/modules/${1}" || exit 1
-    set +x
 else
-    set -x
     git config --file ".git/config" --remove-section "submodule.${1}" || exit 1
     git config --file ".gitmodules" --remove-section "submodule.${1}" || exit 1
     git rm --cached -rf "${1}" || exit 1
     rm -rf ".git/modules/${1}" || exit 1
     rm -rf "${1}" || exit 1
-    set +x
 fi
-
-exit 0
