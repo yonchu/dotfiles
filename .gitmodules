@@ -37,9 +37,6 @@
 [submodule ".zsh/plugins/z"]
 	path = .zsh/plugins/z
 	url = git://github.com/knu/z.git
-[submodule ".zsh/plugins/zaw"]
-	path = .zsh/plugins/zaw
-	url = git://github.com/nakamuray/zaw.git
 [submodule ".zsh/plugins/zaw-git-directories"]
 	path = .zsh/plugins/zaw-git-directories
 	url = git://github.com/syohex/zaw-git-directories.git
