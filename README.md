@@ -32,6 +32,7 @@ Submodules
 
 - tmux
     - [erikw/tmux-powerline](https://github.com/erikw/tmux-powerline)
+    - [tmux-plugins/tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
 
 - vim
     - [Shougo/neobundle.vim](https://github.com/Shougo/neobundle.vim)
@@ -39,6 +40,7 @@ Submodules
 
 - zsh
     - [yonchu/zsh-vcs-prompt](https://github.com/yonchu/zsh-vcs-prompt)
+    - [yonchu/zsh-python-prompt](https://github.com/yonchu/zsh-python-prompt)
     - [pasberth/promptway](https://github.com/pasberth/promptway)
     - [zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
     - [zsh-users/zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
@@ -47,7 +49,7 @@ Submodules
     - [pasberth/slipd](https://github.com/pasberth/slipd)
     - [zsh-users/zsh-completions](https://github.com/zsh-users/zsh-completions)
     - [yonchu/grunt-zsh-completion](https://github.com/yonchu/grunt-zsh-completion)
-    - [nakamuray/zaw](https://github.com/nakamuray/zaw)
+    - [zsh-users/zaw](https://github.com/zsh-users/zaw)
     - [syohex/zaw-git-directories](https://github.com/syohex/zaw-git-directories)
     - [yonchu/zaw-src-git-log](https://github.com/yonchu/zaw-src-git-log)
     - [yonchu/zaw-src-git-show-branch](https://github.com/yonchu/zaw-src-git-show-branch)
