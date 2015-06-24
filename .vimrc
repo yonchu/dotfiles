@@ -2175,7 +2175,20 @@ map <F2> <ESC>:bp<CR>
 " F3で次のバッファ
 map <F3> <ESC>:bn<CR>
 " F4でバッファを削除する
-map <F4> <ESC>:bnext \| bdelete #<CR>
+" map <F4> <ESC>:bnext \| bdelete # \| if tabpagenr('$') != 1 \| tabclose \| endif<CR>
+map <silent> <F4> <ESC>:call <SID>delete_buf()<CR>
+function! s:delete_buf()
+  bnext
+  if bufnr('%') == bufnr('#')
+    bdelete #
+  else
+    echo 'Last buffer!'
+  endif
+  if tabpagenr('$') != 1
+    tabclose
+  endif
+endfunction
+
 nnoremap B :ls<CR>:b
 
 
