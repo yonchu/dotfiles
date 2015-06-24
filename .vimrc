@@ -2444,11 +2444,13 @@ endfunction
 
 "### Tab pages (Vim 7)
 nnoremap <C-t>  <Nop>
-nnoremap <C-t>n  :<C-u>tabnew<CR>
-nnoremap <C-t>c  :<C-u>tabclose<CR>
-nnoremap <C-t>o  :<C-u>tabonly<CR>
-nnoremap <C-t>j  :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
-nnoremap <C-t>k  gT
+nnoremap <silent> <C-t>n  :<C-u>tabnew<CR>
+nnoremap <silent> <C-t>c  :<C-u>tabclose<CR>
+nnoremap <silent> <C-t>o  :<C-u>tabonly<CR>
+nnoremap <silent> <C-t>j  :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
+nnoremap <silent> <C-t>l  :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
+nnoremap <silent> <C-t>k  gT
+nnoremap <silent> <C-t>h  gT
 command! -nargs=* -complete=file E tabnew <args>
 
 nunmap <Tab><Tab>
