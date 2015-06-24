@@ -2370,7 +2370,7 @@ autocmd MyAutoCmd FileType help,git-status,git-log,qf,
 autocmd MyAutoCmd FileType help,qf,quickrun,ref
       \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>
 
-autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
+autocmd MyAutoCmd FileType * if (&ft !=# 'vimfiler' && (&readonly || !&modifiable))
       \ | nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>| endif
 autocmd MyAutoCmd FileType * if (&readonly || !&modifiable) && !hasmapto('<ESC>', 'n')
       \ | nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>| endif

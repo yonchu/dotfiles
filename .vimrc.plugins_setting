@@ -1923,95 +1923,106 @@ nnoremap <silent> <Space>gS :<C-u>UniteVersions status:!<CR>
 
 " === vimfiler {{{
 "
-" Mappngs :
-"   a   Action
-"   e   Edit
-"   v   preview
-"   D   Split vertically edit
-"   gc  Change current directory
-"   yy  Copy file path
-"   gr  Execute grep command
-"   gf  Execute find command
-"   x   Open with app
-"   ge  Open with explorer
-"   M   Mask mode
+" Normal mode default mappings.
+" -------------------------------------
+"   <Tab>            switch to another vimfiler
+"   j                loop cursor down
+"   k                loop cursor up
+"   gg               cursor top
+"   <C-l>            redraw screen
+"   <Space>          toggle mark current line
+"   <S-LeftMouse>    toggle mark current line
+"   <S-Space>        toggle mark current line up
+"   *                toggle mark all lines
+"   #                mark similar lines
+"   U                clear mark all lines
+"   c                copy file
+"   m                move file
+"   d                delete file
+"   Cc               clipboard copy file
+"   Cm               clipboard move file
+"   Cp               clipboard paste
+"   r                rename file
+"   K                make directory
+"   N                new file
+"   <Enter>          cd or edit
+"   o                expand or edit
+"   l                smart l
+"   x                execute system associated
+"   h                smart h
+"   L                switch to drive
+"   ~                switch to home directory
+"   \                switch to root directory
+"   &                switch to project directory
+"   <C-j>            switch to history directory
+"   <BS>             switch to parent directory
+"   .                toggle visible ignore files
+"   H                popup shell
+"   e                edit file
+"   E                split edit file
+"   B                edit binary file
+"   ge               execute external filer
+"   <RightMouse>     execute external filer
+"   !                execute shell command
+"   q                hide
+"   Q                exit
+"   -                close
+"   g?               help
+"   v                preview file
+"   O                sync with current vimfiler
+"   go               open file in another vimfiler
+"   <C-g>            print filename
+"   g<C-g>           toggle maximize window
+"   yy               yank full path
+"   M                set current mask
+"   gr               grep
+"   gf               find
+"   S                select sort type
+"   <C-v>            switch vim buffer mode
+"   gc               cd vim current dir
+"   gs               toggle safe mode
+"   gS               toggle simple mode
+"   a                choose action
+"   Y                pushd
+"   P                popd
+"   t                expand tree
+"   T                expand tree recursive
+"   I                cd input directory
+"   <2-LeftMouse>    double click
+"   gj               jump last child
+"   gk               jump first child
 "
-"   o   Double window filer
-"   t   Open tree
-"   T   Open tree recursively
-"   ~   Open home directory
-"   ¥   Open root directory
-"   C-j History
-"   C-g Display file name
-"
-"   Space Mark (Use on visual mode, too)
-"   *   Mark all
-"   U   Mark all off
-"   c   Copy
-"   m   Move
-"   d   Delete
-"   r   Rename
-"
-"   K   Create new direcotory
-"   N   Create new file
-"
-"   H   Vimshell
-"
-"   q   Hide
-"   q   Auit
-"
-"   s   Split
-"   v   Vsplit
-"   /   Migemo
-"   J   mru
-"   O   Sync
-"   gy  Open in tab
-"   p   Quick look
-
-" -------------------------------------------
+"   Visual mode mappings.
+" -------------------------------------
+"   <Space>          <Plug>(vimfiler toggle mark selected lines
 
 if neobundle#tap('vimfiler')
-  nnoremap <silent> <F6> :VimFilerBufferDir -simple -buffer-name=explorer -split -winwidth=31 -toggle -no-quit<cr>
-
-  " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
-
-  "nmap    [Space]v   <Plug>(vimfiler_switch)
-  nnoremap <silent> <Space>v   :<C-u>VimFiler<CR>
-
-  nnoremap <silent> <F5> :<C-u>call <SID>toggle_vimfiler_explorer()<cr>
-  function! s:toggle_vimfiler_explorer()
-    VimFilerExplorer -winwidth=33
-    if &filetype == 'vimfiler'
-      if exists('b:vimfiler')
-            \ && !get(b:vimfiler, 'is_visible_dot_files', 1)
-        execute 'normal .'
-        " let b:vimfiler.is_visible_dot_files = 1
-        " call vimfiler#redraw_screen()
-      endif
-    endif
-    if &buftype ==# 'nofile' && bufname('') ==# '-MiniBufExplorer-'
-      execute 'wincmd w'
-    endif
-  endfunction
+  " Open Vimfiler.
+  nnoremap <silent> <Space>v :<C-u>VimFiler -invisible -parent<CR>
+  nnoremap <silent> <F5> :VimFilerExplorer<cr>
+  nnoremap <silent> <F6> :VimFilerBufferDir -buffer-name=explorer -split -toggle -no-quit<cr>
 
   function! neobundle#hooks.on_source(bundle)
-    " Unite buffer_tab -buffer-name=buflist -hide-source-names -hide-status-line -no-focus -resume -horizontal -auto-preview -auto-resize -toggle -no-quit -winheight=10 -direction=leftbelow
+    " OS flag.
     let is_windows = has('win16') || has('win32') || has('win64')
     let is_cygwin = has('win32unix')
     let is_mac = !is_windows && !is_cygwin
           \ && (has('mac') || has('macunix') || has('gui_macvim')
           \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
 
-    " let g:vimfiler_enable_clipboard = 0
-    " let g:vimfiler_safe_mode_by_default = 0
-    let g:vimfiler_time_format = '%Y/%m/%d %H:%M:%S'
-    " let g:vimfiler_enable_auto_cd = 0
-    " let g:vimfiler_default_columns = 'type:size:time'
-    " let g:vimfiler_explorer_columns = 'type'
+    " Profile Settings.
+    call vimfiler#custom#profile('default', 'context', {
+          \ 'safe' : 1,
+          \ 'auto_expand' : 1,
+          \ 'edit_action' : 'tabopen',
+          \ 'parent' : 1,
+          \ })
 
-    " let g:vimfiler_edit_action = 'edit'
-
+    " Basic Settings.
     let g:vimfiler_as_default_explorer = 1
+    let g:vimfiler_ignore_pattern = '^\%(\.git\|\.svn\)$'
+    let g:vimfiler_time_format = '%Y/%m/%d %H:%M:%S'
+
     let g:vimfiler_detect_drives = is_windows ? [
           \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
           \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/'] :
@@ -2032,6 +2043,7 @@ if neobundle#tap('vimfiler')
           \ 'gedit' : 'gedit',
           \ }
 
+    " Icons.
     if is_windows
       " Use trashbox.
       let g:unite_kind_file_use_trashbox = 1
@@ -2048,18 +2060,25 @@ if neobundle#tap('vimfiler')
           \ is_windows ? 'maComfort.exe -ql' :
           \ is_mac ? 'qlmanage -p' : 'gloobus-preview'
 
-
+    " AutoCmd.
     autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
     function! s:vimfiler_my_settings()
       call vimfiler#set_execute_file('vim', 'vim')
       call vimfiler#set_execute_file('txt', 'vim')
 
       " Overwrite settings.
-      nmap <buffer><expr> <cr> vimfiler#smart_cursor_map(
-              \ '<Plug>(vimfiler_cd_file)',
-              \ '<Plug>(vimfiler_edit_file)')
-      nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<cr>
-      nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<cr>
+      nmap <buffer> q <Plug>(vimfiler_close)
+      nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
+      nmap <buffer> p <Plug>(vimfiler_quick_look)
+
+      nmap <buffer> o <Plug>(vimfiler_expand_tree)
+
+      " Unite.
+      nnoremap <silent><buffer> J
+            \ <C-u>:Unite -buffer-name=files -default-action=lcd directory_mru<CR>
+
+      " Open and split window.
+      nnoremap <buffer> s :call vimfiler#mappings#do_action('my_split')<cr>
       let s:my_action = { 'is_selectable' : 1 }
       function! s:my_action.func(candidates)
         wincmd p
@@ -2068,6 +2087,8 @@ if neobundle#tap('vimfiler')
       call unite#custom_action('file', 'my_split', s:my_action)
       unlet s:my_action
 
+      " Opent and split vertilacally window.
+      nnoremap <buffer> v :call vimfiler#mappings#do_action('my_vsplit')<cr>
       let s:my_action = { 'is_selectable' : 1 }
       function! s:my_action.func(candidates)
         wincmd p
@@ -2076,20 +2097,12 @@ if neobundle#tap('vimfiler')
       call unite#custom_action('file', 'my_vsplit', s:my_action)
       unlet s:my_action
 
-      nmap <buffer> t <Plug>(vimfiler_expand_tree)
-
-      nnoremap <silent><buffer> J
-            \ <C-u>:Unite -buffer-name=files -default-action=lcd directory_mru<CR>
-
-      nmap <buffer> O <Plug>(vimfiler_sync_with_another_vimfiler)
-      nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
-      nmap <buffer> p <Plug>(vimfiler_quick_look)
-
       " Migemo search.
       if !empty(unite#get_filters('matcher_migemo'))
         nnoremap <silent><buffer><expr> /  line('$') > 10000 ?  'g/' :
               \ ":\<C-u>Unite -buffer-name=search -start-insert line_migemo\<CR>"
       endif
+
     endfunction
   endfunction
 endif
