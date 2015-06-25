@@ -134,6 +134,7 @@ function! MyFilename()
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
         \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
+        \ ' -' . bufnr('%') . '-' .
         \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
