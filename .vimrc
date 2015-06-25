@@ -390,6 +390,13 @@ NeoBundleLazy 'goldfeld/vim-seek', {
       "\     '<Plug>(smartword-w)', '<Plug>(smartword-b)', '<Plug>(smartword-ge)'
       "\ ]}}
 
+" vim-expand-region :
+NeoBundleLazy 'terryma/vim-expand-region', {
+      \ 'autoload' : {
+      \   'mappings' : [
+      \     '<Plug>(expand_region_expand)',
+      \     '<Plug>(expand_region_shrink)',
+      \ ]}}
 " }}}
 
 " === Search {{{2
@@ -2205,10 +2212,6 @@ nnoremap ) %
 nnoremap gc :<C-u>normal! `[v`]<CR>
 vnoremap gc <C-u>normal gc<Enter>
 onoremap gc <C-u>normal gc<Enter>
-
-
-"### ビジュアルモード時vで行末まで選択
-vnoremap v $h
 
 
 " Quickfix 前へ

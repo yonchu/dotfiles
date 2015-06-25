@@ -1885,6 +1885,12 @@ let g:versions#type#git#log#first_parent = 1
 nnoremap <silent> <Space>gS :<C-u>UniteVersions status:!<CR>
 " }}}
 
+" === vim-expand-region {{{
+" Visual mode で v 連打で選択範囲拡大、<C-v> で範囲縮小
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+" }}}
+
 " === vimfiler {{{
 "
 " Normal mode default mappings.
