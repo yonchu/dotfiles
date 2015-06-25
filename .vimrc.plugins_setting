@@ -2242,7 +2242,7 @@ call neobundle#untap()
 "### 自動実行
 " Helper
 function! s:auto_open_at_startup()
-  call <SID>toggle_vimfiler_explorer()
+  VimFilerExplorer
   execute 'wincmd w'
   execute 'Startify'
   " execute 'edit $MYVIMRC'
