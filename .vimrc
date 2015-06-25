@@ -2159,16 +2159,6 @@ cnoremap  <C-e> <END>
 cnoremap  <C-q> <BS>
 
 
-"### <space>j, <space>kで画面送り
-noremap <Space>j <C-f>
-noremap <Space>k <C-b>
-
-
-"### spaceで次のbufferへ。back-spaceで前のbufferへ
-"nmap <Space><Space> :MBEbn<CR>
-"nmap <BS><BS> :MBEbp<CR>
-
-
 "### バッファ移動
 " F2で前のバッファ
 map <F2> <ESC>:bp<CR>
