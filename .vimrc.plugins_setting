@@ -1598,17 +1598,38 @@ vmap ib <Plug>(textobj-multiblock-i)
 " }}}
 
 " === unite.vim {{{
+" help: g?
 if neobundle#tap('unite.vim')
   " The prefix key.
   nnoremap    [unite]   <Nop>
   xnoremap    [unite]   <Nop>
-  nmap    ;u   [unite]
-  xmap    ;u   [unite]
-
-  nnoremap    [Window]   <Nop>
-  nmap    s [Window]
+  nmap    ;f   [unite]
+  xmap    ;f   [unite]
 
   " === Mappinigs {{{{
+  " Files.
+  nnoremap <silent> <space>ff
+        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \ jump_point file_point file_mru
+        \ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec/async'`
+        \ buffer_tab:- file file/new<CR>
+
+  nnoremap <silent> <space>fc  :<C-u>UniteWithCurrentDir
+        \ -buffer-name=files buffer bookmark file<CR>
+
+  nnoremap <silent> <space>fb  :<C-u>UniteWithBufferDir
+        \ -buffer-name=files buffer bookmark file<CR>
+
+  " Change jump.
+  nnoremap <silent> <space>j
+        \ :<C-u>Unite change jump<CR>
+
+  nnoremap <silent> <space>n  :UniteNext<CR>
+  nnoremap <silent> <space>p  :UnitePrevious<CR>
+
+  " Unite.
+  nnoremap <silent> [unite]f  :<C-u>Unite <CR>
+
   " Outline.
   nnoremap <silent> [unite]o
           \ :<C-u>Unite outline -no-start-insert -resume<CR>
@@ -1621,10 +1642,6 @@ if neobundle#tap('unite.vim')
   xnoremap <silent> [unite]r
         \ :<C-u>Unite -buffer-name=register -default-action=append register history/yank<CR>
 
-  " Change jump.
-  nnoremap <silent> <space>j
-        \ :<C-u>Unite change jump<CR>
-
   " Grep.
   nnoremap <silent> [unite]g
         \ :<C-u>Unite grep -buffer-name=grep`tabpagenr()` -auto-preview -no-split -no-empty -resume<CR>
@@ -1633,21 +1650,8 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> <space>t
         \ :<C-u>Unite -auto-resize -select=`tabpagenr()-1` tab<CR>
 
-  " Files.
-  nnoremap <silent> [unite]s
-        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
-        \ jump_point file_point file_mru
-        \ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec/async'`
-        \ buffer_tab:- file file/new<CR>
-
   " Neobundle.
   nnoremap <silent> [unite]n  :<C-u>Unite -start-insert -default-action=lcd neobundle<CR>
-
-  " Tig.
-  nnoremap <silent> [unite]t  :<C-u>Unite -start-insert tig<CR>
-
-  " Unite.
-  nnoremap <silent> [unite]u  :<C-u>Unite <CR>
 
   " Window.
   nnoremap <silent> [unite]w  :<C-u>Unite window<CR>
@@ -1665,12 +1669,9 @@ if neobundle#tap('unite.vim')
   nnoremap <silent> [unite]*
         \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')` line:forward:wrap<CR>
 
-  " nnoremap <silent> [unite]
-  "       \ :<C-u>UniteResume search%`bufnr('%')`
-  "       \  -no-start-insert -force-redraw<CR>
-
-  nnoremap <silent> [Space]n  :UniteNext<CR>
-  nnoremap <silent> [Space]p  :UnitePrevious<CR>
+  nnoremap <silent> [unite]j
+        \ :<C-u>UniteResume search%`bufnr('%')`
+        \  -no-start-insert -force-redraw<CR>
   " }}}}
 
   " === Commands {{{{
@@ -1764,6 +1765,7 @@ if neobundle#tap('unite.vim')
     let g:unite_source_history_yank_enable = 1
     let g:unite_ignore_source_files = []
     let g:unite_source_rec_max_cache_files = -1
+    let g:unite_cursor_line_highlight = 'CursorLine'
 
     if executable('ag')
       " For ag
@@ -1795,11 +1797,12 @@ if neobundle#tap('unite.vim')
 
     " === Custom profile. {{{{
     call unite#custom#profile('action', 'context', {
-          \ 'start_insert' : 1
+          \ 'start_insert' : 1,
           \ })
 
     " Default context.
     let default_context = {
+          \ 'start_insert' : 1,
           \ 'vertical' : 0,
           \ 'short_source_names' : 1,
           \ }
@@ -1836,6 +1839,8 @@ if neobundle#tap('unite.vim')
       call unite#custom#default_action('versions/git/status', 'commit')
 
       " Overwrite settings.
+      nmap <buffer> <ESC>      <Plug>(unite_exit)
+      nmap <buffer> <ESC><ESC> <Plug>(unite_exit)
       imap <buffer>  jj        <Plug>(unite_insert_leave)
       imap <buffer>  <Tab>     <Plug>(unite_complete)
       imap <buffer> '          <Plug>(unite_quick_match_default_action)

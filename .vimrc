@@ -742,7 +742,10 @@ NeoBundleLazy 'kana/vim-submode', {
       \ }}
 
 " tabpagecd : :cd をタブページ毎に
-NeoBundleLazy 'kana/vim-tabpagecd'
+NeoBundleLazy 'kana/vim-tabpagecd', {
+      \ 'autoload' : {
+      \   'unite_sources' : 'tab',
+      \ }}
 
 " thumbnail.vim : サムネイルを使用した Buffer selector.
 NeoBundleLazy 'itchyny/thumbnail.vim', {
@@ -837,7 +840,13 @@ NeoBundleLazy 'Shougo/unite.vim', {
       \ 'autoload' : {
       \   'commands' : [{ 'name' : 'Unite',
       \                   'complete' : 'customlist,unite#complete_source'},
-      \                 'UniteWithCursorWord', 'UniteWithInput']
+      \                ]
+      \ }}
+
+" MRU
+NeoBundleLazy 'Shougo/neomru.vim', {
+      \ 'autoload' : {
+      \   'unite_sources' : 'file_mru',
       \ }}
 
 " vimヘルプを全文インクリメンタルサーチ
@@ -1008,7 +1017,8 @@ NeoBundle 'w0ng/vim-hybrid'
 NeoBundleLazy 'thinca/vim-ref', {
       \ 'autoload' : {
       \   'commands' : 'Ref',
-      \   'mappings' : '<Plug>(ref-keyword)'
+      \   'mappings' : '<Plug>(ref-keyword)',
+      \   'unite_sources' : 'ref',
       \ }}
 
 " ref-javadoc : vim-refのjavadoc用ソース
@@ -2363,7 +2373,9 @@ autocmd MyAutoCmd FileType help,git-status,git-log,qf,
 autocmd MyAutoCmd FileType help,qf,quickrun,ref
       \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>
 
-autocmd MyAutoCmd FileType * if (&ft !=# 'vimfiler' && (&readonly || !&modifiable))
+autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
+      \ && &ft !=# 'vimfiler' && &ft !=# 'unite'
+      \ && !hasmapto('q', 'n')
       \ | nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>| endif
 autocmd MyAutoCmd FileType * if (&readonly || !&modifiable) && !hasmapto('<ESC>', 'n')
       \ | nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>| endif
