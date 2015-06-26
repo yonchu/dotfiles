@@ -246,7 +246,7 @@ NeoBundle 'Shougo/vimproc', {
 
 " NeoBundle 'vim-jp/vital.vim'
 
-NeoBundle 'yonchu/landscape.vim'
+NeoBundle 'itchyny/landscape.vim'
 " }}}
 
 " === txtobj {{{2
@@ -1677,7 +1677,7 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
 
   " カラー設定読み込み
   if $ITERM_PROFILE =~ "Magica.*"
-    colorscheme landscape
+    source ~/.vim/colors/my-landscape.vim
   elseif $ITERM_PROFILE =~ "Solarized.*"
     source ~/.vim/colors/my-solarized.vim
   else
