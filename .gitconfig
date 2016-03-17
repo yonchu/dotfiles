@@ -46,6 +46,7 @@
   keepBackup      = false
 [rebase]
   stat = true
+  autosquash = true  # for --fixup
 [grep]
   lineNumber = true
 [pretty]
