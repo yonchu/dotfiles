@@ -941,11 +941,6 @@ NeoBundleLazy 'hail2u/vim-css3-syntax', {
       \ 'autoload' : {
       \   'filetypes' : 'css',
       \ }}
-" HTML5
-NeoBundleLazy 'taichouchou2/html5.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : 'html',
-      \ }}
 " HybridText
 NeoBundleLazy 'HybridText', {
       \ 'autoload' : {
