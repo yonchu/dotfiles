@@ -977,10 +977,10 @@ NeoBundleLazy 'thinca/vim-ft-diff_fold', {
       \ }}
 
 " markdown folding
-NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'markdown' ]
-      \ }}
+" NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
+"       \ 'autoload' : {
+"       \   'filetypes' : [ 'markdown' ]
+"       \ }}
 
 " }}}
 
