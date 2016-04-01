@@ -2,6 +2,10 @@
 /.vim/bundle/*
 !/.vim/bundle/.gitignore
 
+# dein
+/.vim/dein/*
+!/vim/dein/repos/github.com/Shougo/dein.vim
+
 /.vim/.netrwhist
 
 # subversion
