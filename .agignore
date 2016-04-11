@@ -6,6 +6,7 @@ tmp
 old
 .vim/bundle
 .vim/dict
+.vim/dein
 .git
 .svn
 zsh-completions

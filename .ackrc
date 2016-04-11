@@ -3,6 +3,7 @@
 --ignore-dir=bak
 --ignore-dir=old
 --ignore-dir=.vim/bundle
+--ignore-dir=.vim/dein
 --ignore-dir=.vim/dict
 --ignore-dir=zsh-completions
 --sort-files
