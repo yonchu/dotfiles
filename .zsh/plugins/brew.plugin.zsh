@@ -25,7 +25,7 @@ alias brews='brew list -1'
 # Check git completion.
 if [ -f /usr/local/share/zsh/site-functions/_git ]; then
     echo '---------------------------'
-    echo 'WARNNING: git/_git is used.'
+    echo 'WARNING: /usr/local/share/zsh/site-functions/_git (bundled git) is used.'
     echo '---------------------------'
 fi
 
@@ -33,7 +33,7 @@ fi
 _owner=($(command ls -l /usr | awk '/local$/ {print $3,$4}'))
 if [[ ${_owner[1]} != 'root' || ${_owner[2]} != 'admin' ]]; then
     echo '---------------------------'
-    echo "WARNNING: Unexpected permission: /usr/local (${_owner[1]}:${_owner[2]})"
+    echo "WARNING: Unexpected permission: /usr/local (${_owner[1]}:${_owner[2]})"
     echo '---------------------------'
 fi
 unset _owner
