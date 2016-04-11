@@ -1,0 +1,67 @@
+# .tigrc
+# http://jonas.nitro.dk/tig/
+#
+# External user-defined command
+#   !  Run the command in the foreground with output shown.
+#   @  Run the command in the background with no output.
+#   ?  Prompt the user before executing the command.
+#   <  Exit Tig after executing the command.
+
+### View
+set main-view-line-number = yes
+set main-view-id = yes
+
+### Bind
+# move
+bind generic g  None
+bind generic gg move-first-line
+bind generic G  move-last-line
+bind generic <Ctrl-F> move-page-down
+bind generic <Ctrl-B> move-page-up
+
+# quickly jump to the next diff chunk
+bind diff  <Ctrl-n> :/^@@
+bind diff  <Ctrl-p> :?^@@
+bind log   <Ctrl-n> :/^commit
+bind log   <Ctrl-p> :?^commit
+bind stage <Ctrl-n> :/^@@
+bind stage <Ctrl-p> :?^@@
+
+# grep
+bind generic gr view-grep
+
+# browse
+bind blob B @hub browse -- tree/%(commit)/%(file)
+bind diff B @hub browse -- commit/%(commit)
+bind tree B @hub browse -- tree/%(commit)/%(directory)
+
+# copy
+bind generic c @sh -c "printf '%s' %(commit) | pbcopy"
+bind generic C @sh -c "printf '%s' %(commit) | pbcopy"
+
+# git rebase
+# http://sue445.hatenablog.com/entry/2014/08/07/015811
+bind main R ?!git rebase -i %(commit)
+bind diff R ?!git rebase -i %(commit)
+
+# fixup/squash
+bind diff F ?!git commit --fixup %(commit)
+bind diff S ?!git commit --squash %(commit)
+bind main F ?!git commit --fixup %(commit)
+bind main S ?!git commit --squash %(commit)
+
+
+# etc
+#bind main ^r !git pull --rebase
+#bind main V !?git revert %(commit)
+#bind main C !?git checkout %(commit)
+
+# branch
+# tracking remote branch and checkout
+bind branch T !git checkout -t %(branch)
+# create new branch named input name
+bind branch N !git checkout -b %(prompt) %(branch)
+# delete a branch
+bind branch D !?git branch -D %(branch)
+# push origin
+bind branch P !git push -u origin %(branch)

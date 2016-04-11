@@ -71,6 +71,7 @@ create_dotfiles_symlinks() {
         .pythonstartup
         .screenrc
         .subversion
+        .tigrc
         .tmux
         .tmux.conf
         .vim

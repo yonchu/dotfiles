@@ -321,20 +321,6 @@
   # gitkの文字エンコード
   encoding = utf-8
 
-[tig "bind"]
-  # tig
-  #generic = g move-first-line
-  generic = G move-last-line
-  generic = <Ctrl-F> move-page-down
-  generic = <Ctrl-B> move-page-up
-  main = H !@hub browse -- commit/%(commit)
-  diff = H !@hub browse -- commit/%(commit)
-  main = C !@git pbcopy %(commit)
-  main = c !@git pbcopy %(commit)
-  # http://sue445.hatenablog.com/entry/2014/08/07/015811
-  main =  R !git rebase -i %(commit)
-  diff =  R !git rebase -i %(commit)
-
 [web]
   # Set in .gitconfig.local
   #browser = google-chrome
