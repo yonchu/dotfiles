@@ -1,0 +1,340 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repo = 'itchyny/landscape.vim'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+# switch :  true/false切り替え (+/-)
+repo = 'AndrewRadev/switch.vim'
+on_cmd = 'Switch'
+on_map = ['+', '-']
+hook_add = '''
+  " CamelCase <-> SneakCase
+  let g:variable_style_switch_definitions = [
+    \   {
+    \     '\<[a-z0-9]\+_\k\+\>': {
+    \       '_\(.\)': '\U\1'
+    \     },
+    \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
+    \       '\([A-Z]\)': '_\l\1'
+    \     },
+    \   }
+    \ ]
+
+  let g:switch_custom_definitions =
+    \ [
+    \   ['and', 'or'],
+    \   ['if', 'unless'],
+    \   ['yes', 'no'],
+    \   ['enable', 'disable'],
+    \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
+    \ ]
+
+  nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
+  nnoremap <silent> - :Switch<CR>
+'''
+
+[[plugins]]
+repo = 'yonchu/accelerated-smooth-scroll'
+on_map = '<Plug>'
+hook_add = '''
+  " let g:ac_smooth_scroll_enable_accelerating = 0
+  " let g:ac_smooth_scroll_skip_redraw_line_size = 0
+  if has('gui_running')
+    let g:ac_smooth_scroll_du_sleep_time_msec = 5
+    let g:ac_smooth_scroll_fb_sleep_time_msec = 5
+  else
+    let g:ac_smooth_scroll_du_sleep_time_msec = 3
+    let g:ac_smooth_scroll_fb_sleep_time_msec = 3
+  endif
+  let g:ac_smooth_scroll_min_limit_msec = 80
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+# 保存前の変更行を +/-/* で表示
+repo = 'Changed'
+
+[[plugins]]
+# foldingを良い感じに
+repo = 'LeafCage/foldCC'
+
+[[plugins]]
+# Git操作 & statuslineにブランチ名を表示
+# http://d.hatena.ne.jp/cohama/20120317/1331978764
+# http://yuku-tech.hatenablog.com/entry/20110427/1303868482
+#   Gdiff:   現在のソースの変更点をvimdiffで表示: Gdiff
+#   Gstatus: 新しい窓を作ってgit statusを表示
+#   Glog:    gitlogを表示
+#   Gwrite:  現在開いているソースをgit add
+#   Gcommit -v: staged なファイルがあれば git commit なければ git status
+#   Gcommit -v --amend: git commit --amend
+#   Gblame:  現在のソースをgit blame。vimが色づけしてくれる
+#   Git now: git-now
+repo = 'tpope/vim-fugitive'
+
+[[plugins]]
+# gitリポジトリ内の変更箇所をsign表示
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+  let g:gitgutter_sign_modified_removed = '✔'
+  nnoremap <silent> ]v :GitGutterNextHunk<CR>
+  nnoremap <silent> [v :GitGutterPrevHunk<CR>
+'''
+
+[[plugins]]
+# インデントガイドを表示
+repo = 'nathanaelkane/vim-indent-guides'
+hook_add = '''
+  " vim起動時の自動実行
+  let g:indent_guides_enable_on_vim_startup = 1
+  " 自動色付け
+  let g:indent_guides_auto_colors = 0
+  " インデントガイドの表示を開始するインデントレベル
+  let g:indent_guides_start_level = 2
+  " インデントガイドのサイズ(幅)
+  let g:indent_guides_guide_size = 1
+  " グラデーション設定(gvim only)
+  let g:indent_guides_color_change_percent = 30
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = 'source ~/.vim/rc/plugins/lightline.rc.vim'
+
+[[plugins]]
+# root権限でファイルを編集/保存
+repo = 'sudo.vim'
+on_cmd = ['SudoEdit', 'SudoWrite']
+hook_add = '''
+  " root権限で今開いているファイルを開き直す
+  command! SudoEdit :e sudo:%<CR><C-^>:bd!
+  " root権限で保存
+  command! SudoWrite :w sudo:%
+'''
+
+[[plugins]]
+# vim起動画面のカスタマイズ
+repo = 'mhinz/vim-startify'
+hook_add = '''
+  " 自動実行しない
+  let g:startify_disable_at_vimenter = 1
+
+  " ヘッダ設定
+  " http://deris.hatenablog.jp/entry/2013/12/15/235606
+  let g:startify_custom_header = []
+  let g:startify_custom_header +=
+    \ map(split(system('date'), '\n'), '"   ". v:val') + ['', '']
+
+  " 最近使ったファイルの指示詞をアルファベットに
+  let g:startify_custom_indices = ['f', 'g', 'h', 'r', 'o']
+
+  " ブックマーク
+  let g:startify_bookmarks = [
+    \ '~/.vimrc',
+    \ '~/.zsh/.zshrc',
+    \ ]
+
+  " 表示除外リスト
+  let g:startify_skiplist = [
+        \ 'COMMIT_EDITMSG',
+        \ $VIMRUNTIME . '/doc',
+        \ 'bundle/.*/doc',
+        \ 'dein/.*/doc',
+        \ '.vimgolf',
+        \ ]
+'''
+
+[[plugins]]
+# ヤンク履歴管理 (<Leader>y)
+repo = 'YankRing.vim'
+hook_add = '''
+  " Yankの履歴参照
+  nmap <Leader>y :<C-u>YRShow<CR>
+  " nnoremap @ <Nop>
+  nnoremap @: :<C-u>normal! @:<CR>
+
+  " インサートモード中にyankした内容をputする
+  inoremap <C-o> <ESC>:<C-U>YRPaste 'p'<CR>i
+
+  " 通常版のvimでは以下の設定にしないとペースト時にエラーが出る
+  if ! has('kaoriya')
+    let g:yankring_manual_clipboard_check = 0
+  endif
+  " 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
+  let g:yankring_history_file = ".yankring_history"
+  " ヤンク履歴についかする最少文字数(1文字は対象外)
+  let g:yankring_min_element_length = 2
+
+  let g:yankring_replace_n_nkey = ''
+  let g:yankring_replace_n_pkey = ''
+
+  autocmd MyAutoCmd BufNewFile *
+        \ if bufname('%') ==# '[YankRing]'
+        \ | setlocal nofoldenable nomodeline foldcolumn=0
+        \ | endif
+'''
+
+# [[plugins]]
+# # markをsigin表示
+# #   <Leader>mt ON/OFFトグル
+# #   <Leader>mo Forces ShowMarks on.
+# #   <Leader>mm 次の使えるマークを使ってマーク
+# #   <Leader>mh カレント行ののマークを削除
+# #   <Leader>ma カレントバッファのマークを全部削除
+# repo = 'ShowMarks7'
+# hook_add = '''
+#   " Enable ShowMarks
+#   let showmarks_enable = 1
+#   " Show which marks
+#   let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#
+#   " マークを表示しない
+#   "   - h : Help
+#   "   - m : Non-modifiable
+#   "   - p : Preview
+#   "   - q : Quickfix
+#   "   - r : Readonly
+#   let showmarks_ignore_type = "hmq"
+#
+#   " Hilight lower & upper marks
+#   "let showmarks_hlline_lower = 1
+#   "let showmarks_hlline_upper = 1
+# '''
+
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'vim-jp/autofmt'
+if = "!has('kaoriya')"
+on_map = [['x', 'gq']]
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+# ===== File type ===== {{{
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+on_ft = 'help'
+if = "!has('kaoriya')"
+
+[[plugins]]
+repo = 'thinca/vim-ft-diff_fold'
+on_ft = 'diff'
+
+[[plugins]]
+repo = 'thinca/vim-ft-help_fold'
+on_ft = 'help'
+
+[[plugins]]
+repo = 'machakann/vim-vimhelplint'
+on_cmd = 'VimhelpLint'
+
+[[plugins]]
+repo = 'vim-ruby/vim-ruby'
+on_map = '<Plug>'
+on_ft = 'ruby'
+# }}}
+
+# ===== Syntax ===== {{{
+[[plugins]]
+repo = 'applescript.vim'
+on_ft = 'applescript'
+
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+on_ft = 'coffee'
+# hook_add = '''
+#   "autocmd MyAutoCmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+#   "autocmd MyAutoCmd BufWritePost *.coffee :CoffeeCompile watch vert
+# '''
+
+[[plugins]]
+repo = 'vim-jp/vim-cpp'
+on_ft = 'cpp'
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+
+[[plugins]]
+repo = 'othree/javascript-libraries-syntax.vim'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'jelera/vim-javascript-syntax'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'elzr/vim-json'
+on_ft = 'json'
+
+[[plugins]]
+repo = 'mxw/vim-jsx'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'tpope/vim-haml'
+on_ft = 'haml'
+
+[[plugins]]
+repo = 'HybridText'
+on_ft = 'hybrid'
+hook_add = '''
+  autocmd MyAutoCmd BufEnter,BufNewFile * if bufname('%') != '' && &filetype == ''
+          \ | setlocal ft=hybrid | endif
+'''
+
+[[plugins]]
+repo = 'groenewege/vim-less'
+on_ft = 'less'
+
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+on_ft = ['markdown', 'mkd', 'md']
+
+[[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+on_ft = ['markdown', 'mkd', 'md']
+
+[[plugins]]
+repo = 'cakebaker/scss-syntax.vim'
+on_ft = 'scss'
+
+[[plugins]]
+repo = 'zaiste/tmux.vim'
+on_ft = 'tmux'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+# }}}
+
+
+# ===== Color Scheme ===== {{{
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo = 'w0ng/vim-hybrid'
+
+# [[plugins]]
+# repo = 'aereal/vim-magica-colors'
+# }}}
+
+# [[plugins]]
+# repo = 'cocopon/iceberg.vim'

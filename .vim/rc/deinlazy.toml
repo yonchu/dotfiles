@@ -1,0 +1,1126 @@
+
+# ===== Completion ===== {{{
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+depends = 'context_filetype.vim'
+if = "has('lua')"
+on_i = 1
+hook_source = '''
+  let g:acp_enableAtStartup = 0
+  let g:neocomplete#enable_at_startup = 1
+  source ~/.vim/rc/plugins/neocomplete.rc.vim
+'''
+
+# [[plugins]]
+# repo = 'Shougo/neocomplcache.vim'
+# if = "!has('lua')"
+# on_i = 1
+# hook_source = '''
+#   let g:acp_enableAtStartup = 0
+#   let g:neocomplcache_enable_at_startup = 1
+#   source ~/.vim/rc/plugins/neocomplcache.rc.vim
+# '''
+
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# depends = 'context_filetype.vim'
+# if = "has('nvim')"
+# on_i = 1
+# hook_source = '''
+#   let g:deoplete#enable_at_startup = 1
+#   source ~/.vim/rc/plugins/deoplete.rc.vim
+# '''
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_i = 1
+on_ft = 'snippet'
+hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
+
+[[plugins]]
+# Vim source for neocomplete/deoplete.
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+on_i = 1
+
+[[plugins]]
+# Include completion framework for neocomplete/deoplete.
+repo = 'Shougo/neoinclude.vim'
+on_path = '.*'
+
+[[plugins]]
+# Syntax source for neocomplete/deoplete.
+repo = 'Shougo/neco-syntax'
+on_i = 1
+
+[[plugins]]
+# TODO
+# lookコマンドを使った英単語補完
+repo = 'ujihisa/neco-look'
+on_i = 1
+
+[[plugins]]
+# TODO
+# Auto insert pairs(parenthesis) when complete done.
+repo = 'Shougo/neopairs.vim'
+on_i = 1
+
+[[plugins]]
+repo = 'artur-shaik/vim-javacomplete2'
+on_ft = 'java'
+hook_source =
+  'autocmd MyAutoCmd FileType java setlocal omnifunc=javacomplete#Complete'
+
+[[plugins]]
+# Javascript補完
+# $ cd ~/.vim/bundle/tern_for_vim && npm install
+# 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
+# http://ternjs.net/doc/manual.html
+repo = 'marijnh/tern_for_vim'
+on_ft = 'javascript'
+build = 'npm install'
+hook_source = 'source ~/.vim/rc/plugins/tern_for_vim.rc.vim'
+
+
+[[plugins]]
+repo = 'shawncplus/phpcomplete.vim'
+on_ft = 'php'
+
+[[plugins]]
+# Javascript補完 + node.js
+#  Close the method preview window.
+#    ctrl-w_ctrl-z or :pc
+#  Clear the cache for node modules.
+#   :unlet b:npm_module_names
+repo = 'myhere/vim-nodejs-complete'
+on_ft = 'coffee'
+hook_source = '''
+  let g:nodejs_complete_config = {
+        \ 'js_compl_fn': 'javascriptcomplete#CompleteJS',
+        \ 'max_node_compl_len': 15,
+        \ }
+  " automatically open and close the popup menu / preview window
+  "au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+'''
+
+# }}}
+
+# ===== File type ===== {{{
+[[plugins]]
+# <C-_>でhtmlタグの閉じタグを入力
+repo = 'closetag.vim'
+on_ft = ['html', 'xml', 'xsl', 'ant']
+hook_source = 'let g:closetag_html_style = 1'
+
+[[plugins]]
+# Djangoを正しくVimで読み込めるようにする
+repo = 'lambdalisue/vim-django-support'
+on_ft = ['python', 'python3', 'djangohtml']
+
+[[plugins]]
+repo = 'mattn/emmet-vim'
+on_ft = [
+  'html', 'xml', 'javascript', 'coffee', 'css', 'less',
+  'scss', 'sass', 'haml', 'markdown',
+]
+hook_source = 'source ~/.vim/rc/plugins/emmet.rc.vim'
+
+[[plugins]]
+# Awesome Python autocompletion.
+#   To install jedi : git submodule update --init
+repo = 'davidhalter/jedi-vim'
+if = "!has('nvim')"
+on_ft = 'python'
+hook_source = '''
+  let g:jedi#auto_initialization = 1
+  let g:jedi#popup_on_dot = 0
+  let g:jedi#popup_select_first = 0
+  let g:jedi#completions_enabled = 0
+  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#smart_auto_mappings = 0
+  let g:jedi#show_call_signatures = 0
+
+  let g:jedi#goto_assignments_command = "<leader>gt"
+  let g:jedi#goto_definitions_command = "<leader>d"
+  let g:jedi#documentation_command = "<space>K"
+  let g:jedi#rename_command = "<leader>R"
+  let g:jedi#usages_command = "<leader>n"
+
+  autocmd MyAutoCmd FileType python setlocal omnifunc=jedi#completions'
+'''
+
+[[plugins]]
+# JSDoc生成
+#   :JsDoc or <C-l>
+repo = 'heavenshell/vim-jsdoc'
+on_ft = ['html', 'javascript', 'coffee']
+on_cmd = 'JsDoc'
+
+[[plugins]]
+repo = 'plasticscafe/vim-less-autocompile'
+on_ft = 'less'
+hook_source = '''
+  let g:less_autocompile=1
+  let g:less_compress=0
+'''
+
+[[plugins]]
+# Ruby code completion with rcodetools.
+#   gem install rcodetools
+repo = 'osyo-manga/vim-monster'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'hynek/vim-python-pep8-indent'
+on_ft = 'python'
+
+[[plugins]]
+# Python多機能プラグイン
+#  https://github.com/klen/python-mode
+#  :help PythonModeOptions
+#  :help PythonModeKeys
+#  :help ropevim.txt
+repo = 'klen/python-mode'
+on_ft = 'python'
+hook_source = 'source ~/.vim/rc/plugins/python-mode.rc.vim'
+
+[[plugins]]
+# Highlight local variables in Ruby files.
+repo = 'todesking/ruby_hl_lvar.vim'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'AtsushiM/sass-compile.vim'
+on_ft = 'sass'
+
+[[plugins]]
+# for vim-watchdogs
+repo = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+repo = 'jiangmiao/simple-javascript-indenter'
+on_ft = 'javascript'
+hook_source = '''
+  " shiftwidthを1にしてインデント
+  let g:SimpleJsIndenter_BriefMode = 1
+  " switchのインデント改善
+  let g:SimpleJsIndenter_CaseIndentLevel = -1
+'''
+
+# [[plugins]]
+# # 対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+# repo = 'scrooloose/syntastic'
+# on_cmd = ['SyntasticCheck', 'SyntasticToggleMode', 'Errors']
+# hook_add = '''
+#   " シンタックスチェックを実行
+#   noremap <silent> <Leader>s :SyntasticCheck<CR>
+#   " シンタックスチェックのモードをトグル(active/passive)
+#   noremap <silent> <Leader>S :SyntasticToggleMode<CR>
+#   " QuickFixによるエラー一覧表示
+#   noremap <silent> <Leader>e :Errors<CR>
+# '''
+# hook_source = 'source ~/.vim/rc/plugins/syntastic.rc.vim'
+
+[[plugins]]
+# Vimで正しくvirtualenvを処理できるようにする
+repo = 'jmcantrell/vim-virtualenv'
+on_ft = ['python', 'python3', 'djangohtml']
+
+[[plugins]]
+# 非同期シンタックスチェック
+#  シンタックスチェックを実行
+#    :WatchdogsRun
+#  チェッカーを指定して実行
+#    :WatchdogsRun watchdogs_checker/g++
+#  QuickRun と同様の引数を渡す
+#    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
+repo = 'yonchu/vim-watchdogs'
+depends = [
+  'vim-hier',
+  'quickfixstatus',
+  'shabadou.vim',
+  'vim-quickrun',
+]
+on_ft = ['python', 'html', 'javascript', 'coffee', 'perl', 'php', 'ruby', 'scss', 'sass']
+hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
+# }}}
+
+# ===== Operator ===== {{{
+[[plugins]]
+# htmlエスケープ
+repo = 'tyru/operator-html-escape.vim'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>']]
+hook_add = '''
+  nmap <Leader>h <Plug>(operator-html-escape)
+  xmap <Leader>h <Plug>(operator-html-escape)
+'''
+
+[[plugins]]
+# 連続置換 (cp)
+repo = 'kana/vim-operator-replace'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>']]
+hook_add = '''
+  nmap R <Plug>(operator-replace)
+  xmap R <Plug>(operator-replace)
+  xmap p <Plug>(operator-replace)
+  nmap cp <Plug>(operator-replace)iw
+  nmap vp <Plug>(operator-replace)iw
+'''
+
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = '<Plug>'
+hook_add = '''
+  nmap <silent>sa <Plug>(operator-surround-append)a
+  nmap <silent>sd <Plug>(operator-surround-delete)a
+  nmap <silent>sr <Plug>(operator-surround-replace)a
+  nmap <silent>sc <Plug>(operator-surround-replace)a
+'''
+# }}}
+
+# ===== Unite ===== {{{
+[[plugins]]
+# Unite.
+# https://github.com/Shougo/unite.vim
+# Unite Plugins.
+# https://github.com/Shougo/unite.vim/wiki/unite-plugins
+repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
+on_cmd = 'Unite'
+hook_source = 'source ~/.vim/rc/plugins/unite.rc.vim'
+hook_add = '''
+  " The prefix key.
+  nnoremap    [unite]   <Nop>
+  xnoremap    [unite]   <Nop>
+  nmap    ;f   [unite]
+  xmap    ;f   [unite]
+  " === Mappinigs ===
+  " Files.
+  nnoremap <silent> <space>ff
+        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \ jump_point file_point file_mru
+        \ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec/async'`
+        \ buffer_tab:- file file/new<CR>
+
+  nnoremap <silent> <space>fc  :<C-u>UniteWithCurrentDir
+        \ -buffer-name=files buffer bookmark file<CR>
+
+  nnoremap <silent> <space>fb  :<C-u>UniteWithBufferDir
+        \ -buffer-name=files buffer bookmark file<CR>
+
+  " Outline.
+  nnoremap <silent> [unite]o
+          \ :<C-u>Unite outline -no-start-insert -resume<CR>
+
+  " Change jump.
+  nnoremap <silent> [unite]j
+        \ :<C-u>Unite change jump<CR>
+
+  " Grep.
+  nnoremap <silent> [unite]g
+        \ :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+        \ -auto-preview -no-split -no-empty -resume<CR>
+
+  " Rgister.
+  nnoremap <silent> [unite]r
+        \ :<C-u>Unite -buffer-name=register
+        \ -default-action=append register history/yank<CR>
+  xnoremap <silent> [unite]r
+        \ d:<C-u>Unite -buffer-name=register
+        \ -default-action=append register history/yank<CR>
+
+  " Tab pages.
+  nnoremap <silent> [unite]tp
+        \ :<C-u>Unite -auto-resize -select=`tabpagenr()-1` tab<CR>
+
+  " File type.
+  nnoremap <silent> [unite]ft
+        \ :<C-u>Unite -start-insert filetype filetype/new<CR>
+
+  " Tag jump.
+  nnoremap <silent><expr> [unite]tt  &filetype == 'help' ?  "g\<C-]>" :
+        \ ":\<C-u>UniteWithCursorWord -buffer-name=tag -immediately
+        \  tag tag/include\<CR>"
+  nnoremap <silent><expr> [unite]tp  &filetype == 'help' ?
+        \ ":\<C-u>pop\<CR>" : ":\<C-u>Unite jump\<CR>"
+
+  " Help.
+  nnoremap <silent> [unite]hh  :<C-u>Unite -buffer-name=help help<CR>
+  " Help by cursor keyword.
+  nnoremap <silent> [unite]hk  :<C-u>UniteWithCursorWord help<CR>
+
+  " Window.
+  nnoremap <silent> [unite]w
+        \ :<C-u>Unite -force-immediately window:all:no-current<CR>
+
+  " Search.
+  nnoremap <silent> [unite]/
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')` -start-insert line:forward:wrap<CR>
+  nnoremap <silent> [unite]?
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')` -start-insert line:backward<CR>
+  nnoremap <silent> [unite]*
+        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')` line:forward:wrap<CR>
+  nnoremap <silent> <Space>j
+        \ :<C-u>UniteResume search%`bufnr('%')`
+        \  -no-start-insert -force-redraw<CR>
+
+  nnoremap <silent> <Space>n  :UniteNext<CR>
+  nnoremap <silent> <Space>p  :UnitePrevious<CR>
+
+  " dotfiles以下のファイルを表示
+  command! Ufd :Unite -buffer-name=files -input=. -path=~/dotfiles file_rec<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/unite-build'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'ujihisa/unite-colorscheme'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'osyo-manga/unite-filetype'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'ujihisa/unite-font'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/unite-help'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'ujihisa/unite-locate'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'tacroe/unite-mark'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+on_source = 'unite.vim'
+on_path = '.*'
+
+[[plugins]]
+repo = 'Shougo/unite-outline'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'osyo-manga/unite-quickfix'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/unite-sudo'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'tsukkee/unite-tag'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Kocha/vim-unite-tig'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'osyo-manga/unite-vimpatches'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_path = '.*'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'pasela/unite-webcolorname'
+on_source = 'unite.vim'
+# }}}
+
+# ===== Vimfiler ===== {{{
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+depends = 'unite.vim'
+on_map = '<Plug>'
+on_cmd = ['VimFiler', 'VimFilerExplorer', 'Edit', 'Write', 'Read', 'Source']
+on_path = '.*'
+hook_add = '''
+  nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
+  nnoremap <silent> <F5> :VimFilerExplorer<CR>
+  nnoremap <silent> <F6> :VimFilerBufferDir -buffer-name=explorer -split -toggle -no-quit<CR>
+'''
+hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
+
+# ===== vim-ref ===== {{{
+[[plugins]]
+# リファレンスをvim上で参照
+#   alc/clojure/erlang/man/perldoc/phpmanual/pydoc/refe
+#   実行 :Ref <リファレス名> キーワード
+#   カーソル下の単語を検索 K
+#   キャッシュ削除 :call ref#rmcache('pydoc')
+repo = 'thinca/vim-ref'
+on_map = '<Plug>'
+on_cmd = 'Ref'
+on_source = 'unite.vim'
+hook_add = '''
+  let g:ref_no_default_key_mappings = 1
+  silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+  silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+'''
+hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
+
+[[plugins]]
+repo = 'pekepeke/ref-javadoc'
+on_cmd = 'Ref'
+
+[[plugins]]
+# vim-refのjavascript/jquery用ソース
+repo = 'mojako/ref-sources.vim'
+on_cmd = 'Ref'
+# }}}
+
+# ===== txtobj ===== {{{
+[[plugins]]
+repo = 'osyo-manga/vim-textobj-multiblock'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>']]
+hook_add = '''
+  omap ab <Plug>(textobj-multiblock-a)
+  omap ib <Plug>(textobj-multiblock-i)
+  vmap ab <Plug>(textobj-multiblock-a)
+  vmap ib <Plug>(textobj-multiblock-i)
+'''
+# }}}
+
+# ===== etc ===== {{{
+[[plugins]]
+repo = 'rhysd/accelerated-jk'
+on_map = '<Plug>'
+hook_add = '''
+  nmap <silent>j <Plug>(accelerated_jk_gj)
+  nmap gj j
+  nmap <silent>k <Plug>(accelerated_jk_gk)
+  nmap gk k
+'''
+
+[[plugins]]
+# The silver searcher (ag).
+#   :Ag [options] {pattern} [{directory}]
+#   :bufdo AgAdd {pattern}
+#   :LAg, LAgAdd
+#   :AgFile
+#   :AgHelp
+#
+#   If [!] is not given the first error is jumped to.
+#
+#   o    to open (same as enter)
+#   go   to preview file (open but maintain focus on ack.vim results)
+#   t    to open in new tab
+#   T    to open in new tab silently
+#   h    to open in horizontal split
+#   H    to open in horizontal split silently
+#   v    to open in vertical split
+#   gv   to open in vertical split silently
+#   q    to close the quickfix window
+repo = 'rking/ag.vim'
+on_cmd = 'Ag'
+hook_source = '''
+  let g:agprg="ag -S --nogroup --column"
+'''
+
+[[plugins]]
+# 検索時の位置情報を表示する
+repo = 'osyo-manga/vim-anzu'
+on_map = '<Plug>'
+hook_add = '''
+  nmap <silent><expr> n '<Plug>(anzu-n-with-echo):normal! zz<cr>'
+  nmap <silent><expr> N '<Plug>(anzu-N-with-echo):normal! zz<cr>'
+  nmap <silent><expr> * '<Plug>(anzu-star-with-echo):normal! N<cr>'
+  nmap <silent><expr> # '<Plug>(anzu-sharp-with-echo):normal! N<cr>'
+  nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<cr>'
+'''
+
+[[plugins]]
+# タイムスタンプの挿入 - 形式 Last Change: .
+# Kaoriya版ではデフォルト有効
+repo = 'autodate.vim'
+if = "!has('kaoriya')"
+hook_source = '''
+  "let autodate_format="%Y/%m/%d %H:%M:%S"
+  let autodate_format = '%d %3m %Y'
+  let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
+'''
+
+[[plugins]]
+# ブラウザリロード
+# http://d.hatena.ne.jp/tell-k/20110606/1307369935
+repo = 'tell-k/vim-browsereload-mac'
+if = "has('mac')"
+
+[[plugins]]
+# TODO
+# Land on window you choose like tmux's 'display-pane'.
+repo = 't9md/vim-choosewin'
+on_map = '<Plug>'
+hook_add = '''
+  nmap <C-w>g  <Plug>(choosewin)
+  let g:choosewin_overlay_enable = 1
+  let g:choosewin_overlay_clear_multibyte = 1
+  let g:choosewin_blink_on_land = 0
+'''
+
+[[plugins]]
+# f連打で検索文字移動
+repo = 'rhysd/clever-f.vim'
+on_map = ['<Plug>', 'f']
+hook_source = 'let g:clever_f_ignore_case = 1'
+
+[[plugins]]
+# TODO
+repo = 'easymotion/vim-easymotion'
+on_map = '<Plug>'
+hook_add = '''
+  nmap w <Plug>(easymotion-lineforward)
+  nnoremap W     w
+  nmap b <Plug>(easymotion-linebackward)
+  nnoremap B     b
+  nmap [Alt]j <Plug>(easymotion-j)
+  nmap [Alt]k <Plug>(easymotion-k)
+  nmap ' <Plug>(easymotion-prefix)
+
+  let g:EasyMotion_startofline = 0
+  let g:EasyMotion_show_prompt = 0
+  let g:EasyMotion_verbose = 0
+'''
+
+[[plugins]]
+# Print documents in echo area.
+repo = 'Shougo/echodoc.vim'
+on_i = 1
+hook_add = 'let g:echodoc_enable_at_startup = 1'
+
+[[plugins]]
+# Vim plugin that allows you to visually select increasingly
+# larger regions of text using the same key combination.
+repo = 'terryma/vim-expand-region'
+on_map = '<Plug>'
+hook_add = '''
+  " Visual mode で v 連打で選択範囲拡大、<C-v> で範囲縮小
+  vmap v <Plug>(expand_region_expand)
+  vmap <C-v> <Plug>(expand_region_shrink)
+'''
+
+[[plugins]]
+# クリップボードを良い感じに
+repo = 'kana/vim-fakeclip'
+on_map = [['nv', '<Plug>']]
+
+[[plugins]]
+repo = 'Konfekt/FastFold'
+on_path = '.*'
+
+[[plugins]]
+repo = 'thinca/vim-fontzoom'
+on_map = [['n', '<Plug>']]
+if = "has('gui_running')"
+hook_add = '''
+  nmap <Leader>+ <Plug>(fontzoom-larger)
+  nmap <Leader>_ <Plug>(fontzoom-smaller)
+'''
+
+[[plugins]]
+# Git操作
+# :Gitv, :Gitv --all, :Gitv!
+repo = 'gregsexton/gitv'
+on_cmd = 'Gitv'
+hook_source = 'source ~/.vim/rc/plugins/gitv.rc.vim'
+
+[[plugins]]
+# Git操作
+repo = 'motemen/git-vim'
+on_cmd = ['GitStatus', 'GitLog', 'GitBlame', 'GitLogViewer', 'Glv']
+hook_source = 'source ~/.vim/rc/plugins/git-vim.rc.vim'
+
+[[plugins]]
+# 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
+repo = 'grep.vim'
+on_cmd = [
+  'Grep', 'GrepAdd', 'Rgrep', 'RgrepAdd', 'GrepBuffer',
+  'GrepBufferAdd', 'Bgrep', 'BgrepAdd', 'GrepArgs',
+  'GrepArgsAdd', 'Fgrep', 'FgrepAdd', 'Rfgrep',
+  'RfgrepAdd', 'Egrep', 'EgrepAdd', 'Regrep',
+  'RegrepAdd', 'Agrep', 'AgrepAdd', 'Ragrep', 'RagrepAdd'
+]
+hook_add = '''
+  " :Gb <args> でGrepBufferする
+  command! -nargs=1 Gb :GrepBuffer <args>
+  " カーソル下の単語をGrepBufferする
+  nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
+  " :Gr <args>でカレントディレクトリ以下を再帰的にgrepする
+  command! -nargs=1 Gr :Rgrep <args> *<Enter><CR>
+  " カーソル下の単語をgrepする
+  nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
+'''
+hook_source = '''
+  " MacのxargsではRgrepがエラーになる
+  if has('mac')
+    if executable('gxargs')
+      let Grep_Xargs_Path = 'gxargs'
+    else
+      let Grep_Find_Use_Xargs = 0
+    endif
+  endif
+  " オプション
+  "  -i 大文字小文字を区別しない
+  "  -n 各行の先頭にファイルの行番号を表示します
+  "  -H ファイル名を表示
+  "  -E オプションは、拡張正規表現を使用する場合に指定
+  "     fgrep 正規表現を使わない検索
+  "     egrep 正規表現を使った検索 -E と同じ
+  "  -I バイナリ検索除外
+  let Grep_Default_Options = '-niE'
+
+  " 検索外のディレクトリ、ファイルパターン
+  let Grep_Skip_Dirs = '.svn .git .hg'
+  let Grep_Skip_Files = '*.bak *~'
+'''
+
+[[plugins]]
+# undo履歴管理 (U)
+repo = 'sjl/gundo.vim'
+on_cmd = 'GundoToggle'
+hook_add = '''
+  nnoremap U :<C-u>GundoToggle<CR>
+  " 移動と同時にプレビューを表示しない
+  " r を押すとプレビュー表示
+  "let g:gundo_auto_preview = 0
+'''
+
+[[plugins]]
+# UnicodeエスケープシーケンスやURLエスケースされた文字を表示する
+#   :HideoutOn
+#   :HideoutClear
+#   :HideoutRefreshCache
+repo = 'osyo-manga/vim-hideout'
+on_cmd = 'HideoutOn'
+
+[[plugins]]
+# quickfix の該当箇所をハイライト
+repo = 'cohama/vim-hier'
+on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
+hook_source = '''
+  let g:hier_highlight_group_qf  = 'qf_error_ucurl'
+  let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
+'''
+
+[[plugins]]
+# 日本語を含んだ文章を文節区切りで移動 (W/B/E)
+repo = 'deton/jasegment.vim'
+on_map = ['<Plug>', 'W', 'B', 'E']
+hook_add = '''
+nmap <silent> H <Plug>JaSegmentMoveNB
+  omap <silent> H <Plug>JaSegmentMoveOB
+  xmap <silent> H <Plug>JaSegmentMoveVB
+
+  "nmap <silent> L <Plug>JaSegmentMoveNW
+  "omap <silent> L <Plug>JaSegmentMoveOW
+  "xmap <silent> L <Plug>JaSegmentMoveVW
+
+  nmap <silent> L <Plug>JaSegmentMoveNE
+  omap <silent> L <Plug>JaSegmentMoveOE
+  xmap <silent> L <Plug>JaSegmentMoveVE
+'''
+
+[[plugins]]
+# 前のカーソル位置に戻る
+repo = 'osyo-manga/vim-milfeulle'
+on_i = '1'
+on_map = '<Plug>'
+hook_add = '''
+  " 履歴移動
+  nmap <Leader>p <Plug>(milfeulle-prev)
+  nmap <Leader>n <Plug>(milfeulle-next)
+'''
+
+[[plugins]]
+# マルチカーソル (:Multi <word>)
+repo = 'mattn/multi-vim'
+on_cmd = 'Multi'
+
+[[plugins]]
+# visualモードのブロック選択を良い感じに
+repo = 'kana/vim-niceblock'
+on_map = '<Plug>'
+hook_add = '''
+  xmap I  <Plug>(niceblock-I)
+  xmap A  <Plug>(niceblock-A)
+'''
+
+[[plugins]]
+# number-marks : 連番マーク
+# mm 連番マーク
+# mb 前のマークへ
+# mv 後のマークへ
+# m. マークへ
+# F6 save marks
+# F5 reload marks
+repo =  'yonchu/number-marks'
+on_map = '<Plug>'
+hook_add = '''
+  let g:number_marks_no_default_key_mappings = 1
+  nmap <silent> mm <Plug>number-marks-place-sign
+  nmap <silent> mb <Plug>number-marks-goto-next-sign
+  nmap <silent> mv <Plug>number-marks-goto-prev-sign
+  nmap <silent> mD <Plug>number-marks-remove-all-signs
+  nmap <silent> m. <Plug>number-marks-move-sign
+'''
+
+[[plugins]]
+repo = 'myusuf3/numbers.vim'
+on_cmd = ['NumbersToggle', 'NumbersOnOff']
+
+[[plugins]]
+# URLをブラウザで開く, 単語を検索エンジンで検索
+repo = 'tyru/open-browser.vim'
+depends = 'vim-operator-user'
+on_map = ['<Plug>', '<Plug>(openbrowser-']
+on_cmd = ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch', 'OpenBrowserGithub']
+hook_add = '''
+  " カーソル下のURLをブラウザで開く
+  " URLがない場合は単語を検索する
+  nmap <Leader>ob <Plug>(openbrowser-smart-search)
+  vmap <Leader>ob <Plug>(openbrowser-smart-search)
+
+  " 入力した単語をブラウザで検索
+  nmap <Leader>gs <Plug>(open-browser-wwwsearch)
+
+  " http://deris.hatenablog.jp/entry/2013/07/05/023835
+  map gz <Plug>(operator-open-neobundlepath)
+
+  command! -range OpenBrowserGithub :call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')
+'''
+hook_source = 'source ~/.vim/rc/plugins/open-browser.rc.vim'
+
+[[plugins]]
+# Opens current files URL in github.com
+#   :OpenGithubFile
+# Opens current files highlighted place in github.com
+#   :'<,'>OpenGithubFile
+# Opens a specific file in github.com
+#   :OpenGithubFile PATH/TO/FILE
+#
+# Opens current repositories Issue #1
+#   :OpenGithubIssue 1
+# Opens a specific repositories Issue #1
+#   :OpenGithubIssue 1 tyru/open-browser.vim
+# Opens current repositories Issue List
+#   :OpenGithubIssue
+# Opens a specific repositories Issue list
+#   :OpenGithubIssue tyru/open-browser.vim
+#
+# ※ OpenGithubPullReq is used in the same manner as :OpenGithubIssue.
+repo = 'tyru/open-browser-github.vim'
+depends = 'open-browser.vim'
+on_cmd = ['OpenGithubFile', 'OpenGithubIssue', 'OpenGithubPullReq']
+
+[[plugins]]
+# プレビュー置換
+repo = 'osyo-manga/vim-over'
+on_cmd = [
+  'OverCommandLine', 'OverCommandLineNoremap',
+  'OverCommandLineCursor', 'OverCommandLineCursorInsert'
+]
+hook_add = '''
+  " 検索中の文字列をデフォルトで入力
+  noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR>/<CR>
+'''
+hook_source = '''
+    let g:over#command_line#paste_escape_chars = '/.*$^~'
+  let g:over#command_line#paste_filters = {
+    \  "\n" : '\\n',
+    \  "\r" : '\\r',
+    \}
+'''
+
+[[plugins]]
+# カーソル位置のコンテキストによって filetype を切り換える
+repo = 'osyo-manga/vim-precious'
+depends = 'context_filetype.vim'
+on_i = 1
+on_ft = ['markdown', 'mkd', 'md', 'help']
+hook_source = '''
+  " quickrun 用のマッピング
+  nmap <Space>q <Plug>(precious-quickrun-op)
+
+  " NORMALモード中はOFF(help以外)
+  let g:precious_enable_switch_CursorMoved = {
+        \   '*' : 0,
+        \}
+  let g:precious_enable_switch_CursorMoved_i = {
+        \   '*' : 0
+        \}
+  autocmd MyAutoCmd InsertEnter * PreciousSwitch
+  autocmd MyAutoCmd InsertLeave * PreciousReset
+
+  function! s:precious_leave()
+    setl nofen
+    let bf = precious#base_filetype()
+    let cf = precious#context_filetype()
+    echo 'Switch filetype: '.bf.' -> '.cf
+  endfunction
+  autocmd User PreciousFiletypeLeave_* call s:precious_leave()
+'''
+
+[[plugins]]
+# vimの変数を表示 (plug-in制作で便利)
+repo = 'thinca/vim-prettyprint'
+on_cmd = 'PP'
+
+[[plugins]]
+# Realtime preview by Vim. (Markdown, reStructuredText, textile)
+repo = 'kannokanno/previm'
+on_cmd = 'PrevimOpen'
+depends = 'open-browser.vim'
+
+[[plugins]]
+# Enable remote access like ':e https://git.io/vgDtJ' without netrw.vim
+repo = 'lambdalisue/vim-protocol'
+on_path = '^https\?://'
+
+[[plugins]]
+repo = 'thinca/vim-qfreplace'
+on_ft = ['unite', 'quickfix']
+hook_source =
+  'autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>'
+
+[[plugins]]
+# quickfixに対応する行にsignを表示
+repo = 'tomtom/quickfixsigns_vim'
+on_cmd = [
+  'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
+  'QuickfixsignsToggle', 'QuickfixsignsSelect'
+]
+hook_source = '''
+  let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
+'''
+
+[[plugins]]
+# quickfix の該当箇所をコマンドラインに出力
+repo = 'yonchu/quickfixstatus'
+on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+on_map = '<Plug>'
+on_cmd = 'QuickRun'
+hook_add = '''
+  " デフォルトのキーマップを無効
+  let g:quickrun_no_default_key_mappings = 1
+
+  " 通常実行
+  nmap <silent> <Leader>r <Plug>(quickrun)
+  " 実行後フォーカスをQuickFixへ
+  nmap <silent> <Leader>R <Plug>(quickrun)<C-w><C-w>
+  " 引数付き実行
+  command! -nargs=+ QR :QuickRun '-args' <q-args>
+  " Quickrunの強制停止
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
+'''
+hook_source = 'source ~/.vim/rc/plugins/quickrun.rc.vim'
+
+[[plugins]]
+# 複数ファイルのりネーム
+# http://nanasi.jp/articles/vim/renamer_vim.html
+#  起動 :Renamer
+#  完了 :Ren
+#  元に戻す F5
+#  オリジナルファイル名を表示(トグル) T
+#  ファイル削除 <C-delete>
+repo = 'renamer.vim'
+on_cmd = 'Renamer'
+
+[[plugins]]
+# .によるコマンドリピート拡張 (surround.vim対応)
+repo = 'tpope/vim-repeat'
+on_map = ['<Plug>', '.']
+
+[[plugins]]
+repo = 'tyru/restart.vim'
+if = "has('gui_running')"
+on_cmd = 'Restart'
+hook_source = '''
+  command! RestartWithSession
+        \ -bar
+        \ let g:restart_sessionoptions = 'blank,buffers,curdir,folds,help,localoptions,tabpages'
+        \ | Restart
+'''
+
+[[plugins]]
+# vimmerの戦闘力(vimrcの行数)を計測する
+#   100行以下  : 初心者
+#   500行以下  : 初級者
+#   1000行以下 : 中級者
+#   1000行以上 : 上級者
+#   計測不能   : 神
+# http://vim-users.jp/2009/07/hack-39/
+repo = 'thinca/vim-scouter'
+on_cmd = 'Scouter'
+
+[[plugins]]
+# f の2文字入力版 (s + 2char)
+repo = 'goldfeld/vim-seek'
+on_map = ['<Plug>', 's']
+hook_add = '''
+  "let g:seek_enable_jumps = 1
+  "nmap <silent> s <Plug>(seek-seek)
+  "omap <silent> s <Plug>(seek-seek)
+  "nmap <silent> S <Plug>(seek-back)
+  "omap <silent> S <Plug>(seek-back)
+  "omap <silent> x <Plug>(seek-seek-cut)
+  "omap <silent> X <Plug>(seek-back-cut)
+  "omap <silent> j <Plug>(seek-jump)
+  "omap <silent> J <Plug>(seek-jump-back)
+'''
+
+[[plugins]]
+repo = 'kana/vim-submode'
+on_map = [['n', '<C-w<Space>>']]
+on_cmd = 'SubmodeRestoreOptions'
+hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
+
+[[plugins]]
+# テキストを括弧で囲む,削除する (s)
+repo = 'tpope/vim-surround'
+on_map = '<Plug>'
+hook_add = '''
+  let g:surround_no_mappings = 1
+
+  "let g:surround_{char2nr('e')} = 'begin \r end'
+  "let g:surround_{char2nr('d')} = 'do \r end'
+  "let g:surround_{char2nr("-")} = ':\r'
+
+  nmap ds  <Plug>Dsurround
+  nmap cs  <Plug>Csurround
+  nmap ys  <Plug>Ysurround
+  nmap yS  <Plug>YSurround
+  nmap yss <Plug>Yssurround
+  nmap ySs <Plug>YSsurround
+  "nmap S <Plug>Ysurround
+  "nmap SS <Plug>Yssurround
+  nmap ySS <Plug>YSsurround
+  xmap S   <Plug>VSurround
+  xmap gS  <Plug>VgSurround
+
+  if !hasmapto("<Plug>Isurround","i") && "" == mapcheck("<C-S>","i")
+    imap    <C-S> <Plug>Isurround
+  endif
+  imap      <C-G>s <Plug>Isurround
+  imap      <C-G>S <Plug>ISurround
+'''
+
+# [[plugins]]
+# repo = 'Shougo/tabpagebuffer.vim'
+# on_path = '.*'
+
+[[plugins]]
+# :cd をタブページ毎に
+repo = 'kana/vim-tabpagecd'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+on_cmd = 'TagbarToggle'
+
+[[plugins]]
+# コメントアウト
+#   <C-_><C-_> 行、選択箇所をコメントをトグル
+#   <C-_>n 指定したftでコメントをトグル
+#   <C-_>s 詳細にコメント形式を指定してトグル
+#   <C-_>p 関数などブロック全体をトグル
+#   gcc <C-_><C-_>と一緒
+repo = 'tomtom/tcomment_vim'
+on_cmd = [
+  'TComment', 'TCommentAs', 'TCommentRight',
+  'TCommentBlock', 'TCommentInline', 'TCommentMaybeInline'
+]
+hook_add = '''
+  " let g:tcommentModeExtra = '>>'
+  " Set explicitly default mappings for neobundle.
+  nnoremap <silent> <C-_><C-_> :TComment<cr>
+  vnoremap <silent> <C-_><C-_> :TCommentMaybeInline<cr>
+  inoremap <silent> <C-_><C-_> :TComment<cr>
+
+  " Compatible mappings for nerdcommenter.
+  nnoremap <silent> <Leader>c<Space> :TComment<cr>
+  vnoremap <silent> <Leader>c<Space> :TCommentMaybeInline<cr>
+  inoremap <silent> <Leader>c<Space> :TComment<cr>
+'''
+
+[[plugins]]
+# サムネイルを使用した Buffer selector.
+repo = 'itchyny/thumbnail.vim'
+on_cmd = 'Thumbnail'
+hook_add = '''
+  nnoremap <silent> <Leader>tb :<C-u>Thumbnail -horizontal -below<CR>
+  nnoremap <silent> <Leader>tt :<C-u>Thumbnail<CR>
+  autocmd MyAutoCmd FileType thumbnail IndentGuidesDisable
+'''
+
+[[plugins]]
+# Ultimate hex editing system with Vim.
+#   :Vinarise [{:Vinarise [{options}...] [{path}]th}]...options}
+#   :VinariseScript2Hex [{options}...] [{path}]
+#   :VinariseHex2Script {path}
+#   :VinarisePluginDump
+#   :VinarisePluginViewBitmapView
+repo = 'Shougo/vinarise.vim'
+on_cmd = 'Vinarise'
+hook_add = 'let g:vinarise_enable_auto_detect = 1'
+
+[[plugins]]
+# Visualモードで選択したテキストを検索
+#   VisualMode -> */#/g/g*/g#
+repo = 'thinca/vim-visualstar'
+on_map = ['<Plug>', ['xv', '*'], ['xv', '#'], ['xv', 'g'], ['xv', 'g*']]
+
+[[plugins]]
+repo = 'yuratomo/w3m.vim'
+on_cmd = 'W3m'
+# }}}
+
+
+
+
+
+
+# [[plugins]]
+# repo = 'tyru/caw.vim'
+# on_map = '<Plug>'
+# hook_add = '''
+#   function! InitCaw() abort
+#     if !&l:modifiable
+#       silent! nunmap <buffer> gc
+#       silent! xunmap <buffer> gc
+#       silent! nunmap <buffer> gcc
+#       silent! xunmap <buffer> gcc
+#     else
+#       nmap <buffer> gc <Plug>(caw:prefix)
+#       xmap <buffer> gc <Plug>(caw:prefix)
+#       nmap <buffer> gcc <Plug>(caw:tildepos:toggle)
+#       xmap <buffer> gcc <Plug>(caw:tildepos:toggle)
+#     endif
+#   endfunction
+#   autocmd MyAutoCmd FileType * call InitCaw()
+# '''

@@ -94,1113 +94,83 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
+" Disable default plugins
+let g:loaded_gzip              = 1
+let g:loaded_tar               = 1
+let g:loaded_tarPlugin         = 1
+let g:loaded_zip               = 1
+let g:loaded_zipPlugin         = 1
+let g:loaded_rrhelper          = 1
+let g:loaded_2html_plugin      = 1
+let g:loaded_vimball           = 1
+let g:loaded_vimballPlugin     = 1
+let g:loaded_getscript         = 1
+let g:loaded_getscriptPlugin   = 1
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1
+let g:loaded_LogiPat           = 1
+let g:loaded_logipat           = 1
+let g:loaded_tutor_mode_plugin = 1
+let g:loaded_spellfile_plugin  = 1
+let g:loaded_man               = 1
+let g:loaded_matchit           = 1
+
 " }}}
 
 
-" === NeoBundle Settings ================================================={{{1
+" === Dein Settings ================================================={{{1
 
 " === Information {{{2
+" https://github.com/Shougo/dein.vim
 "
-"   https://github.com/Shougo/neobundle.vim
-"   http://vim-users.jp/2011/10/hack238/
-"   http://www.karakaram.com/neobundle
-"   http://d.hatena.ne.jp/rhysd/20120825/1345895478
-"
-"    インストールディレクトリ
-"     neobundle本体：~/.vim/neobundle.vim
-"     プラグイン：~/.vim/bundle
-"
-"    書き方
-"     Github 上のリポジトリから取得する場合
-"      Github のユーザ名とリポジトリ名を指定
-"      NeoBundle 'user_name/repository_name'
-"
-"     vim-scripts 上のリポジトリから取得する場合
-"      http://www.vim.org/scripts/
-"      http://vim-scripts.org/
-"      https://github.com/vim-scripts (www.vim.orgのミラー)
-"      plugin の名前を指定
-"      NeoBundle 'script_name'
-"
-"     それ以外の git リポジトリから取得する場合
-"      Git リポジトリ のフルパスを指定
-"      NeoBundle 'git://repository_url'
-"
-"     Git以外のリポジトリから取得する場合(svnなど)
-"      NeoBundle 'http://'
-"      NeoBundle 'https://'
-"      NeoBundle 'https://github.com/vim-scripts/xxxxx'
-"
-"     リビジョン指定
-"      (リビジョン番号 or ブランチ名 or タグ名)
-"      NeoBundle {repository}, {revision}
-"        or
-"      NeoBundle {repository},  {
-"        \ 'rev' : {revision},
-"        \ }
-"
-"     依存プラグイン
-"      (1つしかない場合はListでなくても良い)
-"      NeoBundle {repository},  {
-"        \ 'depends' : [ {repository} ],
-"        \ }
-"
-"     遅延読み込み
-"      (ぞれぞれ、1つしかない場合はListでなくても良い)
-"      (insert/filetypes/commands/mappings は OR 条件)
-"      NeoBundleLazy , {repository}{
-"        \ 'autoload' : {
-"        \   'insert' : 1,
-"        \   'filetypes' : [{filetype}],
-"        \   'commands' : [{command}],
-"        \   'mappings' : [
-"        \     [<mode>, <mapping>]
-"        \   ]
-"        \ }}
-"
-"      mappingsはmodeを省略しも良い
-"      省略した場合は、'nxo' が指定される
-"
-"      NeoBundleLazy , {repository}{
-"        \ 'autoload' : {
-"        \   'mappings' : [
-"        \     <mapping>
-"        \   ]
-"        \ }}
-"
-"     リポジトリを持たないプラグインの管理
-"      NeoBundle 'plugin-name', {'type' : 'nosync'}
-"      NeoBundle 'im_control', {'type' : 'nosync', 'base' : '~/.vim/bundle/manual'}
-"
-"
-"    使用方法
-"     インストール済みプラグイン一覧
-"      :NeoBundleList
-"     インストール(新規)
-"      :NeoBundleInstall
-"     アップデート
-"      :NeoBundleInstall!
-"     使用していないプラグインを削除
-"      :NeoBundleClean(!)
-"     プラグイン検索(NeoBundle非対応)
-"      :BundleSearch
-"     ヘルプ
-"      :help neobundle
-"
-"    Unite連携
-"     インストール
-"      :Unite neobundle/install
-"     アップデート
-"      :Unite neobundle/install:!
-"     個別アップデート
-"      :Unite neobundle/install:neocomplcache
-"      :Unite neobundle/install:neocomplcache:unite.vim
-"     インストール済みのプラグインの列挙
-"      :Unite neobundle -input=!Not
-"     インストールしていないプラグインの列挙
-"      :Unite neobundle -input=Not
-"
+" Directory:
+"   dein root: /.vim/dein
+"   dein repo: /.vim/dein/repos/github.com/Shougo/dein.vim
+" Plugin List:
+"   default: /.vim/rc/dein.toml
+"   lazy   : /.vim/rc/deinlazy.toml
+" Plugin Detail Settings:
+"   /.vim/rc/plugins/*
 " =========================================================================}}}
 
-" === NeoBundle Initialization {{{2
+" === Dein Initialization {{{2
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
-filetype off
+let s:toml_path = '~/.vim/rc/dein.toml'
+let s:toml_lazy_path = '~/.vim/rc/deinlazy.toml'
 
-if has('vim_starting')
-" Set runtimepath.
-  if s:is_windows
-    let &runtimepath = join([
-          \ expand('~/.vim'),
-          \ expand('$VIM/runtime'),
-          \ expand('~/.vim/after')], ',')
+" Load dein.
+if &runtimepath !~# '/dein.vim'
+  if s:dein_dir == '' && &runtimepath !~ '/dein.vim'
+    if !isdirectory(s:dein_repo_dir)
+      echoerr '[ERROR] Stop reading .vimrc: dein.vim not installed.'
+      " execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+      finish
+    endif
   endif
-  execute 'set runtimepath+=' . $DOTVIM . '/neobundle.vim'
+  " Set runtimepath.
+  execute 'set runtimepath^=' . substitute(
+        \ fnamemodify(s:dein_repo_dir, ':p'), '/$', '', '')
 endif
 
-" neobundle add the path to the end of user runtimepath.
-" It is useful not to overwritten user scripts by neobundle.
-let g:neobundle#enable_tail_path = 1
-let g:neobundle#default_options = {
-      \ 'default' : { 'overwrite' : 0 },
-      \ }
-
-call neobundle#begin($DOTVIM . '/bundle')
-
-" Let NeoBundle manage NeoBundle
-" NeoBundle 'Shougo/neobundle.vim'
-
-" vimproc
-"  vimで非同期実行を行う (vimshelleやneocomplcacheで使用)
-"  インストール後に別途コンパイルが必要
-"    $ cd ~/.vim/bundle/vimproc
-"    $ make -f your_machines_makefile
-"  http://www.karakaram.com/vim/windows-vimshell/
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-  \     'windows' : 'make -f make_mingw32.mak',
-  \     'cygwin' : 'make -f make_cygwin.mak',
-  \     'mac' : 'make -f make_mac.mak',
-  \     'unix' : 'make -f make_unix.mak',
-  \    },
-  \ }
-
-" NeoBundle 'vim-jp/vital.vim'
-
-NeoBundle 'itchyny/landscape.vim'
-" }}}
-
-" === txtobj {{{2
-NeoBundle 'kana/vim-textobj-user'
-
-" ( { " に反応する textobj
-NeoBundleLazy "osyo-manga/vim-textobj-multiblock", {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['o', '<Plug>(textobj-multiblock-a)'],
-      \     ['o', '<Plug>(textobj-multiblock-i)'],
-      \     ['v', '<Plug>(textobj-multiblock-a)'],
-      \     ['v', '<Plug>(textobj-multiblock-i)'],
-      \ ]}}
-" }}}
-
-" === Edit {{{2
-
-" autofmt : Text Formatting Plugin.
-NeoBundleLazy 'vim-jp/autofmt', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['x', 'gq']
-      \ ]}}
-
-" nerdcommenter : コメントトグル (<Leader>c<Space>)
-"NeoBundle 'scrooloose/nerdcommenter'
-
-" operator-user, operator-replace : 連続置換 (cp)
-NeoBundleLazy 'kana/vim-operator-user'
-NeoBundleLazy 'kana/vim-operator-replace', {
-      \ 'depends' : 'vim-operator-user',
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['nx', '<Plug>(operator-replace)'],
-      \ ]}}
-
-" operator-html-escape.vim : htmlエスケープ
-NeoBundleLazy 'tyru/operator-html-escape.vim', {
-      \ 'depends' : 'vim-operator-user',
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['nx', '<Plug>(operator-html-escape)'],
-      \ ]}}
-
-" qfreplace : Quickfixを利用した一斉置換
-NeoBundleLazy 'thinca/vim-qfreplace', {
-      \ 'autoload' : {
-      \   'filetypes' : ['unite', 'quickfix'],
-      \ }}
-
-" surround : テキストを括弧で囲む／削除する (s)
-NeoBundleLazy 'tpope/vim-surround', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['n', '<Plug>Dsurround'], ['n', '<Plug>Csurround'],
-      \     ['n', '<Plug>Ysurround'], ['n', '<Plug>YSurround'],
-      \     ['x', '<Plug>VSurround'], ['x', '<Plug>VgSurround'],
-      \     ['i', '<Plug>Isurround'], ['i', '<Plug>ISurround'],
-      \     ['n', '<Plug>SurroundRepeat'],
-      \ ]}}
-
-" switch :  true/false切り替え (+/-)
-NeoBundle 'AndrewRadev/switch.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'Switch',
-      \   'mappings' : ['+', '-'],
-      \ }}
-
-" tcomment_vim : コメントアウト
-"   <C-_><C-_> 行、選択箇所をコメントをトグル
-"   <C-_>n 指定したftでコメントをトグル
-"   <C-_>s 詳細にコメント形式を指定してトグル
-"   <C-_>p 関数などブロック全体をトグル
-"   gcc <C-_><C-_>と一緒
-NeoBundleLazy 'tomtom/tcomment_vim' , {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'TComment', 'TCommentAs', 'TCommentRight',
-      \      'TCommentBlock', 'TCommentInline', 'TCommentMaybeInline',
-      \ ]}}
-
-" vim-over: プレビュー置換
-NeoBundleLazy 'osyo-manga/vim-over' , {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'OverCommandLine', 'OverCommandLineNoremap',
-      \     'OverCommandLineCursor', 'OverCommandLineCursorInsert',
-      \ ]}}
-
-" }}}
-
-" === Move {{{2
-
-" accelerated-jk : j/k の移動速度up
-NeoBundleLazy 'rhysd/accelerated-jk', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>(accelerated_jk_gj)', '<Plug>(accelerated_jk_gk)',
-      \ ]}}
-
-" accelerated-smooth-scroll: 加速可能なスムーススクロール
-NeoBundle 'yonchu/accelerated-smooth-scroll', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     "\<C-d>", "\<C-u>", "\<C-f>", "\<C-b>"
-      \ ]}}
-
-" clever-f.vim : f連打で検索文字移動
-NeoBundleLazy 'rhysd/clever-f.vim', {
-      \ 'autoload' : {
-      \   'mappings' : 'f',
-      \ }}
-
-" EasyMotion : motion先をhilight (<Leader><Leader>w/f)
-NeoBundleLazy 'EasyMotion', {
-      \ 'autoload' : {
-      \   'mappings' : ['<Leader><Leader>']
-      \ }}
-
-" jasegment : 日本語を含んだ文章を文節区切りで移動 (W/B/E)
-NeoBundleLazy 'deton/jasegment.vim', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     'W', 'B', 'E',
-      \     '<Plug>JaSegmentMoveNW',
-      \     '<Plug>JaSegmentMoveNB',
-      \     '<Plug>JaSegmentMoveNE',
-      \ ]}}
-
-" f の2文字入力版 (s + 2char)
-NeoBundleLazy 'goldfeld/vim-seek', {
-      \ 'autoload' : {
-      \   'mappings' : 's',
-      \ }}
-
-" smartword : 単語移動をスマートに
-"NeoBundleLazy 'kana/vim-smartword', {
-      "\ 'autoload' : {
-      "\   'mappings' : [
-      "\     '<Plug>(smartword-w)', '<Plug>(smartword-b)', '<Plug>(smartword-ge)'
-      "\ ]}}
-
-" vim-expand-region :
-NeoBundleLazy 'terryma/vim-expand-region', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>(expand_region_expand)',
-      \     '<Plug>(expand_region_shrink)',
-      \ ]}}
-" }}}
-
-" === Search {{{2
-
-" vim-anzu: 検索時の位置情報を表示する
-NeoBundleLazy "osyo-manga/vim-anzu", {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>(anzu-n-with-echo)', '<Plug>(anzu-N-with-echo)',
-      \     '<Plug>(anzu-star-with-echo)', '<Plug>(anzu-sharp-with-echo)',
-      \ ]}}
-
-" ag.vim: The silver searcher (ag)
-"   :Ag [options] {pattern} [{directory}]
-NeoBundleLazy 'rking/ag.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'Ag',
-      \ }}
-
-" eregex.vim : rubyやperlの正規表現で検索/置換
-" うまく動作にしないので不可
-"NeoBundle 'eregex.vim'
-
-" grep.vim : 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
-NeoBundleLazy 'grep.vim', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'Grep', 'GrepAdd', 'Rgrep', 'RgrepAdd', 'GrepBuffer',
-      \     'GrepBufferAdd', 'Bgrep', 'BgrepAdd', 'GrepArgs',
-      \     'GrepArgsAdd', 'Fgrep', 'FgrepAdd', 'Rfgrep',
-      \     'RfgrepAdd', 'Egrep', 'EgrepAdd', 'Regrep',
-      \     'RegrepAdd', 'Agrep', 'AgrepAdd', 'Ragrep', 'RagrepAdd',
-      \ ]}}
-
-" vim-visualstar : Visualモードで選択したテキストを検索
-"   VisualMode -> */#/g/g*/g#
-NeoBundleLazy 'thinca/vim-visualstar', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['xv', '*'], ['xv', '#'], ['xv', 'g'], ['xv', 'g*'],
-      \ ]}}
-
-" }}}
-
-" === Completion {{{2
-
-" neocomplete and neocomplcache
-if has("lua")
-  NeoBundle 'Shougo/neocomplete'
-  source ~/dotfiles/.vimrc.neocomplete
-else
-  NeoBundle 'Shougo/neocomplcache', '', 'default'
-  call neobundle#config('neocomplcache', {
-        \ 'lazy' : 1,
-        \ 'autoload' : {
-        \   'insert' : 1,
-        \ }})
-  source ~/dotfiles/.vimrc.neocomplcache
-endif
-
-" neosnippet : スニペット
-NeoBundle 'Shougo/neosnippet'
-" NeoBundle 'Shougo/neosnippet', '', 'default'
-" call neobundle#config('neosnippet', {
-"       \ 'lazy' : 1,
-"       \ 'autoload' : {
-"       \   'insert' : 1,
-"       \   'filetypes' : 'snippet',
-"       \   'unite_sources' : ['snippet', 'neosnippet/user', 'neosnippet/runtime'],
-"       \ }})
-source ~/dotfiles/.vimrc.neosnippets
-
-NeoBundle "Shougo/neosnippet-snippets"
-
-" }}}
-
-" === Misc {{{2
-
-" airline :
-" NeoBundleLazy 'bling/vim-airline'
-
-" autodate.vim : カスタマイズ可能な自動タイムスタンプ挿入
-NeoBundleLazy 'autodate.vim'
-if !has('kaoriya')
-  autocmd MyAutoCmd FileType * NeoBundleSource 'autodate.vim'
-endif
-
-" browsereload-mac : ブラウザリロード
-" http://d.hatena.ne.jp/tell-k/20110606/1307369935
-NeoBundleLazy 'tell-k/vim-browsereload-mac'
-if has('mac')
-  NeoBundleSource 'vim-browsereload-mac'
-endif
-
-" Changed : 保存前の変更行を +/-/* で表示
-NeoBundle 'Changed'
-
-"NeoBundleLazy 'errormarker.vim', {
-      "\ 'autoload' : {
-      "\   'commands' : 'ErrorAtCursor',
-      "\ }}
-
-" fakeclip : クリップボードを良い感じに
-NeoBundleLazy 'kana/vim-fakeclip', {
-       \ 'autoload' : {
-       \   'mappings' : [
-       \     ['nv', '<Plug>(fakeclip-y)'], ['nv', '<Plug>(fakeclip-Y)'],
-       \     ['nv', '<Plug>(fakeclip-p)'], ['nv', '<Plug>(fakeclip-P)'],
-       \     ['nv', '<Plug>(fakeclip-gp)']]
-       \ }}
-
-" foldingを良い感じに
-NeoBundle 'LeafCage/foldCC'
-
-" fontzoom : フォント拡大 (gvim)
-NeoBundleLazy 'thinca/vim-fontzoom', {
-      \ 'gui' : 1,
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['n', '<Plug>(fontzoom-larger)'],
-      \     ['n', '<Plug>(fontzoom-smaller)']
-      \ ]}}
-
-" fugitive : Git操作
-" vim-powerlineでステータス行にブランチ名を表示
-NeoBundle 'tpope/vim-fugitive'
-
-" gitgutter : gitリポジトリ内の変更箇所をsign表示
-" Sublime Text 2 のクローン
-NeoBundle 'airblade/vim-gitgutter'
-
-" gitv : Git操作
-" :Gitv, :Gitv --all, :Gitv!
-NeoBundleLazy "gregsexton/gitv", {
-      \ 'autoload' : {
-      \   'commands' : 'Gitv',
-      \ }}
-
-" git-vim : Git操作
-NeoBundleLazy "motemen/git-vim", {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'GitStatus', 'GitLog', 'GitBlame'
-      \   ],
-      \   'mappings' : [
-      \     '<Leader>gd', '<Leader>gs', '<Leader>gb'
-      \   ]
-      \ }}
-
-" gundo.vim : undo履歴管理 (U)
-NeoBundleLazy 'sjl/gundo.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'GundoToggle',
-      \ }}
-
-" hideout
-" UnicodeエスケープシーケンスやURLエスケースされた文字を表示する
-"   :HideoutOn
-"   :HideoutClear
-"   :HideoutRefreshCache
-NeoBundleLazy "osyo-manga/vim-hideout", {
-      \ 'autoload' : {
-      \   'commands' : 'HideoutOn',
-      \ }}
-
-" hier : quickfix の該当箇所をハイライト
-NeoBundleLazy 'cohama/vim-hier', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \    'HierStart', 'HierStop', 'HierUpdate', 'HierClear',
-      \ ]}}
-
-" Highlight-UnMatched-Brackets : 括弧の閉じ忘れをハイライト
-NeoBundleLazy 'Highlight-UnMatched-Brackets'
-
-" precious.vim
-" カーソル位置のコンテキストによって filetype を切り換える
-NeoBundleLazy 'osyo-manga/vim-precious', {
-      \ 'depends' : "Shougo/context_filetype.vim",
-      \ 'autoload' : {
-      \   'filetypes' : [
-      \     'markdown'
-      \ ]}}
-
-" quickfixに対応する行にsignを表示
-NeoBundleLazy 'tomtom/quickfixsigns_vim', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \    'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
-      \    'QuickfixsignsToggle', 'QuickfixsignsSelect',
-      \ ]}}
-
-" quickfixstatus.vim : quickfix の該当箇所をコマンドラインに出力
-NeoBundleLazy 'yonchu/quickfixstatus', {
-      \ 'autoload' : {
-      \   'commands' : [
-      \    'QuickfixStatusEnable', 'QuickfixStatusDisable',
-      \ ]}}
-
-" indent-guides : インデントガイドを表示
-NeoBundle 'nathanaelkane/vim-indent-guides'
-
-" lightline.vim
-NeoBundle 'itchyny/lightline.vim'
-
-" milfeulle : 前のカーソル位置に戻る
-NeoBundleLazy "osyo-manga/vim-milfeulle", {
-      \ 'autoload' : {
-      \   'insert' : 1,
-      \   'mappings' : [
-      \     '<Plug>(milfeulle-prev)', '<Plug>(milfeulle-next)',
-      \     '<Plug>(milfeulle-overlay)', '<Plug>(milfeulle-clear)',
-      \     '<Plug>(milfeulle-refresh)'
-      \ ]}}
-
-" multi-vim : マルチカーソル (:Multi <word>)
-NeoBundleLazy 'mattn/multi-vim', {
-      \ 'autoload' : {
-      \   'commands' : 'Multi',
-      \ }}
-
-" niceblock : visualモードのブロック選択を良い感じに
-NeoBundleLazy 'kana/vim-niceblock', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     '<Plug>(niceblock-I)', '<Plug>(niceblock-A)',
-      \ ]}}
-
-" NERD-Tree : Tree 型 Filer
-" grep_menuitem.vim : 別途インストール
-"  https://gist.github.com/414375
-" NeoBundleLazy 'The-NERD-tree', {
-"       \ 'autoload' : {
-"       \   'commands' : 'NERDTreeToggle',
-"       \ }}
-
-" nerdtree
-NeoBundleLazy 'scrooloose/nerdtree', {
-      \ 'autoload' : {
-      \   'commands' : 'NERDTreeToggle',
-      \ }}
-
-NeoBundleLazy "myusuf3/numbers.vim", {
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'NumbersToggle', 'NumbersOnOff'
-      \ ]}}
-
-" number-marks : 連番マーク
-"   mm 連番マーク
-"   mb 前のマークへ
-"   mv 後のマークへ
-"   m. マークへ
-"   F6 save marks
-"   F5 reload marks
-NeoBundleLazy 'yonchu/number-marks', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \    '<Plug>number-marks-place-sign', '<Plug>number-marks-goto-next-sign',
-      \    '<Plug>number-marks-goto-prev-sign', '<Plug>number-marks-remove-all-signs',
-      \    '<Plug>number-marks-move-sign', '<Plug>number-marks-savep',
-      \    '<Plug>number-marks-reloadp',
-      \ ]}}
-
-" open-browser.vim : URLをブラウザで開く/単語を検索エンジンで検索
-NeoBundleLazy 'tyru/open-browser.vim', {
-      \ 'depends' : 'vim-operator-user',
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['nv', '<Plug>(openbrowser-open)'],
-      \     ['nv', '<Plug>(openbrowser-smart-search)'],
-      \     ['n', '<Plug>(open-browser-wwwsearch)'],
-      \     ['nv', '<Plug>(operator-open-neobundlepath)'],
-      \   ],
-      \   'commands'  : [
-      \     'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch'
-      \ ]}}
-
-" powerline : ステータスラインをカッコよく
-" NeoBundle 'Lokaltog/vim-powerline'
-
-" quickrun : 編集中のファイルを簡単に実行できるプラグイン
-NeoBundleLazy 'thinca/vim-quickrun', {
-      \ 'autoload' : {
-      \   'mappings' : [
-      \     ['nxo', '<Plug>(quickrun)']],
-      \   'commands' : 'QuickRun'
-      \ }}
-
-" recognize_charcode.vim : 文字コード判定 (要iconv)
-NeoBundleLazy 'banyan/recognize_charcode.vim'
-if !has('kaoriya')
-  " Kaoriya版以外の文字コード判定
-  "NeoBundleSource 'recognize_charcode.vim'
-endif
-
-" renamer.vim : 複数ファイルのりネーム
-" http://nanasi.jp/articles/vim/renamer_vim.html
-"  起動 :Renamer
-"  完了 :Ren
-"  元に戻す F5
-"  オリジナルファイル名を表示(トグル) T
-"  ファイル削除 <C-delete>
-NeoBundleLazy 'renamer.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'Renamer',
-      \ }}
-
-" repeat.vim : .によるコマンドリピート拡張 (surround.vim対応)
-NeoBundleLazy 'tpope/vim-repeat', {
-      \ 'autoload' : {
-      \   'mappings' : '.',
-      \ }}
-
-" restart.vim
-NeoBundleLazy 'tyru/restart.vim', {
-      \ 'gui' : 1,
-      \ 'autoload' : {
-      \  'commands' : 'Restart'
-      \ }}
-
-" ShowMarks7 : マークをsigin表示
-NeoBundle 'ShowMarks7'
-
-" scouter : vimmerの戦闘力(vimrcの行数)を計測する
-"   100行以下  : 初心者
-"   500行以下  : 初級者
-"   1000行以下 : 中級者
-"   1000行以上 : 上級者
-"   計測不能   : 神
-" http://vim-users.jp/2009/07/hack-39/
-NeoBundleLazy 'thinca/vim-scouter', {
-      \ 'autoload' : {
-      \   'commands' : 'Scouter'
-      \ }}
-
-" sudo.vim : root権限でファイルを編集/保存
-NeoBundle 'sudo.vim'
-
-NeoBundleLazy 'kana/vim-submode', {
-      \ 'autoload' : {
-      \   'commands' : 'SubmodeRestoreOptions',
-      \ }}
-
-" tabpagecd : :cd をタブページ毎に
-NeoBundleLazy 'kana/vim-tabpagecd', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'tab',
-      \ }}
-
-" thumbnail.vim : サムネイルを使用した Buffer selector.
-NeoBundleLazy 'itchyny/thumbnail.vim', {
-      \ 'autoload' : {
-      \   'commands'  : 'Thumbnail'
-      \ }}
-
-" TweetVim : vimでtwitter
-"   https://github.com/basyura/TweetVim
-"   Requrires : cURL
-"   Auth Info : ~/.tweetvim/token
-NeoBundleLazy 'basyura/TweetVim', {
-      \ 'depends' : [
-      \   'basyura/twibill.vim', 'tyru/open-browser.vim',
-      \   'basyura/bitly.vim', 'tyru/open-browser.vim',
-      \ ],
-      \ 'autoload' : {
-      \   'commands' : [
-      \     'TweetVimHomeTimeline', 'TweetVimMentions',
-      \     'TweetVimSay',
-      \ ]}}
-
-" vim-vcs ; VCS
-NeoBundleLazy 'Shougo/vim-vcs', {
-      \ 'depends' : 'thinca/vim-openbuf',
-      \ 'autoload' : {
-      \   'commands' : 'Vcs'
-      \ }}
-
-" versions : バージョン管理システム(svn/git)の機能を vim から呼び出す
-NeoBundleLazy 'hrsh7th/vim-versions', {
-      \ 'autoload' : {
-      \   'commands' : 'UniteVersions',
-      \ }}
-
-" vimdoc (日本語版)
-"NeoBundle 'vim-jp/vimdoc-ja'
-
-" vimfiler
-NeoBundleLazy 'Shougo/vimfiler', {
-      \ 'depends' : 'Shougo/unite.vim',
-      \ 'autoload' : {
-      \    'commands' : [
-      \                  { 'name' : 'VimFiler',
-      \                    'complete' : 'customlist,vimfiler#complete' },
-      \                  { 'name' : 'VimFilerExplorer',
-      \                    'complete' : 'customlist,vimfiler#complete' },
-      \                  { 'name' : 'Edit',
-      \                    'complete' : 'customlist,vimfiler#complete' },
-      \                  { 'name' : 'Write',
-      \                    'complete' : 'customlist,vimfiler#complete' },
-      \                  'Read', 'Source'],
-      \    'mappings' : ['<Plug>(vimfiler_switch)'],
-      \    'explorer' : 1,
-      \ }}
-
-" vinarise: Ultimate hex editing system with Vim.
-"   :Vinarise [{:Vinarise [{options}...] [{path}]th}]...options}
-"   :VinariseScript2Hex [{options}...] [{path}]
-"   :VinariseHex2Script {path}
-"   :VinarisePluginDump
-"   :VinarisePluginViewBitmapView
-NeoBundleLazy 'Shougo/vinarise', {
-      \ 'autoload' : {
-      \   'commands' : 'Vinarise',
-      \ }}
-
-" vim-startify: vim起動画面のカスタマイズ
-NeoBundle 'mhinz/vim-startify'
-
-" YankRing.vim : ヤンク履歴管理 (<Leader>y)
-" Pythonが必要 (:echo has('python')で1が返ってくればOK)
-NeoBundle 'YankRing.vim'
-
-"w3m.vim : vim で w3m
-NeoBundleLazy 'yuratomo/w3m.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'W3m',
-      \ }}
-
-" webapi-vim :
-"   tweetvimで使用していたが今は同梱している
-"NeoBundleLazy 'mattn/webapi-vim'
-NeoBundleLazy 'basyura/webapi-vim'
-
-" }}}
-
-" === Unite {{{2
-
-" Unite本体
-NeoBundleLazy 'Shougo/unite.vim', {
-      \ 'autoload' : {
-      \   'commands' : [{ 'name' : 'Unite',
-      \                   'complete' : 'customlist,unite#complete_source'},
-      \                ]
-      \ }}
-
-" MRU
-NeoBundleLazy 'Shougo/neomru.vim', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'file_mru',
-      \ }}
-
-" vimヘルプを全文インクリメンタルサーチ
-NeoBundleLazy 'Shougo/unite-help', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'help',
-      \ }}
-
-" ファイルタイプに応じたアウトラインを表示
-NeoBundleLazy 'Shougo/unite-outline', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'outline',
-      \ }}
-
-" カラースキーマをリアルタイムプレビュー
-NeoBundleLazy 'ujihisa/unite-colorscheme', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'colorscheme',
-      \ }}
-
-" 履歴
-NeoBundleLazy 'thinca/vim-unite-history', {
-      \ 'autoload' : {
-      \   'unite_sources' : [
-      \     'history/command', 'history/search',
-      \ ]}}
-
-" Quickfix
-NeoBundleLazy 'osyo-manga/unite-quickfix', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'quickfix',
-      \ }}
-
-" tag
-NeoBundleLazy 'tsukkee/unite-tag', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'tag',
-      \ }}
-
-" filetype
-NeoBundleLazy 'osyo-manga/unite-filetype', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'filetype',
-      \ }}
-
-" Mark
-NeoBundleLazy 'tacroe/unite-mark', {
-      \ 'autoload' : {
-      \  'unite_sources' : 'mark',
-      \ }}
-
-" font
-NeoBundleLazy 'ujihisa/unite-font', {
-      \ 'gui' : 1,
-      \ 'autoload' : {
-      \  'unite_sources' : 'font',
-      \ }}
-
-" webcolorname
-NeoBundleLazy 'pasela/unite-webcolorname', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'webcolorname',
-      \ }}
-
-" locate
-NeoBundleLazy 'ujihisa/unite-locate', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'locate',
-      \ }}
-
-" The best testing framework for Vim script.
-NeoBundleLazy 'Shougo/vesting', {
-      \ 'autoload' : {
-      \   'unite_sources' : 'vesting',
-      \ }}
-
-"NeoBundle 'Shougo/unite-build'
-"NeoBundle 'Shougo/unite-ssh'
-"NeoBundle 'Shougo/unite-sudo'
-
-" }}}
-
-" === Syntax {{{2
-
-" AppleScript
-NeoBundleLazy 'applescript.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : 'applescript',
-      \ }}
-" CSS3
-NeoBundleLazy 'hail2u/vim-css3-syntax', {
-      \ 'autoload' : {
-      \   'filetypes' : 'css',
-      \ }}
-" HybridText
-NeoBundleLazy 'HybridText', {
-      \ 'autoload' : {
-      \   'filetypes' : 'hybrid',
-      \ }}
-" Javascript
-NeoBundleLazy 'jelera/vim-javascript-syntax', {
-      \ 'autoload' : {
-      \   'filetypes' : 'javascript',
-      \ }}
-" jQuery
-NeoBundle 'jQuery'
-" SCSS
-NeoBundleLazy 'cakebaker/scss-syntax.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : 'scss',
-      \ }}
-" tmux
-NeoBundleLazy 'zaiste/tmux.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : 'tmux',
-      \ }}
-" TypeScript
-NeoBundleLazy 'leafgarland/typescript-vim', {
-      \ 'autoload' : {
-      \   'filetypes' : 'typescript',
-      \ }}
-
-
-" diff foloding
-NeoBundleLazy 'thinca/vim-ft-diff_fold', {
-      \ 'autoload' : {
-      \   'filetypes' : 'diff'
-      \ }}
-
-" markdown folding
-" NeoBundleLazy 'thinca/vim-ft-markdown_fold', {
-"       \ 'autoload' : {
-"       \   'filetypes' : [ 'markdown' ]
-"       \ }}
-
-" }}}
-
-" === ColorScheme {{{2
-
-" NeoBundle 'aereal/vim-magica-colors'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'w0ng/vim-hybrid'
-
-"NeoBundle 'Railscasts-Theme-GUIand256color'
-"NeoBundle 'desert256.vim'
-"NeoBundle 'mrkn256.vim'
-"NeoBundle 'tomasr/molokai'
-"NeoBundle 'Lucius'
-"NeoBundle 'Zenburn'
-"NeoBundle 'nanotech/jellybeans.vim'
-"NeoBundle 'molokai'
-"NeoBundle 'vol2223/vim-colorblind-colorscheme'
-
-" }}}
-
-" == Programming {{{2
-
-" vim-ref : リファレンスをvim上で参照
-"   alc/clojure/erlang/man/perldoc/phpmanual/pydoc/refe
-"   実行 :Ref <リファレス名> キーワード
-"   カーソル下の単語を検索 K
-"   キャッシュ削除 :call ref#rmcache('pydoc')
-NeoBundleLazy 'thinca/vim-ref', {
-      \ 'autoload' : {
-      \   'commands' : 'Ref',
-      \   'mappings' : '<Plug>(ref-keyword)',
-      \   'unite_sources' : 'ref',
-      \ }}
-
-" ref-javadoc : vim-refのjavadoc用ソース
-NeoBundleLazy 'pekepeke/ref-javadoc', {
-      \ 'autoload' : {
-      \   'commands' : 'Ref',
-      \ }}
-
-" ref-sources.vim : vim-refのjavascript/jquery用ソース
-NeoBundleLazy 'mojako/ref-sources.vim', {
-      \ 'autoload' : {
-      \   'commands' : 'Ref',
-      \ }}
-
-" simple-javascript-indenter : Javascript用インデント
-NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'javascript' ]
-      \ }}
-
-" jscomplete-vim :Javascript補完
-" NeoBundleLazy 'teramako/jscomplete-vim',  {
-"       \ 'autoload' : {
-"       \   'filetypes' : [ 'coffee' ]
-"       \ }}
-
-" vim-nodejs-complete : Javascript補完 + node.js
-NeoBundleLazy 'myhere/vim-nodejs-complete', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'coffee' ]
-      \ }}
-
-" vim-jsdoc : JSDoc生成
-"   :JsDoc or <C-l>
-NeoBundleLazy 'heavenshell/vim-jsdoc', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'javascript', 'coffee' ]
-      \ }}
-
-" "vim-coffee-script
-NeoBundleLazy 'kchmck/vim-coffee-script', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'coffee' ]
-      \ }}
-
-" vim-python-pep8-indent
-NeoBundleLazy 'hynek/vim-python-pep8-indent', {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
-
-" Pydiction :  Python用入力補完
-"NeoBundleLazy 'Pydiction', {
-      "\ 'autoload' : {
-      "\   'filetypes' : [ 'python' ]
-      "\ }}
-
-" pythoncomplete : Python補完(オムニ補完で使用)
-"NeoBundleLazy 'pythoncomplete', {
-      "\ 'autoload' : {
-      "\   'filetypes' : [ 'python' ]
-      "\ }}
-
-" python-mode : Python多機能プラグイン
-" pylint, rope
-NeoBundleLazy 'klen/python-mode'
-      "\ , {
-      "\ 'autoload' : {
-      "\   'filetypes' : [ 'python' ]
-      "\ }}
-
-" Awesome Python autocompletion
-"   To install jedi : git submodule update --init
-NeoBundleLazy 'davidhalter/jedi-vim'
-      " \ , {
-      " \ 'autoload' : {
-      " \   'filetypes' : [ 'python' ]
-      " \ }}
-
-" vim-django-support : Djangoを正しくVimで読み込めるようにする
-NeoBundleLazy "lambdalisue/vim-django-support", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
-
-" vim-virtualenv : Vimで正しくvirtualenvを処理できるようにする
-NeoBundleLazy "jmcantrell/vim-virtualenv", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
-
-" syntastic : 多言語対応のシンタックスチェックツール
-"  対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-" NeoBundleLazy 'scrooloose/syntastic',  {
-"       \ 'autoload' : {
-"       \   'commands' : [
-"       \    'SyntasticCheck', 'SyntasticToggleMode',
-"       \    'Errors',
-"       \ ]}}
-
-" vim-watchdogs : :非同期シンタックスチェック
-NeoBundleLazy 'yonchu/vim-watchdogs',  {
-      \ 'depends' : [ 'osyo-manga/shabadou.vim' ],
-      \ 'autoload' : {
-      \   'filetypes' : [
-      \     'python', 'html', 'javascript', 'coffee', 'perl',
-      \     'php', 'ruby', 'scss', 'sass'
-      \ ]}}
-
-" closetag.vim : <C-_>でhtmlタグの閉じタグを入力
-NeoBundleLazy 'closetag.vim', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'xml', 'xsl', 'ant' ],
-      \ }}
-
-" zencoding-vim : html
-NeoBundleLazy 'mattn/emmet-vim',  {
-      \ 'autoload' : {
-      \   'filetypes' : [
-      \     'html', 'xml', 'javascript', 'coffee', 'css', 'less',
-      \     'scss', 'sass', 'haml', 'markdown',
-      \ ]}}
-
-" vim-less-autocompile
-NeoBundleLazy 'plasticscafe/vim-less-autocompile',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'less' ]
-      \ }}
-
-" vim-less
-NeoBundleLazy 'groenewege/vim-less',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'less' ]
-      \ }}
-
-" vim-haml
-NeoBundleLazy 'tpope/vim-haml',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'html', 'scss', 'sass' ]
-      \ }}
-
-" sass-compile.vim
-NeoBundleLazy 'AtsushiM/sass-compile.vim',  {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'sass' ]
-      \ }}
-
-" tagbar
-NeoBundleLazy 'majutsushi/tagbar', {
-      \ "autload": {
-      \   "commands": ["TagbarToggle"],
-      \ }}
-
-" tern_for_vim : Javascript補完
-" $ cd ~/.vim/bundle/tern_for_vim && npm install
-" 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
-" http://ternjs.net/doc/manual.html
-NeoBundleLazy 'marijnh/tern_for_vim', {
-      \ 'autoload' : {
-      \   'filetypes' : [ 'javascript' ]
-      \ }}
-
-
-" vim-prettyprint : vimの変数を表示 (plug-in制作で便利)
-NeoBundleLazy 'thinca/vim-prettyprint', {
-      \ 'autoload' : {
-      \   'commands' : 'PP'
-      \ }}
-" }}}
-
-" === NeoBundle Finalialization {{{2
-
-call neobundle#end()
-
-" Disable GetLatestVimPlugin.vim
-let g:loaded_getscriptPlugin = 1
-
-" Disable netrw.vim
-let g:loaded_netrwPlugin = 1
-
-" filetype plug-in (.vim/ftplugin) と filetype indent を有効にする
-filetype plugin indent on
-
-" Installation check.
-" 未インストール Plug-in がある場合は自動でインストール
-if !has('gui_running')
-  NeoBundleCheck
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir, [expand('<sfile>'), s:toml_path, s:toml_lazy_path])
+
+  call dein#load_toml(s:toml_path, {'lazy': 0})
+  call dein#load_toml(s:toml_lazy_path, {'lazy' : 1})
+
+  call dein#end()
+  call dein#save_state()
+
+  if has('vim_starting') && !has('gui_running') && expand('%') ==# '.vimrc'
+    if dein#check_install()
+      " Installation check.
+      call dein#install()
+    endif
+  endif
 endif
 
 " }}}
@@ -2061,10 +1031,6 @@ vnoremap <C-p> I<C-r>"<ESC><ESC>
 nmap y9 y$
 " y0で行頭までヤンク
 nmap y0 y^
-
-
-" インサートモード中にyankした内容をputする
-inoremap <C-o> <ESC>:<C-U>YRPaste 'p'<CR>i
 
 
 "### カーソル下の単語で置換
@@ -3053,13 +2019,41 @@ endfunction
 " }}}
 
 
-" Plugin settgins
-source ~/dotfiles/.vimrc.plugins_setting
+" === Startup {{{
+" 自動実行 - Helper
+function! s:auto_open_at_startup()
+  VimFilerExplorer
+  execute 'wincmd w'
+  execute 'Startify'
+  " execute 'edit $MYVIMRC'
+  augroup AutoOpenAtStartup
+    autocmd!
+  augroup END
+  augroup! AutoOpenAtStartup
+endfunction
 
-" Plugin settginf !has('vim_starting')
-if !has('vim_starting')
-  call neobundle#call_hook('on_source')
+" http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
+function! s:GetBufByte()
+  let byte = line2byte(line('$') + 1)
+  if byte == -1
+    return 0
+  else
+    return byte - 1
+  endif
+endfunction
 
+" 自動実行 - Main
+if has('vim_starting')
+      \ && len(expand('%:p')) == 0
+      \ && !argc()
+  augroup AutoOpenAtStartup
+    autocmd!
+    autocmd VimEnter * nested
+          \ if @% == '' && s:GetBufByte() == 0
+          \ | call <SID>auto_open_at_startup()
+          \ | endif
+  augroup END
+else
   if exists(':IndentLinesReset')
     IndentLinesReset
   endif
@@ -3067,5 +2061,6 @@ endif
 
 set secure
 
+" }}}
 
 " vim: fdm=marker:
