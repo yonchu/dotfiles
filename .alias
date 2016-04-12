@@ -273,9 +273,10 @@ alias topc='top -R -F -u'
 #  -a テキストファイルとして比較
 #  -q 差分があるかどうかだけを報告し詳細を報告しない
 #  -u unified diff形式で出力
+#  --exclude=xx
 #
-alias diff='diff -tbBE'
-alias diffr='diff -rq'
+alias dif='diff -tbBE'
+alias diffr='diff -r --exclude=.git --exclude=.svn'
 
 
 #
