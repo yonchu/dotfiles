@@ -29,10 +29,10 @@ setup_osx() {
 }
 
 setup_vim() {
-    vim +NeoBundleInstall +q
-    if [ -d ~/.vim/bundle/jedi-vim ]; then
+    vim -c 'call dein#install()' +q
+    if [ -d ~/.vim/dein/repos/github.com/davidhalter/jedi-vim ]; then
         (
-            cd ~/.vim/bundle/jedi-vim
+            cd ~/.vim/dein/repos/github.com/davidhalter/jedi-vim
             git submodule update --init
         )
     fi
@@ -129,7 +129,7 @@ fi
 # シンボリックリンク作成
 confirm_exe 'シンボリックリンクを作成しますか？' && create_dotfiles_symlinks
 
-# vim(NeoBundle)の設定
+# vimの設定
 confirm_exe 'vimの設定を行いますか？' && setup_vim
 
 ## complete message

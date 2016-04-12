@@ -26,33 +26,33 @@ Submodules
 ------------
 
 - git
+    - [iwata/git-now](https://github.com/iwata/git-now)
     - [yonchu/git-check](https://github.com/yonchu/git-check)
     - [yonchu/git-edit](https://github.com/yonchu/git-edit)
-    - [iwata/git-now](https://github.com/iwata/git-now)
 
 - tmux
     - [erikw/tmux-powerline](https://github.com/erikw/tmux-powerline)
     - [tmux-plugins/tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect)
 
 - vim
-    - [Shougo/neobundle.vim](https://github.com/Shougo/neobundle.vim)
+    - [Shougo/dein.vim](https://github.com/Shougo/dein.vim)
     - [yonchu/vimman](https://github.com/yonchu/vimman)
 
 - zsh
-    - [yonchu/zsh-vcs-prompt](https://github.com/yonchu/zsh-vcs-prompt)
-    - [yonchu/zsh-python-prompt](https://github.com/yonchu/zsh-python-prompt)
-    - [pasberth/promptway](https://github.com/pasberth/promptway)
-    - [zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-    - [zsh-users/zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
     - [knu/z](https://github.com/knu/z)
     - [m4i/cdd](https://github.com/m4i/cdd)
+    - [pasberth/promptway](https://github.com/pasberth/promptway)
     - [pasberth/slipd](https://github.com/pasberth/slipd)
-    - [zsh-users/zsh-completions](https://github.com/zsh-users/zsh-completions)
-    - [yonchu/grunt-zsh-completion](https://github.com/yonchu/grunt-zsh-completion)
-    - [zsh-users/zaw](https://github.com/zsh-users/zaw)
     - [syohex/zaw-git-directories](https://github.com/syohex/zaw-git-directories)
+    - [yonchu/grunt-zsh-completion](https://github.com/yonchu/grunt-zsh-completion)
     - [yonchu/zaw-src-git-log](https://github.com/yonchu/zaw-src-git-log)
     - [yonchu/zaw-src-git-show-branch](https://github.com/yonchu/zaw-src-git-show-branch)
+    - [yonchu/zsh-vcs-prompt](https://github.com/yonchu/zsh-vcs-prompt)
+    - [yonchu/zsh-python-prompt](https://github.com/yonchu/zsh-python-prompt)
+    - [zsh-users/zaw](https://github.com/zsh-users/zaw)
+    - [zsh-users/zsh-completions](https://github.com/zsh-users/zsh-completions)
+    - [zsh-users/zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
+    - [zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 - etc
     - [seebi/dircolors-solarized](https://github.com/seebi/dircolors-solarized)
