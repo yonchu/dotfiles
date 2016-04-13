@@ -367,7 +367,6 @@ set autoread
 " autoread よりも厳密にチェック
 autocmd MyAutoCmd WinEnter * checktime
 " 編集中でも他のファイルを開けるようにする
-" (バッファを切替えてもundoの効力を失わない)
 set hidden
 
 
@@ -504,28 +503,32 @@ endif
 
 " === Backup {{{2
 
-let s:enable_backup = 0
-if s:enable_backup
-  " Backup on.
-  set backup
-  set swapfile
-  set backupdir=~/backup
-else
-  " Backup off.
-  set nobackup
-  set noswapfile
-  " 上書きの保存前にバックアップ生成
-  " ただし、backup が OFF の場合は、上書きに成功時には削除される
-  set writebackup
-endif
+" Backup on.
+" set backup
+" set swapfile
+" set backupdir=~/backup
+
+" Backup off.
+set nobackup
+set noswapfile
+" 上書きの保存前にバックアップ生成
+" ただし、backup が OFF の場合は、上書きに成功時には削除される
+set writebackup
 
 set backupdir-=.
 set directory-=.
 
-if v:version >= 703
-  "set undofile
-  let &undodir=&directory
+if has('persistent_undo')
+  set undofile
+  let &g:undodir=&directory
+  autocmd MyAutoCmd BufReadPre * call <SID>set_undofile()
 endif
+function! s:set_undofile() abort
+    let is_git_dir = system('git rev-parse --is-inside-work-tree 2> /dev/null')
+    if is_git_dir =~ 'true'
+      setlocal noundofile
+    endif
+endfunction
 
 " }}}
 
