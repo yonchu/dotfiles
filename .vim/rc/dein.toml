@@ -12,6 +12,13 @@ repo = 'itchyny/landscape.vim'
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
+# Modes {lhs}  {rhs}
+# vo     al    |<Plug>(textobj-line-a)|
+# vo     il    |<Plug>(textobj-line-i)|
+repo = 'kana/vim-textobj-line'
+depends = 'vim-textobj-user'
+
+[[plugins]]
 # switch :  true/false切り替え (+/-)
 repo = 'AndrewRadev/switch.vim'
 on_cmd = 'Switch'
