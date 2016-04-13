@@ -1804,6 +1804,17 @@ function! s:get_syn_info()
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
+
+"### Clear undo history.
+function! s:clear_undo() abort
+  let old_undolevels = &undolevels
+  setlocal undolevels=-1
+  execute "normal! a \<BS>\<Esc>"
+  let &l:undolevels = old_undolevels
+  echom strftime('[%Y-%m-%d %H:%M:%S]').' Clear undo!'
+endfunction
+command! -bar ClearUndo  call <SID>clear_undo()
+command! -bar -bang -nargs=? -complete=file W call <SID>clear_undo() | write<bang> <args>
 " }}}
 
 
