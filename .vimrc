@@ -388,7 +388,7 @@ autocmd MyAutoCmd FileType *
 " 末尾にモードライン以外の文字を含める場合
 "  /* vim: set ft=c sw=4 sts=4 ts=4 et: */
 set modeline                     " モードラインを有効
-set modelines=2                  " モードラインを認識する行数 (前後N行)
+" set modelines=2                " モードラインを認識する行数 (前後N行) (default:5)
 
 
 "### Completion
