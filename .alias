@@ -467,6 +467,15 @@ agv () {
 
 
 #
+# hw (highway)
+#
+alias hw='hw -i'
+hwv () {
+    \hw -i --nogroup --no-color "$@" | \vim -R -
+}
+
+
+#
 # nkf
 #  -g 文字コード判定
 #  $$: シェル自身のプロセスID
