@@ -837,6 +837,12 @@ set showfulltag
 
 " === Misc {{{2
 
+"### autodate.vim
+"let autodate_format="%Y/%m/%d %H:%M:%S"
+let autodate_format = '%d %3m %Y'
+let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
+
+
 "### KeyMap for Mac
 if s:is_mac
   " 編集中のファイルをブラウザ(Chrome)で開く(Mac Only)

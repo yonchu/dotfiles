@@ -557,11 +557,6 @@ hook_add = '''
 # Kaoriya版ではデフォルト有効
 repo = 'autodate.vim'
 if = "!has('kaoriya')"
-hook_source = '''
-  "let autodate_format="%Y/%m/%d %H:%M:%S"
-  let autodate_format = '%d %3m %Y'
-  let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
-'''
 
 [[plugins]]
 # ブラウザリロード
