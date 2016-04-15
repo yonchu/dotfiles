@@ -565,6 +565,23 @@ repo = 'tell-k/vim-browsereload-mac'
 if = "has('mac')"
 
 [[plugins]]
+# gc    |<Plug>(caw:prefix)|
+# gcc   |<Plug>(caw:hatpos:toggle)|
+# gci   |<Plug>(caw:hatpos:comment)|
+# gcui  |<Plug>(caw:hatpos:uncomment)|
+# gcI   |<Plug>(caw:zeropos:comment)|
+# gcuI  |<Plug>(caw:zeropos:uncomment)|
+# gca   |<Plug>(caw:dollarpos:comment)|
+# gcua  |<Plug>(caw:dollarpos:uncomment)|
+# gcw   |<Plug>(caw:wrap:comment)|
+# gcuw  |<Plug>(caw:wrap:uncomment)|
+# gcb   |<Plug>(caw:box:comment)|
+# gco   |<Plug>(caw:jump:comment-next)|
+# gcO   |<Plug>(caw:jump:comment-prev)|
+repo = 'tyru/caw.vim'
+on_map = ['<Plug>', 'gc']
+
+[[plugins]]
 # TODO
 # Land on window you choose like tmux's 'display-pane'.
 repo = 't9md/vim-choosewin'
@@ -1039,31 +1056,6 @@ repo = 'majutsushi/tagbar'
 on_cmd = 'TagbarToggle'
 
 [[plugins]]
-# コメントアウト
-#   <C-_><C-_> 行、選択箇所をコメントをトグル
-#   <C-_>n 指定したftでコメントをトグル
-#   <C-_>s 詳細にコメント形式を指定してトグル
-#   <C-_>p 関数などブロック全体をトグル
-#   gcc <C-_><C-_>と一緒
-repo = 'tomtom/tcomment_vim'
-on_cmd = [
-  'TComment', 'TCommentAs', 'TCommentRight',
-  'TCommentBlock', 'TCommentInline', 'TCommentMaybeInline'
-]
-hook_add = '''
-  " let g:tcommentModeExtra = '>>'
-  " Set explicitly default mappings for neobundle.
-  nnoremap <silent> <C-_><C-_> :TComment<cr>
-  vnoremap <silent> <C-_><C-_> :TCommentMaybeInline<cr>
-  inoremap <silent> <C-_><C-_> :TComment<cr>
-
-  " Compatible mappings for nerdcommenter.
-  nnoremap <silent> <Leader>c<Space> :TComment<cr>
-  vnoremap <silent> <Leader>c<Space> :TCommentMaybeInline<cr>
-  inoremap <silent> <Leader>c<Space> :TComment<cr>
-'''
-
-[[plugins]]
 # サムネイルを使用した Buffer selector.
 repo = 'itchyny/thumbnail.vim'
 on_cmd = 'Thumbnail'
@@ -1094,28 +1086,3 @@ on_map = ['<Plug>', ['xv', '*'], ['xv', '#'], ['xv', 'g'], ['xv', 'g*']]
 repo = 'yuratomo/w3m.vim'
 on_cmd = 'W3m'
 # }}}
-
-
-
-
-
-
-# [[plugins]]
-# repo = 'tyru/caw.vim'
-# on_map = '<Plug>'
-# hook_add = '''
-#   function! InitCaw() abort
-#     if !&l:modifiable
-#       silent! nunmap <buffer> gc
-#       silent! xunmap <buffer> gc
-#       silent! nunmap <buffer> gcc
-#       silent! xunmap <buffer> gcc
-#     else
-#       nmap <buffer> gc <Plug>(caw:prefix)
-#       xmap <buffer> gc <Plug>(caw:prefix)
-#       nmap <buffer> gcc <Plug>(caw:tildepos:toggle)
-#       xmap <buffer> gcc <Plug>(caw:tildepos:toggle)
-#     endif
-#   endfunction
-#   autocmd MyAutoCmd FileType * call InitCaw()
-# '''
