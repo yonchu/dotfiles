@@ -89,7 +89,7 @@ function coffee-redux() {
 
 # Load NPM completion.
 if (( $+commands[npm] )); then
-    cache_file=~/.node-completion.cache.zsh
+    cache_file=~/.zcompcache/.node-completion.cache.zsh
     if [[ "$commands[npm]" -nt "$cache_file" || ! -s "$cache_file" ]]; then
         # npm is slow; cache its output.
         npm completion >! "$cache_file" 2> /dev/null
