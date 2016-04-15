@@ -1015,32 +1015,7 @@ hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
 [[plugins]]
 # テキストを括弧で囲む,削除する (s)
 repo = 'tpope/vim-surround'
-on_map = '<Plug>'
-hook_add = '''
-  let g:surround_no_mappings = 1
-
-  "let g:surround_{char2nr('e')} = 'begin \r end'
-  "let g:surround_{char2nr('d')} = 'do \r end'
-  "let g:surround_{char2nr("-")} = ':\r'
-
-  nmap ds  <Plug>Dsurround
-  nmap cs  <Plug>Csurround
-  nmap ys  <Plug>Ysurround
-  nmap yS  <Plug>YSurround
-  nmap yss <Plug>Yssurround
-  nmap ySs <Plug>YSsurround
-  "nmap S <Plug>Ysurround
-  "nmap SS <Plug>Yssurround
-  nmap ySS <Plug>YSsurround
-  xmap S   <Plug>VSurround
-  xmap gS  <Plug>VgSurround
-
-  if !hasmapto("<Plug>Isurround","i") && "" == mapcheck("<C-S>","i")
-    imap    <C-S> <Plug>Isurround
-  endif
-  imap      <C-G>s <Plug>Isurround
-  imap      <C-G>S <Plug>ISurround
-'''
+on_map = ['<Plug>', 'cs']
 
 # [[plugins]]
 # repo = 'Shougo/tabpagebuffer.vim'
