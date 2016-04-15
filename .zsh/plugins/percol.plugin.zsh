@@ -14,8 +14,8 @@
 
 alias -g P='| percol --match-method migemo'
 
-alias ps-percol='ps aux | percol | awk "{ print $2 }"'
-alias kill-percol='ps aux | percol | awk "{ print $2 }" | xargs kill'
+alias ps-percol='ps aux | percol | awk "{ print \$2 }"'
+alias kill-percol='ps aux | percol | awk "{ print \$2 }" | xargs kill'
 
 ## Grep process.
 function ppgrep() {
