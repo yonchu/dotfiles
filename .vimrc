@@ -1189,9 +1189,9 @@ nnoremap ) %
 
 
 "### 最後に変更されたテキストを選択する
-nnoremap gc :<C-u>normal! `[v`]<CR>
-vnoremap gc <C-u>normal gc<Enter>
-onoremap gc <C-u>normal gc<Enter>
+nnoremap <Leader>gc :<C-u>normal! `[v`]<CR>
+vnoremap <Leader>gc :<C-u>normal gc<Enter>
+onoremap <Leader>gc :<C-u>normal gc<Enter>
 
 
 " Quickfix 前へ
