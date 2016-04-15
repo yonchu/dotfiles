@@ -336,6 +336,12 @@ hook_add = '''
         \ d:<C-u>Unite -buffer-name=register
         \ -default-action=append register history/yank<CR>
 
+  " YankRound.
+  nnoremap <silent> [unite]y
+        \ :<C-u>Unite -buffer-name=yankround yankround<CR>
+  xnoremap <silent> [unite]y
+        \ :<C-u>Unite -buffer-name=register yankround<CR>
+
   " Tab pages.
   nnoremap <silent> [unite]tp
         \ :<C-u>Unite -auto-resize -select=`tabpagenr()-1` tab<CR>
@@ -1060,4 +1066,27 @@ on_map = ['<Plug>', ['xv', '*'], ['xv', '#'], ['xv', 'g'], ['xv', 'g*']]
 [[plugins]]
 repo = 'yuratomo/w3m.vim'
 on_cmd = 'W3m'
+
+[[plugins]]
+# ヤンク履歴管理
+# [unite]y  Unite yankround
+repo = 'LeafCage/yankround.vim'
+on_map = '<Plug>'
+on_source = 'unite.vim'
+hook_add = '''
+  nmap p <Plug>(yankround-p)
+  xmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap gP <Plug>(yankround-gP)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+  nmap <Leader>y :<C-u>Unite yankround
+'''
+hook_source = '''
+  let g:yankround_dir = "~/.cache/yankround"
+  let g:yankround_max_history	= 100
+  let g:yankround_use_region_hl = 1
+'''
 # }}}

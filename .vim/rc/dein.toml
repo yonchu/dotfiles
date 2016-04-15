@@ -162,36 +162,6 @@ hook_add = '''
         \ ]
 '''
 
-[[plugins]]
-# ヤンク履歴管理 (<Leader>y)
-repo = 'YankRing.vim'
-hook_add = '''
-  " Yankの履歴参照
-  nmap <Leader>y :<C-u>YRShow<CR>
-  " nnoremap @ <Nop>
-  nnoremap @: :<C-u>normal! @:<CR>
-
-  " インサートモード中にyankした内容をputする
-  inoremap <C-o> <ESC>:<C-U>YRPaste 'p'<CR>i
-
-  " 通常版のvimでは以下の設定にしないとペースト時にエラーが出る
-  if ! has('kaoriya')
-    let g:yankring_manual_clipboard_check = 0
-  endif
-  " 履歴保存先を変更(デフォルトだと隠しファイルにならないため)
-  let g:yankring_history_file = ".yankring_history"
-  " ヤンク履歴についかする最少文字数(1文字は対象外)
-  let g:yankring_min_element_length = 2
-
-  let g:yankring_replace_n_nkey = ''
-  let g:yankring_replace_n_pkey = ''
-
-  autocmd MyAutoCmd BufNewFile *
-        \ if bufname('%') ==# '[YankRing]'
-        \ | setlocal nofoldenable nomodeline foldcolumn=0
-        \ | endif
-'''
-
 # [[plugins]]
 # # markをsigin表示
 # #   <Leader>mt ON/OFFトグル
