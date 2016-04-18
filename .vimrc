@@ -908,9 +908,10 @@ endfunction
 "### Default Skeleton File
 augroup SkeletonAu
   autocmd!
+  autocmd BufNewFile .editorconfig 0r $HOME/.vim/my_templates/skel.editorconfig
   autocmd BufNewFile *.html 0r $HOME/.vim/my_templates/skel.html
-  autocmd BufNewFile *.sh 0r $HOME/.vim/my_templates/skel.sh
   autocmd BufNewFile *.py 0r $HOME/.vim/my_templates/skel.py
+  autocmd BufNewFile *.sh 0r $HOME/.vim/my_templates/skel.sh
   autocmd BufNewFile *.user.js 0r $HOME/.vim/my_templates/skel.user.js
 augroup END
 
