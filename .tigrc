@@ -9,6 +9,10 @@
 
 ### View
 set main-view-line-number = yes
+set stage-view-line-number = yes
+set log-view-line-number = yes
+set diff-view-line-number = yes
+set blame-view-line-number = yes
 set main-view-id = yes
 
 ### Bind
@@ -18,6 +22,8 @@ bind generic gg move-first-line
 bind generic G  move-last-line
 bind generic <Ctrl-F> move-page-down
 bind generic <Ctrl-B> move-page-up
+bind generic <Ctrl-D> move-half-page-down
+bind generic <Ctrl-U> move-half-page-up
 
 # quickly jump to the next diff chunk
 bind diff  <Ctrl-n> :/^@@
