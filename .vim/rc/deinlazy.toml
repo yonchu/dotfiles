@@ -315,6 +315,22 @@ hook_add = '''
   nnoremap <silent> <space>fb  :<C-u>UniteWithBufferDir
         \ -buffer-name=files buffer bookmark file<CR>
 
+  " Source.
+  nnoremap <silent> [unite]s
+          \ :<C-u>Unite -buffer-name=source source<CR>
+
+  " Menu.
+  nnoremap <silent> [unite]mm
+          \ :<C-u>Unite -buffer-name=menu -no-start-insert -resume menu<CR>
+
+  " Mapping.
+  nnoremap <silent> [unite]ma
+          \ :<C-u>Unite -buffer-name=mapping mapping<CR>
+
+  " Message.
+  nnoremap <silent> [unite]me
+          \ :<C-u>Unite -buffer-name=message output:message<CR>
+
   " Outline.
   nnoremap <silent> [unite]o
           \ :<C-u>Unite outline -no-start-insert -resume<CR>
