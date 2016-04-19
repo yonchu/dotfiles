@@ -19,37 +19,6 @@ repo = 'kana/vim-textobj-line'
 depends = 'vim-textobj-user'
 
 [[plugins]]
-# switch :  true/false切り替え (+/-)
-repo = 'AndrewRadev/switch.vim'
-on_cmd = 'Switch'
-on_map = ['+', '-']
-hook_add = '''
-  " CamelCase <-> SneakCase
-  let g:variable_style_switch_definitions = [
-    \   {
-    \     '\<[a-z0-9]\+_\k\+\>': {
-    \       '_\(.\)': '\U\1'
-    \     },
-    \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
-    \       '\([A-Z]\)': '_\l\1'
-    \     },
-    \   }
-    \ ]
-
-  let g:switch_custom_definitions =
-    \ [
-    \   ['and', 'or'],
-    \   ['if', 'unless'],
-    \   ['yes', 'no'],
-    \   ['enable', 'disable'],
-    \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
-    \ ]
-
-  nnoremap <silent> + :call switch#Switch(g:variable_style_switch_definitions)<cr>
-  nnoremap <silent> - :Switch<CR>
-'''
-
-[[plugins]]
 repo = 'yonchu/accelerated-smooth-scroll'
 on_map = '<Plug>'
 hook_add = '''
@@ -121,6 +90,7 @@ hook_add = 'source ~/.vim/rc/plugins/lightline.rc.vim'
 
 [[plugins]]
 # root権限でファイルを編集/保存
+# $ vim sudo:filename
 repo = 'sudo.vim'
 on_cmd = ['SudoEdit', 'SudoWrite']
 hook_add = '''
@@ -128,38 +98,6 @@ hook_add = '''
   command! SudoEdit :e sudo:%<CR><C-^>:bd!
   " root権限で保存
   command! SudoWrite :w sudo:%
-'''
-
-[[plugins]]
-# vim起動画面のカスタマイズ
-repo = 'mhinz/vim-startify'
-hook_add = '''
-  " 自動実行しない
-  let g:startify_disable_at_vimenter = 1
-
-  " ヘッダ設定
-  " http://deris.hatenablog.jp/entry/2013/12/15/235606
-  let g:startify_custom_header = []
-  let g:startify_custom_header +=
-    \ map(split(system('date'), '\n'), '"   ". v:val') + ['', '']
-
-  " 最近使ったファイルの指示詞をアルファベットに
-  let g:startify_custom_indices = ['f', 'g', 'h', 'r', 'o']
-
-  " ブックマーク
-  let g:startify_bookmarks = [
-    \ '~/.vimrc',
-    \ '~/.zsh/.zshrc',
-    \ ]
-
-  " 表示除外リスト
-  let g:startify_skiplist = [
-        \ 'COMMIT_EDITMSG',
-        \ $VIMRUNTIME . '/doc',
-        \ 'bundle/.*/doc',
-        \ 'dein/.*/doc',
-        \ '.vimgolf',
-        \ ]
 '''
 
 # [[plugins]]
