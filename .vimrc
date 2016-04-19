@@ -122,6 +122,10 @@ let g:loaded_matchit           = 1
 " === Information {{{2
 " https://github.com/Shougo/dein.vim
 "
+" Install: call dein#check_install() | call dein#install()
+" Update:  call dein#check_update() | call dein#update()
+" Clean:   call dein#check_clean()
+"
 " Directory:
 "   dein root: /.vim/dein
 "   dein repo: /.vim/dein/repos/github.com/Shougo/dein.vim
