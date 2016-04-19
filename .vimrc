@@ -40,14 +40,11 @@ else
   language messages C
 endif
 
-" ヘルプファイル指定
-"set helpfile=$VIMRUNTIME/doc/help.txt
 " ヘルプの言語を指定(日本語を優先)
 set helplang& helplang=ja,en
 
 " 起動時のメッセージを表示しない
 set shortmess& shortmess+=I
-"set shortmess=aTI
 
 " <Leader>キーを変更 (default: \)
 let g:mapleader = ','
@@ -350,10 +347,6 @@ set noerrorbells
 set vb t_vb=
 
 
-"### カーソル移動で行頭/行末から前後の行へ移動可能
-"set whichwrap& whichwrap+=h,l,<,>,[,],b,s,~
-
-
 "### バックスペースキーで削除できるものを指定
 "  indent  : 行頭の空白
 "  eol     : 改行
@@ -409,7 +402,6 @@ set pumheight=20                  " ポップアップメニューの最大項�
 set foldenable
 " set foldmethod=expr
 set foldmethod=marker
-" Folding レベル
 set foldcolumn=3
 set foldnestmax=3
 set fillchars=vert:\|
@@ -701,9 +693,6 @@ autocmd MyAutoCmd BufEnter,WinEnter,BufRead * set cursorline
 " Markdownの_や*のイタリックフォントを無効
 autocmd MyAutoCmd FileType markdown hi! def link markdownItalic Normal
 
-"### Clear modeline highlight.
-" autocmd MyAutoCmd VimEnter * highlight ModeMsg guifg=bg guibg=bg
-
 " }}}
 
 " === StatusLine {{{2
@@ -838,7 +827,6 @@ set showfulltag
 " === Misc {{{2
 
 "### autodate.vim
-"let autodate_format="%Y/%m/%d %H:%M:%S"
 let autodate_format = '%d %3m %Y'
 let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
 
@@ -896,7 +884,6 @@ function! s:auto_qf_close()
     let ft = getwinvar(winnr, '&filetype')
     if buftype ==# 'quickfix' || ft ==# 'nerdtree' || ft ==# 'help'
           \ || ft ==# 'vimfiler' || ft ==# 'quickrun'
-    " exists('b:NERDTreeType') && b:NERDTreeType == 'primary'
     else
       return
     endif
@@ -1153,7 +1140,6 @@ map <F2> <ESC>:bp<CR>
 " F3で次のバッファ
 map <F3> <ESC>:bn<CR>
 " F4でバッファを削除する
-" map <F4> <ESC>:bnext \| bdelete # \| if tabpagenr('$') != 1 \| tabclose \| endif<CR>
 map <silent> <F4> <ESC>:call <SID>delete_buf()<CR>
 function! s:delete_buf()
   bnext
@@ -1204,11 +1190,6 @@ nnoremap <buffer> ]q :cnext<CR>
 " }}}
 
 " === Edit {{{2
-
-"### normalモードでも改行入力可能
-" QuickFixでEnterでジャンプができなくなるので不可
-"noremap <CR> i<CR><ESC>
-
 
 "### ビジュアルモードで連続インデント
 nnoremap > >>
@@ -1292,10 +1273,6 @@ nnoremap <Space>s. :<C-u>source $MYVIMRC<Enter>
 
 "### 強制全保存終了を無効化。
 nnoremap ZZ <Nop>
-
-
-"### 保存
-" nnoremap <CR> :<C-u>w<CR>
 
 
 "### マーク
@@ -1443,7 +1420,7 @@ endfunction
 
 function! s:NextWindowOrTab()
   if tabpagenr('$') == 1 && winnr('$') == 1
-    call s:split_nicely()
+    bnext
   elseif winnr() < winnr("$")
     wincmd w
   else
@@ -1463,7 +1440,6 @@ endfunction
 
 command! SplitNicely call s:split_nicely()
 function! s:split_nicely()
-  " Split nicely.
   if winwidth(0) > 2 * &winwidth
     vsplit
   else
@@ -1538,47 +1514,6 @@ function! s:add_numbers(num)
     call setline('.', new_line)
   endif
 endfunction
-
-
-"### 補完中にESCで補完キャンセル
-"inoremap <silent><expr><ESC> pumvisible() ? neocomplcache#cancel_popup()."<ESC>" : "<ESC>"
-
-
-"## クリップボード
-" xではクリップボードに入れない
-" http://vivi.dyndns.org/SPR/SPR.phtml?project=ViVi210xx&sprID=40
-" YankRingがあるとこの設定はできない
-" ClipMenuの除外対象APL+YankRingの最少文字数で対応
-"nnoremap <silent>x "_x
-
-" 挿入モードでクリップボード貼り付け
-"imap <C-k>  <ESC>"*pa
-
-" Visual Mode のカラーテスト
-" let g:highlight_test_set = {}
-" let g:highlight_test_group = 'Comment'
-" nnoremap <C-m> :call <SID>change_color('+')<cr>
-" vnoremap <C-m> <ESC>:call <SID>change_color('+')<cr>
-" nnoremap <C-q> :call <SID>change_color('-')<cr>
-" vnoremap <C-q> <ESC>:call <SID>change_color('-')<cr>
-" function! s:change_color(flag)
-"   let val = get(g:highlight_test_set, g:highlight_test_group, -1)
-"   if a:flag == '+'
-"     let val = val + 1
-"   else
-"     let val = val - 1
-"   endif
-"   if val < 0
-"     let val = 0
-"   elseif val > 255
-"     let val = 255
-"   endif
-"   let g:highlight_test_set[g:highlight_test_group] = val
-"   execute 'hi' g:highlight_test_group 'ctermfg=' . val
-"   " -15
-"   " normal! VG
-"   echo g:highlight_test_group . '=' . val
-" endfunction
 
 " }}}
 
@@ -1916,10 +1851,6 @@ augroup MyAutoCmdEx
 
   autocmd FileType qf,qfreplace,quickrun,git,diff,gitv,gitcommit
         \ setlocal nofoldenable nomodeline foldcolumn=0 foldlevel=0
-
-  " インデント無効
-  "autocmd FileType html :set indentexpr=
-  "autocmd FileType xhtml :set indentexpr=
 augroup END
 
 " }}}
@@ -2046,7 +1977,6 @@ function! s:auto_open_at_startup()
   VimFilerExplorer
   execute 'wincmd w'
   execute 'Startify'
-  " execute 'edit $MYVIMRC'
   augroup AutoOpenAtStartup
     autocmd!
   augroup END
