@@ -74,9 +74,6 @@ export VIRTUALENV_USE_DISTRIBUTE=true
 # VirtualEnv使用時にプロンプトを変更しない
 export VIRTUAL_ENV_DISABLE_PROMPT=true
 
-# pythonbrew: デフォルトで使用するPythonのバージョン
-export DEFAULT_PYTHON_VERSION="2.7.8"
-
 # virtualenv setting
 #if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
    #export WORKON_HOME=$HOME/.virtualenvs

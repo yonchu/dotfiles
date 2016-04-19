@@ -49,8 +49,6 @@ fi
 # Python
 export VIRTUALENV_USE_DISTRIBUTE=true
 export VIRTUAL_ENV_DISABLE_PROMPT=true
-export DEFAULT_PYTHON_VERSION="2.7.3"
-export DEFAULT_PYTHON_VENV="py273"
 export PYTHONSTARTUP=~/.pythonstartup
 export PYTHONPATH=./lib:~/lib/python
 
