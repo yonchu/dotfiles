@@ -58,13 +58,11 @@ repo = 'Shougo/neco-syntax'
 on_i = 1
 
 [[plugins]]
-# TODO
 # lookコマンドを使った英単語補完
 repo = 'ujihisa/neco-look'
 on_i = 1
 
 [[plugins]]
-# TODO
 # Auto insert pairs(parenthesis) when complete done.
 repo = 'Shougo/neopairs.vim'
 on_i = 1
@@ -607,7 +605,6 @@ repo = 'tyru/caw.vim'
 on_map = ['<Plug>', 'gc']
 
 [[plugins]]
-# TODO
 # Land on window you choose like tmux's 'display-pane'.
 repo = 't9md/vim-choosewin'
 on_map = '<Plug>'
@@ -806,13 +803,13 @@ hook_add = '''
 '''
 
 [[plugins]]
-# number-marks : 連番マーク
-# mm 連番マーク
-# mb 前のマークへ
-# mv 後のマークへ
-# m. マークへ
-# F6 save marks
-# F5 reload marks
+# 連番マーク
+#   mm 連番マーク
+#   mb 前のマークへ
+#   mv 後のマークへ
+#   m. マークへ
+#   F6 save marks
+#   F5 reload marks
 repo =  'yonchu/number-marks'
 on_map = '<Plug>'
 hook_add = '''
@@ -825,6 +822,7 @@ hook_add = '''
 '''
 
 [[plugins]]
+# relativenumber の改良版
 repo = 'myusuf3/numbers.vim'
 on_cmd = ['NumbersToggle', 'NumbersOnOff']
 
@@ -937,6 +935,7 @@ repo = 'lambdalisue/vim-protocol'
 on_path = '^https\?://'
 
 [[plugins]]
+# Perform the replacement in quickfix.
 repo = 'thinca/vim-qfreplace'
 on_ft = ['unite', 'quickfix']
 hook_source =
@@ -994,6 +993,7 @@ repo = 'tpope/vim-repeat'
 on_map = ['<Plug>', '.']
 
 [[plugins]]
+# Restart vim.
 repo = 'tyru/restart.vim'
 if = "has('gui_running')"
 on_cmd = 'Restart'
