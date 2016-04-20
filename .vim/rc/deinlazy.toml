@@ -274,14 +274,17 @@ hook_add = '''
 '''
 
 [[plugins]]
+# surround
+#   追加: saiw'   hoge -> 'hoge'
+#   削除: sda'
+#   追加: sra'
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = '<Plug>'
 hook_add = '''
-  nmap <silent>sa <Plug>(operator-surround-append)a
-  nmap <silent>sd <Plug>(operator-surround-delete)a
-  nmap <silent>sr <Plug>(operator-surround-replace)a
-  nmap <silent>sc <Plug>(operator-surround-replace)a
+  map <silent>sa <Plug>(operator-surround-append)
+  map <silent>sd <Plug>(operator-surround-delete)
+  map <silent>sr <Plug>(operator-surround-replace)
 '''
 # }}}
 
@@ -1070,8 +1073,16 @@ hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
 
 [[plugins]]
 # テキストを括弧で囲む,削除する (s)
+#   追加:   ysiw(  ysiW"  ys2aw(
+#   置換:   cs["  cs"B
+#   削除:   ds[
+#   タグ:   dst  cst
+#   ビジュアルモード置換:  <C-v>で選択後 S
+#   sを大文字Sにするとインデントをしてくれる
+#   )を使うと前後スペースなし
+#   (を使うと前後スペースあり
 repo = 'tpope/vim-surround'
-on_map = ['<Plug>', 'cs']
+on_map = ['<Plug>', 'ys', 'cs', 'ds', ['ox', 'S']]
 
 [[plugins]]
 # switch :  true/false切り替え (gs)
