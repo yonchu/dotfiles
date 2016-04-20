@@ -1097,9 +1097,10 @@ hook_source = '''
     \ ]
 '''
 
-# [[plugins]]
-# repo = 'Shougo/tabpagebuffer.vim'
-# on_path = '.*'
+[[plugins]]
+# unite/vimfilerのカレントディレクトリをタブ毎に維持
+repo = 'Shougo/tabpagebuffer.vim'
+on_path = '.*'
 
 [[plugins]]
 # :cd をタブページ毎に
