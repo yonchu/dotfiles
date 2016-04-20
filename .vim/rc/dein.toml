@@ -1,3 +1,16 @@
+# map
+#   '<Plug>'
+#   ['mapping1', 'mapping2']
+#   [['nxo', 'mapping3']]
+#   mapmode (省略時は'nxo', :help map-modes)
+#     nmap  ノーマル
+#     vmap  ビジュアル、選択
+#     smap  選択
+#     xmap  ビジュアル
+#     omap  オペレータ待機
+#     lmap  挿入、コマンドライン、Lang-Arg
+#     cmap  コマンドライン
+
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
