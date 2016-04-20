@@ -370,7 +370,7 @@ hook_add = '''
   nnoremap <silent><expr> [unite]tt  &filetype == 'help' ?  "g\<C-]>" :
         \ ":\<C-u>UniteWithCursorWord -buffer-name=tag -immediately
         \  tag tag/include\<CR>"
-  nnoremap <silent><expr> [unite]tp  &filetype == 'help' ?
+  nnoremap <silent><expr> [unite]tj  &filetype == 'help' ?
         \ ":\<C-u>pop\<CR>" : ":\<C-u>Unite jump\<CR>"
 
   " Help.
