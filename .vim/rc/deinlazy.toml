@@ -616,10 +616,19 @@ hook_add = '''
 '''
 
 [[plugins]]
-# f連打で検索文字移動
+# f,F,t,T 連打で検索文字移動
+#   f{char}: 順検索
+#   F{char}: 逆順検索
+#   t{char}: 1文字前の順検索
+#   T{char}: 1文字後の逆順検索
+#   f<CR>  : リピート検索
 repo = 'rhysd/clever-f.vim'
-on_map = ['<Plug>', 'f']
-hook_source = 'let g:clever_f_ignore_case = 1'
+on_map = ['<Plug>', 'f', 'F']
+hook_source = ''''
+  let g:clever_f_smart_case = 1
+  let g:clever_f_fix_key_direction = 1
+  let g:clever_f_show_prompt = 1
+'''
 
 [[plugins]]
 # TODO
