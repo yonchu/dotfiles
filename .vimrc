@@ -1454,16 +1454,14 @@ endfunction
 
 
 "### Tags
-"tags-and-searchesを使い易くする
-nnoremap t  <Nop>
 "「飛ぶ」
-nnoremap tt  <C-]>
+nnoremap <Leader>tt  <C-]>
 "「進む」
-nnoremap tj  :<C-u>tag<CR>
+nnoremap <Leader>tj  :<C-u>tag<CR>
 "「戻る」
-nnoremap tk  :<C-u>pop<CR>
+nnoremap <Leader>tk  :<C-u>pop<CR>
 "履歴一覧
-nnoremap tl  :<C-u>tags<CR>
+nnoremap <Leader>tl  :<C-u>tags<CR>
 
 
 "### git-diff-aware version of gf commands.
