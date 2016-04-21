@@ -58,6 +58,8 @@ call unite#custom#profile('action', 'context', {
       \ 'start_insert' : 1,
       \ })
 
+call unite#custom#default_action('file', 'tabopen')
+
 " migemo.
 call unite#custom#source('line_migemo', 'matchers', 'matcher_migemo')
 
@@ -134,10 +136,14 @@ function! s:unite_my_settings() abort
         \ unite#smart_map('P', unite#do_action('insert'))
 
   let unite = unite#get_current_unite()
-  if unite.profile_name ==# '^search' || unite.profile_name ==# '^grep'
+  if unite.profile_name =~# '^search' || unite.profile_name =~# '^grep'
     nnoremap <silent><buffer><expr> r     unite#do_action('replace')
   else
     nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+  endif
+  if has_key(unite, 'sources') && len(unite.sources) > 0
+        \ && unite.sources[0].name =~# '^output/shellcmd'
+    setl number
   endif
 
   nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
