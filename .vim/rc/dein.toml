@@ -53,6 +53,9 @@ repo = 'Changed'
 [[plugins]]
 # foldingを良い感じに
 repo = 'LeafCage/foldCC'
+hook_add = '''
+  set foldtext=FoldCCtext()
+'''
 
 [[plugins]]
 # Git操作 & statuslineにブランチ名を表示
