@@ -90,21 +90,32 @@ hook_add = '''
   nnoremap <silent> [v :GitGutterPrevHunk<CR>
 '''
 
+# [[plugins]]
+# # インデントガイドを表示
+# repo = 'nathanaelkane/vim-indent-guides'
+# hook_add = '''
+#   " vim起動時の自動実行
+#   let g:indent_guides_enable_on_vim_startup = 1
+#   " 自動色付け
+#   let g:indent_guides_auto_colors = 0
+#   " インデントガイドの表示を開始するインデントレベル
+#   let g:indent_guides_start_level = 2
+#   " インデントガイドのサイズ(幅)
+#   let g:indent_guides_guide_size = 1
+#   " グラデーション設定(gvim only)
+#   let g:indent_guides_color_change_percent = 30
+# '''
+
 [[plugins]]
 # インデントガイドを表示
-repo = 'nathanaelkane/vim-indent-guides'
+repo = 'Yggdroot/indentLine'
 hook_add = '''
-  " vim起動時の自動実行
-  let g:indent_guides_enable_on_vim_startup = 1
-  " 自動色付け
-  let g:indent_guides_auto_colors = 0
-  " インデントガイドの表示を開始するインデントレベル
-  let g:indent_guides_start_level = 2
-  " インデントガイドのサイズ(幅)
-  let g:indent_guides_guide_size = 1
-  " グラデーション設定(gvim only)
-  let g:indent_guides_color_change_percent = 30
+  " let g:indentLine_faster = 1
+  let g:indentLine_fileTypeExclude = [
+    \   'help', 'tagbar', 'thumbnail', 'tweetvim', 'unite', 'vimfiler'
+    \ ]
 '''
+
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
