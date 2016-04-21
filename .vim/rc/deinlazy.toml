@@ -50,7 +50,7 @@ on_i = 1
 [[plugins]]
 # Include completion framework for neocomplete/deoplete.
 repo = 'Shougo/neoinclude.vim'
-on_path = '.*'
+on_i = 1
 
 [[plugins]]
 # Syntax source for neocomplete/deoplete.
@@ -82,7 +82,6 @@ repo = 'marijnh/tern_for_vim'
 on_ft = 'javascript'
 build = 'npm install'
 hook_source = 'source ~/.vim/rc/plugins/tern_for_vim.rc.vim'
-
 
 [[plugins]]
 repo = 'shawncplus/phpcomplete.vim'
@@ -296,7 +295,7 @@ hook_add = '''
 # Unite Plugins.
 # https://github.com/Shougo/unite.vim/wiki/unite-plugins
 repo = 'Shougo/unite.vim'
-depends = 'neomru.vim'
+depends = ['neomru.vim', 'tabpagebuffer.vim']
 on_cmd = 'Unite'
 hook_source = '''
   source ~/.vim/rc/plugins/unite.rc.vim
@@ -459,11 +458,6 @@ repo = 'tacroe/unite-mark'
 on_source = 'unite.vim'
 
 [[plugins]]
-repo = 'Shougo/neomru.vim'
-on_source = 'unite.vim'
-on_path = '.*'
-
-[[plugins]]
 repo = 'Shougo/unite-outline'
 on_source = 'unite.vim'
 
@@ -488,11 +482,6 @@ repo = 'osyo-manga/unite-vimpatches'
 on_source = 'unite.vim'
 
 [[plugins]]
-repo = 'Shougo/neoyank.vim'
-on_path = '.*'
-on_source = 'unite.vim'
-
-[[plugins]]
 repo = 'pasela/unite-webcolorname'
 on_source = 'unite.vim'
 # }}}
@@ -500,10 +489,9 @@ on_source = 'unite.vim'
 # ===== Vimfiler ===== {{{
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
-depends = 'unite.vim'
+depends = ['unite.vim', 'tabpagebuffer.vim']
 on_map = '<Plug>'
 on_cmd = ['VimFiler', 'VimFilerExplorer', 'Edit', 'Write', 'Read', 'Source']
-on_path = '.*'
 hook_add = '''
   nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
   nnoremap <silent> <F5> :VimFilerExplorer<CR>
@@ -896,10 +884,6 @@ hook_add = 'let g:echodoc_enable_at_startup = 1'
 # クリップボードを良い感じに
 repo = 'kana/vim-fakeclip'
 on_map = [['nv', '<Plug>']]
-
-[[plugins]]
-repo = 'Konfekt/FastFold'
-on_path = '.*'
 
 [[plugins]]
 repo = 'thinca/vim-fontzoom'
@@ -1331,7 +1315,6 @@ hook_source = '''
 [[plugins]]
 # unite/vimfilerのカレントディレクトリをタブ毎に維持
 repo = 'Shougo/tabpagebuffer.vim'
-on_path = '.*'
 
 [[plugins]]
 # :cd をタブページ毎に
@@ -1351,6 +1334,10 @@ hook_add = '''
   nnoremap <silent> <Leader>tt :<C-u>Thumbnail<CR>
   autocmd MyAutoCmd FileType thumbnail IndentGuidesDisable
 '''
+
+[[plugins]]
+repo = 'machakann/vim-vimhelplint'
+on_cmd = 'VimhelpLint'
 
 [[plugins]]
 # Ultimate hex editing system with Vim.

@@ -29,7 +29,6 @@ repo = 'kana/vim-textobj-user'
 
 [[plugins]]
 repo = 'yonchu/accelerated-smooth-scroll'
-on_map = '<Plug>'
 hook_add = '''
   " let g:ac_smooth_scroll_enable_accelerating = 0
   " let g:ac_smooth_scroll_skip_redraw_line_size = 0
@@ -44,11 +43,22 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'Shougo/neomru.vim'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_source = 'unite.vim'
+
+[[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 # 保存前の変更行を +/-/* で表示
 repo = 'Changed'
+
+[[plugins]]
+repo = 'Konfekt/FastFold'
 
 [[plugins]]
 # foldingを良い感じに
@@ -140,9 +150,9 @@ hook_add = '''
 # '''
 
 [[plugins]]
+# autofmt: gq
 repo = 'vim-jp/autofmt'
 if = "!has('kaoriya')"
-on_map = [['x', 'gq']]
 
 [[plugins]]
 repo = 'mattn/webapi-vim'
@@ -168,10 +178,6 @@ hook_add = '''
 [[plugins]]
 repo = 'thinca/vim-ft-help_fold'
 on_ft = 'help'
-
-[[plugins]]
-repo = 'machakann/vim-vimhelplint'
-on_cmd = 'VimhelpLint'
 
 [[plugins]]
 repo = 'vim-ruby/vim-ruby'
