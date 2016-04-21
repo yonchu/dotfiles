@@ -22,14 +22,10 @@ build = 'make'
 repo = 'itchyny/landscape.vim'
 
 [[plugins]]
-repo = 'kana/vim-textobj-user'
+repo = 'kana/vim-operator-user'
 
 [[plugins]]
-# Modes {lhs}  {rhs}
-# vo     al    |<Plug>(textobj-line-a)|
-# vo     il    |<Plug>(textobj-line-i)|
-repo = 'kana/vim-textobj-line'
-depends = 'vim-textobj-user'
+repo = 'kana/vim-textobj-user'
 
 [[plugins]]
 repo = 'yonchu/accelerated-smooth-scroll'
@@ -139,9 +135,6 @@ hook_add = '''
 #   "let showmarks_hlline_lower = 1
 #   "let showmarks_hlline_upper = 1
 # '''
-
-[[plugins]]
-repo = 'kana/vim-operator-user'
 
 [[plugins]]
 repo = 'vim-jp/autofmt'

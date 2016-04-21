@@ -275,7 +275,7 @@ hook_add = '''
 # surround
 #   追加: saiw'   hoge -> 'hoge'
 #   削除: sda'
-#   追加: sra'
+#   置換: sra'"
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = '<Plug>'
@@ -283,6 +283,9 @@ hook_add = '''
   map <silent>sa <Plug>(operator-surround-append)
   map <silent>sd <Plug>(operator-surround-delete)
   map <silent>sr <Plug>(operator-surround-replace)
+
+  nmap <silent>sdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
+  nmap <silent>srr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
 '''
 # }}}
 
@@ -516,15 +519,162 @@ on_cmd = 'Ref'
 
 # ===== txtobj ===== {{{
 [[plugins]]
-repo = 'osyo-manga/vim-textobj-multiblock'
+# Vim plugin that allows you to visually select increasingly
+# larger regions of text using the same key combination.
+repo = 'terryma/vim-expand-region'
+on_map = '<Plug>'
+hook_add = '''
+  " Visual mode で v 連打で選択範囲拡大、<C-v> で範囲縮小
+  vmap v <Plug>(expand_region_expand)
+  vmap <C-v> <Plug>(expand_region_shrink)
+'''
+hook_source = '''
+  map K <Plug>(expand_region_expand)
+  map J <Plug>(expand_region_shrink)
+  call expand_region#custom_text_objects({
+        \ 'iu' :1,
+        \ 'au' :1,
+        \ 'a]' :1,
+        \ 'ab' :1,
+        \ 'aB' :1,
+        \ 'ii' :0,
+        \ 'ai' :0,
+        \ 'i,' :0,
+        \ 'a,' :0,
+        \ 'iz' :1,
+        \ 'az' :1,
+        \ 'ic' :0,
+        \ 'ac' :0,
+        \ 'iS' :0,
+        \ 'aS' :0,
+        \ 'i_' :0,
+        \ 'a_' :0,
+        \ })
+'''
+
+[[plugins]]
+# 複数の textobj を1つにまとめる textobj
+# Default Mappings: なし
+repo = 'osyo-manga/vim-textobj-multitextobj'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>']]
+hook_add = '''
+  omap amt <Plug>(textobj-multitextobj-a)
+  omap imt <Plug>(textobj-multitextobj-i)
+  vmap amt <Plug>(textobj-multitextobj-a)
+  vmap imt <Plug>(textobj-multitextobj-i)
+'''
+hook_source = '''
+  let g:textobj_multitextobj_textobjects_i = [
+        \   '<Plug>(textobj-url-i)',
+        \   [
+        \     '<Plug>(textobj-parameter-i)',
+        \     '<Plug>(textobj-multiblock-i)',
+        \     '<Plug>(textobj-indent-i)',
+        \     '<Plug>(textobj-function-i)',
+        \   ],
+        \   '<Plug>(textobj-entire-i)',
+        \]
+
+  let g:textobj_multitextobj_textobjects_a = [
+        \   '<Plug>(textobj-url-a)',
+        \   [
+        \     '<Plug>(textobj-parameter-a)',
+        \     '<Plug>(textobj-multiblock-a)',
+        \     '<Plug>(textobj-indent-a)',
+        \     '<Plug>(textobj-function-a)',
+        \   ],
+        \   '<Plug>(textobj-entire-a)',
+        \]
+'''
+
+[[plugins]]
+# コメントに対応したtextobj
+# Default Mappings: ac, ic
+repo = 'thinca/vim-textobj-comment'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'ac'], ['ox', 'ic']]
+
+[[plugins]]
+# バッファ全体に対応したtextobj
+# Default Mappings: ae, ie
+repo = 'kana/vim-textobj-entire'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'ae'], ['ox', 'ie']]
+
+[[plugins]]
+# folding領域対応したtextobj
+# Default Mappings: az, iz
+repo = 'kana/vim-textobj-fold'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'az'], ['ox', 'iz']]
+
+[[plugins]]
+# functionに対応したtextobj
+# Default Mappings: af, if
+repo = 'kana/vim-textobj-function'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'af'], ['ox', 'if']]
+
+[[plugins]]
+# カーソル行と同じインデントブロックに対応したtextobj
+# Default Mappings: ai, ii, aI, iI
+repo = 'kana/vim-textobj-indent'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'ai'], ['ox', 'ii'], ['ox', 'aI'], ['ox', 'iI']]
+
+[[plugins]]
+# 行全体に対応したtextobj
+# Default Mappings: al, il
+repo = 'kana/vim-textobj-line'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'al'], ['ox', 'il']]
+
+[[plugins]]
+# 様々な括弧に対応したtextobj
+# Default Mappings: asb, isb
+repo = 'osyo-manga/vim-textobj-multiblock'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'asb'], ['ox', 'isb']]
 hook_add = '''
   omap ab <Plug>(textobj-multiblock-a)
   omap ib <Plug>(textobj-multiblock-i)
   vmap ab <Plug>(textobj-multiblock-a)
   vmap ib <Plug>(textobj-multiblock-i)
 '''
+hook_post_source = '''
+  call add(g:textobj_multiblock_blocks, ['```..*', '```'])
+  call add(g:textobj_multiblock_blocks, ['```', '```'])
+  call add(g:textobj_multiblock_blocks, ['`', '`', 1])
+'''
+
+[[plugins]]
+# 関数引数に対応したtextobj
+# Default Mappings: a, i,
+repo = 'sgur/vim-textobj-parameter'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'a,'], ['ox', 'i,']]
+
+[[plugins]]
+# 連続したスペースに対応したtextobj
+# Default Mappings: aS, iS
+repo = 'saihoooooooo/vim-textobj-space'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'aS'], ['ox', 'iS']]
+
+[[plugins]]
+# URLに対応したtextobj
+# Default Mappings: au, iu
+repo = 'mattn/vim-textobj-url'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'au'], ['ox', 'iu']]
+
+[[plugins]]
+# アンダースコア(_)間に対応したtextobj
+# Default Mappings: a_, i_
+repo = 'lucapette/vim-textobj-underscore'
+depends = 'vim-textobj-user'
+on_map = [['ox', '<Plug>'], ['ox', 'a_'], ['ox', 'i_']]
 # }}}
 
 # ===== etc ===== {{{
@@ -719,17 +869,6 @@ hook_source = '''
 repo = 'Shougo/echodoc.vim'
 on_i = 1
 hook_add = 'let g:echodoc_enable_at_startup = 1'
-
-[[plugins]]
-# Vim plugin that allows you to visually select increasingly
-# larger regions of text using the same key combination.
-repo = 'terryma/vim-expand-region'
-on_map = '<Plug>'
-hook_add = '''
-  " Visual mode で v 連打で選択範囲拡大、<C-v> で範囲縮小
-  vmap v <Plug>(expand_region_expand)
-  vmap <C-v> <Plug>(expand_region_shrink)
-'''
 
 [[plugins]]
 # クリップボードを良い感じに
@@ -1141,7 +1280,7 @@ hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
 #   )を使うと前後スペースなし
 #   (を使うと前後スペースあり
 repo = 'tpope/vim-surround'
-on_map = ['<Plug>', 'ys', 'cs', 'ds', ['ox', 'S']]
+on_map = ['<Plug>', ['n', 'ys'], ['n', 'cs'], ['n', 'ds'], ['v', 'S']]
 
 [[plugins]]
 # switch :  true/false切り替え (gs)
