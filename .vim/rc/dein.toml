@@ -83,11 +83,11 @@ repo = 'tpope/vim-fugitive'
 
 [[plugins]]
 # gitリポジトリ内の変更箇所をsign表示
+#   ]c  jump to next hunk (change).
+#   [c  jump to previous hunk (change).
 repo = 'airblade/vim-gitgutter'
 hook_add = '''
   let g:gitgutter_sign_modified_removed = '✔'
-  nnoremap <silent> ]v :GitGutterNextHunk<CR>
-  nnoremap <silent> [v :GitGutterPrevHunk<CR>
 '''
 
 # [[plugins]]
