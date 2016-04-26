@@ -11,7 +11,7 @@
 "    file/include      -> [FI] {filename}
 "    dictionary        -> [D] {words}
 "    member            -> [M] member
-"    buffer            -> [B] {buffername}
+"    buffer            -> [B] {buffer}
 "    syntax            -> [S] {syntax-keyword}
 "    include           -> [I]
 "    neosnippet        -> [neosnip]
@@ -23,36 +23,20 @@
 "
 "==========================================================================}}}
 
-
 " === Basic {{{
-let g:neocomplete#disable_auto_complete = 0
-
-let g:neocomplete#enable_auto_select = 1
 let g:neocomplete#enable_auto_close_preview = 1
-let g:neocomplete#enable_cursor_hold_i = 0
 
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_fuzzy_completion = 1
-let g:neocomplete#enable_camel_case = 1
+let g:neocomplete#enable_ignore_case = 1
+let g:neocomplete#enable_smart_case  = 1
+let g:neocomplete#enable_camel_case  = 1
 
-let g:neocomplete#max_list = 100
-
-let g:neocomplete#auto_completion_start_length = 2
-let g:neocomplete#manual_completion_start_length = 0
 let g:neocomplete#min_keyword_length = 3
-
-" Set minimum syntax keyword length. (default: 4)
 let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" neocomplcacheを自動的にロックするバッファ名のパターン
-" ku.vimやfuzzyfinderなど、neocomplcacheと相性が悪いプラグインを使用する場合に設定
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 let g:neocomplete#disable_auto_select_buffer_name_pattern =
       \ '\[Command Line\]'
 
 let g:neocomplete#enable_auto_delimiter = 1
-
 if !exists('g:neocomplete#delimiter_patterns')
   let g:neocomplete#delimiter_patterns= {}
 endif
@@ -70,7 +54,6 @@ call neocomplete#custom#source('_', 'converters',
       \  'converter_delimiter', 'converter_abbr'])
 
 " }}}
-
 
 " === Dictionary completion {{{
 " vimのデフォルト辞書を指定
@@ -117,7 +100,6 @@ let g:neocomplete#same_filetypes.zsh = 'sh'
 let g:neocomplete#same_filetypes._ = '_'
 " }}}
 
-
 " === Keyword completion {{{
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
@@ -130,7 +112,6 @@ let g:neocomplete#keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::\w*'
 let g:neocomplete#keyword_patterns.rst =
       \ '\$\$\?\w*\|[[:alpha:]_.\\/~-][[:alnum:]_.\\/~-]*\|\d\+\%(\.\d\+\)\+'
 " }}}
-
 
 " === Omni completion {{{
 " Set omnifunc.
@@ -195,7 +176,6 @@ let g:neocomplete#sources#vim#complete_functions = {
       \ }
 " }}}
 
-
 " === Mappings {{{
 " Page move.
 inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
@@ -251,7 +231,6 @@ inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
 inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
 " }}}
-
 
 " === Utility {{{
 " ファイル名を取得
