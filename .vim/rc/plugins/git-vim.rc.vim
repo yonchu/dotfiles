@@ -15,10 +15,6 @@ endfunction
 command! GitLogViewer call s:GitLogViewer()
 command! Glv call s:GitLogViewer()
 
-" q で強制的にwindowを閉じる
-autocmd MyAutoCmd FileType git-log.git-diff
-      \ nnoremap <buffer><silent> q :<C-u>q!<cr>
-
 " git log表示時の折りたたみ用
 function! FoldTextOfGitLog()
   let month_map = {
@@ -66,5 +62,4 @@ function! FoldTextOfGitLog()
 
   return join([datestr, time, author, message], ' ')
 endfunction
-
 " }}}

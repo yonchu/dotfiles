@@ -926,7 +926,10 @@ hook_source = 'source ~/.vim/rc/plugins/gitv.rc.vim'
 [[plugins]]
 # Git操作
 repo = 'motemen/git-vim'
-on_cmd = ['GitStatus', 'GitLog', 'GitBlame', 'GitLogViewer', 'Glv']
+on_cmd = [ 'GitAdd', 'GitCommit', 'GitStatus', 'GitLog', 'GitCheckout',
+          'GitDiff', 'GitPull', 'GitPullRebase', 'GitPush', 'GitCatFile',
+          'Git', 'GitVimDiffMerge', 'GitVimDiffMergeDone',
+          'GitLogViewer', 'Glv']
 hook_source = 'source ~/.vim/rc/plugins/git-vim.rc.vim'
 
 [[plugins]]
