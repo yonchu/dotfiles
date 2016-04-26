@@ -906,6 +906,16 @@ hook_add = '''
 '''
 
 [[plugins]]
+# A framework to open a file by context.
+repo = 'kana/vim-gf-user'
+on_ft = ['diff', 'git', 'gitcommit', 'git-status', 'git-log', 'git-diff']
+
+[[plugins]]
+# Go to a hunk from diff output.
+repo = 'kana/vim-gf-diff'
+depends = 'vim-gf-user'
+
+[[plugins]]
 # Git操作
 # :Gitv, :Gitv --all, :Gitv!
 repo = 'gregsexton/gitv'
