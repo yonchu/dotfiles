@@ -34,6 +34,7 @@
   #rebase = true    # from 1.7.9
 [diff]
   tool = vimdiff
+  algorithm = histogram
   #external = p4diff
 [merge]
   stat = true
