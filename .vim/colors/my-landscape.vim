@@ -20,7 +20,7 @@ augroup END
 
 
 " Folded Color
-highlight Folded     term=bold ctermfg=darkred ctermbg=233
+highlight Folded     term=bold ctermfg=darkred ctermbg=NONE
 highlight FoldColumn           ctermfg=white   ctermbg=233
 
 " Syntax
@@ -33,10 +33,12 @@ endif
 
 " Cursor
 if version >= 700
-  highlight ColorColumn ctermbg=232
+  highlight CursorLine   ctermbg=236
+  highlight CursorLineNr ctermbg=236
+  highlight ColorColumn  ctermbg=232
   autocmd MyLandscapeAu InsertLeave *
-        \ highlight CursorLine   ctermbg=235 |
-        \ highlight CursorLineNr ctermbg=235
+        \ highlight CursorLine   ctermbg=236 |
+        \ highlight CursorLineNr ctermbg=236
   autocmd MyLandscapeAu InsertEnter *
         \ highlight CursorLine   ctermbg=18 |
         \ highlight CursorLineNr ctermbg=18
@@ -44,8 +46,8 @@ endif
 
 " === Plugins {{{
 " indent-guides.vim
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray  ctermbg=12
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=239
+autocmd MyLandscapeAu VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray  ctermbg=12
+autocmd MyLandscapeAu VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=239
 
 " vim-hier
 highlight qf_error_ucurl   gui=undercurl guisp=red  ctermfg=none cterm=undercurl
