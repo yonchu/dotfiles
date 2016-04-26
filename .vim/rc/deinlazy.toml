@@ -734,6 +734,11 @@ hook_add = '''
   nmap <silent><expr> # '<Plug>(anzu-sharp-with-echo):normal! N<cr>'
   nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<cr>'
 '''
+[[plugins]]
+# 整形
+#   Visualmodeなどで選択 > :EasyAlign > * > <Space>
+repo = 'junegunn/vim-easy-align'
+on_cmd = 'EasyAlign'
 
 [[plugins]]
 # タイムスタンプの挿入 - 形式 Last Change: .
