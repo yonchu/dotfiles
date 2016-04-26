@@ -239,6 +239,7 @@ repo = 'yonchu/vim-watchdogs'
 depends = [
   'vim-hier',
   'quickfixstatus',
+  'quickfixsigns_vim',
   'shabadou.vim',
   'vim-quickrun',
 ]
@@ -690,11 +691,11 @@ on_map = [['ox', '<Plug>'], ['ox', 'a_'], ['ox', 'i_']]
 # ===== etc ===== {{{
 [[plugins]]
 repo = 'rhysd/accelerated-jk'
-on_map = '<Plug>'
+on_map = [['n', '<Plug>']]
 hook_add = '''
   nmap <silent>j <Plug>(accelerated_jk_gj)
-  nmap gj j
   nmap <silent>k <Plug>(accelerated_jk_gk)
+  nmap gj j
   nmap gk k
 '''
 
@@ -929,7 +930,22 @@ on_cmd = ['GitStatus', 'GitLog', 'GitBlame', 'GitLogViewer', 'Glv']
 hook_source = 'source ~/.vim/rc/plugins/git-vim.rc.vim'
 
 [[plugins]]
-# 外部のgrep利用:Grepで対話形式でgrep :Rgrepは再帰
+# :Grep/GrepAdd/Rgrep/RgrepAdd
+#  - Search for the specified pattern in the specified files
+# :GrepBuffer/GrepBufferAdd/(Bgrep/BgrepAdd)
+#  - Search for a pattern on all open buffers
+# :GrepArgs/GrepArgsAdd
+#  - Search for a pattern on all the Vim argument filenames (:args)
+# :Fgrep/FgrepAdd/RFgrep/RFgrepAdd
+#  - Run fgrep
+# :Egrep/EgrepAdd/REgrep/REgrepAdd
+#  - Run egrep
+# :Agrep/AgrepAdd/RAgrep/RAgrepAdd
+#  - Run agrep
+# :XxxAdd
+#  - Same as ":XxxAdd" but adds the results to the current results
+# :Rxxx
+#  - Run recuresive xxx
 repo = 'grep.vim'
 on_cmd = [
   'Grep', 'GrepAdd', 'Rgrep', 'RgrepAdd', 'GrepBuffer',
@@ -938,16 +954,6 @@ on_cmd = [
   'RfgrepAdd', 'Egrep', 'EgrepAdd', 'Regrep',
   'RegrepAdd', 'Agrep', 'AgrepAdd', 'Ragrep', 'RagrepAdd'
 ]
-hook_add = '''
-  " :Gb <args> でGrepBufferする
-  command! -nargs=1 Gb :GrepBuffer <args>
-  " カーソル下の単語をGrepBufferする
-  nnoremap <C-g><C-b> :<C-u>GrepBuffer<Space><C-r><C-w><Enter>
-  " :Gr <args>でカレントディレクトリ以下を再帰的にgrepする
-  command! -nargs=1 Gr :Rgrep <args> *<Enter><CR>
-  " カーソル下の単語をgrepする
-  nnoremap <silent> <C-g><C-r> :<C-u>Rgrep<Space><C-r><C-w> *<Enter><CR>
-'''
 hook_source = '''
   " MacのxargsではRgrepがエラーになる
   if has('mac')
@@ -1083,7 +1089,7 @@ hook_add = '''
   nmap <Leader>gs <Plug>(open-browser-wwwsearch)
 
   " http://deris.hatenablog.jp/entry/2013/07/05/023835
-  map gz <Plug>(operator-open-neobundlepath)
+  map <Leader>gz <Plug>(operator-open-neobundlepath)
 
   command! -range OpenBrowserGithub :call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')
 '''
