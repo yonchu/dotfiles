@@ -12,6 +12,9 @@ let g:lightline = {
         \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
         \   ]
         \ },
+        \ 'component': {
+        \   'lineinfo': '%3l:%-2v/%{col("$")-1}',
+        \ },
         \ 'component_function': {
         \   'modified': 'MyModified',
         \   'readonly': 'MyReadonly',
