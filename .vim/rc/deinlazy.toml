@@ -753,6 +753,12 @@ repo = 'tell-k/vim-browsereload-mac'
 if = "has('mac')"
 
 [[plugins]]
+# :Capture[!] {excmd}
+# If "!" was given, always create a new buffer & window.
+repo = 'tyru/capture.vim'
+on_cmd = 'Capture'
+
+[[plugins]]
 # gc    |<Plug>(caw:prefix)|
 # gcc   |<Plug>(caw:hatpos:toggle)|
 # gci   |<Plug>(caw:hatpos:comment)|
