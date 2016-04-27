@@ -502,16 +502,25 @@ hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
 # ===== vim-ref ===== {{{
 [[plugins]]
 # リファレンスをvim上で参照
-#   alc/clojure/erlang/man/perldoc/phpmanual/pydoc/refe
-#   実行 :Ref <リファレス名> キーワード
-#   カーソル下の単語を検索 K
-#   キャッシュ削除 :call ref#rmcache('pydoc')
+# Default Refarence:
+#   clojure, erlang, man , perldoc , phpmanual , pydoc , redis , refe , rfc , webdict
+# Ref command:
+#   :Ref [{options}] {source-name} [{query}]
+#   :RefHistory
+#   K  search keyword under the cursor.
+#   Delete chache: :call ref#rmcache([{source-name} [, {name}]])
+# ref-viewer mappings:
+#   <CR>           <Plug>(ref-keyword)
+#   <2-LeftMouse>  <Plug>(ref-keyword)
+#   <C-]>          <Plug>(ref-keyword)
+#   <C-t>          <Plug>(ref-back)
+#   <C-o>          <Plug>(ref-back)
+#   <C-i>          <Plug>(ref-forward)
 repo = 'thinca/vim-ref'
-on_map = '<Plug>'
-on_cmd = 'Ref'
+on_map = [['n', '<Plug>'], ['n', 'K']]
+on_cmd = ['Ref', 'RefHistory']
 on_source = 'unite.vim'
 hook_add = '''
-  let g:ref_no_default_key_mappings = 1
   silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
 '''
