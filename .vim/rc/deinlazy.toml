@@ -1286,7 +1286,10 @@ hook_source = '''
 
 [[plugins]]
 repo = 'kana/vim-submode'
-on_map = [['n', '<C-w<Space>>']]
+on_map = [
+  ['n', '<C-w>>'], ['n', '<C-w><'], ['n', '<C-w>-'], ['n', '<C-w>+'],
+  ['n', '<C-t>l'], ['n', '<C-t>h'],
+]
 on_cmd = 'SubmodeRestoreOptions'
 hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
 
