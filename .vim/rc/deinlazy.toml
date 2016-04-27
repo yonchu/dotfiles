@@ -45,7 +45,6 @@ hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 # Vim source for neocomplete/deoplete.
 repo = 'Shougo/neco-vim'
 on_ft = 'vim'
-on_i = 1
 
 [[plugins]]
 # Include completion framework for neocomplete/deoplete.
@@ -70,8 +69,9 @@ on_i = 1
 [[plugins]]
 repo = 'artur-shaik/vim-javacomplete2'
 on_ft = 'java'
-hook_source =
-  'autocmd MyAutoCmd FileType java setlocal omnifunc=javacomplete#Complete'
+hook_source = '''
+  autocmd MyAutoCmd FileType java setlocal omnifunc=javacomplete#Complete
+'''
 
 [[plugins]]
 # Javascript補完
@@ -1137,7 +1137,6 @@ hook_source = '''
 # カーソル位置のコンテキストによって filetype を切り換える
 repo = 'osyo-manga/vim-precious'
 depends = 'context_filetype.vim'
-on_i = 1
 on_ft = ['markdown', 'mkd', 'md', 'help']
 hook_source = '''
   " quickrun 用のマッピング

@@ -1558,11 +1558,6 @@ if has('vim_starting')
       \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
     augroup END
   endif
-else
-  " TODO
-  if exists(':IndentLinesReset')
-    IndentLinesReset
-  endif
 endif
 
 function! s:auto_run_at_startup() abort

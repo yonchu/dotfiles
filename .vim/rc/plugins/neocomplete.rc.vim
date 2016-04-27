@@ -114,16 +114,6 @@ let g:neocomplete#keyword_patterns.rst =
 " }}}
 
 " === Omni completion {{{
-" Set omnifunc.
-autocmd MyAutoCmd FileType javascript     setlocal omnifunc=tern#Complete
-autocmd MyAutoCmd FileType coffee         setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd MyAutoCmd FileType html,markdown  setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd MyAutoCmd FileType css,less       setlocal omnifunc=csscomplete#CompleteCSS
-autocmd MyAutoCmd FileType xml            setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd MyAutoCmd FileType php            setlocal omnifunc=phpcomplete#CompletePHP
-autocmd MyAutoCmd FileType c              setlocal omnifunc=ccomplete#Complete
-autocmd MyAutoCmd FileType ruby           setlocal omnifunc=rubycomplete#Complete
-
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
