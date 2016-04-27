@@ -75,10 +75,10 @@ hook_source =
 
 [[plugins]]
 # Javascript補完
-# $ cd ~/.vim/bundle/tern_for_vim && npm install
+# $ cd ~/.vim/dein/repos/github.com/ternjs/tern_for_vim && npm install
 # 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
 # http://ternjs.net/doc/manual.html
-repo = 'marijnh/tern_for_vim'
+repo = 'ternjs/tern_for_vim'
 on_ft = 'javascript'
 build = 'npm install'
 hook_source = 'source ~/.vim/rc/plugins/tern_for_vim.rc.vim'
