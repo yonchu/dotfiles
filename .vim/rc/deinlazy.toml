@@ -1012,19 +1012,6 @@ hook_source = '''
 # 日本語を含んだ文章を文節区切りで移動 (W/B/E)
 repo = 'deton/jasegment.vim'
 on_map = ['<Plug>', 'W', 'B', 'E']
-hook_add = '''
-nmap <silent> H <Plug>JaSegmentMoveNB
-  omap <silent> H <Plug>JaSegmentMoveOB
-  xmap <silent> H <Plug>JaSegmentMoveVB
-
-  "nmap <silent> L <Plug>JaSegmentMoveNW
-  "omap <silent> L <Plug>JaSegmentMoveOW
-  "xmap <silent> L <Plug>JaSegmentMoveVW
-
-  nmap <silent> L <Plug>JaSegmentMoveNE
-  omap <silent> L <Plug>JaSegmentMoveOE
-  xmap <silent> L <Plug>JaSegmentMoveVE
-'''
 
 [[plugins]]
 # 前のカーソル位置に戻る
