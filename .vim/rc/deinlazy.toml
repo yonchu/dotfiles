@@ -1022,17 +1022,6 @@ repo = 'deton/jasegment.vim'
 on_map = ['<Plug>', 'W', 'B', 'E']
 
 [[plugins]]
-# 前のカーソル位置に戻る
-repo = 'osyo-manga/vim-milfeulle'
-on_i = '1'
-on_map = '<Plug>'
-hook_add = '''
-  " 履歴移動
-  nmap <Leader>p <Plug>(milfeulle-prev)
-  nmap <Leader>n <Plug>(milfeulle-next)
-'''
-
-[[plugins]]
 # マルチカーソル (:Multi <word>)
 repo = 'mattn/multi-vim'
 on_cmd = 'Multi'
