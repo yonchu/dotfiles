@@ -54,17 +54,17 @@ on_i = 1
 [[plugins]]
 # Syntax source for neocomplete/deoplete.
 repo = 'Shougo/neco-syntax'
-on_i = 1
+on_source = ['neocomplete.vim']
 
 [[plugins]]
 # lookコマンドを使った英単語補完
 repo = 'ujihisa/neco-look'
-on_i = 1
+on_source = ['neocomplete.vim']
 
 [[plugins]]
 # Auto insert pairs(parenthesis) when complete done.
 repo = 'Shougo/neopairs.vim'
-on_i = 1
+on_source = ['neocomplete.vim']
 
 [[plugins]]
 repo = 'artur-shaik/vim-javacomplete2'
