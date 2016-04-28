@@ -12,6 +12,18 @@ if &compatible
   set nocompatible
 endif
 
+if has('vim_starting')
+  " Print vim startup time.
+  if has('reltime')
+    let g:startuptime = reltime()
+    augroup VimStartUpTimeAu
+      autocmd!
+      autocmd VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
+      \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
+    augroup END
+  endif
+endif
+
 " OS detection flag.
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -792,6 +804,13 @@ augroup END
 let autodate_format = '%d %3m %Y'
 let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
 
+" TODO
+" IndentLinesReset.
+autocmd MyAutoCmd FileType *
+      \ if exists(':IndentLinesReset') |
+      \   execute 'IndentLinesReset' |
+      \ endif
+
 " tmux.
 if exists('$TMUX') && !has('gui_running')
   autocmd MyAutoCmd BufEnter * call <SID>set_vim_cwd_to_tmux()
@@ -1539,26 +1558,6 @@ command! -bang -complete=file -nargs=? WMac
 
 " }}}
 
-" === Startup =========================================================== {{{1
-if has('vim_starting')
-  " Print vim startup time.
-  if has('reltime')
-    let g:startuptime = reltime()
-    augroup VimStartUpTimeAu
-      autocmd!
-      autocmd VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
-      \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
-    augroup END
-  endif
-endif
-
-" TODO
-autocmd MyAutoCmd FileType *
-      \ if exists(':IndentLinesReset') |
-      \   execute 'IndentLinesReset' |
-      \ endif
-
 set secure
-" }}}
 
 " vim: fdm=marker:
