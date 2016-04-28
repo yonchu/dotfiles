@@ -1041,12 +1041,12 @@ function! s:smart_close() abort
 endfunction
 
 " --- Tab pages. ---
-" set <C-Right>=[1;5C
-" set <C-Left>=[1;5D
-map  [1;5D <C-Left>
-map  [1;5C <C-Right>
-map! [1;5D <C-left>
-map! [1;5C <C-Right>
+set <C-Right>=[1;5C
+set <C-Left>=[1;5D
+" map  [1;5D <C-Left>
+" map  [1;5C <C-Right>
+" map! [1;5D <C-left>
+" map! [1;5C <C-Right>
 nnoremap <C-t>    <Nop>
 nnoremap <silent> <C-t>n    :<C-u>tabnew<CR>
 nnoremap <silent> <C-t>c    :<C-u>tabclose<CR>
