@@ -108,15 +108,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-# Shows a git diff in the gutter (sign column) and stages/undoes hunks.
-#   ]c  jump to next hunk (change).
-#   [c  jump to previous hunk (change).
-repo = 'airblade/vim-gitgutter'
-hook_add = '''
-  let g:gitgutter_sign_modified_removed = '✔'
-'''
-
-[[plugins]]
 # Git (used for statusline to display branch)
 # http://d.hatena.ne.jp/cohama/20120317/1331978764
 # http://yuku-tech.hatenablog.com/entry/20110427/1303868482
