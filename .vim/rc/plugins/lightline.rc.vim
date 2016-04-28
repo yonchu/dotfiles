@@ -117,9 +117,9 @@ function! MyGitGutter()
     return ''
   endif
   let symbols = [
-        \ g:gitgutter_sign_added . ' ',
-        \ g:gitgutter_sign_modified . ' ',
-        \ g:gitgutter_sign_removed . ' '
+        \ g:gitgutter_sign_added,
+        \ g:gitgutter_sign_modified,
+        \ g:gitgutter_sign_removed,
         \ ]
   let hunks = GitGutterGetHunkSummary()
   let ret = []
