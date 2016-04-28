@@ -856,7 +856,6 @@ augroup MyAutoCmdEx
   " tw  : textwidth
   " modeline : モードラインを有効
   " http://nanasi.jp/articles/howto/file/modeline.html
-  autocmd!
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
@@ -1544,7 +1543,7 @@ command! -bang -complete=file -nargs=? WMac
 if has('vim_starting')
   " Auto run at startup (vim open newfile).
   if len(expand('%:p')) == 0 && !argc()
-    augroup AutoRunAtStartup
+    augroup AutoRunAtStartupAu
       autocmd!
       autocmd VimEnter * nested
             \ if @% == '' && s:GetBufByte() == 0
@@ -1555,8 +1554,9 @@ if has('vim_starting')
   " Print vim startup time.
   if has('reltime')
     let g:startuptime = reltime()
-    augroup vimrc-startuptime
-      autocmd! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
+    augroup VimStartUpTimeAu
+      autocmd!
+      autocmd VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
       \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
     augroup END
   endif
@@ -1566,10 +1566,6 @@ function! s:auto_run_at_startup() abort
   VimFilerExplorer
   execute 'wincmd w'
   execute 'Startify'
-  augroup AutoRunAtStartup
-    autocmd!
-  augroup END
-  augroup! AutoRunAtStartup
 endfunction
 
 " http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
