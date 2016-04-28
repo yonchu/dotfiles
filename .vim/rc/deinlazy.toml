@@ -1147,7 +1147,11 @@ hook_source = '''
     let cf = precious#context_filetype()
     echo 'Switch filetype: '.bf.' -> '.cf
   endfunction
-  autocmd User PreciousFiletypeLeave_* call s:precious_leave()
+  autocmd MyAutoCmd User PreciousFiletypeLeave_* call s:precious_leave()
+  autocmd MyAutoCmd User PreciousFileType
+    \ if exists(':IndentLinesReset') |
+    \   execute 'IndentLinesReset' |
+    \ endif
 '''
 
 [[plugins]]

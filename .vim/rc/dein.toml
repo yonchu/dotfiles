@@ -99,6 +99,7 @@ hook_add = '''
 [[plugins]]
 # Displays indent guides.
 repo = 'Yggdroot/indentLine'
+if = "has('conceal')"
 hook_add = '''
   " let g:indentLine_faster = 1
   let g:indentLine_fileTypeExclude = [

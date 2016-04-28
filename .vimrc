@@ -1578,6 +1578,12 @@ function! s:GetBufByte() abort
   endif
 endfunction
 
+" TODO
+autocmd MyAutoCmd FileType *
+      \ if exists(':IndentLinesReset') |
+      \   execute 'IndentLinesReset' |
+      \ endif
+
 set secure
 " }}}
 
