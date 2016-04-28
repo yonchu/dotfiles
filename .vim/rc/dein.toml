@@ -151,6 +151,39 @@ hook_add = '''
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
+# The fancy start screen.
+#   :Startify  Open the startify buffer.
+repo = 'mhinz/vim-startify'
+hook_add = '''
+  " Header.
+  " http://deris.hatenablog.jp/entry/2013/12/15/235606
+  let g:startify_custom_header = []
+  let g:startify_custom_header +=
+    \ map(split(system('date'), '\n'), '"   ". v:val') + ['', '']
+
+  " Use any list of strings as indices instead of increasing numbers.
+  let g:startify_custom_indices = ['f', 'g', 'h', 'r', 'o']
+
+  " Bookmarks.
+  let g:startify_bookmarks = [
+    \ '~/.vimrc',
+    \ '~/.zsh/.zshrc',
+    \ ]
+
+  " A list that is used to filter recently used files.
+  let g:startify_skiplist = [
+        \ 'COMMIT_EDITMSG',
+        \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
+        \ 'vimdoc-ja/doc',
+        \ 'bundle/.*/doc',
+        \ 'dein/.*/doc',
+        \ '\.vimgolf',
+        \ '^/tmp',
+        \ '\.swp$',
+        \ ]
+'''
+
+[[plugins]]
 # autofmt: gq
 repo = 'vim-jp/autofmt'
 if = "!has('kaoriya')"

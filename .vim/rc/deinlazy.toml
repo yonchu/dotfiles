@@ -1264,39 +1264,6 @@ hook_source = '''
 repo = 'thinca/vim-scouter'
 on_cmd = 'Scouter'
 
-[[plugins]]
-# vim起動画面のカスタマイズ
-repo = 'mhinz/vim-startify'
-on_cmd = 'Startify'
-hook_add = '''
-  " 自動実行しない
-  let g:startify_disable_at_vimenter = 1
-'''
-hook_source = '''
-  " ヘッダ設定
-  " http://deris.hatenablog.jp/entry/2013/12/15/235606
-  let g:startify_custom_header = []
-  let g:startify_custom_header +=
-    \ map(split(system('date'), '\n'), '"   ". v:val') + ['', '']
-
-  " 最近使ったファイルの指示詞をアルファベットに
-  let g:startify_custom_indices = ['f', 'g', 'h', 'r', 'o']
-
-  " ブックマーク
-  let g:startify_bookmarks = [
-    \ '~/.vimrc',
-    \ '~/.zsh/.zshrc',
-    \ ]
-
-  " 表示除外リスト
-  let g:startify_skiplist = [
-        \ 'COMMIT_EDITMSG',
-        \ $VIMRUNTIME . '/doc',
-        \ 'bundle/.*/doc',
-        \ 'dein/.*/doc',
-        \ '.vimgolf',
-        \ ]
-'''
 
 [[plugins]]
 repo = 'kana/vim-submode'

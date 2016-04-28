@@ -1541,16 +1541,6 @@ command! -bang -complete=file -nargs=? WMac
 
 " === Startup =========================================================== {{{1
 if has('vim_starting')
-  " Auto run at startup (vim open newfile).
-  if len(expand('%:p')) == 0 && !argc()
-    augroup AutoRunAtStartupAu
-      autocmd!
-      autocmd VimEnter * nested
-            \ if @% == '' && s:GetBufByte() == 0
-            \ | call <SID>auto_run_at_startup()
-            \ | endif
-    augroup END
-  endif
   " Print vim startup time.
   if has('reltime')
     let g:startuptime = reltime()
@@ -1561,22 +1551,6 @@ if has('vim_starting')
     augroup END
   endif
 endif
-
-function! s:auto_run_at_startup() abort
-  VimFilerExplorer
-  execute 'wincmd w'
-  execute 'Startify'
-endfunction
-
-" http://saihoooooooo.hatenablog.com/entry/2013/05/24/130744
-function! s:GetBufByte() abort
-  let byte = line2byte(line('$') + 1)
-  if byte == -1
-    return 0
-  else
-    return byte - 1
-  endif
-endfunction
 
 " TODO
 autocmd MyAutoCmd FileType *
