@@ -168,32 +168,32 @@ let g:neocomplete#sources#vim#complete_functions = {
 
 " === Mappings {{{
 " Page move.
-inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+inoremap <expr><C-f> pumvisible() ? "\<PageDown>" : "\<Right>"
+inoremap <expr><C-b> pumvisible() ? "\<PageUp>"   : "\<Left>"
+inoremap <expr><C-n> pumvisible() ? "\<C-n>"      : "\<C-x>\<C-u>\<C-p>\<Down>"
+inoremap <expr><C-p> pumvisible() ? "\<C-p>"      : "\<C-p>\<C-n>"
 
 " Close popup and delete backword char.
-inoremap <expr><C-h>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>   neocomplete#smart_close_popup()."\<BS>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<BS>"
 
 " undo
-inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-g> neocomplete#undo_completion()
+
+inoremap <expr> '    pumvisible() ? "\<C-y>" : "'"
+inoremap <expr><C-l> neocomplete#complete_common_string()
 
 " Manual completion.
-inoremap <expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
-inoremap <expr><C-p> pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-inoremap <expr> '    pumvisible() ? "\<C-y>" : "'"
-" Common completion.
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-" File name completion.
-inoremap <expr><C-x><C-f>  neocomplete#start_manual_complete('file')
-" look completion.
+inoremap <silent><expr> <C-x><C-f>
+      \ neocomplete#start_manual_complete('file')
 inoremap <silent><expr> <C-x><C-l>
       \ neocomplete#start_manual_complete('look')
-" Omni completion.
-inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" : neocomplete#start_manual_complete('omni')
+inoremap <silent><expr> <C-x><C-o>
+      \ &filetype == 'vim' ? "\<C-x><C-v><C-p>" :
+      \ neocomplete#start_manual_complete('omni')
 
 " <CR>: neocomplete & neosnippet.
-imap <expr><CR>
+inoremap <silent><expr><CR>
       \ neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
       \ "\<C-y>" : "\<CR>"
@@ -208,7 +208,9 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+snoremap <expr><TAB>
+      \ neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " <S-TAB>: completion back.
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
@@ -218,7 +220,7 @@ inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
 inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
 
 " <Up><Down>: Select completion.
-inoremap <expr><Up> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr><Up>   pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
 " }}}
 
