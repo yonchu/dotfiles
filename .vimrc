@@ -450,7 +450,7 @@ let &showbreak = '> '
 " Disable auto wrap.
 autocmd MyAutoCmd FileType *
       \ if &l:textwidth >= 70 && &filetype !=# 'help' |
-      \    setlocal textwidth=0 |
+      \   setlocal textwidth=0 |
       \ endif
 
 " Show colorcolumn.
@@ -1298,7 +1298,7 @@ cnoremap w!! w !sudo tee > /dev/null %<CR> :e!<CR>
 " <ESC><ESC>
 "  - Clear search highlight.
 "  - Clear vim-hier.
-nmap <silent><ESC><ESC> :<C-u>nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
+nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 
 " Disable ZZ.
 nnoremap ZZ <Nop>
@@ -1311,7 +1311,7 @@ nnoremap <silent> q <NOP>
 nnoremap Q q
 
 " Increment.
-map  <C-a> <SID>(increment)
+nmap <C-a> <SID>(increment)
 nmap <C-x> <SID>(decrement)
 nnoremap <silent> <SID>(increment) :AddNumbers  1<CR>
 nnoremap <silent> <SID>(decrement) :AddNumbers -1<CR>
