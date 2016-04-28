@@ -158,6 +158,8 @@ if dein#load_state(s:dein_dir)
     endif
   endif
 endif
+" Call manually the 'hook_post_source' hooks.
+autocmd MyAutoCmd VimEnter * call dein#call_hook('post_source')
 " }}}
 " }}}
 
