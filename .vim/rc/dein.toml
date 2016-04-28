@@ -247,14 +247,6 @@ repo = 'thinca/vim-ft-diff_fold'
 on_ft = 'diff'
 
 [[plugins]]
-repo = 'editorconfig/editorconfig-vim'
-if = "has('python')"
-on_ft = 'dosini'
-hook_add = '''
-  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-'''
-
-[[plugins]]
 repo = 'thinca/vim-ft-help_fold'
 on_ft = 'help'
 

@@ -900,6 +900,17 @@ on_i = 1
 hook_add = 'let g:echodoc_enable_at_startup = 1'
 
 [[plugins]]
+# EditorConfig. * Slowly *
+#   :EditorConfigReload   Reload the EditorConfig conf files.
+repo = 'editorconfig/editorconfig-vim'
+if = "has('python')"
+on_ft = 'dosini'
+on_cmd = 'EditorConfigReload'
+hook_source = '''
+  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+'''
+
+[[plugins]]
 # クリップボードを良い感じに
 repo = 'kana/vim-fakeclip'
 on_map = [['nv', '<Plug>']]
