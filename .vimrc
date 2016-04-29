@@ -1212,6 +1212,7 @@ vnoremap zp "zp
 " Yank until the beginning of line.
 nnoremap y0 y^
 " Yank until the end of line.
+nnoremap Y  y$
 nnoremap y9 y$
 
 " Paste insert at the bigining of the selected text on Visual mode.
@@ -1334,6 +1335,8 @@ nnoremap Q q
 " Increment.
 nmap <C-a> <SID>(increment)
 nmap <C-x> <SID>(decrement)
+nmap +     <SID>(increment)
+nmap -     <SID>(decrement)
 nnoremap <silent> <SID>(increment) :AddNumbers  1<CR>
 nnoremap <silent> <SID>(decrement) :AddNumbers -1<CR>
 command! -range -nargs=1 AddNumbers
