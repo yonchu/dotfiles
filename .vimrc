@@ -496,44 +496,12 @@ set foldnestmax=3
 set fillchars=vert:\|
 set commentstring=%s
 
-" Tab page.
+" tabline.
 " When the line with tab page labels will be displayed:
 "   0: never
 "   1: only if there are at least two tab pages
 "   2: always
 set showtabline=2
-function! s:my_tabline() abort
-  let s = ''
-
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-
-    " Use gettabvar().
-    let title =
-          \ !exists('*gettabvar') ?
-          \      fnamemodify(bufname(bufnr), ':t') :
-          \ gettabvar(i, 'title') != '' ?
-          \      gettabvar(i, 'title') :
-          \      fnamemodify((i == tabpagenr() ?
-          \      getcwd() : gettabvar(i, 'cwd')), ':t')
-
-    let title = '[' . title . ']'
-
-    let s .= '%'.i.'T'
-    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= title
-    let s .= mod
-    let s .= '%#TabLineFill#'
-  endfor
-
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction
-let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
 
 " View setting (:mkview).
 set viewdir=$CACHE/vim_view
