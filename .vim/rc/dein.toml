@@ -16,6 +16,7 @@ repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
+if = "!has('kaoriya')"
 build = 'make'
 
 [[plugins]]
