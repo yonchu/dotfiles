@@ -104,6 +104,57 @@ hook_source = '''
   "au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 '''
 
+[[plugins]]
+# Ruby code completion with rcodetools.
+#   gem install rcodetools
+repo = 'osyo-manga/vim-monster'
+on_ft = 'ruby'
+# }}}
+
+# ===== Syntax Checker ===== {{{
+[[plugins]]
+# 非同期シンタックスチェック
+#  シンタックスチェックを実行
+#    :WatchdogsRun
+#  チェッカーを指定して実行
+#    :WatchdogsRun watchdogs_checker/g++
+#  QuickRun と同様の引数を渡す
+#    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
+#  Use Plugin:
+#    shabadou.vim, vim-quickrun
+#    vim-hier, quickfixstatus, quickfixsigns_vim
+repo = 'yonchu/vim-watchdogs'
+on_ft = ['python', 'html', 'javascript', 'coffee', 'perl', 'php', 'ruby', 'scss', 'sass']
+hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
+
+[[plugins]]
+# for vim-watchdogs
+repo = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+# quickfix の該当箇所をハイライト
+repo = 'cohama/vim-hier'
+on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
+hook_source = '''
+  let g:hier_highlight_group_qf  = 'qf_error_ucurl'
+  let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
+'''
+
+[[plugins]]
+# quickfixに対応する行にsignを表示
+repo = 'tomtom/quickfixsigns_vim'
+on_cmd = [
+  'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
+  'QuickfixsignsToggle', 'QuickfixsignsSelect'
+]
+hook_source = '''
+  let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
+'''
+
+[[plugins]]
+# quickfix の該当箇所をコマンドラインに出力
+repo = 'yonchu/quickfixstatus'
+on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
 # }}}
 
 # ===== File type ===== {{{
@@ -166,12 +217,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-# Ruby code completion with rcodetools.
-#   gem install rcodetools
-repo = 'osyo-manga/vim-monster'
-on_ft = 'ruby'
-
-[[plugins]]
 repo = 'hynek/vim-python-pep8-indent'
 on_ft = 'python'
 
@@ -193,10 +238,6 @@ on_ft = 'ruby'
 [[plugins]]
 repo = 'AtsushiM/sass-compile.vim'
 on_ft = 'sass'
-
-[[plugins]]
-# for vim-watchdogs
-repo = 'osyo-manga/shabadou.vim'
 
 [[plugins]]
 repo = 'jiangmiao/simple-javascript-indenter'
@@ -226,25 +267,6 @@ hook_source = '''
 # Vimで正しくvirtualenvを処理できるようにする
 repo = 'jmcantrell/vim-virtualenv'
 on_ft = ['python', 'python3', 'djangohtml']
-
-[[plugins]]
-# 非同期シンタックスチェック
-#  シンタックスチェックを実行
-#    :WatchdogsRun
-#  チェッカーを指定して実行
-#    :WatchdogsRun watchdogs_checker/g++
-#  QuickRun と同様の引数を渡す
-#    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
-repo = 'yonchu/vim-watchdogs'
-depends = [
-  'vim-hier',
-  'quickfixstatus',
-  'quickfixsigns_vim',
-  'shabadou.vim',
-  'vim-quickrun',
-]
-on_ft = ['python', 'html', 'javascript', 'coffee', 'perl', 'php', 'ruby', 'scss', 'sass']
-hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
 # }}}
 
 # ===== Operator ===== {{{
@@ -1033,15 +1055,6 @@ repo = 'osyo-manga/vim-hideout'
 on_cmd = 'HideoutOn'
 
 [[plugins]]
-# quickfix の該当箇所をハイライト
-repo = 'cohama/vim-hier'
-on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
-hook_source = '''
-  let g:hier_highlight_group_qf  = 'qf_error_ucurl'
-  let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
-'''
-
-[[plugins]]
 # 日本語を含んだ文章を文節区切りで移動 (W/B/E)
 repo = 'deton/jasegment.vim'
 on_map = ['<Plug>', 'W', 'B', 'E']
@@ -1201,22 +1214,6 @@ repo = 'thinca/vim-qfreplace'
 on_ft = ['unite', 'quickfix']
 hook_source =
   'autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>'
-
-[[plugins]]
-# quickfixに対応する行にsignを表示
-repo = 'tomtom/quickfixsigns_vim'
-on_cmd = [
-  'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
-  'QuickfixsignsToggle', 'QuickfixsignsSelect'
-]
-hook_source = '''
-  let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
-'''
-
-[[plugins]]
-# quickfix の該当箇所をコマンドラインに出力
-repo = 'yonchu/quickfixstatus'
-on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
