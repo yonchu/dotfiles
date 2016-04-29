@@ -490,8 +490,9 @@ on_source = 'unite.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler.vim'
 depends = ['unite.vim', 'tabpagebuffer.vim']
-on_map = '<Plug>'
-on_cmd = ['VimFiler', 'VimFilerExplorer', 'Edit', 'Write', 'Read', 'Source']
+on_if = "isdirectory(bufname('%'))"
+on_map = [['n', '<Plug>']]
+on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerCurrentDir', 'VimFilerBufferDir']
 hook_add = '''
   nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
   nnoremap <silent> <F5> :VimFilerExplorer<CR>
