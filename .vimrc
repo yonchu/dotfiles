@@ -354,9 +354,9 @@ endif
 
 " Disable italic/bold syntax (_*) on Markdown.
 autocmd MyAutoCmd FileType markdown
-      \ hi! def link htmlItalic       Normal |
-      \ hi! def link htmlBold         Normal |
-      \ hi! def link htmlBoldItalic   Normal
+      \ highlight! def link htmlItalic       Normal |
+      \ highlight! def link htmlBold         Normal |
+      \ highlight! def link htmlBoldItalic   Normal
 
 " Enable colors for TeraTerm.
 let s:is_teraterm = 0
