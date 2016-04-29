@@ -811,45 +811,6 @@ autocmd MyAutoCmd FileType *
       \ if exists(':IndentLinesReset') |
       \   execute 'IndentLinesReset' |
       \ endif
-
-" tmux.
-if exists('$TMUX') && !has('gui_running')
-  autocmd MyAutoCmd BufEnter * call <SID>set_vim_cwd_to_tmux()
-  autocmd MyAutoCmd VimLeave * call <SID>unset_vim_cwd_from_tmux()
-endif
-
-function! s:set_vim_cwd_to_tmux() abort
-  if !exists('$TMUX') || has('gui_running')
-    return
-  endif
-
-  let pain_id = system('tmux display -p "#D" | tr -d "%" | tr -d $"\n"')
-  call system('tmux setenv ' . "TMUX_VIM_CWD_" . pain_id . ' ' . getcwd())
-
-  let bt = &buftype
-  let ft = &filetype
-  " let bn = bufname('%')
-  if bt ==# 'nofile'
-        \ || ft ==# 'gitcommit'  || ft ==# 'git-status' || ft ==# 'git-log'
-        \ || ft ==# 'git-diff'   || ft ==# 'qf'         || ft ==# 'quickrun'
-        \ || ft ==# 'qfreplace'  || ft ==# 'ref'
-        \ || ft ==# 'vcs-commit' || ft ==# 'vcs-status'
-    let pwd = getcwd()
-  else
-    let pwd = expand('%:p:h')
-  endif
-
-  let var_name = system('tmux display -p "TMUXPWD_#D" | tr -d "%" | tr -d $"\n"')
-  call system('tmux setenv ' . var_name . ' ' . shellescape(pwd))
-endfunction
-
-function! s:unset_vim_cwd_from_tmux() abort
-  if !exists('$TMUX')
-    return
-  endif
-  let var_name = system('tmux display -p "TMUX_VIM_CWD_#D" | tr -d "%" | tr -d $"\n"')
-  call system('tmux setenv -u ' . var_name)
-endfunction
 " }}}
 
 " === Misc 3: Set filetype ==============================================={{{1

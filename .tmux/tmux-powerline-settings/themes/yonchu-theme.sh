@@ -23,8 +23,6 @@ TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SEPARATOR=${TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SE
 
 window_width=$($TMUX_POWERLINE_DIR_USER_SEGMENTS/../window-width.sh)
 # window_title=$(tmux display -p '#W')
-vim_cwd=$(tmux showenv $(tmux display -p 'TMUX_VIM_CWD_#D' | tr -d '%') 2> /dev/null)
-vim_cwd=${vim_cwd#*=}
 
 is_minimum=$(tmux showenv TMUX_MINIMUM_STATUS 2> /dev/null)
 
@@ -38,27 +36,6 @@ if [ -n "$is_minimum" ]; then
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=()
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("lang 95 248")
         TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS+=("date-full-en 235 136")
-    fi
-elif [ -n "$vim_cwd" ]; then
-    if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
-        TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-            "tmux_session_info 148 234" \
-            "hostname 63 255" \
-            "vcs_branch 29 88" \
-            "vcs_compare 60 255" \
-            "vcs_staged 64 255" \
-            "vcs_modified 9 255" \
-            "vcs_others 245 0" \
-       )
-    fi
-
-    if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
-        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
-            "pwd 89 211" \
-            #"vim-cwd 21 231" \
-            "used-mem 58 107" \
-            "date-full-en 235 136" \
-        )
     fi
 else
     if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
