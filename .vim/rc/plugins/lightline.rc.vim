@@ -1,63 +1,75 @@
 let g:lightline = {
         \ 'colorscheme': 'landscape',
-        \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
         \   'left': [
         \     ['mode', 'paste'],
         \     ['fugitive', 'gitgutter', 'filename'],
         \   ],
         \   'right': [
-        \     ['lineinfo', 'syntastic'],
+        \     ['syntastic', 'lineinfo'],
         \     ['percent'],
-        \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+        \     ['charvaluehex', 'fileformat', 'fileencoding', 'filetype'],
         \   ]
         \ },
+        \ 'tabline': {
+        \   'left': [[ 'tabs' ]],
+        \   'right': [[ 'close' ], ['spaceopts', 'cwd']]
+        \ },
         \ 'component': {
-        \   'lineinfo': '%3l:%-2v/%{col("$")-1}',
+        \   'cwd'      : '[%.35(%{fnamemodify(getcwd(), ":~")}%)]',
+        \   'lineinfo' : '⭡ %3l:%-2v/%-2{col("$")-1}',
+        \   'spaceopts': '[%{&et?"et":"noet"}|ts=%{&ts}|sw=%{&sw}|sts=%{&sts}|tw=%{&tw}]',
         \ },
         \ 'component_function': {
-        \   'modified': 'MyModified',
-        \   'readonly': 'MyReadonly',
-        \   'fugitive': 'MyFugitive',
-        \   'filename': 'MyFilename',
-        \   'fileformat': 'MyFileformat',
-        \   'filetype': 'MyFiletype',
-        \   'fileencoding': 'MyFileencoding',
-        \   'mode': 'MyMode',
-        \   'syntastic': 'SyntasticStatuslineFlag',
-        \   'charcode': 'MyCharCode',
-        \   'gitgutter': 'MyGitGutter',
+        \   'mode'         : 'LightLineMode',
+        \   'modified'     : 'LightLineModified',
+        \   'readonly'     : 'LightLineReadonly',
+        \   'filename'     : 'LightLineFilename',
+        \   'filetype'     : 'LightLineFiletype',
+        \   'fileencoding' : 'LightLineFileencoding',
+        \   'fileformat'   : 'LightLineFileformat',
+        \   'charcode'     : 'LightLineCharCode',
+        \   'fugitive'     : 'LightLineFugitive',
+        \   'gitgutter'    : 'LightLineGitGutter',
         \   'search_status': 'anzu#search_status',
-        \ }}
+        \ },
+        \ 'component_expand': {
+        \   'syntastic'   : 'SyntasticStatuslineFlag',
+        \   'charvaluehex': 'LightLineCharvaluehex',
+        \ },
+        \ 'component_type': {
+        \   'syntastic': 'error',
+        \ },
+        \ }
 
 if has('multi_byte')
-    let g:lightline.separator = {'left': '⮀', 'right': '⮂'}
+    let g:lightline.separator    = {'left': '⮀', 'right': '⮂'}
     let g:lightline.subseparator = {'left': '⮁', 'right': '⮃'}
 endif
 
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+function! LightLineModified()
+  return &ft =~ 'help\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
 endfunction
 
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? '⭤' : ''
+function! LightLineReadonly()
+  return &ft !~? 'help\|gundo' && &readonly ? '⭤' : ''
 endfunction
 
-function! MyFilename()
+function! LightLineFilename()
   let fname = expand('%:t')
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
+  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
         \ fname == '__Tagbar__' ? g:lightline.fname :
         \ fname =~ '__Gundo\|NERD_tree' ? '' :
         \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
         \ &ft == 'unite' ? unite#get_status_string() :
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
         \ ' -' . bufnr('%') . '-' .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+        \ ('' != LightLineModified() ? ' | ' . LightLineModified() : '')
 endfunction
 
-function! MyFugitive()
+function! LightLineFugitive()
   try
     if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
       let mark = '⭠ '  " edit here for cool mark
@@ -69,19 +81,19 @@ function! MyFugitive()
   return ''
 endfunction
 
-function! MyFileformat()
-  return winwidth('.') > 70 ? &fileformat : ''
+function! LightLineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
 endfunction
 
-function! MyFiletype()
-  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+function! LightLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
-function! MyFileencoding()
-  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+function! LightLineFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
-function! MyMode()
+function! LightLineMode()
   let fname = expand('%:t')
   return fname == '__Tagbar__' ? 'Tagbar' :
         \ fname == 'ControlP' ? 'CtrlP' :
@@ -110,10 +122,10 @@ function! s:syntastic()
   call lightline#update()
 endfunction
 
-function! MyGitGutter()
-  if ! exists('*GitGutterGetHunkSummary')
-        \ || ! get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth('.') <= 100
+function! LightLineGitGutter()
+  if !exists('*GitGutterGetHunkSummary')
+        \ || !get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth(0) <= 100
     return ''
   endif
   let symbols = [
@@ -123,7 +135,7 @@ function! MyGitGutter()
         \ ]
   let hunks = GitGutterGetHunkSummary()
   let ret = []
-  for i in [0, 1, 2]
+  for i in range(3)
     if hunks[i] > 0
       call add(ret, symbols[i] . hunks[i])
     endif
@@ -132,8 +144,8 @@ function! MyGitGutter()
 endfunction
 
 " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
-function! MyCharCode()
-  if winwidth('.') <= 70
+function! LightLineCharCode()
+  if winwidth(0) <= 70
     return ''
   endif
 
@@ -165,6 +177,13 @@ function! MyCharCode()
   let nr = printf(nrformat, nr)
 
   return "'". char ."' ". nr
+endfunction
+
+function! LightLineCharvaluehex()
+  if winwidth(0) <= 70
+    return ''
+  endif
+  return "'%{matchstr(getline('.'), '.', col('.')-1)}' 0x%04.4B"
 endfunction
 
 let g:unite_force_overwrite_statusline = 0

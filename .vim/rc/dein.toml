@@ -20,6 +20,10 @@ build = 'make'
 
 [[plugins]]
 repo = 'itchyny/landscape.vim'
+hook_add = '''
+  let g:landscape_highlight_todo = 1
+  let g:landscape_highlight_full_space = 1
+'''
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
