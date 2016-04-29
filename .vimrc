@@ -48,7 +48,8 @@ endif
 " Help language.
 set helplang& helplang=ja,en
 " Don't give the intro message when starting Vim.
-set shortmess& shortmess+=I
+" Abbreviate all messages.
+set shortmess& shortmess=atToOI
 
 " Change path separator to slash(/) for Win.
 if s:is_windows && exists('+shellslash')
