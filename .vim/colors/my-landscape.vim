@@ -1,15 +1,10 @@
 "
 "  Base
-"    vim colorscheme     : itchyny/landscape.vim
-"    terminal colorcheme : aereal/magica-colors
+"    colorscheme: itchyny/landscape.vim
 "
 
 " === Setup {{{
 set background=dark
-
-let g:landscape_highlight_url = 1
-let g:landscape_highlight_todo = 1
-let g:landscape_highlight_full_space = 1
 
 colorscheme landscape
 
@@ -18,12 +13,12 @@ augroup MyLandscapeAu
 augroup END
 " }}}
 
-
-" Folded Color
+" === Basic {{{
+" Folding.
 highlight Folded     term=bold ctermfg=darkred ctermbg=NONE
 highlight FoldColumn           ctermfg=white   ctermbg=233
 
-" Syntax
+" Syntax.
 if $ITERM_PROFILE =~ "Magica.*"
     highlight String ctermfg=209
     highlight Statement ctermfg=77
@@ -31,7 +26,7 @@ if $ITERM_PROFILE =~ "Magica.*"
     highlight PreProc    ctermfg=32
 endif
 
-" Cursor
+" Cursor.
 if version >= 700
   highlight CursorLine   ctermbg=236
   highlight CursorLineNr ctermbg=236
@@ -43,24 +38,20 @@ if version >= 700
         \ highlight CursorLine   ctermbg=18 |
         \ highlight CursorLineNr ctermbg=18
 endif
+" }}}
 
 " === Plugins {{{
-" indent-guides.vim
+" indent-guides.vim.
 autocmd MyLandscapeAu VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray  ctermbg=12
 autocmd MyLandscapeAu VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=239
 
-" vim-hier
+" vim-hier.
 highlight qf_error_ucurl   gui=undercurl guisp=red  ctermfg=none cterm=undercurl
 highlight qf_warning_ucurl gui=undercurl guisp=blue ctermfg=none cterm=undercurl
 
-" Showmarks
+" Showmarks.
 highlight ShowMarksHLl cterm=NONE ctermfg=blue ctermbg=black       gui=NONE guifg=blue guibg=black
 highlight ShowMarksHLu cterm=NONE ctermfg=blue ctermbg=lightyellow gui=NONE guifg=blue guibg=black
 highlight ShowMarksHLo cterm=NONE ctermfg=blue ctermbg=black       gui=NONE guifg=blue guibg=black
 highlight ShowMarksHLm cterm=bold ctermfg=blue ctermbg=black       gui=bold guifg=blue guibg=black
-
-" MiniBufExpl
-highlight def link MBEChanged               MBENormal
-highlight def link MBEVisibleChanged        MBEVisibleNormal
-highlight def link MBEVisibleChangedActive  MBEVisibleActive
 " }}}
