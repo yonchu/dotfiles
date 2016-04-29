@@ -44,7 +44,22 @@ hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 [[plugins]]
 # Vim source for neocomplete/deoplete.
 repo = 'Shougo/neco-vim'
-on_ft = 'vim'
+hook_add = '''
+  " Source neco-vim when CursorHoldI because it is loaded slowly.
+  function! s:source_neco_vim()
+    if &ft ==# 'vim' && !dein#is_sourced('neco-vim')
+      call dein#source('neco-vim')
+    endif
+    augroup SourceNecoVimAu
+      autocmd!
+    augroup END
+    augroup! SourceNecoVimAu
+  endfunction
+  augroup SourceNecoVimAu
+    autocmd!
+    autocmd CursorHoldI * call s:source_neco_vim()
+  augroup END
+'''
 
 [[plugins]]
 # Include completion framework for neocomplete/deoplete.
