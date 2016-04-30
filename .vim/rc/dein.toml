@@ -48,9 +48,6 @@ repo = 'Shougo/neoyank.vim'
 on_source = 'unite.vim'
 
 [[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-
-[[plugins]]
 repo = 'Konfekt/FastFold'
 
 [[plugins]]
@@ -254,11 +251,6 @@ on_ft = 'diff'
 [[plugins]]
 repo = 'thinca/vim-ft-help_fold'
 on_ft = 'help'
-
-[[plugins]]
-repo = 'vim-ruby/vim-ruby'
-on_map = '<Plug>'
-on_ft = 'ruby'
 # }}}
 
 # ===== Syntax ===== {{{
@@ -305,8 +297,10 @@ on_ft = 'haml'
 repo = 'HybridText'
 on_ft = 'hybrid'
 hook_add = '''
-  autocmd MyAutoCmd BufEnter,BufNewFile * if bufname('%') != '' && &filetype == ''
-          \ | setlocal ft=hybrid | endif
+  autocmd MyAutoCmd BufEnter,BufNewFile *
+          \ if bufname('%') != '' && &filetype == ''
+          \ | setlocal ft=hybrid
+          \ | endif
 '''
 
 [[plugins]]
@@ -315,10 +309,6 @@ on_ft = 'less'
 
 [[plugins]]
 repo = 'rcmdnk/vim-markdown'
-on_ft = ['markdown', 'mkd', 'md']
-
-[[plugins]]
-repo = 'joker1007/vim-markdown-quote-syntax'
 on_ft = ['markdown', 'mkd', 'md']
 
 [[plugins]]
@@ -336,6 +326,10 @@ on_ft = 'toml'
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = 'typescript'
+
+[[plugins]]
+repo = 'vim-jp/syntax-vim-ex'
+on_ft = 'vim'
 # }}}
 
 # ===== Color Scheme ===== {{{

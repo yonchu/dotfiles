@@ -42,6 +42,9 @@ on_ft = 'snippet'
 hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 
 [[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
 # Vim source for neocomplete/deoplete.
 repo = 'Shougo/neco-vim'
 hook_add = '''
@@ -232,6 +235,10 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+on_ft = ['markdown', 'mkd', 'md']
+
+[[plugins]]
 repo = 'hynek/vim-python-pep8-indent'
 on_ft = 'python'
 
@@ -246,6 +253,11 @@ on_ft = 'python'
 hook_source = 'source ~/.vim/rc/plugins/python-mode.rc.vim'
 
 [[plugins]]
+repo = 'vim-ruby/vim-ruby'
+on_map = '<Plug>'
+on_ft = 'ruby'
+
+[[plugins]]
 # Highlight local variables in Ruby files.
 repo = 'todesking/ruby_hl_lvar.vim'
 on_ft = 'ruby'
@@ -258,9 +270,9 @@ on_ft = 'sass'
 repo = 'jiangmiao/simple-javascript-indenter'
 on_ft = 'javascript'
 hook_source = '''
-  " shiftwidthを1にしてインデント
+  " Use Brief Mode to indent on shiftwidth=1.
   let g:SimpleJsIndenter_BriefMode = 1
-  " switchのインデント改善
+  " Improve switch/case syntax.
   let g:SimpleJsIndenter_CaseIndentLevel = -1
 '''
 
@@ -1338,6 +1350,7 @@ hook_source = '''
 [[plugins]]
 # unite/vimfilerのカレントディレクトリをタブ毎に維持
 repo = 'Shougo/tabpagebuffer.vim'
+on_if = 'tabpagenr() > 1'
 
 [[plugins]]
 # :cd をタブページ毎に
