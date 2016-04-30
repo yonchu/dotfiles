@@ -655,7 +655,7 @@ if exists('autofmt#japanese#formatexpr')
 endif
 " }}}
 
-" === Misc 1 ============================================================== {{{1
+" === Misc 1 ============================================================ {{{1
 " Remove trailing whitespace when the buffer is saved.
 autocmd MyAutoCmd BufWritePre * :%s/\s\+$//ge
 " Convert tabs to spaces when the buffer is saved.
@@ -768,7 +768,7 @@ augroup MySkeltonAu
 augroup END
 " }}}
 
-" === Misc 2 ============================================================== {{{1
+" === Misc 2 ============================================================ {{{1
 " autodate.vim
 let autodate_format = '%d %3m %Y'
 let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
@@ -857,7 +857,7 @@ augroup MyAutoCmdEx
 augroup END
 " }}}
 
-" === Misc 4: Define functions =========================================================={{{1
+" === Misc 4: Define functions ==========================================={{{1
 " Toggle options.
 function! ToggleOption(option_name) abort
   execute 'setlocal' a:option_name.'!'
@@ -1290,7 +1290,7 @@ function! s:add_numbers(num) abort
 endfunction
 " }}}
 
-" === Mappings 8: Mac ================================================== {{{1
+" === Mappings 8: Mac =================================================== {{{1
 if s:is_mac
   " Open the current file with Chrome.
   command! -nargs=0 -bang ObCurrent silent<bang> call s:open_browser()
