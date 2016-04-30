@@ -1,4 +1,3 @@
-
 # ===== Completion ===== {{{
 [[plugins]]
 repo = 'Shougo/context_filetype.vim'
@@ -129,212 +128,19 @@ repo = 'osyo-manga/vim-monster'
 on_ft = 'ruby'
 # }}}
 
-# ===== Syntax Checker ===== {{{
+# ===== Vimfiler ===== {{{
 [[plugins]]
-# 非同期シンタックスチェック
-#  シンタックスチェックを実行
-#    :WatchdogsRun
-#  チェッカーを指定して実行
-#    :WatchdogsRun watchdogs_checker/g++
-#  QuickRun と同様の引数を渡す
-#    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
-#  Use Plugin:
-#    shabadou.vim, vim-quickrun
-#    vim-hier, quickfixstatus, quickfixsigns_vim
-repo = 'yonchu/vim-watchdogs'
-on_ft = ['python', 'html', 'javascript', 'coffee', 'perl', 'php', 'ruby', 'scss', 'sass']
-hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
-
-[[plugins]]
-# for vim-watchdogs
-repo = 'osyo-manga/shabadou.vim'
-
-[[plugins]]
-# quickfix の該当箇所をハイライト
-repo = 'cohama/vim-hier'
-on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
-hook_source = '''
-  let g:hier_highlight_group_qf  = 'qf_error_ucurl'
-  let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
-'''
-
-[[plugins]]
-# quickfixに対応する行にsignを表示
-repo = 'tomtom/quickfixsigns_vim'
-on_cmd = [
-  'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
-  'QuickfixsignsToggle', 'QuickfixsignsSelect'
-]
-hook_source = '''
-  let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
-'''
-
-[[plugins]]
-# quickfix の該当箇所をコマンドラインに出力
-repo = 'yonchu/quickfixstatus'
-on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
-# }}}
-
-# ===== File type ===== {{{
-[[plugins]]
-# <C-_>でhtmlタグの閉じタグを入力
-repo = 'closetag.vim'
-on_ft = ['html', 'xml', 'xsl', 'ant']
-hook_source = 'let g:closetag_html_style = 1'
-
-[[plugins]]
-# Djangoを正しくVimで読み込めるようにする
-repo = 'lambdalisue/vim-django-support'
-on_ft = ['python', 'python3', 'djangohtml']
-
-[[plugins]]
-repo = 'mattn/emmet-vim'
-on_ft = [
-  'html', 'xml', 'javascript', 'coffee', 'css', 'less',
-  'scss', 'sass', 'haml', 'markdown',
-]
-hook_source = 'source ~/.vim/rc/plugins/emmet.rc.vim'
-
-[[plugins]]
-# Awesome Python autocompletion.
-#   To install jedi : git submodule update --init
-repo = 'davidhalter/jedi-vim'
-if = "!has('nvim')"
-on_ft = 'python'
-hook_source = '''
-  let g:jedi#auto_initialization = 1
-  let g:jedi#popup_on_dot = 0
-  let g:jedi#popup_select_first = 0
-  let g:jedi#completions_enabled = 0
-  let g:jedi#auto_vim_configuration = 0
-  let g:jedi#smart_auto_mappings = 0
-  let g:jedi#show_call_signatures = 0
-
-  let g:jedi#goto_assignments_command = "<leader>gt"
-  let g:jedi#goto_definitions_command = "<leader>d"
-  let g:jedi#documentation_command = "<space>K"
-  let g:jedi#rename_command = "<leader>R"
-  let g:jedi#usages_command = "<leader>n"
-
-  autocmd MyAutoCmd FileType python setlocal omnifunc=jedi#completions'
-'''
-
-[[plugins]]
-# JSDoc生成
-#   :JsDoc or <C-l>
-repo = 'heavenshell/vim-jsdoc'
-on_ft = ['html', 'javascript', 'coffee']
-on_cmd = 'JsDoc'
-
-[[plugins]]
-repo = 'plasticscafe/vim-less-autocompile'
-on_ft = 'less'
-hook_source = '''
-  let g:less_autocompile=1
-  let g:less_compress=0
-'''
-
-[[plugins]]
-repo = 'joker1007/vim-markdown-quote-syntax'
-on_ft = ['markdown', 'mkd', 'md']
-
-[[plugins]]
-repo = 'hynek/vim-python-pep8-indent'
-on_ft = 'python'
-
-[[plugins]]
-# Python多機能プラグイン
-#  https://github.com/klen/python-mode
-#  :help PythonModeOptions
-#  :help PythonModeKeys
-#  :help ropevim.txt
-repo = 'klen/python-mode'
-on_ft = 'python'
-hook_source = 'source ~/.vim/rc/plugins/python-mode.rc.vim'
-
-[[plugins]]
-repo = 'vim-ruby/vim-ruby'
-on_map = '<Plug>'
-on_ft = 'ruby'
-
-[[plugins]]
-# Highlight local variables in Ruby files.
-repo = 'todesking/ruby_hl_lvar.vim'
-on_ft = 'ruby'
-
-[[plugins]]
-repo = 'AtsushiM/sass-compile.vim'
-on_ft = 'sass'
-
-[[plugins]]
-repo = 'jiangmiao/simple-javascript-indenter'
-on_ft = 'javascript'
-hook_source = '''
-  " Use Brief Mode to indent on shiftwidth=1.
-  let g:SimpleJsIndenter_BriefMode = 1
-  " Improve switch/case syntax.
-  let g:SimpleJsIndenter_CaseIndentLevel = -1
-'''
-
-# [[plugins]]
-# # 対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
-# repo = 'scrooloose/syntastic'
-# on_cmd = ['SyntasticCheck', 'SyntasticToggleMode', 'Errors']
-# hook_add = '''
-#   " シンタックスチェックを実行
-#   noremap <silent> <Leader>s :SyntasticCheck<CR>
-#   " シンタックスチェックのモードをトグル(active/passive)
-#   noremap <silent> <Leader>S :SyntasticToggleMode<CR>
-#   " QuickFixによるエラー一覧表示
-#   noremap <silent> <Leader>e :Errors<CR>
-# '''
-# hook_source = 'source ~/.vim/rc/plugins/syntastic.rc.vim'
-
-[[plugins]]
-# Vimで正しくvirtualenvを処理できるようにする
-repo = 'jmcantrell/vim-virtualenv'
-on_ft = ['python', 'python3', 'djangohtml']
-# }}}
-
-# ===== Operator ===== {{{
-[[plugins]]
-# htmlエスケープ
-repo = 'tyru/operator-html-escape.vim'
-depends = 'vim-operator-user'
-on_map = [['nx', '<Plug>']]
+repo = 'Shougo/vimfiler.vim'
+depends = ['unite.vim', 'tabpagebuffer.vim']
+on_if = "isdirectory(bufname('%'))"
+on_map = [['n', '<Plug>']]
+on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerCurrentDir', 'VimFilerBufferDir']
 hook_add = '''
-  nmap <Leader>h <Plug>(operator-html-escape)
-  xmap <Leader>h <Plug>(operator-html-escape)
+  nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
+  nnoremap <silent> <F5> :VimFilerExplorer<CR>
+  nnoremap <silent> <F6> :VimFilerBufferDir -buffer-name=explorer -split -toggle -no-quit<CR>
 '''
-
-[[plugins]]
-# 連続置換 (cp)
-repo = 'kana/vim-operator-replace'
-depends = 'vim-operator-user'
-on_map = [['nx', '<Plug>']]
-hook_add = '''
-  nmap R <Plug>(operator-replace)
-  xmap R <Plug>(operator-replace)
-  xmap p <Plug>(operator-replace)
-  nmap cp <Plug>(operator-replace)iw
-'''
-
-[[plugins]]
-# surround
-#   追加: saiw'   hoge -> 'hoge'
-#   削除: sda'
-#   置換: sra'"
-repo = 'rhysd/vim-operator-surround'
-depends = 'vim-operator-user'
-on_map = '<Plug>'
-hook_add = '''
-  map <silent>sa <Plug>(operator-surround-append)
-  map <silent>sd <Plug>(operator-surround-delete)
-  map <silent>sr <Plug>(operator-surround-replace)
-
-  nmap <silent>sdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
-  nmap <silent>srr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
-'''
+hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
 # }}}
 
 # ===== Unite ===== {{{
@@ -535,55 +341,45 @@ repo = 'pasela/unite-webcolorname'
 on_source = 'unite.vim'
 # }}}
 
-# ===== Vimfiler ===== {{{
+# ===== Operator ===== {{{
 [[plugins]]
-repo = 'Shougo/vimfiler.vim'
-depends = ['unite.vim', 'tabpagebuffer.vim']
-on_if = "isdirectory(bufname('%'))"
-on_map = [['n', '<Plug>']]
-on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerCurrentDir', 'VimFilerBufferDir']
+# htmlエスケープ
+repo = 'tyru/operator-html-escape.vim'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>']]
 hook_add = '''
-  nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
-  nnoremap <silent> <F5> :VimFilerExplorer<CR>
-  nnoremap <silent> <F6> :VimFilerBufferDir -buffer-name=explorer -split -toggle -no-quit<CR>
+  nmap <Leader>h <Plug>(operator-html-escape)
+  xmap <Leader>h <Plug>(operator-html-escape)
 '''
-hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
 
-# ===== vim-ref ===== {{{
 [[plugins]]
-# リファレンスをvim上で参照
-# Default Refarence:
-#   clojure, erlang, man , perldoc , phpmanual , pydoc , redis , refe , rfc , webdict
-# Ref command:
-#   :Ref [{options}] {source-name} [{query}]
-#   :RefHistory
-#   K  search keyword under the cursor.
-#   Delete chache: :call ref#rmcache([{source-name} [, {name}]])
-# ref-viewer mappings:
-#   <CR>           <Plug>(ref-keyword)
-#   <2-LeftMouse>  <Plug>(ref-keyword)
-#   <C-]>          <Plug>(ref-keyword)
-#   <C-t>          <Plug>(ref-back)
-#   <C-o>          <Plug>(ref-back)
-#   <C-i>          <Plug>(ref-forward)
-repo = 'thinca/vim-ref'
-on_map = [['n', '<Plug>'], ['n', 'K']]
-on_cmd = ['Ref', 'RefHistory']
-on_source = 'unite.vim'
+# 連続置換 (cp)
+repo = 'kana/vim-operator-replace'
+depends = 'vim-operator-user'
+on_map = [['nx', '<Plug>']]
 hook_add = '''
-  silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
-  silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+  nmap R <Plug>(operator-replace)
+  xmap R <Plug>(operator-replace)
+  xmap p <Plug>(operator-replace)
+  nmap cp <Plug>(operator-replace)iw
 '''
-hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
 
 [[plugins]]
-repo = 'pekepeke/ref-javadoc'
-on_cmd = 'Ref'
+# surround
+#   追加: saiw'   hoge -> 'hoge'
+#   削除: sda'
+#   置換: sra'"
+repo = 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = '<Plug>'
+hook_add = '''
+  map <silent>sa <Plug>(operator-surround-append)
+  map <silent>sd <Plug>(operator-surround-delete)
+  map <silent>sr <Plug>(operator-surround-replace)
 
-[[plugins]]
-# vim-refのjavascript/jquery用ソース
-repo = 'mojako/ref-sources.vim'
-on_cmd = 'Ref'
+  nmap <silent>sdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
+  nmap <silent>srr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
+'''
 # }}}
 
 # ===== txtobj ===== {{{
@@ -743,6 +539,210 @@ on_map = [['ox', '<Plug>'], ['ox', 'au'], ['ox', 'iu']]
 repo = 'lucapette/vim-textobj-underscore'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'a_'], ['ox', 'i_']]
+# }}}
+
+# ===== File type ===== {{{
+[[plugins]]
+# <C-_>でhtmlタグの閉じタグを入力
+repo = 'closetag.vim'
+on_ft = ['html', 'xml', 'xsl', 'ant']
+hook_source = 'let g:closetag_html_style = 1'
+
+[[plugins]]
+# Djangoを正しくVimで読み込めるようにする
+repo = 'lambdalisue/vim-django-support'
+on_ft = ['python', 'python3', 'djangohtml']
+
+[[plugins]]
+repo = 'mattn/emmet-vim'
+on_ft = [
+  'html', 'xml', 'javascript', 'coffee', 'css', 'less',
+  'scss', 'sass', 'haml', 'markdown',
+]
+hook_source = 'source ~/.vim/rc/plugins/emmet.rc.vim'
+
+[[plugins]]
+# Awesome Python autocompletion.
+#   To install jedi : git submodule update --init
+repo = 'davidhalter/jedi-vim'
+if = "!has('nvim')"
+on_ft = 'python'
+hook_source = '''
+  let g:jedi#auto_initialization = 1
+  let g:jedi#popup_on_dot = 0
+  let g:jedi#popup_select_first = 0
+  let g:jedi#completions_enabled = 0
+  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#smart_auto_mappings = 0
+  let g:jedi#show_call_signatures = 0
+
+  let g:jedi#goto_assignments_command = "<leader>gt"
+  let g:jedi#goto_definitions_command = "<leader>d"
+  let g:jedi#documentation_command = "<space>K"
+  let g:jedi#rename_command = "<leader>R"
+  let g:jedi#usages_command = "<leader>n"
+
+  autocmd MyAutoCmd FileType python setlocal omnifunc=jedi#completions'
+'''
+
+[[plugins]]
+# JSDoc生成
+#   :JsDoc or <C-l>
+repo = 'heavenshell/vim-jsdoc'
+on_ft = ['html', 'javascript', 'coffee']
+on_cmd = 'JsDoc'
+
+[[plugins]]
+repo = 'plasticscafe/vim-less-autocompile'
+on_ft = 'less'
+hook_source = '''
+  let g:less_autocompile=1
+  let g:less_compress=0
+'''
+
+[[plugins]]
+repo = 'joker1007/vim-markdown-quote-syntax'
+on_ft = ['markdown', 'mkd', 'md']
+
+[[plugins]]
+repo = 'hynek/vim-python-pep8-indent'
+on_ft = 'python'
+
+[[plugins]]
+# Python多機能プラグイン
+#  https://github.com/klen/python-mode
+#  :help PythonModeOptions
+#  :help PythonModeKeys
+#  :help ropevim.txt
+repo = 'klen/python-mode'
+on_ft = 'python'
+hook_source = 'source ~/.vim/rc/plugins/python-mode.rc.vim'
+
+[[plugins]]
+repo = 'vim-ruby/vim-ruby'
+on_map = '<Plug>'
+on_ft = 'ruby'
+
+[[plugins]]
+# Highlight local variables in Ruby files.
+repo = 'todesking/ruby_hl_lvar.vim'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'AtsushiM/sass-compile.vim'
+on_ft = 'sass'
+
+[[plugins]]
+repo = 'jiangmiao/simple-javascript-indenter'
+on_ft = 'javascript'
+hook_source = '''
+  " Use Brief Mode to indent on shiftwidth=1.
+  let g:SimpleJsIndenter_BriefMode = 1
+  " Improve switch/case syntax.
+  let g:SimpleJsIndenter_CaseIndentLevel = -1
+'''
+
+# [[plugins]]
+# # 対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+# repo = 'scrooloose/syntastic'
+# on_cmd = ['SyntasticCheck', 'SyntasticToggleMode', 'Errors']
+# hook_add = '''
+#   " シンタックスチェックを実行
+#   noremap <silent> <Leader>s :SyntasticCheck<CR>
+#   " シンタックスチェックのモードをトグル(active/passive)
+#   noremap <silent> <Leader>S :SyntasticToggleMode<CR>
+#   " QuickFixによるエラー一覧表示
+#   noremap <silent> <Leader>e :Errors<CR>
+# '''
+# hook_source = 'source ~/.vim/rc/plugins/syntastic.rc.vim'
+
+[[plugins]]
+# Vimで正しくvirtualenvを処理できるようにする
+repo = 'jmcantrell/vim-virtualenv'
+on_ft = ['python', 'python3', 'djangohtml']
+# }}}
+
+# ===== vim-ref ===== {{{
+[[plugins]]
+# リファレンスをvim上で参照
+# Default Refarence:
+#   clojure, erlang, man , perldoc , phpmanual , pydoc , redis , refe , rfc , webdict
+# Ref command:
+#   :Ref [{options}] {source-name} [{query}]
+#   :RefHistory
+#   K  search keyword under the cursor.
+#   Delete chache: :call ref#rmcache([{source-name} [, {name}]])
+# ref-viewer mappings:
+#   <CR>           <Plug>(ref-keyword)
+#   <2-LeftMouse>  <Plug>(ref-keyword)
+#   <C-]>          <Plug>(ref-keyword)
+#   <C-t>          <Plug>(ref-back)
+#   <C-o>          <Plug>(ref-back)
+#   <C-i>          <Plug>(ref-forward)
+repo = 'thinca/vim-ref'
+on_map = [['n', '<Plug>'], ['n', 'K']]
+on_cmd = ['Ref', 'RefHistory']
+on_source = 'unite.vim'
+hook_add = '''
+  silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+  silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+'''
+hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
+
+[[plugins]]
+repo = 'pekepeke/ref-javadoc'
+on_cmd = 'Ref'
+
+[[plugins]]
+# vim-refのjavascript/jquery用ソース
+repo = 'mojako/ref-sources.vim'
+on_cmd = 'Ref'
+# }}}
+
+# ===== Syntax Checker ===== {{{
+[[plugins]]
+# 非同期シンタックスチェック
+#  シンタックスチェックを実行
+#    :WatchdogsRun
+#  チェッカーを指定して実行
+#    :WatchdogsRun watchdogs_checker/g++
+#  QuickRun と同様の引数を渡す
+#    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
+#  Use Plugin:
+#    shabadou.vim, vim-quickrun
+#    vim-hier, quickfixstatus, quickfixsigns_vim
+repo = 'yonchu/vim-watchdogs'
+on_ft = ['python', 'html', 'javascript', 'coffee', 'perl', 'php', 'ruby', 'scss', 'sass']
+hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
+
+[[plugins]]
+# for vim-watchdogs
+repo = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+# quickfix の該当箇所をハイライト
+repo = 'cohama/vim-hier'
+on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
+hook_source = '''
+  let g:hier_highlight_group_qf  = 'qf_error_ucurl'
+  let g:hier_highlight_group_qfw = 'qf_warning_ucurl'
+'''
+
+[[plugins]]
+# quickfixに対応する行にsignを表示
+repo = 'tomtom/quickfixsigns_vim'
+on_cmd = [
+  'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
+  'QuickfixsignsToggle', 'QuickfixsignsSelect'
+]
+hook_source = '''
+  let g:quickfixsigns_classes = ['qfl', 'loc', 'breakpoints']
+'''
+
+[[plugins]]
+# quickfix の該当箇所をコマンドラインに出力
+repo = 'yonchu/quickfixstatus'
+on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
 # }}}
 
 # ===== etc ===== {{{
