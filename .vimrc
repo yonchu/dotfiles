@@ -693,7 +693,7 @@ autocmd MyAutoCmd WinEnter *
 
 " Update filetype automatically.
 autocmd MyAutoCmd BufWritePost * nested
-      \ if &l:filetype ==# '' || exists('b:ftdetect')
+      \ if &l:filetype ==# '' || &l:filetype ==# 'hybrid' || exists('b:ftdetect')
       \ |   unlet! b:ftdetect
       \ |   filetype detect
       \ | endif
