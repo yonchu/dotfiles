@@ -6,7 +6,7 @@ repo = 'Shougo/context_filetype.vim'
 repo = 'Shougo/neocomplete.vim'
 depends = 'context_filetype.vim'
 if = "has('lua')"
-on_i = 1
+on_event = 'InsertEnter'
 hook_source = '''
   let g:acp_enableAtStartup = 0
   let g:neocomplete#enable_at_startup = 1
@@ -36,7 +36,7 @@ hook_source = '''
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
 depends = ['neosnippet-snippets', 'context_filetype.vim']
-on_i = 1
+on_event = 'InsertCharPre'
 on_ft = 'snippet'
 hook_source = 'source ~/.vim/rc/plugins/neosnippet.rc.vim'
 
@@ -66,7 +66,7 @@ hook_add = '''
 [[plugins]]
 # Include completion framework for neocomplete/deoplete.
 repo = 'Shougo/neoinclude.vim'
-on_i = 1
+on_source = ['neocomplete.vim']
 
 [[plugins]]
 # Syntax source for neocomplete/deoplete.
@@ -74,7 +74,7 @@ repo = 'Shougo/neco-syntax'
 on_source = ['neocomplete.vim']
 
 [[plugins]]
-# lookコマンドを使った英単語補完
+# A completion plugin for /usr/bin/look for completing words in English.
 repo = 'ujihisa/neco-look'
 on_source = ['neocomplete.vim']
 
@@ -91,9 +91,9 @@ hook_source = '''
 '''
 
 [[plugins]]
-# Javascript補完
+# Tern-based JavaScript editing support.
+# Tern uses .tern-project files to configure loading libraries and plugins for a project.
 # $ cd ~/.vim/dein/repos/github.com/ternjs/tern_for_vim && npm install
-# 依存ライブラリを指定するために、.tern_project ファイルを作ると効果的
 # http://ternjs.net/doc/manual.html
 repo = 'ternjs/tern_for_vim'
 on_ft = 'javascript'
@@ -105,20 +105,21 @@ repo = 'shawncplus/phpcomplete.vim'
 on_ft = 'php'
 
 [[plugins]]
-# Javascript補完 + node.js
-#  Close the method preview window.
-#    ctrl-w_ctrl-z or :pc
-#  Clear the cache for node modules.
-#   :unlet b:npm_module_names
+# Completion plugin for node.js.
+# Support node's builtin module's method&property completion(ctrl-x ctrl-o) in js file with preview.
+#   Close the method preview window.
+#     ctrl-w_ctrl-z or :pc
+#   If you modified module in node_modules directory, use code below to clear the cache.
+#     :unlet b:npm_module_names
 repo = 'myhere/vim-nodejs-complete'
 on_ft = 'coffee'
 hook_source = '''
   let g:nodejs_complete_config = {
-        \ 'js_compl_fn': 'javascriptcomplete#CompleteJS',
-        \ 'max_node_compl_len': 15,
+        \ 'js_compl_fn': 'jscomplete#CompleteJS',
+        \ 'max_node_compl_len': 15
         \ }
-  " automatically open and close the popup menu / preview window
-  "au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+  " Automatically open and close the popup menu / preview window.
+  "au! MyAutoCmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 '''
 
 [[plugins]]
@@ -136,9 +137,10 @@ on_if = "isdirectory(bufname('%'))"
 on_map = [['n', '<Plug>']]
 on_cmd = ['VimFiler', 'VimFilerExplorer', 'VimFilerCurrentDir', 'VimFilerBufferDir']
 hook_add = '''
-  nnoremap <silent>   [Space]v   :<C-u>VimFiler -invisible -parent<CR>'
-  nnoremap <silent> <F5> :VimFilerExplorer<CR>
-  nnoremap <silent> <F6> :VimFilerBufferDir -buffer-name=explorer -split -toggle -no-quit<CR>
+  nnoremap <silent> <Space>v  :<C-u>VimFiler -invisible<CR>'
+  nnoremap <silent> <F5>      :<C-u>VimFilerExplorer -status<CR>
+  nnoremap <silent> <F6>      :<C-u>VimFilerBufferDir
+        \ -buffer-name=explorer -split -toggle -no-quit<CR>
 '''
 hook_source = 'source ~/.vim/rc/plugins/vimfiler.rc.vim'
 # }}}
@@ -162,24 +164,32 @@ hook_add = '''
   xnoremap    [unite]   <Nop>
   nmap    ;f   [unite]
   xmap    ;f   [unite]
-  " === Mappinigs <space> ===
+  " === Mappinigs <Space> ===
   " Files.
-  nnoremap <silent> <space>ff
+  nnoremap <silent> <Space>ff
         \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
         \ jump_point file_point file_mru
-        \ `finddir('.git', ';') != '' ? 'file_rec/git' : 'file_rec/async'`
+        \ `finddir('.git', ';') != '' ? 'file_rec/git' : ''`
         \ buffer_tab:- file file/new<CR>
 
-  nnoremap <silent> <space>fc  :<C-u>UniteWithCurrentDir
+  nnoremap <silent> <Space>fc  :<C-u>UniteWithCurrentDir
         \ -buffer-name=files buffer bookmark file<CR>
 
   nnoremap <silent> <space>fb  :<C-u>UniteWithBufferDir
         \ -buffer-name=files buffer bookmark file<CR>
 
   " === Mappinigs [unite] ===
+  " Build.
+  nnoremap <silent> [unite]b
+        \ :<C-u>Unite -buffer-name=build`tabpagenr()` -no-quit build<CR>
+
   " Change jump.
-  nnoremap <silent> [unite]j
+  nnoremap <silent> [unite]c
         \ :<C-u>Unite -buffer-name=Change-jump change jump<CR>
+
+  " Dein.
+  nnoremap <silent> [unite]d
+        \ :<C-u>Unite -start-insert -default-action=lcd dein<CR>
 
   " File type.
   nnoremap <silent> [unite]ft
@@ -193,7 +203,7 @@ hook_add = '''
   " Help.
   nnoremap <silent> [unite]hh  :<C-u>Unite -buffer-name=help help<CR>
   " Help by cursor keyword.
-  nnoremap <silent> [unite]hk  :<C-u>UniteWithCursorWord help<CR>
+  nnoremap <silent> [unite]hk  :<C-u>UniteWithCursorWord -buffer-name=help help<CR>
   " Help Plugin.
   nnoremap <silent> [unite]hp  :<C-u>Unite -wrap
         \ -buffer-name=output-shellcmd
@@ -206,6 +216,9 @@ hook_add = '''
   " History Search.
   nnoremap <silent> [unite]hs
         \ :<C-u>Unite -buffer-name=history-search history/search<CR>
+
+  " Junkfile.   (~/.cache/junkfile)
+  nnoremap <silent> [unite]j :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 
   " Mapping.
   nnoremap <silent> [unite]ma
@@ -239,12 +252,15 @@ hook_add = '''
 
   " Search.
   nnoremap <silent> [unite]/
-        \ :<C-u>Unite -buffer-name=search%`bufnr('%')` -start-insert line:forward:wrap<CR>
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+        \ -start-insert line:forward:wrap<CR>
   nnoremap <silent> [unite]?
-        \ :<C-u>Unite -buffer-name=search%`bufnr('%')` -start-insert line:backward<CR>
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+        \ -start-insert line:backward<CR>
   nnoremap <silent> [unite]*
-        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')` line:forward:wrap<CR>
-  nnoremap <silent> <Space>j
+        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
+        \ line:forward:wrap<CR>
+  nnoremap <silent> [unite]n
         \ :<C-u>UniteResume search%`bufnr('%')`
         \  -no-start-insert -force-redraw<CR>
 
@@ -276,7 +292,7 @@ hook_add = '''
   nnoremap <silent> <Space>n  :UniteNext<CR>
   nnoremap <silent> <Space>p  :UnitePrevious<CR>
 
-  " dotfiles以下のファイルを表示
+  " View ~/dtofiles.
   command! Ufd :Unite -buffer-name=files -input=. -path=~/dotfiles file_rec<CR>
 '''
 
@@ -302,6 +318,10 @@ on_source = 'unite.vim'
 
 [[plugins]]
 repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/junkfile.vim'
 on_source = 'unite.vim'
 
 [[plugins]]
@@ -343,17 +363,19 @@ on_source = 'unite.vim'
 
 # ===== Operator ===== {{{
 [[plugins]]
-# htmlエスケープ
+# Escape HTML.
 repo = 'tyru/operator-html-escape.vim'
 depends = 'vim-operator-user'
 on_map = [['nx', '<Plug>']]
 hook_add = '''
   nmap <Leader>h <Plug>(operator-html-escape)
   xmap <Leader>h <Plug>(operator-html-escape)
+  nmap <Leader>H <Plug>(operator-html-unescape)
+  xmap <Leader>H <Plug>(operator-html-unescape)
 '''
 
 [[plugins]]
-# 連続置換 (cp)
+# Operator to replace text with register content.
 repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
 on_map = [['nx', '<Plug>']]
@@ -365,10 +387,14 @@ hook_add = '''
 '''
 
 [[plugins]]
-# surround
-#   追加: saiw'   hoge -> 'hoge'
-#   削除: sda'
-#   置換: sra'"
+# Operator mappings to deal with surrounds.
+# Usage:
+#   Add    : saiw'   hoge   -> 'hoge'
+#   Delete : sda'    'hoge' -> hoge
+#   Replace: sra'"   'hoge' -> "hoge"
+# Usage(with multiblock):
+#   Delete : sdd     'hoge' -> hoge
+#   Replace: srr"    'hoge' -> "hoge"
 repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = '<Plug>'
@@ -417,8 +443,8 @@ hook_source = '''
 '''
 
 [[plugins]]
-# 複数の textobj を1つにまとめる textobj
-# Default Mappings: なし
+# Multi textobj.
+# Default Mappings: --
 repo = 'osyo-manga/vim-textobj-multitextobj'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>']]
@@ -453,49 +479,49 @@ hook_source = '''
 '''
 
 [[plugins]]
-# コメントに対応したtextobj
+# textobj for comments.
 # Default Mappings: ac, ic
 repo = 'thinca/vim-textobj-comment'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'ac'], ['ox', 'ic']]
 
 [[plugins]]
-# バッファ全体に対応したtextobj
+# textobj for entire buffer.
 # Default Mappings: ae, ie
 repo = 'kana/vim-textobj-entire'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'ae'], ['ox', 'ie']]
 
 [[plugins]]
-# folding領域対応したtextobj
+# textobj for foldings.
 # Default Mappings: az, iz
 repo = 'kana/vim-textobj-fold'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'az'], ['ox', 'iz']]
 
 [[plugins]]
-# functionに対応したtextobj
+# textobj for functions.
 # Default Mappings: af, if
 repo = 'kana/vim-textobj-function'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'af'], ['ox', 'if']]
 
 [[plugins]]
-# カーソル行と同じインデントブロックに対応したtextobj
+# textobj for indented blocks of lines.
 # Default Mappings: ai, ii, aI, iI
 repo = 'kana/vim-textobj-indent'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'ai'], ['ox', 'ii'], ['ox', 'aI'], ['ox', 'iI']]
 
 [[plugins]]
-# 行全体に対応したtextobj
+# textobj for the current line.
 # Default Mappings: al, il
 repo = 'kana/vim-textobj-line'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'al'], ['ox', 'il']]
 
 [[plugins]]
-# 様々な括弧に対応したtextobj
+# textobj for various parentheses.
 # Default Mappings: asb, isb
 repo = 'osyo-manga/vim-textobj-multiblock'
 depends = 'vim-textobj-user'
@@ -513,28 +539,28 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-# 関数引数に対応したtextobj
+# textobj for function parameters.
 # Default Mappings: a, i,
 repo = 'sgur/vim-textobj-parameter'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'a,'], ['ox', 'i,']]
 
 [[plugins]]
-# 連続したスペースに対応したtextobj
+# textobj for continuity spaces.
 # Default Mappings: aS, iS
 repo = 'saihoooooooo/vim-textobj-space'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'aS'], ['ox', 'iS']]
 
 [[plugins]]
-# URLに対応したtextobj
+# textobj for URL.
 # Default Mappings: au, iu
 repo = 'mattn/vim-textobj-url'
 depends = 'vim-textobj-user'
 on_map = [['ox', '<Plug>'], ['ox', 'au'], ['ox', 'iu']]
 
 [[plugins]]
-# アンダースコア(_)間に対応したtextobj
+# textobj for undersocore.
 # Default Mappings: a_, i_
 repo = 'lucapette/vim-textobj-underscore'
 depends = 'vim-textobj-user'
@@ -543,13 +569,14 @@ on_map = [['ox', '<Plug>'], ['ox', 'a_'], ['ox', 'i_']]
 
 # ===== File type ===== {{{
 [[plugins]]
-# <C-_>でhtmlタグの閉じタグを入力
+# Insert the matching close tag at the cursor when hitting <C-_>.
 repo = 'closetag.vim'
 on_ft = ['html', 'xml', 'xsl', 'ant']
 hook_source = 'let g:closetag_html_style = 1'
 
 [[plugins]]
-# Djangoを正しくVimで読み込めるようにする
+# Enable django module loading in Vim.
+# Add DJANGO_SETTINGS_MODULE to enable pythoncomplete or whatever for django.
 repo = 'lambdalisue/vim-django-support'
 on_ft = ['python', 'python3', 'djangohtml']
 
@@ -586,8 +613,9 @@ hook_source = '''
 '''
 
 [[plugins]]
-# JSDoc生成
-#   :JsDoc or <C-l>
+# Generates JSDoc block comments based on a function signature.
+# Usage:
+#   :JsDoc  Insert JSDoc above the function keyword line.
 repo = 'heavenshell/vim-jsdoc'
 on_ft = ['html', 'javascript', 'coffee']
 on_cmd = 'JsDoc'
@@ -609,7 +637,10 @@ repo = 'hynek/vim-python-pep8-indent'
 on_ft = 'python'
 
 [[plugins]]
-# Python多機能プラグイン
+# Python multifunctional plugin.
+#  Including pylint, rope, pydoc, pyflakes, pep8, autopep8, pep257
+#  and mccabe for features like static analysis, refactoring, folding,
+#  completion, documentation, and more.
 #  https://github.com/klen/python-mode
 #  :help PythonModeOptions
 #  :help PythonModeKeys
@@ -643,28 +674,27 @@ hook_source = '''
 '''
 
 # [[plugins]]
-# # 対応言語: http://d.hatena.ne.jp/heavenshell/20120109/1326089510
+# # Syntax checking on the fly has never been so pimp.
+# # http://d.hatena.ne.jp/heavenshell/20120109/1326089510
 # repo = 'scrooloose/syntastic'
 # on_cmd = ['SyntasticCheck', 'SyntasticToggleMode', 'Errors']
 # hook_add = '''
-#   " シンタックスチェックを実行
+#   " Execute syntax check.
 #   noremap <silent> <Leader>s :SyntasticCheck<CR>
-#   " シンタックスチェックのモードをトグル(active/passive)
+#   " Toggles syntastic between active and passive mode.
 #   noremap <silent> <Leader>S :SyntasticToggleMode<CR>
-#   " QuickFixによるエラー一覧表示
-#   noremap <silent> <Leader>e :Errors<CR>
 # '''
 # hook_source = 'source ~/.vim/rc/plugins/syntastic.rc.vim'
 
 [[plugins]]
-# Vimで正しくvirtualenvを処理できるようにする
+# Activate a python virtualenv within Vim.
 repo = 'jmcantrell/vim-virtualenv'
 on_ft = ['python', 'python3', 'djangohtml']
 # }}}
 
 # ===== vim-ref ===== {{{
 [[plugins]]
-# リファレンスをvim上で参照
+# Integrated reference viewer.
 # Default Refarence:
 #   clojure, erlang, man , perldoc , phpmanual , pydoc , redis , refe , rfc , webdict
 # Ref command:
@@ -694,19 +724,19 @@ repo = 'pekepeke/ref-javadoc'
 on_cmd = 'Ref'
 
 [[plugins]]
-# vim-refのjavascript/jquery用ソース
+# vim-ref source for javascript/jquery.
 repo = 'mojako/ref-sources.vim'
 on_cmd = 'Ref'
 # }}}
 
 # ===== Syntax Checker ===== {{{
 [[plugins]]
-# 非同期シンタックスチェック
-#  シンタックスチェックを実行
+# Asynchronous syntax checker.
+#  Check syntax.
 #    :WatchdogsRun
-#  チェッカーを指定して実行
+#  Check syntax with a specified checker.
 #    :WatchdogsRun watchdogs_checker/g++
-#  QuickRun と同様の引数を渡す
+#  Check syntax with arguments.
 #    :WatchdogsRun watchdogs_checker/g++ -cmdopt -Wall
 #  Use Plugin:
 #    shabadou.vim, vim-quickrun
@@ -720,7 +750,7 @@ hook_source = 'source ~/.vim/rc/plugins/vim-watchdogs.rc.vim'
 repo = 'osyo-manga/shabadou.vim'
 
 [[plugins]]
-# quickfix の該当箇所をハイライト
+# Highlight quickfix errors and location list entries in buffer.
 repo = 'cohama/vim-hier'
 on_cmd = ['HierStart', 'HierStop', 'HierUpdate', 'HierClear']
 hook_source = '''
@@ -729,7 +759,7 @@ hook_source = '''
 '''
 
 [[plugins]]
-# quickfixに対応する行にsignを表示
+# Mark quickfix & location list items with signs.
 repo = 'tomtom/quickfixsigns_vim'
 on_cmd = [
   'QuickfixsignsSet', 'QuickfixsignsDisable', 'QuickfixsignsEnable',
@@ -740,7 +770,8 @@ hook_source = '''
 '''
 
 [[plugins]]
-# quickfix の該当箇所をコマンドラインに出力
+# Displays the connected error message at the bottom of the screen,
+# where command line messages are displayed.
 repo = 'yonchu/quickfixstatus'
 on_cmd = ['QuickfixStatusEnable', 'QuickfixStatusDisable']
 # }}}
@@ -782,7 +813,7 @@ hook_source = '''
 '''
 
 [[plugins]]
-# 検索時の位置情報を表示する
+# Displays current search location on status-line or command-line.
 repo = 'osyo-manga/vim-anzu'
 on_map = '<Plug>'
 hook_add = '''
@@ -793,19 +824,28 @@ hook_add = '''
   nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<cr>'
 '''
 [[plugins]]
-# 整形
-#   Visualmodeなどで選択 > :EasyAlign > * > <Space>
+# A simple, easy-to-use Vim alignment plugin.
+# Usage:
+#   Select with Visual mode > :EasyAlign > * > <Space>
 repo = 'junegunn/vim-easy-align'
 on_cmd = 'EasyAlign'
 
 [[plugins]]
-# タイムスタンプの挿入 - 形式 Last Change: .
-# Kaoriya版ではデフォルト有効
+# Insert timestamp - 形式 Last Change: .
+# Update time stamps automatically.
+# (Enable on Vim Kaoriya by defalut.)
+# Usage:
+# Write a line as below (case ignored) somewhere in the first 50 lines of a buffer:
+#   Last Change: .
+# Command:
+#   :Autodate     Manually autodate.
+#   :AutodateON   Turn on autodate in current buffer (default).
+#   :AutodateOFF  Turn off autodate in current buffer.
 repo = 'autodate.vim'
 if = "!has('kaoriya')"
 
 [[plugins]]
-# ブラウザリロード
+# Reflesh your browser. this plugin works only MacOSX.
 # http://d.hatena.ne.jp/tell-k/20110606/1307369935
 repo = 'tell-k/vim-browsereload-mac'
 if = "has('mac')"
@@ -817,40 +857,45 @@ repo = 'tyru/capture.vim'
 on_cmd = 'Capture'
 
 [[plugins]]
-# gc    |<Plug>(caw:prefix)|
-# gcc   |<Plug>(caw:hatpos:toggle)|
-# gci   |<Plug>(caw:hatpos:comment)|
-# gcui  |<Plug>(caw:hatpos:uncomment)|
-# gcI   |<Plug>(caw:zeropos:comment)|
-# gcuI  |<Plug>(caw:zeropos:uncomment)|
-# gca   |<Plug>(caw:dollarpos:comment)|
-# gcua  |<Plug>(caw:dollarpos:uncomment)|
-# gcw   |<Plug>(caw:wrap:comment)|
-# gcuw  |<Plug>(caw:wrap:uncomment)|
-# gcb   |<Plug>(caw:box:comment)|
-# gco   |<Plug>(caw:jump:comment-next)|
-# gcO   |<Plug>(caw:jump:comment-prev)|
+# Vim comment plugin.
+# Supported operator/non-operator mappings,
+# repeatable by dot-command, 300+ filetypes, fast.
+# Usage:
+#   gc    |<Plug>(caw:prefix)|
+#   gcc   |<Plug>(caw:hatpos:toggle)|
+#   gci   |<Plug>(caw:hatpos:comment)|
+#   gcui  |<Plug>(caw:hatpos:uncomment)|
+#   gcI   |<Plug>(caw:zeropos:comment)|
+#   gcuI  |<Plug>(caw:zeropos:uncomment)|
+#   gca   |<Plug>(caw:dollarpos:comment)|
+#   gcua  |<Plug>(caw:dollarpos:uncomment)|
+#   gcw   |<Plug>(caw:wrap:comment)|
+#   gcuw  |<Plug>(caw:wrap:uncomment)|
+#   gcb   |<Plug>(caw:box:comment)|
+#   gco   |<Plug>(caw:jump:comment-next)|
+#   gcO   |<Plug>(caw:jump:comment-prev)|
 repo = 'tyru/caw.vim'
-on_map = ['<Plug>', 'gc']
+on_map = [['nx', '<Plug>'], ['nx', 'gc']]
 
 [[plugins]]
 # Land on window you choose like tmux's 'display-pane'.
 repo = 't9md/vim-choosewin'
-on_map = '<Plug>'
+on_map = [['n', '<Plug>']]
 hook_add = '''
-  nmap <C-w>g  <Plug>(choosewin)
+  nmap <C-w>gw  <Plug>(choosewin)
   let g:choosewin_overlay_enable = 1
   let g:choosewin_overlay_clear_multibyte = 1
   let g:choosewin_blink_on_land = 0
 '''
 
 [[plugins]]
-# f,F,t,T 連打で検索文字移動
-#   f{char}: 順検索
-#   F{char}: 逆順検索
-#   t{char}: 1文字前の順検索
-#   T{char}: 1文字後の逆順検索
-#   f<CR>  : リピート検索
+# clever-f.vim extends f, F, t and T mappings for more convenience.
+# This extension makes a repeat easier and makes you forget the existence of ;.
+#   f{char}: Find {char} to the right.
+#   F{char}: Find {char} to the left.
+#   t{char}: Find {char} to the right.
+#   T{char}: Find {char} to the left.
+#   f<CR>  : Find repeat.
 repo = 'rhysd/clever-f.vim'
 on_map = ['<Plug>', 'f', 'F']
 hook_source = ''''
@@ -858,6 +903,11 @@ hook_source = ''''
   let g:clever_f_fix_key_direction = 1
   let g:clever_f_show_prompt = 1
 '''
+
+[[plugins]]
+# Interface to yank concealed text.
+repo = 'chikatoike/concealedyank.vim'
+on_map = [['x', '<Plug>(operator-concealedyank)']]
 
 [[plugins]]
 # EasyMotion.
@@ -903,13 +953,13 @@ hook_source = ''''
 #   <Plug>(easymotion-next) | <C-n>
 #   <Plug>(easymotion-prev) | <C-p>
 #
-#   Last Find Motion          | f<CR>or s<CR>
-#   Jump Fisrt                | f{char} or s{char}{char} <CR>or<Space>
-#   その他
-#   bidirection機能 (*-bd-*) | 対象とする範囲をforward/backwardの両方向にできる
+# Last Find Motion:         | f<CR>or s<CR>
+# Jump Fisrt:               | f{char} or s{char}{char} <CR>or<Space>
+# Etc:
+#   bidirection (*-bd-*)    | Find {char} to forward and backward at the same time.
 repo = 'easymotion/vim-easymotion'
-on_map = ['<Plug>', '<Leader><Leader>', '<Space><Space>']
-hook_source = '''
+on_map = '<Plug>'
+hook_add = '''
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_startofline = 0
 
@@ -919,8 +969,8 @@ hook_source = '''
 
   " 2-character search motion.
   " s{char}{char} to move to {char}{char}
-  map <Leader><Leader>s <Plug>(easymotion-bd-f2)
-  nmap <Space><Space>   <Plug>(easymotion-overwin-f2)
+  map  <Leader><Leader>s <Plug>(easymotion-bd-f2)
+  nmap <Space><Space>    <Plug>(easymotion-overwin-f2)
 
   " Move to line.
   nmap <Leader><Leader>l <Plug>(easymotion-overwin-line)
@@ -946,7 +996,7 @@ hook_source = '''
 [[plugins]]
 # Print documents in echo area.
 repo = 'Shougo/echodoc.vim'
-on_i = 1
+on_event = 'InsertCharPre'
 hook_add = 'let g:echodoc_enable_at_startup = 1'
 
 [[plugins]]
@@ -961,9 +1011,12 @@ hook_source = '''
 '''
 
 [[plugins]]
-# クリップボードを良い感じに
+# Provide a pseudo |clipboard| register for
+# several versions of Vim without |+clipboard| support, especially for non-GUI
+# version of Vim on the following platforms. (also work on tmux/screens)
 repo = 'kana/vim-fakeclip'
 on_map = [['nv', '<Plug>']]
+if = "!has('mac')"
 
 [[plugins]]
 repo = 'thinca/vim-fontzoom'
@@ -998,14 +1051,14 @@ hook_source = '''
 '''
 
 [[plugins]]
-# Git操作
+# 'gitk clone' plugin for the text editor Vim.
 # :Gitv, :Gitv --all, :Gitv!
 repo = 'gregsexton/gitv'
 on_cmd = 'Gitv'
 hook_source = 'source ~/.vim/rc/plugins/gitv.rc.vim'
 
 [[plugins]]
-# Git操作
+# Git-vim.
 repo = 'motemen/git-vim'
 on_cmd = [ 'GitAdd', 'GitCommit', 'GitStatus', 'GitLog', 'GitCheckout',
           'GitDiff', 'GitPull', 'GitPullRebase', 'GitPush', 'GitCatFile',
@@ -1039,7 +1092,7 @@ on_cmd = [
   'RegrepAdd', 'Agrep', 'AgrepAdd', 'Ragrep', 'RagrepAdd'
 ]
 hook_source = '''
-  " MacのxargsではRgrepがエラーになる
+  " Error occurs if use xargs on Mac.
   if has('mac')
     if executable('gxargs')
       let Grep_Xargs_Path = 'gxargs'
@@ -1047,34 +1100,24 @@ hook_source = '''
       let Grep_Find_Use_Xargs = 0
     endif
   endif
-  " オプション
-  "  -i 大文字小文字を区別しない
-  "  -n 各行の先頭にファイルの行番号を表示します
-  "  -H ファイル名を表示
-  "  -E オプションは、拡張正規表現を使用する場合に指定
-  "     fgrep 正規表現を使わない検索
-  "     egrep 正規表現を使った検索 -E と同じ
-  "  -I バイナリ検索除外
   let Grep_Default_Options = '-niE'
 
-  " 検索外のディレクトリ、ファイルパターン
-  let Grep_Skip_Dirs = '.svn .git .hg'
+  " Specifies the list of directories to skip while doing recursive searches.
+  let Grep_Skip_Dirs = 'RCS CVS SCCS .svn .git .hg'
+  " Specifies the list of files to skip while doing recursive searches.
   let Grep_Skip_Files = '*.bak *~'
 '''
 
 [[plugins]]
-# undo履歴管理 (U)
+# Visualize your Vim undo tree.
 repo = 'sjl/gundo.vim'
 on_cmd = 'GundoToggle'
 hook_add = '''
   nnoremap U :<C-u>GundoToggle<CR>
-  " 移動と同時にプレビューを表示しない
-  " r を押すとプレビュー表示
-  "let g:gundo_auto_preview = 0
 '''
 
 [[plugins]]
-# UnicodeエスケープシーケンスやURLエスケースされた文字を表示する
+# Displays unicode escape sequence and escaped URL.
 #   :HideoutOn
 #   :HideoutClear
 #   :HideoutRefreshCache
@@ -1082,32 +1125,64 @@ repo = 'osyo-manga/vim-hideout'
 on_cmd = 'HideoutOn'
 
 [[plugins]]
-# 日本語を含んだ文章を文節区切りで移動 (W/B/E)
+# Change WORD motion(E,W,B) for Japanese text using TinySegmenter.
 repo = 'deton/jasegment.vim'
 on_map = ['<Plug>', 'W', 'B', 'E']
 
 [[plugins]]
-# マルチカーソル (:Multi <word>)
-repo = 'mattn/multi-vim'
-on_cmd = 'Multi'
+# Join with specified delimiters.
+repo = 'osyo-manga/vim-jplus'
+on_map = [['nx', '<Plug>']]
+hook_add = '''
+  " Join text seme as |J| considering line-continuation.
+  nmap J <Plug>(jplus)
+  vmap J <Plug>(jplus)
+  " Join text with input().
+  nmap <Leader>J <Plug>(jplus-input)
+  vmap <Leader>J <Plug>(jplus-input)
+'''
+hook_source = '''
+" Input 'd' : Join with a space either side of delimiters.
+" Input ''  : Join without spaces.
+" Input ',' : Join with ', '.
+  let g:jplus#input_config = {
+        \ "__DEFAULT__" : {
+        \   "delimiter_format" : " %d "
+        \ },
+        \ "__EMPTY__" : {
+        \   "delimiter_format" : "%d"
+        \ },
+        \ "," : {
+        \   "delimiter_format" : "%d "
+        \ },
+        \ }
+'''
 
 [[plugins]]
-# visualモードのブロック選択を良い感じに
+# True Sublime Text style multiple selections for Vim
+repo = 'terryma/vim-multiple-cursors'
+on_cmd = 'MultipleCursorsFind'
+hook_source = '''
+  let g:multi_cursor_use_default_mapping=0
+'''
+
+[[plugins]]
+# Make blockwise Visual mode more useful.
 repo = 'kana/vim-niceblock'
-on_map = '<Plug>'
+on_map = [['x', '<Plug>']]
 hook_add = '''
   xmap I  <Plug>(niceblock-I)
   xmap A  <Plug>(niceblock-A)
 '''
 
 [[plugins]]
-# 連番マーク
-#   mm 連番マーク
-#   mb 前のマークへ
-#   mv 後のマークへ
-#   m. マークへ
-#   F6 save marks
-#   F5 reload marks
+# Show your marks using number array in color, and you can delete one # or
+# all marks(now, you can replace a mark to another place).
+#   mm  Make a mark, or delete it.
+#   mv  Move to ahead mark.
+#   mb  Move to next mark
+#   m.  Moving a mark.
+#   mD  Delete all marks.
 repo =  'yonchu/number-marks'
 on_map = '<Plug>'
 hook_add = '''
@@ -1115,34 +1190,36 @@ hook_add = '''
   nmap <silent> mm <Plug>number-marks-place-sign
   nmap <silent> mb <Plug>number-marks-goto-next-sign
   nmap <silent> mv <Plug>number-marks-goto-prev-sign
-  nmap <silent> mD <Plug>number-marks-remove-all-signs
   nmap <silent> m. <Plug>number-marks-move-sign
+  nmap <silent> mD <Plug>number-marks-remove-all-signs
 '''
 
 [[plugins]]
-# relativenumber の改良版
+# Intelligently toggling line number.
 repo = 'myusuf3/numbers.vim'
 on_cmd = ['NumbersToggle', 'NumbersOnOff']
 
 [[plugins]]
-# URLをブラウザで開く, 単語を検索エンジンで検索
+# Open URI with your favorite browser from your most favorite editor.
 repo = 'tyru/open-browser.vim'
 depends = 'vim-operator-user'
-on_map = ['<Plug>', '<Plug>(openbrowser-']
+on_map = [['n', '<Plug>'], ['n', '<Plug>(openbrowser-']]
 on_cmd = ['OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch', 'OpenBrowserGithub']
 hook_add = '''
-  " カーソル下のURLをブラウザで開く
-  " URLがない場合は単語を検索する
+  " If it looks like URI, open an URI under cursor.
+  " Otherwise, search a word under cursor.
   nmap <Leader>ob <Plug>(openbrowser-smart-search)
   vmap <Leader>ob <Plug>(openbrowser-smart-search)
 
-  " 入力した単語をブラウザで検索
+  " Search the input word with the browser
   nmap <Leader>gs <Plug>(open-browser-wwwsearch)
 
+  " Open Github page of neobundle path under the cursor.
   " http://deris.hatenablog.jp/entry/2013/07/05/023835
   map <Leader>gz <Plug>(operator-open-neobundlepath)
 
-  command! -range OpenBrowserGithub :call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')
+  " Open Github page of selected repository.
+  command! -range OpenBrowserGithub :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')
 '''
 hook_source = 'source ~/.vim/rc/plugins/open-browser.rc.vim'
 
@@ -1169,14 +1246,14 @@ depends = 'open-browser.vim'
 on_cmd = ['OpenGithubFile', 'OpenGithubIssue', 'OpenGithubPullReq']
 
 [[plugins]]
-# プレビュー置換
+# Replace with highlight preview.
 repo = 'osyo-manga/vim-over'
 on_cmd = [
   'OverCommandLine', 'OverCommandLineNoremap',
   'OverCommandLineCursor', 'OverCommandLineCursorInsert'
 ]
 hook_add = '''
-  " 検索中の文字列をデフォルトで入力
+  " Replace with searching text.
   noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR>/<CR>
 '''
 hook_source = '''
@@ -1188,7 +1265,6 @@ hook_source = '''
 '''
 
 [[plugins]]
-# カーソル位置のコンテキストによって filetype を切り換える
 repo = 'osyo-manga/vim-precious'
 depends = 'context_filetype.vim'
 on_ft = ['markdown', 'mkd', 'md', 'help']
@@ -1220,7 +1296,7 @@ hook_source = '''
 '''
 
 [[plugins]]
-# vimの変数を表示 (plug-in制作で便利)
+# Prettyprint vim variables.
 repo = 'thinca/vim-prettyprint'
 on_cmd = 'PP'
 
@@ -1239,41 +1315,28 @@ on_path = '^https\?://'
 # Perform the replacement in quickfix.
 repo = 'thinca/vim-qfreplace'
 on_ft = ['unite', 'quickfix']
-hook_source =
-  'autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>'
+hook_source = '''
+  autocmd MyAutoCmd FileType qf nnoremap <buffer> r :<C-u>Qfreplace<CR>
+'''
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-on_map = '<Plug>'
+on_map = [['n', '<Plug>']]
 on_cmd = 'QuickRun'
 hook_add = '''
-  " デフォルトのキーマップを無効
-  let g:quickrun_no_default_key_mappings = 1
-
-  " 通常実行
+  " Execute and display the result for current buffer.
   nmap <silent> <Leader>r <Plug>(quickrun)
-  " 実行後フォーカスをQuickFixへ
+  " Execute and move cursor to QuickFix window.
   nmap <silent> <Leader>R <Plug>(quickrun)<C-w><C-w>
-  " 引数付き実行
+  " Execute with arguments.
   command! -nargs=+ QR :QuickRun '-args' <q-args>
-  " Quickrunの強制停止
+  " Stop quickrun forcely.
   nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
 '''
 hook_source = 'source ~/.vim/rc/plugins/quickrun.rc.vim'
 
 [[plugins]]
-# 複数ファイルのりネーム
-# http://nanasi.jp/articles/vim/renamer_vim.html
-#  起動 :Renamer
-#  完了 :Ren
-#  元に戻す F5
-#  オリジナルファイル名を表示(トグル) T
-#  ファイル削除 <C-delete>
-repo = 'renamer.vim'
-on_cmd = 'Renamer'
-
-[[plugins]]
-# .によるコマンドリピート拡張 (surround.vim対応)
+# Let the repeat command repeat plugin maps.
 repo = 'tpope/vim-repeat'
 on_map = ['<Plug>', '.']
 
@@ -1290,16 +1353,13 @@ hook_source = '''
 '''
 
 [[plugins]]
-# vimmerの戦闘力(vimrcの行数)を計測する
-#   100行以下  : 初心者
-#   500行以下  : 初級者
-#   1000行以下 : 中級者
-#   1000行以上 : 上級者
-#   計測不能   : 神
+# Measures Battle Power of a vimmer.
+# Usage:
+#   :[range]Scouter [file-pattern] ...   Measures the Battle Power and return it.
+#   :[range]Scouter! [file-pattern] ...  Name and Battle Power of all files are displayed.
 # http://vim-users.jp/2009/07/hack-39/
 repo = 'thinca/vim-scouter'
 on_cmd = 'Scouter'
-
 
 [[plugins]]
 repo = 'kana/vim-submode'
@@ -1311,20 +1371,18 @@ on_cmd = 'SubmodeRestoreOptions'
 hook_source = 'source ~/.vim/rc/plugins/submode.rc.vim'
 
 [[plugins]]
-# テキストを括弧で囲む,削除する (s)
-#   追加:   ysiw(  ysiW"  ys2aw(
-#   置換:   cs["  cs"B
-#   削除:   ds[
-#   タグ:   dst  cst
-#   ビジュアルモード置換:  <C-v>で選択後 S
-#   sを大文字Sにするとインデントをしてくれる
-#   )を使うと前後スペースなし
-#   (を使うと前後スペースあり
+# Deleting, changing, and adding "surroundings".
+#   Add:       ysiw(  ysiW"  ys2aw(
+#   Delete:    ds[
+#   Replace:   cs["  cs"B
+#   Tag:       dst  cst
+#   Replace on Visual mode:  "S" on Visual mode.
+#   (If s is used, a leading but not trailing space is added.)
 repo = 'tpope/vim-surround'
 on_map = ['<Plug>', ['n', 'ys'], ['n', 'cs'], ['n', 'ds'], ['v', 'S']]
 
 [[plugins]]
-# switch :  true/false切り替え (gs)
+# Switch segments of text with predefined replacements.
 repo = 'AndrewRadev/switch.vim'
 on_cmd = 'Switch'
 on_map = ['gs']
@@ -1348,12 +1406,13 @@ hook_source = '''
 '''
 
 [[plugins]]
-# unite/vimfilerのカレントディレクトリをタブ毎に維持
+# Tabpage buffer interface. (Used by unite/vimfiler/vimshell.)
+# It saves information in t:tabpagebuffer variable.
 repo = 'Shougo/tabpagebuffer.vim'
 on_if = 'tabpagenr() > 1'
 
 [[plugins]]
-# :cd をタブページ毎に
+# Turn :cd into :tabpagecd, to use one tab page per project.
 repo = 'kana/vim-tabpagecd'
 on_source = 'unite.vim'
 
@@ -1362,7 +1421,7 @@ repo = 'majutsushi/tagbar'
 on_cmd = 'TagbarToggle'
 
 [[plugins]]
-# サムネイルを使用した Buffer selector.
+# A thumbnail-style buffer selector for Vim.
 repo = 'itchyny/thumbnail.vim'
 on_cmd = 'Thumbnail'
 hook_add = '''
@@ -1386,8 +1445,7 @@ on_cmd = 'Vinarise'
 hook_add = 'let g:vinarise_enable_auto_detect = 1'
 
 [[plugins]]
-# Visualモードで選択したテキストを検索
-#   VisualMode -> */#/g/g*/g#
+# Search your selection text in Visual-mode.
 repo = 'thinca/vim-visualstar'
 on_map = ['<Plug>', ['xv', '*'], ['xv', '#'], ['xv', 'g'], ['xv', 'g*']]
 
@@ -1396,8 +1454,8 @@ repo = 'yuratomo/w3m.vim'
 on_cmd = 'W3m'
 
 [[plugins]]
-# ヤンク履歴管理
-# [unite]y  Unite yankround
+# Yank.
+# :Unite yankround
 repo = 'LeafCage/yankround.vim'
 on_map = '<Plug>'
 on_source = 'unite.vim'
