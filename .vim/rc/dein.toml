@@ -87,17 +87,6 @@ hook_add = '''
   nmap <Leader>n <Plug>(milfeulle-next)
 '''
 
-# [[plugins]]
-# # Displays indent guides.
-# repo = 'nathanaelkane/vim-indent-guides'
-# hook_add = '''
-#   let g:indent_guides_enable_on_vim_startup = 1
-#   let g:indent_guides_auto_colors = 0
-#   let g:indent_guides_start_level = 2
-#   let g:indent_guides_guide_size = 1
-#   let g:indent_guides_color_change_percent = 30
-# '''
-
 [[plugins]]
 # Displays indent guides.
 repo = 'Yggdroot/indentLine'
@@ -211,33 +200,6 @@ hook_add = '''
   command! SudoSave :w sudo:%
 '''
 
-# [[plugins]]
-# # markをsigin表示
-# #   <Leader>mt ON/OFFトグル
-# #   <Leader>mo Forces ShowMarks on.
-# #   <Leader>mm 次の使えるマークを使ってマーク
-# #   <Leader>mh カレント行ののマークを削除
-# #   <Leader>ma カレントバッファのマークを全部削除
-# repo = 'ShowMarks7'
-# hook_add = '''
-#   " Enable ShowMarks
-#   let showmarks_enable = 1
-#   " Show which marks
-#   let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-#
-#   " マークを表示しない
-#   "   - h : Help
-#   "   - m : Non-modifiable
-#   "   - p : Preview
-#   "   - q : Quickfix
-#   "   - r : Readonly
-#   let showmarks_ignore_type = "hmq"
-#
-#   " Hilight lower & upper marks
-#   "let showmarks_hlline_lower = 1
-#   "let showmarks_hlline_upper = 1
-# '''
-
 # ===== File type ===== {{{
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
@@ -345,3 +307,4 @@ repo = 'w0ng/vim-hybrid'
 
 # [[plugins]]
 # repo = 'cocopon/iceberg.vim'
+# }}}
