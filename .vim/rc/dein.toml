@@ -37,6 +37,10 @@ repo = 'kana/vim-operator-user'
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
+repo = 'itchyny/vim-parenmatch'
+if = '(v:version == 704 && has("patch786")) || v:version >= 705'
+
+[[plugins]]
 repo = 'mattn/webapi-vim'
 
 [[plugins]]
