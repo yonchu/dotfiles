@@ -9,41 +9,24 @@
  * http://lesscss.org
  */
 
-
-/*
- * Examples
- * (To see them, uncomment and save)
- */
-
-// style the background color of the tree view
-.tree-view {
-  // background-color: whitesmoke;
-}
-
-// style the background and foreground colors on the atom-text-editor-element itself
-atom-text-editor {
-  // color: white;
-  // background-color: hsl(180, 24%, 12%);
-}
-
 atom-text-editor::shadow {
-  // The cursor line important to use rgba for opacity, also requires !important
-  // to override any theme.
-  .line.highlight-line {
-    background: rgba(100, 100, 100, 0.3) !important;
-  }
- .selection .region {
-    background: rgba(200, 200, 200, 0.2) !important;
-  }
   .wrap-guide {
     width: .5em;
-    background: rgba(200, 200, 200, 0.1);
+  }
+  .indent-guide:first-child {
+    box-shadow: none;
   }
 }
 
-// To style other content in the text editor's shadow DOM, use the ::shadow expression
-atom-text-editor::shadow .cursor {
-  // border-color: red;
+atom-text-editor,
+atom-text-editor::shadow {
+  .scroll-view {
+    padding-left: 0.2em;
+    box-sizing: border-box;
+  }
+  .gutter + .scroll-view {
+    padding-left: 0;
+  }
 }
 
 // vim-mode.
