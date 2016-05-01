@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<root>
+    <appdef>
+        <appname>SUBLIMETEXT2</appname>
+        <equal>com.sublimetext.2</equal>
+    </appdef>
+    <appdef>
+        <appname>MACVIM</appname>
+        <equal>org.vim.MacVim</equal>
+    </appdef>
+        <appdef>
+        <appname>ATOM</appname>
+        <equal>com.github.atom</equal>
+    </appdef>
+    <list>
+        <item>
+            <name>LeaveInsMode with EISUU(Terminal)</name>
+            <identifier>private.app_terminal_esc_with_eisuu</identifier>
+            <only>TERMINAL,SUBLIMETEXT2,MACVIM,ATOM</only>
+            <autogen>--KeyToKey-- KeyCode::ESCAPE, KeyCode::ESCAPE, KeyCode::JIS_EISUU</autogen>
+            <autogen>--KeyToKey-- KeyCode::C, VK_CONTROL, KeyCode::C, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
+            <autogen>--KeyToKey-- KeyCode::BRACKET_RIGHT, VK_CONTROL, KeyCode::BRACKET_RIGHT, VK_CONTROL, KeyCode::JIS_EISUU</autogen>
+        </item>
+    </list>
+</root>
