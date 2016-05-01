@@ -1,0 +1,56 @@
+"*":
+  "atom-beautify":
+    _analyticsUserId: "0e81ae79-d1d4-42f2-9f16-fc1958e429d3"
+  "autocomplete-plus":
+    confirmCompletion: "enter"
+  core:
+    closeEmptyWindows: false
+    disabledPackages: [
+      "grunt-runner"
+      "regex-railroad-diagram"
+      "pigments"
+      "color-picker"
+      "script"
+      "git-control"
+      "git-plus"
+      "git-blame"
+      "project-manager"
+    ]
+    themes: [
+      "one-dark-ui"
+      "iceberg-syntax"
+    ]
+  docblockr: {}
+  editor:
+    autoIndentOnPaste: false
+    fontFamily: "CodeM Wide for Powerline"
+    fontSize: 13
+    invisibles:
+      cr: " "
+      eol: " "
+      space: " "
+    lineHeight: 1.4
+    showIndentGuide: true
+    showInvisibles: true
+  "exception-reporting":
+    userId: "96c07433-0963-3a82-b271-a2a6786b2cb9"
+  "git-diff":
+    showIconsInEditorGutter: true
+  "git-plus": {}
+  "highlight-line": {}
+  minimap:
+    plugins:
+      bookmarks: true
+      bookmarksDecorationsZIndex: 0
+      cursorline: true
+      cursorlineDecorationsZIndex: 0
+      "find-and-replace": true
+      "find-and-replaceDecorationsZIndex": 0
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
+  welcome:
+    showOnStartup: false
+  whitespace:
+    ignoreWhitespaceOnCurrentLine: false

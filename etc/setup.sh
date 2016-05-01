@@ -88,6 +88,7 @@ create_dotfiles_symlinks() {
         # For Mac
         if [ $(uname -s) = 'Darwin' ]; then
             create_symlink "dotfiles/.MacOSX" "$HOME/.MacOSX"
+            create_symlink "dotfiles/.atom"   "$HOME/.atom"
         fi
 
         # .zshenv

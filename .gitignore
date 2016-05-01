@@ -1,4 +1,4 @@
-# Vundle管理ディレクトリ
+# Vundle
 /.vim/bundle/*
 !/.vim/bundle/.gitignore
 
@@ -18,7 +18,7 @@
 /.zsh/.zcompcache
 *.zwc
 
-# config
+# .config
 /.config/pudb/saved-breakpoints
 /.config/configstore/insight-yo.yml
 /.config/configstore/update-notifier-yo.yml
@@ -39,3 +39,14 @@
 
 # tmux
 /.tmux/resurrect
+
+# atom
+/.atom/.apm
+/.atom/.git-history
+/.atom/.node-gyp
+/.atom/blob-store
+/.atom/compile-cache
+/.atom/packages
+/.atom/storage
+/.atom/.gitignore
+/.atom/projects.cson
