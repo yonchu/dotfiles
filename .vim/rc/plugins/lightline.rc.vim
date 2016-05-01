@@ -11,12 +11,17 @@ let g:lightline = {
         \     ['charvaluehex', 'fileformat', 'fileencoding', 'filetype'],
         \   ]
         \ },
+        \ 'inactive': {
+        \   'left': [['cwd'], ['relativepath'], ['filename' ]],
+        \   'right': [['lineinfo' ], ['percent']],
+        \ },
         \ 'tabline': {
         \   'left': [[ 'tabs' ]],
-        \   'right': [[ 'close' ], ['spaceopts', 'cwd']]
+        \   'right': [[ 'close' ], ['spaceopts', 'cwdtab']]
         \ },
         \ 'component': {
-        \   'cwd'      : '[%.35(%{fnamemodify(getcwd(), ":~")}%)]',
+        \   'cwd'      : '%.35(%{fnamemodify(getcwd(), ":~")}%)',
+        \   'cwdtab'   : '[%.35(%{fnamemodify(getcwd(), ":~")}%)]',
         \   'lineinfo' : '⭡ %3l:%-2v/%-2{col("$")-1}',
         \   'spaceopts': '[%{&et?"et":"noet"}|ts=%{&ts}|sw=%{&sw}|sts=%{&sts}|tw=%{&tw}]',
         \ },
