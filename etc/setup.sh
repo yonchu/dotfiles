@@ -29,6 +29,13 @@ setup_osx() {
 }
 
 setup_vim() {
+    local dein_dir
+    dein_dir=~/.cache/dein/repos/github.com/Shougo/dein.vim
+    if [ ! -d "$dein_dir" ]; then
+        echo "Install dein.vim... ($dein_dir)"
+        mkdir -p "$dein_dir"
+        git clone https://github.com/Shougo/dein.vim "$dein_dir"
+    fi
     vim -c 'call dein#install()' +q
     if [ -d ~/.vim/dein/repos/github.com/davidhalter/jedi-vim ]; then
         (
