@@ -25,6 +25,10 @@ hi! CursorLineNr ctermfg=148 ctermbg=235  guifg=#afdf00 guibg=#262626 cterm=bold
 hi! LineNr       ctermfg=58  ctermbg=NONE guifg=#5f5f00 guibg=bg
 hi! ColorColumn              ctermbg=232
 
+" Folding.
+hi Folded     ctermbg=NONE
+hi FoldColumn ctermbg=NONE
+
 autocmd MyHybridAu InsertLeave *
       \ hi! CursorLine   ctermbg=235 guibg=#282a2e |
       \ hi! CursorLineNr ctermbg=235 guibg=#282a2e
@@ -43,12 +47,10 @@ hi! default link DiffRemoved DiffDelete
 hi! DiffLine term=none cterm=none ctermfg=129 ctermbg=none guifg=#af00ff guibg=bg
 hi! default link DiffAdded DiffAdd
 
-" Folding
-hi! Folded ctermfg=darkred cterm=bold guifg=#752D2D gui=bold
-
+hi! default link FullSpace Error
+hi! Todo cterm=reverse ctermfg=185 ctermbg=16 gui=reverse guifg=#dfdf5f guibg=#000000
 call matchadd('Todo', '\<\([tT]odo\|TODO\)\>', -1)
 call matchadd('FullSpace', '　', -1)
-hi! default link FullSpace Error
 " }}}
 
 " === Plugins {{{
