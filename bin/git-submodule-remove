@@ -35,30 +35,33 @@ fi
 git_ver=$(git --version | cut -d ' ' -f 3)
 
 if [ $(version "$git_ver") -ge $(version 1.8.5) ]; then
-    echo "git submodule deinit $1"
+    echo "git version: $git_ver >= 1.8.5"
+    echo "-> git submodule deinit $1"
     git submodule deinit "$1" || exit 1
-    echo "git rm $1"
+    echo "-> git rm $1"
     git rm "$1" || exit 1
-    echo "rm -rf .git/modules/$1"
+    echo "-> rm -rf .git/modules/$1"
     rm -rf ".git/modules/$1" || exit 1
 elif [ $(version "$git_ver") -ge $(version 1.8.3) ]; then
-    echo "git submodule deinit $1"
+    echo "git version: $git_ver >= 1.8.3"
+    echo "-> git submodule deinit $1"
     git submodule deinit "$1" || exit 1
-    echo "git config --file .gitmodules --remove-section submodule.$1"
+    echo "-> git config --file .gitmodules --remove-section submodule.$1"
     git config --file ".gitmodules" --remove-section "submodule.$1" || exit 1
-    echo "git rm $1"
+    echo "-> git rm $1"
     git rm "$1" || exit 1
-    echo "rm -rf .git/modules/$1"
+    echo "-> rm -rf .git/modules/$1"
     rm -rf ".git/modules/$1" || exit 1
 else
-    echo "git config --file .git/config --remove-section submodule.$1"
+    echo "git version: $git_ver < 1.8.3"
+    echo "-> git config --file .git/config --remove-section submodule.$1"
     git config --file ".git/config" --remove-section "submodule.$1" || exit 1
-    echo "git config --file .gitmodules --remove-section submodule.$1"
+    echo "-> git config --file .gitmodules --remove-section submodule.$1"
     git config --file ".gitmodules" --remove-section "submodule.$1" || exit 1
-    echo "git rm --cached -rf $1"
+    echo "-> git rm --cached -rf $1"
     git rm --cached -rf "$1" || exit 1
-    echo "rm -rf .git/modules/$1"
+    echo "-> rm -rf .git/modules/$1"
     rm -rf ".git/modules/$1" || exit 1
-    echo "rm -rf $1"
+    echo "-> rm -rf $1"
     rm -rf "$1" || exit 1
 fi
