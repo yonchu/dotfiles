@@ -86,6 +86,7 @@ call vimfiler#custom#profile('default', 'context', {
       \ 'auto_expand' : 1,
       \ 'edit_action' : 'tabopen',
       \ 'parent' : 1,
+      \ 'status' : 1,
       \ })
 
 " Basic Settings.
