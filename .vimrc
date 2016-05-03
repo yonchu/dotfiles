@@ -131,8 +131,8 @@ let g:loaded_matchit           = 1
 " Clean:   call dein#check_clean()
 "
 " Directory:
-"   dein root: /.vim/dein
-"   dein repo: /.vim/dein/repos/github.com/Shougo/dein.vim
+"   dein root: /.cache/dein
+"   dein repo: /.cache/dein/repos/github.com/Shougo/dein.vim
 " Plugin List:
 "   default: /.vim/rc/dein.toml
 "   lazy   : /.vim/rc/deinlazy.toml
@@ -141,17 +141,18 @@ let g:loaded_matchit           = 1
 " ======================================================================== }}}
 
 " === Dein Initialization {{{2
-let s:dein_dir = expand('~/.vim/dein')
+let s:dein_dir = expand('$CACHE/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 " Load dein.
 if &runtimepath !~# '/dein.vim'
-  if s:dein_dir == '' && &runtimepath !~# '/dein.vim'
-    if !isdirectory(s:dein_repo_dir)
-      echoerr '[ERROR] Stop reading .vimrc: dein.vim not installed.'
-      " execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-      finish
-    endif
+  if !isdirectory(s:dein_repo_dir)
+    echoerr '[ERROR] Stop reading .vimrc: dein.vim not installed.'
+    echoerr '[ERROR] Please run the following commands:'
+    echoerr '$ mkdir -p ' . s:dein_repo_dir
+    echoerr '$ git clone https://github.com/Shougo/dein.vim ' . s:dein_repo_dir
+    " execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+    finish
   endif
   " Set runtimepath.
   execute 'set runtimepath^=' . substitute(
