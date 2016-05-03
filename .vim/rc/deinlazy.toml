@@ -129,6 +129,8 @@ on_if = 'tabpagenr() > 1'
 # ===== Unite ===== {{{
 [[plugins]]
 # Unite.
+# Usage:
+#   g?  Quick Help.
 # https://github.com/Shougo/unite.vim
 # Unite Plugins.
 # https://github.com/Shougo/unite.vim/wiki/unite-plugins
@@ -148,7 +150,7 @@ hook_add = '''
   " === Mappinigs <Space> ===
   " Files.
   nnoremap <silent> <Space>ff
-        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \ :<C-u>Unite -buffer-name=files -winheight=30 -multi-line -unique
         \ jump_point file_point file_mru
         \ `finddir('.git', ';') != '' ? 'file_rec/git' : ''`
         \ buffer_tab:- file file/new<CR>

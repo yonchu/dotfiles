@@ -50,7 +50,7 @@ endif
 " Default context.
 let default_context = {
       \ 'vertical' : 0,
-      \ 'short_source_names' : 1,
+      \ 'short_source_names' : 0,
       \ }
 call unite#custom#profile('default', 'context', default_context)
 " Action context.
@@ -66,10 +66,10 @@ call unite#custom#source('line_migemo', 'matchers', 'matcher_migemo')
 " Custom filters.
 call unite#custom#source(
       \ 'buffer,file_rec,file_rec/async,file_rec/git', 'matchers',
-      \ ['converter_relative_word', 'matcher_fuzzy'])
+      \ ['converter_relative_word', 'matcher_default', 'matcher_fuzzy'])
 call unite#custom#source(
       \ 'file_mru', 'matchers',
-      \ ['matcher_project_files', 'matcher_fuzzy',
+      \ ['matcher_default', 'matcher_fuzzy',
       \  'matcher_hide_hidden_files', 'matcher_hide_current_file'])
 call unite#custom#source(
       \ 'file_rec,file_rec/async,file_rec/git,file_mru', 'converters',
@@ -119,7 +119,6 @@ function! s:unite_my_settings() abort
   call unite#custom#default_action('directory', 'narrow')
 
   " Overwrite settings.
-  imap <buffer>  <BS>      <Plug>(unite_delete_backward_path)
   imap <buffer>  jj        <Plug>(unite_insert_leave)
   imap <buffer>  <Tab>     <Plug>(unite_complete)
   imap <buffer> '          <Plug>(unite_quick_match_default_action)
@@ -146,8 +145,9 @@ function! s:unite_my_settings() abort
     setl number
   endif
 
-  nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+  nnoremap <silent><buffer><expr> cd    unite#do_action('lcd')
   nnoremap <silent><buffer><expr> !     unite#do_action('start')
+
   nnoremap <buffer><expr> S
         \ unite#mappings#set_current_sorters(
         \  empty(unite#mappings#get_current_sorters()) ?
@@ -156,6 +156,14 @@ function! s:unite_my_settings() abort
         \ unite#mappings#set_current_matchers(
         \ empty(unite#mappings#get_current_matchers()) ?
         \ ['matcher_fuzzy'] : [])
+
+  " Enable 'matcher_project_files'. + <C-r>
+  nnoremap <buffer><expr> <C-a>
+        \ unite#mappings#set_current_matchers(
+        \ empty(unite#mappings#get_current_matchers()) ?
+        \ ['matcher_project_files'] : [])
+
+  nmap <buffer> <C-m> <Plug>(unite_print_message_log)
   nmap <buffer> x     <Plug>(unite_quick_match_jump)
 endfunction
 " }}}
