@@ -64,7 +64,7 @@ hook_add = '''
 repo = 'yonchu/accelerated-smooth-scroll'
 hook_add = '''
   " let g:ac_smooth_scroll_enable_accelerating = 0
-  " let g:ac_smooth_scroll_skip_redraw_line_size = 0
+  let g:ac_smooth_scroll_skip_redraw_line_size = 2
   if has('gui_running')
     let g:ac_smooth_scroll_du_sleep_time_msec = 5
     let g:ac_smooth_scroll_fb_sleep_time_msec = 5
