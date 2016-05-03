@@ -12,17 +12,17 @@ if &compatible
   set nocompatible
 endif
 
-if has('vim_starting')
-  " Print vim startup time.
-  if has('reltime')
-    let g:startuptime = reltime()
-    augroup VimStartUpTimeAu
-      autocmd!
-      autocmd VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
-      \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
-    augroup END
-  endif
-endif
+" if has('vim_starting')
+"   " Print vim startup time.
+"   if has('reltime')
+"     let g:startuptime = reltime()
+"     augroup VimStartUpTimeAu
+"       autocmd!
+"       autocmd VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
+"       \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
+"     augroup END
+"   endif
+" endif
 
 " OS detection flag.
 let s:is_windows = has('win16') || has('win32') || has('win64')
@@ -56,15 +56,15 @@ if s:is_windows && exists('+shellslash')
   set shellslash
 endif
 
-" Set .gvimrc path.
-if !exists('$MYGVIMRC')
-  let $MYGVIMRC = expand('~/.gvimrc')
-endif
-
 " vim directory.
 "   Windows   : $VIM/vimfiles
 "   Linux/Mac : ~/.vim
 let $DOTVIM = expand('~/.vim')
+
+" Set .gvimrc path.
+if !exists('$MYGVIMRC')
+  let $MYGVIMRC = expand('~/.gvimrc')
+endif
 
 " cache directory.
 let $CACHE = expand('~/.cache')
@@ -146,7 +146,7 @@ let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 " Load dein.
 if &runtimepath !~# '/dein.vim'
-  if s:dein_dir == '' && &runtimepath !~ '/dein.vim'
+  if s:dein_dir == '' && &runtimepath !~# '/dein.vim'
     if !isdirectory(s:dein_repo_dir)
       echoerr '[ERROR] Stop reading .vimrc: dein.vim not installed.'
       " execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
@@ -174,6 +174,9 @@ if dein#load_state(s:dein_dir)
 endif
 " Call manually the 'hook_post_source' hooks.
 autocmd MyAutoCmd VimEnter * call dein#call_hook('post_source')
+
+syntax enable
+filetype plugin indent on
 " }}}
 " }}}
 
@@ -311,10 +314,7 @@ endif
 " }}}
 
 " === Appearance ======================================================== {{{1
-syntax enable
-filetype plugin indent on
-
-" Number of Colors.
+" Colors.
 if &term =~ "xterm-256color" || &term=~"screen-256color"
   " 256 colors.
   set t_Co=256
@@ -778,7 +778,11 @@ let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
 " IndentLinesReset.
 autocmd MyAutoCmd FileType *
       \ if exists(':IndentLinesReset') |
-      \   execute 'IndentLinesReset' |
+      \   if index(g:indentLine_fileTypeExclude, &ft) >= 0 |
+      \     execute 'IndentLinesDisable' |
+      \   else |
+      \     execute 'IndentLinesReset' |
+      \   endif |
       \ endif
 " }}}
 
@@ -945,7 +949,7 @@ vnoremap <Leader>gc :<C-u>normal gc<Enter>
 onoremap <Leader>gc :<C-u>normal gc<Enter>
 " }}}
 
-" === Mappings 3: Buffer/Window/Tab pages =============================== {{{1
+" === Mappings 3: Buffer/Window/Tab =============================== {{{1
 " --- Buffer. ---
 " Previous buffer.
 nnoremap <silent> <F2> :<C-u>bp<CR>
@@ -1172,6 +1176,7 @@ vnoremap sv "vy:%s/\%V<C-r>+//gc<Left><Left><Left><Left>
 " === Mappings 6: Insert mode/Command-line mode ========================= {{{1
 " --- Insert mode keymappings. ---
 inoremap jj    <Esc>
+inoremap っj   <ESC>
 inoremap <C-a> <HOME>
 inoremap <C-e> <END>
 " C-hjkl move cursor. (Mac use Karabiner)
@@ -1257,10 +1262,6 @@ nnoremap ZZ <Nop>
 
 " Disable <C-o> for screen/tmux.
 nnoremap <C-o>  <Nop>
-
-" Disable 'q' recording to prevent malfunction.
-nnoremap <silent> q <NOP>
-nnoremap Q q
 
 " Increment.
 nmap <C-a> <SID>(increment)
@@ -1435,13 +1436,17 @@ endfunction
 command! -nargs=+ Separator call Separator(<args>)
 command! -nargs=1 Line execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 
-" Format for Json file.
+" Format for Json file.(:Json, :Jq)
 " http://qiita.com/tomoemon/items/cc29b414a63e08cd4f89
 command! -nargs=0 JsonFormat execute '%!python -m json.tool'
   \ | execute '%!python -c "import re,sys;chr=__builtins__.__dict__.get(\"unichr\", chr);sys.stdout.write(re.sub(r\"\\\\u[0-9a-f]{4}\", lambda x: chr(int(\"0x\" + x.group(0)[2:], 16)).encode(\"utf-8\"), sys.stdin.read()))"'
   \ | %s/ \+$//ge
   \ | setl ft=javascript
   \ | 1
+command! -bar -nargs=? Jq  call s:jq(<f-args>)
+function! s:jq(...)
+  execute '%!jq' (a:0 == 0 ? '.' : a:1)
+endfunction
 
 " echo-sd (:EchoSd xxxx).
 " https://gist.github.com/yoshikaw/5693185
