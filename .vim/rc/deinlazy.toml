@@ -1289,6 +1289,11 @@ repo = 'autodate.vim'
 if = "!has('kaoriya')"
 
 [[plugins]]
+# Creating non-existent directory automatically upon saving file.
+repo = 'mopp/autodirmake.vim'
+on_event = 'BufWritePre'
+
+[[plugins]]
 # :Capture[!] {excmd}
 # If "!" was given, always create a new buffer & window.
 repo = 'tyru/capture.vim'
