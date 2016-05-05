@@ -1,0 +1,134 @@
+# Global hook_add executed in dein#end().
+hook_add = '''
+  " ===== Bultin syntax ===== {{{
+  " java.vim
+  let g:java_highlight_functions = 'style'
+  let g:java_highlight_debug = 1
+
+  " markdown.vim
+  " http://mattn.kaoriya.net/software/vim/20140523124903.htm
+  let g:markdown_fenced_languages = [
+        \  'coffee',
+        \  'css',
+        \  'erb=eruby',
+        \  'javascript',
+        \  'js=javascript',
+        \  'json=javascript',
+        \  'ruby',
+        \  'sass',
+        \  'xml',
+        \  'vim',
+        \]
+
+  " perl.vim
+  "let g:perl_fold = 1
+
+  " php.vim
+  let g:php_folding = 1
+
+  " python.vim
+  let python_highlight_all = 1
+
+  " sh.vim
+  " Default shell syntax.
+  let g:is_bash = 1
+
+  " tex.vim
+  let g:tex_flavor = 'latex'
+  let g:tex_fold_enabled = 1
+
+  " xml.vim
+  let g:xml_syntax_folding = 1
+  " }}}
+
+  " ===== etc ===== {{{
+  " Update filetype automatically.
+  autocmd MyAutoCmd BufWritePost * nested
+        \ if &l:filetype ==# '' || &l:filetype ==# 'hybrid' || exists('b:ftdetect')
+        \ |   unlet! b:ftdetect
+        \ |   filetype detect
+        \ | endif
+  " }}}
+'''
+
+# Execute after ftplugin.
+#   "_" key is executed after all ftplugin.
+#   "{filetype}" key is executed {filetype} ftplugin.
+[ftplugin]
+# ===== Default ftplugin settings ===== {{{
+_ = '''
+  " Disable automatically insert comment.
+  setlocal formatoptions-=ro | setlocal formatoptions+=mMBl
+
+  " Disable auto wrap.
+  if &l:textwidth >= 70 && &filetype !=# 'help'
+    setlocal textwidth=0
+  endif
+
+  " Disable folding and modeline of a nomodifiable file.
+  if !&l:modifiable
+    setlocal nofoldenable
+    setlocal foldcolumn=0
+    setlocal nomodeline
+  endif
+
+  " Change colorcolumn automatically.
+  if v:version >= 703 && exists('+colorcolumn')
+    if !&l:modifiable
+      setlocal colorcolumn=
+    elseif &l:textwidth > 0
+      setlocal colorcolumn=&l:textwidth
+    endif
+  endif
+
+  " Use FoldCCtext().
+  if &filetype !=# 'help'
+    setlocal foldtext=FoldCCtext()
+  endif
+'''
+# }}}
+
+# ===== Filetype ftplugin settings ===== {{{
+apache = '''
+  setlocal path+=./;/
+'''
+
+applescript = '''
+  inoremap <buffer> <S-CR>  ￢<CR>
+'''
+
+help = '''
+  setlocal iskeyword+=:
+  setlocal iskeyword+=#
+  setlocal iskeyword+=-
+'''
+
+html = '''
+  setlocal includeexpr=substitute(v:fname,'^\\/','','')
+  setlocal path+=./;/
+'''
+
+php = '''
+  setlocal path+=/usr/local/share/pear
+'''
+
+rakefile = '''
+  setlocal foldmethod=syntax foldnestmax=1
+'''
+
+toml = '''
+  syntax sync minlines=500
+'''
+
+vim = '''
+  if 5000 < line('$')
+    " :help :syn-sync
+    syntax sync minlines=200
+  endif
+'''
+
+xml = '''
+  " Insert xml close tag automatically.
+  inoremap <buffer> </ </<C-x><C-o>
+'''
+# }}}

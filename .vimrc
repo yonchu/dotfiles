@@ -188,10 +188,10 @@ if dein#load_state(s:dein_dir)
         \ + split(glob('~/.vim/rc/*.toml'), '\n'))
   call dein#load_toml('~/.vim/rc/dein.toml', {'lazy': 0})
   call dein#load_toml('~/.vim/rc/deinlazy.toml', {'lazy' : 1})
-  " call dein#load_toml('~/.vim/rc/deinft.toml')
+  call dein#load_toml('~/.vim/rc/deinft.toml')
   call dein#end()
   call dein#save_state()
-  if has('vim_starting') && !has('gui_running') && expand('%') ==# '.vimrc'
+  if has('vim_starting') && !has('gui_running') && expand('%:t') ==# '.vimrc'
     if dein#check_install()
       call dein#install()
     endif
