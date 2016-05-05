@@ -47,9 +47,20 @@ endif
 
 " Help language.
 set helplang& helplang=ja,en
+
+" shortmess.
 " Don't give the intro message when starting Vim.
 " Abbreviate all messages.
 set shortmess& shortmess=atToOI
+" Ddon't give |ins-completion-menu| messages.
+" http://qiita.com/koara-local/items/40153e1135bb8101cf2d
+if has('patch-7.4.314')
+  set shortmess+=c
+endif
+" Don't give the file info when editing a file.
+if has('patch-7.4.1570')
+  set shortmess+=F
+endif
 
 " Change path separator to slash(/) for Win.
 if s:is_windows && exists('+shellslash')
@@ -69,8 +80,9 @@ endif
 " cache directory.
 let $CACHE = expand('~/.cache')
 if !isdirectory(expand($CACHE))
-  echoerr '[ERROR] "' . $CACHE , '" does not exist.'
-  " call mkdir(expand($CACHE), 'p')
+  echoerr '[WARNING] "' . $CACHE , '" does not exist. Run mkdir -p ' . expand($CACHE)
+  echoerr '-> mkdir -p ' . expand($CACHE)
+  call mkdir(expand($CACHE), 'p')
 endif
 
 " Save current working directory for a tab page.
@@ -95,6 +107,18 @@ endfunction
 augroup MyAutoCmd
   autocmd!
 augroup END
+
+" Disable menu.vim.
+" This flag(M) must be added in the .vimrc file, before switching on syntax or
+" filetype recognition (when the |gvimrc| file is sourced the system menu has
+" already been loaded; the ':syntax on' and ':filetype on' commands load the menu too).
+if has('gui_running')
+  set guioptions+=M
+endi
+" Disable menu for GUI. (:help menus)
+let did_install_default_menus = 1
+let did_install_syntax_menu   = 1
+
 
 " Disable default plugins.
 let g:loaded_gzip              = 1
@@ -227,7 +251,6 @@ if has('vim_starting') && &encoding !=# 'utf-8'
 endif
 
 "Setting of terminal encoding.
-" https://github.com/Shougo/shougo-s-github
 if !has('gui_running')
   if $ENV_ACCESS ==# 'linux'
     set termencoding=euc-jp
@@ -273,16 +296,15 @@ if &ambiwidth !=# 'auto'
 endif
 
 " IME OFF when leave insert mode.
-"   Mac : Use Karabiner.
-"   Win : http://d.hatena.ne.jp/r7kamura/20110217/1297910068
+"   Mac('xim')          : Use Karabiner.
+"   Win(multi_byte_ime) : http://d.hatena.ne.jp/r7kamura/20110217/1297910068
 if has('multi_byte_ime')
-  " Support Win32 IME.
   " Enable IM.
   set noimdisable
-  " im***=N
-  "   0: Japanese mode (Input Method) OFF
-  "   1: lmap->ON  IM->OFF
-  "   2: lmap->OFF IM->ON
+  " IM(Input Method).
+  "   0: lmap:OFF IM:OFF
+  "   1: lmap:ON  IM:OFF
+  "   2: lmap:OFF IM:ON
   set iminsert=0
   set imsearch=0
   set noimcmdline
@@ -321,6 +343,13 @@ if &term =~ "xterm-256color" || &term=~"screen-256color"
   set t_Co=256
   set t_Sf=^[[3%dm
   set t_Sb=^[[4%dm
+  " Change cursor shape.
+  " let &t_SI = "\<ESC>]12;lightgreen\x7"
+  " let &t_EI = "\<ESC>]12;white\x7"
+  " Enable true color.
+  if exists('+termguicolors')
+    set termguicolors
+  endif
   " Source my color settings.
   if $ITERM_PROFILE =~ "Magica.*"
     source ~/.vim/colors/my-landscape.vim
@@ -341,17 +370,6 @@ elseif &term =~ "xterm-color"
   set t_Sf=^[[3%dm
   set t_Sb=^[[4%dm
   source ~/.vim/colors/my-solarized.vim
-elseif !has('gui_running')
-  " Cursor line color.
-  highlight CursorLine   ctermbg=236
-  highlight CursorLineNr ctermbg=236
-  highlight ColorColumn  ctermbg=232
-  autocmd MyAutoCmd InsertLeave *
-        \ highlight CursorLine   ctermbg=236 |
-        \ highlight CursorLineNr ctermbg=236
-  autocmd MyAutoCmd InsertEnter *
-        \ highlight CursorLine   ctermbg=18 |
-        \ highlight CursorLineNr ctermbg=18
 endif
 
 " Disable italic/bold syntax (_*) on Markdown.
@@ -424,9 +442,13 @@ function! s:strwidthpart(str, width) abort
   return ret
 endfunction
 
-" Conceal.
+" Conceal/colorcolumn.
 if v:version >= 703
-   set conceallevel=2 concealcursor=niv
+  set conceallevel=2 concealcursor=niv
+  " Show colorcolumn.
+  if exists('+colorcolumn')
+    set colorcolumn=80
+  endif
   " Use builtin function.
   function! s:wcswidth(str) abort
     return strwidth(a:str)
@@ -456,24 +478,22 @@ endif
 " Soft wrap.
 if exists('+breakindent')
   set wrap
+  " Every wrapped line will continue visually indented (same amount of space
+  " as the beginning of that line), thus preserving horizontal blocks of text.
   set breakindent
 else
   set nowrap
 endif
+" Specify keys that move the cursor left/right to move to the previous/next line
+" when the cursor is on the first/last character in the line.
+set whichwrap+=b,s,<,>,~,[,]
+" Wrap long lines at a character in 'breakat' rather than at the last character
+" that fits on the screen.
 set linebreak
-set breakat=\ \	!;:,./?
+" Specify characters that might cause a line break.
+set breakat=\ \	;:,./!?
+" String to put at the start of lines that have been wrapped.
 let &showbreak = '> '
-
-" Disable auto wrap.
-autocmd MyAutoCmd FileType *
-      \ if &l:textwidth >= 70 && &filetype !=# 'help' |
-      \   setlocal textwidth=0 |
-      \ endif
-
-" Show colorcolumn.
-if exists('+colorcolumn')
-  set colorcolumn=80
-endif
 
 " Highlight current cursor line.
 set cursorline
@@ -525,12 +545,6 @@ set spelllang=en_us             " Language(s) to do spell checking for.
 set report=0                    " Threshold for reporting number of lines changed. (0:always)
 set nostartofline               " The cursor is kept in the same column (if possible) when move the cursor.
 set switchbuf=useopen           " This option controls the behavior when switching between buffers.
-
-" TODO deinft.toml
-" Disable insert comment automatically.
-setl formatoptions-=ro | setl formatoptions+=mMBl
-autocmd MyAutoCmd FileType *
-      \ setl formatoptions& formatoptions-=ro formatoptions+=mM
 
 " Each item allows a way to backspace over something:
 "   indent  allow backspacing over autoindent
@@ -608,13 +622,13 @@ set autoread
 " Check more closely than autoread.
 autocmd MyAutoCmd WinEnter * checktime
 
-" modeline
+" modeline.
 " 1.If not include extraneous chars at the end of line.
 "   # vim: ft=sh sw=4 sts=4 ts=4 et
 " 2.If include extraneous chars at the end of line.
 "   /* vim: set ft=c sw=4 sts=4 ts=4 et: */
+" (default: 5)
 set modeline
-" set modelines=2                " (default:5)
 
 " Enable clipboard.
 if (!has('nvim') || $DISPLAY != '') && has('clipboard')
@@ -626,13 +640,9 @@ if (!has('nvim') || $DISPLAY != '') && has('clipboard')
 endif
 
 " Enable the mouse on a terminal.
-" http://vim-users.jp/2009/12/hack107/
 " http://yskwkzhr.blogspot.jp/2013/02/use-mouse-on-terminal-vim.html
 if has('mouse')
   set mouse=a
-  if !has('kaoriya')
-    set mouse-=a
-  endif
   if has('mouse_sgr')
     set ttymouse=sgr
   elseif v:version > 703 || v:version is 703 && has('patch632')
@@ -643,13 +653,10 @@ if has('mouse')
   endif
 endif
 
-" Disable Paste mode automatically.
+" Disable paste mode and update diff automatically.
 autocmd MyAutoCmd InsertLeave *
       \ if &paste | setlocal nopaste | echo 'nopaste' | endif |
       \ if &l:diff | diffupdate | endif
-
-" Update diff automatically.
-autocmd MyAutoCmd InsertLeave * if &l:diff | diffupdate | endif
 
 " Use autofmt.
 if exists('autofmt#japanese#formatexpr')
@@ -693,12 +700,8 @@ autocmd MyAutoCmd WinEnter *
       \     let @/ = get(b:, 'vimrc_pattern', @/)
       \   | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
 
-" Update filetype automatically.
-autocmd MyAutoCmd BufWritePost * nested
-      \ if &l:filetype ==# '' || &l:filetype ==# 'hybrid' || exists('b:ftdetect')
-      \ |   unlet! b:ftdetect
-      \ |   filetype detect
-      \ | endif
+" Enable filetype detect/plugin/indent.
+" filetype detection:ON  plugin:ON  indent:ON
 autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead
       \ * call s:my_on_filetype()
 function! s:my_on_filetype() abort
@@ -749,7 +752,7 @@ endfunction
 "   http://yakinikunotare.boo.jp/orebase2/vim/dont_work_arrow_keys_in_insert_mode
 "   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ibus
 "   https://sites.google.com/site/fudist/Home/vim-nihongo-ban/vim-japanese/ime-control/ctrl-hat
-" set timeout timeoutlen=1000 ttimeoutlen=75
+" set timeout timeoutlen=3000 ttimeoutlen=100
 if !has('gui_running')
   set ttimeoutlen=10
   augroup MyFastEscapeAu
@@ -788,33 +791,27 @@ autocmd MyAutoCmd FileType *
 " }}}
 
 " === Misc 3: Set filetype ==============================================={{{1
-" TODO: definft.toml
-" Set filetype.
 augroup MyAutoCmdEx
   autocmd!
+  " Detect filetype.
   " typescript.
-  autocmd BufRead,BufNewFile *.ts setl filetype=typescript
+  autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
   " less.
-  autocmd BufRead,BufNewFile *.less setl filetype=less
+  autocmd BufRead,BufNewFile *.less setlocal filetype=less
   " applescript.
-  autocmd BufRead,BufNewFile *.applescript,*.scpt setl filetype=applescript
-  autocmd FileType applescript inoremap <buffer> <S-CR>  ￢<CR>
+  autocmd BufRead,BufNewFile *.applescript,*.scpt setlocal filetype=applescript
   " markdown.
-  autocmd BufRead,BufNewFile *.md setl filetype=markdown
+  autocmd BufRead,BufNewFile *.md setlocal filetype=markdown
 
-  " Set sw/sts/ts.
+  " Set sw/sts/ts/et/tx/etc.
   " sw  : shiftwidth (インデント時に使用されるスペースの数)
   " sts : softtabstop (0でないなら、タブを入力時、その数値分だけ半角スペースを挿入)
   " ts  : tabstop (タブを画面で表示する際の幅)
   " et  : expandtab (有効時、タブを半角スペースとして挿入)
-  " ml  : modeline
   " tw  : textwidth
-  " modeline : モードラインを有効
-  " http://nanasi.jp/articles/howto/file/modeline.html
   autocmd FileType apache     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType aspvbs     setlocal sw=4 sts=4 ts=4 et
   autocmd FileType c          setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
   autocmd FileType cpp        setlocal sw=4 sts=4 ts=4 et
   autocmd FileType cs         setlocal sw=4 sts=4 ts=4 et
   autocmd FileType csh        setlocal sw=4 sts=4 ts=4 et
@@ -831,7 +828,6 @@ augroup MyAutoCmdEx
   autocmd FileType make       setlocal sw=4 sts=4 ts=4 noet
   autocmd FileType perl       setlocal sw=4 sts=4 ts=4 et
   autocmd FileType php        setlocal sw=4 sts=4 ts=4 et
-  autocmd FileType python     setlocal sw=4 sts=4 ts=8 et tw=80
   autocmd FileType ruby       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType scala      setlocal sw=2 sts=2 ts=2 et
   autocmd FileType sh         setlocal sw=4 sts=4 ts=4 et
@@ -845,21 +841,9 @@ augroup MyAutoCmdEx
   autocmd FileType yaml       setlocal sw=2 sts=2 ts=2 et
   autocmd FileType zsh        setlocal sw=4 sts=4 ts=4 et
 
-  autocmd FileType qf,qfreplace,quickrun,git,diff,gitv,gitcommit,git-status,git-log,git-diff
+  autocmd FileType diff,qf,qfreplace,quickrun,
+        \git,gitv,gitcommit,git-status,git-log,git-diff
         \ setlocal nofoldenable nomodeline foldcolumn=0 foldlevel=0
-
-  " Insert xml close tag automatically.
-  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
-  " rakefile.
-  autocmd BufNewfile,BufRead Rakefile setl foldmethod=syntax foldnestmax=1
-  " html.
-  autocmd FileType html
-        \ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
-        \ setlocal path+=./;/
-  " php.
-  autocmd FileType php setlocal path+=/usr/local/share/pear
-  " apache.
-  autocmd FileType apache setlocal path+=./;/
 augroup END
 " }}}
 
@@ -915,8 +899,8 @@ nnoremap > >>
 nnoremap < <<
 vnoremap < <gv
 vnoremap > >gv
-xnoremap <TAB>   >
-xnoremap <S-TAB> <
+xnoremap <Tab>   >
+xnoremap <S-Tab> <
 " }}}
 
 " === Mappings 2: Move ================================================== {{{1
@@ -950,7 +934,7 @@ vnoremap <Leader>gc :<C-u>normal gc<Enter>
 onoremap <Leader>gc :<C-u>normal gc<Enter>
 " }}}
 
-" === Mappings 3: Buffer/Window/Tab =============================== {{{1
+" === Mappings 3: Buffer/Window/Tab ===================================== {{{1
 " --- Buffer. ---
 " Previous buffer.
 nnoremap <silent> <F2> :<C-u>bp<CR>
@@ -972,6 +956,10 @@ function! s:delete_buf() abort
 endfunction
 
 " --- Window. ---
+" Disable 'q' recording to prevent malfunction.
+nnoremap <silent><expr> q &readonly \|\| !&modifiable ? <SID>smart_close() : ""
+nnoremap Q q
+
 " q/ESC close temporary window.
 autocmd MyAutoCmd FileType help,gitcommit,git-status,git-log,git-diff,
       \qf,quickrun,qfreplace,ref,vcs-commit,vcs-status
@@ -979,14 +967,15 @@ autocmd MyAutoCmd FileType help,gitcommit,git-status,git-log,git-diff,
 autocmd MyAutoCmd FileType help,qf,quickrun,ref
       \ nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>
 
-autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
-      \ && &ft !=# 'vimfiler' && &ft !=# 'unite'
-      \ && !hasmapto('q', 'n')
-      \ | nnoremap <buffer><silent> q :<C-u>call <SID>smart_close()<CR>| endif
-autocmd MyAutoCmd FileType * if (&readonly || !&modifiable)
-      \ && &ft !=# 'vimfiler' && &ft !=# 'unite'
-      \ && !hasmapto('<ESC>', 'n')
-      \ | nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR>| endif
+autocmd MyAutoCmd FileType *
+      \ if (&readonly || !&modifiable) && &ft !=# 'vimfiler' && &ft !=# 'unite' |
+      \   nnoremap <buffer><silent> Q :<C-u>call <SID>smart_close()<CR> |
+      \ endif
+autocmd MyAutoCmd FileType *
+      \ if (&readonly || !&modifiable)
+      \ && &ft !=# 'vimfiler' && &ft !=# 'unite' && !hasmapto('<ESC>', 'n') |
+      \   nnoremap <buffer><silent> <ESC> :<C-u>call <SID>smart_close()<CR> |
+      \ endif
 
 function! s:smart_close() abort
   if winnr('$') != 1
@@ -1089,6 +1078,9 @@ nnoremap <buffer> [q :cprevious<CR>
 " All close    : zm (zM)
 " Create       : zf
 " Delete       : zd
+" Move to the start/end of the current open fold.
+nnoremap zh [z
+nnoremap zl ]z
 " If press 'l' on fold, fold open.
 nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
 " If press 'l' on fold, range fold open.
@@ -1115,12 +1107,12 @@ endfunction
 " === Mappings 5: Search/Yank/Replace =================================== {{{1
 " --- Search ---
 " Move to a search result and redraw cursor line at center of window.
-nnoremap n  nzz
-nnoremap N  Nzz
-nnoremap *  *Nzz
-nnoremap #  #N
-nnoremap g* g*N
-nnoremap g# g#N
+silent! nnoremap <unique> n  nzz
+silent! nnoremap <unique> N  Nzz
+silent! nnoremap <unique> *  *Nzz
+silent! nnoremap <unique> #  #N
+silent! nnoremap <unique> g* g*N
+silent! nnoremap <unique> g# g#N
 
 " Search with very magic.
 " http://deris.hatenablog.jp/entry/2013/05/15/024932
@@ -1176,10 +1168,11 @@ vnoremap sv "vy:%s/\%V<C-r>+//gc<Left><Left><Left><Left>
 
 " === Mappings 6: Insert mode/Command-line mode ========================= {{{1
 " --- Insert mode keymappings. ---
-inoremap jj    <Esc>
-inoremap っj   <ESC>
-inoremap <C-a> <HOME>
-inoremap <C-e> <END>
+inoremap jj       <ESC>
+inoremap っj      <ESC>
+inoremap j<Space> j
+inoremap <C-a>    <HOME>
+inoremap <C-e>    <END>
 " C-hjkl move cursor. (Mac use Karabiner)
 if !has('mac')
   inoremap <C-j> <Down>
@@ -1187,14 +1180,16 @@ if !has('mac')
   inoremap <C-h> <Left>
   inoremap <C-l> <Right>
 endif
+" Insert <Tab>.
+inoremap <C-t>  <C-v><Tab>
 " Delete backward char.
 "  Set 'stty -ixoff -ixon' in .bashrc/.zshc because <C-q>/<C-s> is used in terminal.
 "  http://d.hatena.ne.jp/ksmemo/20110214/p1
 "  http://www.akamoz.jp/you/uni/shellscript.htm
 inoremap <C-q> <ESC>xi
 " Undoable C-u>/<C-w>.
-inoremap <C-u>  <C-g>u<C-u>
-inoremap <C-w>  <C-g>u<C-w>
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
 " Paste.(Windows-compatible)
 " inoremap <C-v> <ESC>"*pa
 
@@ -1233,8 +1228,9 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
-" Delete.
+" Delete a char.
 cnoremap <C-d> <Del>
+" Delete to end.
 cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
       \ '' : getcmdline()[:getcmdpos()-2]<CR>
 " History.
@@ -1333,11 +1329,15 @@ command! -nargs=1 -complete=file Rename file <args>|call delete(expand('#'))
 command! -nargs=* -complete=mapping AllMaps
       \ map <args> | map! <args> | lmap <args>
 
+" Leave the screnn after exit vim or run shell. (alternate screen)
+command! -nargs=0 QUIT  set t_te= t_ti= | quit | set t_te& t_ti&<CR>
+command! -nargs=0 SHELL set t_te= t_ti= | sh   | set t_te& t_ti&<CR>
+
 " Clear undo history (:ClearUndo/:W).
 function! s:clear_undo() abort
   let old_undolevels = &undolevels
   setlocal undolevels=-1
-  execute "normal! a \<BS>\<Esc>"
+  execute "normal! a \<BS>\<ESC>"
   let &l:undolevels = old_undolevels
   echom strftime('[%Y-%m-%d %H:%M:%S]').' Clear undo!'
 endfunction
@@ -1351,11 +1351,19 @@ if !has('kaoriya')
 endif
 command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang) abort
-  if a:directory == ''
-    lcd %:p:h
-  else
-    execute 'lcd' . a:directory
+  let dir = a:directory
+  if dir == ''
+    let filetype = getbufvar(bufnr('%'), '&filetype')
+    if filetype ==# 'vimfiler'
+      let dir = getbufvar(bufnr('%'), 'vimfiler').current_dir
+    elseif filetype ==# 'vimshell'
+      let dir = getbufvar(bufnr('%'), 'vimshell').save_dir
+    else
+      let dir = isdirectory(bufname('%')) ?
+            \ bufname('%') : fnamemodify(bufname('%'), ':p:h')
+    endif
   endif
+  execute 'lcd' fnameescape(dir)
   if a:bang == ''
     pwd
   endif
@@ -1442,7 +1450,7 @@ command! -nargs=1 Line execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 command! -nargs=0 JsonFormat execute '%!python -m json.tool'
   \ | execute '%!python -c "import re,sys;chr=__builtins__.__dict__.get(\"unichr\", chr);sys.stdout.write(re.sub(r\"\\\\u[0-9a-f]{4}\", lambda x: chr(int(\"0x\" + x.group(0)[2:], 16)).encode(\"utf-8\"), sys.stdin.read()))"'
   \ | %s/ \+$//ge
-  \ | setl ft=javascript
+  \ | setlocal ft=javascript
   \ | 1
 command! -bar -nargs=? Jq  call s:jq(<f-args>)
 function! s:jq(...)
@@ -1495,7 +1503,6 @@ command! -bang -complete=file -nargs=? WDos
       \ write<bang> ++fileformat=dos <args>  | edit <args>
 command! -bang -complete=file -nargs=? WMac
       \ write<bang> ++fileformat=mac <args>  | edit <args>
-
 " }}}
 
 set secure
