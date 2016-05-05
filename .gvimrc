@@ -3,17 +3,15 @@
 "  .gvimrc
 "
 " ============================================================================
-" Don't override colorscheme.
 source ~/.vim/colors/my-hybrid.vim
 
 " Font.
 if has('mac')
   " Mac.
-  " set transparency=5
   set antialias
   " Regular Font.
   set guifont=MyricaM\ Monospace\ for\ Powerline:h16
-  " Non-ACSII Font
+  " Double-width characters font.
   "set guifontwide=
 elseif has('win32') || has('win64')
   " Windows.
@@ -24,6 +22,7 @@ else
   set guifont=Monaco\ 12
 endif
 
+" guioptions.
 " Enable mouse select.
 set guioptions+=a
 " Use console dialogs instead of popup dialogs.
@@ -37,15 +36,30 @@ set guioptions-=R
 set guioptions-=l
 set guioptions-=L
 
+" Mouse.
+" http://vim-jp.org/vim-users-jp/2009/12/07/Hack-107.html
+set mouse=a
+" Show popup menu if right click.
+set mousemodel=popup
+" Don't focus the window when the mouse pointer is moved.
+set nomousefocus
+" Hide mouse pointer on insert mode.
+set mousehide
+
 " Don't flick cursor.
-set guicursor& guicursor=a:blinkon0
+set guicursor& guicursor+=a:blinkon0
 
 " IM control.
 "   imdisableactivate    ESC:IM OFF / Insert:IM OFF
 "   noimdisableactivate  ESC:IM OFF / Insert:IM ON
 "   imdisable            IM auto control OFF
 " http://blogger.splhack.org/2011/01/macvim-kaoriya-20110111.html
-set imdisableactivate             " ESC:IM OFF / Insert:IM OFF
+set imdisableactivate
+
+" Change cursor color when IM ON.
+if has('multi_byte_ime') || has('xim')
+  highlight CursorIM guifg=NONE guibg=DarkRed
+endif
 
 " Save and restore gvim window state.
 " http://vim-users.jp/2010/01/hack120/
@@ -67,15 +81,10 @@ if filereadable(g:save_window_file)
 endif
 
 " Transparent window if gvim is inactive.
-augroup AutoTransparentAu
-  autocmd!
-  if has('mac')
-    autocmd FocusGained * set transparency=5
-    autocmd FocusLost   * set transparency=50
-  endif
-augroup END
-
-" Change cursor color when IM OFF.
-if has('multi_byte_ime') || has('xim')
-  highlight CursorIM guifg=NONE guibg=DarkRed
+if has('mac')
+  augroup AutoTransparentAu
+    autocmd!
+      autocmd FocusGained * set transparency=5
+      autocmd FocusLost   * set transparency=50
+  augroup END
 endif
