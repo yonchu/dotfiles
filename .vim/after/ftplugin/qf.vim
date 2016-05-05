@@ -1,13 +1,18 @@
 " Quickfix settings
 " http://d.hatena.ne.jp/thinca/20130708/1373210009
 
+if exists("b:did_ftplugin_qf")
+  finish
+endif
+let b:did_ftplugin_af = 1
+
 noremap <buffer> p  <CR>zz<C-w>p
 
-nnoremap <silent> <buffer> dd :call <SID>del_entry()<CR>
-nnoremap <silent> <buffer> x :call <SID>del_entry()<CR>
-vnoremap <silent> <buffer> d :call <SID>del_entry()<CR>
-vnoremap <silent> <buffer> x :call <SID>del_entry()<CR>
-nnoremap <silent> <buffer> u :<C-u>call <SID>undo_entry()<CR>
+nnoremap <silent> <buffer> dd :<C-u>call <SID>del_entry()<CR>
+nnoremap <silent> <buffer> x  :<C-u>call <SID>del_entry()<CR>
+vnoremap <silent> <buffer> d  :<C-u>call <SID>del_entry()<CR>
+vnoremap <silent> <buffer> x  :<C-u>call <SID>del_entry()<CR>
+nnoremap <silent> <buffer> u  :<C-u>call <SID>undo_entry()<CR>
 
 if exists('*s:undo_entry')
   finish
