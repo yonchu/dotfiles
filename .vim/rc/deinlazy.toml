@@ -178,6 +178,10 @@ hook_add = '''
   nnoremap <silent> [unite]ft
         \ :<C-u>Unite -start-insert filetype filetype/new<CR>
 
+  " Folding.
+  nnoremap <silent> [unite]fd
+        \ :<C-u>Unite outline:folding<CR>
+
   " Grep.
   nnoremap <silent> [unite]g
         \ :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
@@ -379,7 +383,7 @@ hook_add = '''
 #   Delete : sdd     'hoge' -> hoge
 #   Replace: srr"    'hoge' -> "hoge"
 repo = 'rhysd/vim-operator-surround'
-depends = 'vim-operator-user'
+depends = ['vim-operator-user', 'vim-textobj-multiblock']
 on_map = '<Plug>'
 hook_add = '''
   map <silent>sa <Plug>(operator-surround-append)
@@ -822,11 +826,12 @@ hook_source = '''
 repo = 'osyo-manga/vim-anzu'
 on_map = '<Plug>'
 hook_add = '''
-  nmap <silent><expr> n '<Plug>(anzu-n-with-echo):normal! zz<cr>'
-  nmap <silent><expr> N '<Plug>(anzu-N-with-echo):normal! zz<cr>'
-  nmap <silent><expr> * '<Plug>(anzu-star-with-echo):normal! N<cr>'
-  nmap <silent><expr> # '<Plug>(anzu-sharp-with-echo):normal! N<cr>'
-  nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<cr>'
+  nmap <silent><expr> n  '<Plug>(anzu-n-with-echo):normal! zz<CR>'
+  nmap <silent><expr> N  '<Plug>(anzu-N-with-echo):normal! zz<CR>'
+  nmap <silent><expr> *  '<Plug>(anzu-star-with-echo):normal! N<CR>'
+  nmap <silent><expr> #  '<Plug>(anzu-sharp-with-echo):normal! N<CR>'
+  nmap <silent><expr> g* 'g*<Plug>(anzu-update-search-status-with-echo):normal! N<CR>'
+  nmap <silent><expr> g# 'g#<Plug>(anzu-update-search-status-with-echo):normal! N<CR>'
 '''
 
 [[plugins]]
@@ -1378,7 +1383,7 @@ hook_source = '''
   autocmd MyAutoCmd InsertLeave * PreciousReset
 
   function! s:precious_leave()
-    setl nofen
+    setlocal nofen
     let bf = precious#base_filetype()
     let cf = precious#context_filetype()
     echo 'Switch filetype: '.bf.' -> '.cf
