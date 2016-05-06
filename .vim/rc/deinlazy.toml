@@ -1077,8 +1077,7 @@ on_source = 'unite.vim'
 repo = 'itchyny/thumbnail.vim'
 on_cmd = 'Thumbnail'
 hook_add = '''
-  nnoremap <silent> <Leader>tb :<C-u>Thumbnail -horizontal -below<CR>
-  nnoremap <silent> <Leader>tt :<C-u>Thumbnail<CR>
+  nnoremap <silent> <Leader>T :<C-u>Thumbnail -horizontal -below<CR>
 '''
 # }}}
 

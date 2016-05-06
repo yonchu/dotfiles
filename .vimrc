@@ -740,6 +740,9 @@ endfunction
 " Close unnecessary windows automatically.
 autocmd MyAutoCmd WinEnter * call s:auto_qf_close()
 function! s:auto_qf_close() abort
+  if tabpagenr('$') > 1
+    return
+  endif
   for winnr in range(1, winnr('$'))
     let buftype = getwinvar(winnr, '&buftype')
     let ft = getwinvar(winnr, '&filetype')
