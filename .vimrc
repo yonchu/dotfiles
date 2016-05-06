@@ -494,6 +494,12 @@ set linebreak
 set breakat=\ \	;:,./!?
 " String to put at the start of lines that have been wrapped.
 let &showbreak = '> '
+" TODO
+" Disable auto wrap.
+autocmd MyAutoCmd FileType *
+      \ if &l:textwidth >= 70 && &filetype !=# 'help' |
+      \   setlocal textwidth=0 |
+      \ endif
 
 " Highlight current cursor line.
 set cursorline

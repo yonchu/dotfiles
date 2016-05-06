@@ -57,6 +57,7 @@ hook_add = '''
 [ftplugin]
 # ===== Default ftplugin settings ===== {{{
 _ = '''
+  echom 'Load deinft.toml > _'
   " Disable automatically insert comment.
   setlocal formatoptions-=ro | setlocal formatoptions+=mMBl
 
@@ -97,11 +98,11 @@ applescript = '''
   inoremap <buffer> <S-CR>  ￢<CR>
 '''
 
-help = '''
-  setlocal iskeyword+=:
-  setlocal iskeyword+=#
-  setlocal iskeyword+=-
-'''
+# help = '''
+#   setlocal iskeyword+=:
+#   setlocal iskeyword+=#
+#   setlocal iskeyword+=-
+# '''
 
 html = '''
   setlocal includeexpr=substitute(v:fname,'^\\/','','')
