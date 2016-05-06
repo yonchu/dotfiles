@@ -45,6 +45,10 @@ bind tree B @hub browse -- tree/%(commit)/%(directory)
 bind generic c @sh -c "printf '%s' %(commit) | pbcopy"
 bind generic C @sh -c "printf '%s' %(commit) | pbcopy"
 
+# vim
+# Require vim with +clipboard to copy.
+bind generic V ?!sh -c 'git show %(commit) | /Applications/MacVim.app/Contents/MacOS/Vim -u NONE -R -c "set clipboard=unnamed,autoselect|syntax on" -'
+
 # git rebase
 # http://sue445.hatenablog.com/entry/2014/08/07/015811
 bind main R ?!git rebase -i %(commit)
