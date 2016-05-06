@@ -37,6 +37,9 @@ hook_add = '''
   let g:tex_flavor = 'latex'
   let g:tex_fold_enabled = 1
 
+  " vim.vim
+  let g:vimsyn_noerror = 1
+
   " xml.vim
   let g:xml_syntax_folding = 1
   " }}}
