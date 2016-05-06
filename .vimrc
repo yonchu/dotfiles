@@ -1001,10 +1001,11 @@ set <C-Left>=[1;5D
 " map  [1;5C <C-Right>
 " map! [1;5D <C-left>
 " map! [1;5C <C-Right>
-nnoremap <C-t>    <Nop>
-nnoremap <silent> <C-t>n    :<C-u>tabnew<CR>
-nnoremap <silent> <C-t>c    :<C-u>tabclose<CR>
-nnoremap <silent> <C-t>o    :<C-u>tabonly<CR>
+nnoremap [Tab]    <Nop>
+nmap     <C-t>    [Tab]
+nnoremap <silent> [Tab]n    :<C-u>tabnew<CR>
+nnoremap <silent> [Tab]c    :<C-u>tabclose<CR>
+nnoremap <silent> [Tab]o    :<C-u>tabonly<CR>
 nnoremap <silent> <C-Right> :<C-u>execute 'tabnext' 1 + (tabpagenr() + v:count1 - 1) % tabpagenr('$')<CR>
 nnoremap <silent> <C-Left>  :<C-u>tabp<CR>
 command! -nargs=* -complete=file E tabnew <args>
@@ -1054,12 +1055,14 @@ endfunction
 
 " === Mappings 4: Tags/Quickfix/Folding ================================= {{{1
 " --- tags. ---
+nnoremap [Tag]     <Nop>
+nmap     <Leader>t [Tag]
 " Jump to the definition of the keyword under the cursor.
-nnoremap <Leader>tt  <C-]>
+nnoremap <silent> [Tag]t  <C-]>
 " Jump to newer entry in tag stack.
-nnoremap <Leader>tn  :<C-u>tag<CR>
+nnoremap <silent> [Tag]n  :<C-u>tag<CR>
 " Jump to older entry in tag stack.
-nnoremap <Leader>tp  :<C-u>pop<CR>
+nnoremap <silent> [Tag]p  :<C-u>pop<CR>
 
 " --- QuickFix. ---
 " Toggle QuickFix window.
