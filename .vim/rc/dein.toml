@@ -103,49 +103,6 @@ hook_add = '''
 '''
 
 [[plugins]]
-# Git (used for statusline to display branch)
-# http://d.hatena.ne.jp/cohama/20120317/1331978764
-# http://yuku-tech.hatenablog.com/entry/20110427/1303868482
-#   :Git [args]             Run an arbitrary git command.
-#   :Git! [args]            Like |:Git|, but capture the output into a temp file,and edit that temp file.
-#   :Gcd [directory]        |:cd| relative to the repository.
-#   :Glcd [directory]       |:lcd| relative to the repository.
-#   :Gstatus                Bring up the output of git-status in the preview window.(* mappings: help fugitive)
-#   :Gcommit [args]         A wrapper around git-commit.
-#   :Gmerge [args]          Calls git-merge and loads errors and conflicted files into the quickfix list.
-#   :Gpull [args]           Like |:Gmerge|, but for git-pull.
-#   :Gpush [args]           Invoke git-push, load the results into the quickfix list, and invoke |:cwindow| to reveal any errors.
-#   :Gfetch [args]          Like |:Gpush|, but for git-fetch.
-#   :Ggrep[!] [args]        |:grep|[!] with git-grep as 'grepprg'.
-#   :Glgrep[!] [args]       |:lgrep|[!] with git-grep as 'grepprg'.
-#   :Glog [args]            Load all previous revisions of the current file into the quickfix list.
-#   :{range}Glog [args]     Use git-log -L to load previous revisions of the given range of the current file into the quickfix list.
-#   :Gllog [args]           Like |:Glog|, but use the location list instead of the quickfix list.
-#   :Gedit [revision]       |:edit| a |fugitive-revision|.
-#   :Gsplit [revision]      |:split| a |fugitive-revision|.
-#   :Gvsplit [revision]     |:vsplit| a |fugitive-revision|.
-#   :Gtabedit [revision]    |:tabedit| a |fugitive-revision|.
-#   :Gpedit [revision]      |:pedit| a |fugitive-revision|.
-#   :Gread [revision]       Empty the buffer and |:read| a |fugitive-revision|.
-#   :Gwrite                 Write to the current file's path and stage the results.
-#   :Gwrite {path}          You can give |:Gwrite| an explicit path of where in the work tree to write.
-#   :Gwq [path]             Like |:Gwrite| followed by |:quit| if the write succeeded.
-#   :Gdiff [revision]       Perform a |vimdiff| against the current file in the given revision.
-#   :Gsdiff [revision]      Like |:Gdiff|, but always split horizontally.
-#   :Gvdiff [revision]      Like |:Gdiff|, but always split vertically.
-#   :Gmove {destination}    Wrapper around git-mv that renames the buffer afterward.
-#   :Gremove                Wrapper around git-rm that deletes the buffer afterward.
-#   :Gblame [flags]         Run git-blame on the file and open the results in a scroll bound vertical split.(* mappings: help fugitive)
-#   :[range]Gblame [flags]  Run git-blame on the given range.
-#   :Gbrowse                Open the current file, blob, tree, commit, or tag in your browser at the upstream hosting provider.
-#   :Gbrowse {revision}     Like :Gbrowse, but for a given |fugitive-revision|.  A
-#   :Gbrowse [...]@{remote} Force using the given remote rather than the remote for the current branch.
-#   :{range}Gbrowse [args]  Appends an anchor to the URL that emphasizes the selected lines.
-#   :[range]Gbrowse! [args] Like :Gbrowse, but put the URL on the clipboard rather than opening it.
-#   :Git now                git-now
-repo = 'tpope/vim-fugitive'
-
-[[plugins]]
 # The fancy start screen.
 #   :Startify  Open the startify buffer.
 repo = 'mhinz/vim-startify'
