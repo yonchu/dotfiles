@@ -6,7 +6,7 @@
 "
 "   https://github.com/Shougo/neocomplete
 "
-"   補完候補のPrefix
+"   Completion prefix:
 "    file              -> [F] {filename}
 "    file/include      -> [FI] {filename}
 "    dictionary        -> [D] {words}
@@ -84,20 +84,20 @@ if !exists('g:neocomplete#same_filetypes')
   let g:neocomplete#same_filetypes = {}
 endif
 
-let g:neocomplete#same_filetypes.bash = 'sh'
-let g:neocomplete#same_filetypes.c = 'cpp,d'
-let g:neocomplete#same_filetypes.coffee = 'javascript,jquery'
-let g:neocomplete#same_filetypes.cpp = 'c'
-let g:neocomplete#same_filetypes.erlang = 'man'
-let g:neocomplete#same_filetypes.gitconfig = '_'
+let g:neocomplete#same_filetypes.bash       = 'sh'
+let g:neocomplete#same_filetypes.c          = 'cpp,d'
+let g:neocomplete#same_filetypes.coffee     = 'javascript,jquery'
+let g:neocomplete#same_filetypes.cpp        = 'c'
+let g:neocomplete#same_filetypes.erlang     = 'man'
+let g:neocomplete#same_filetypes.gitconfig  = '_'
 let g:neocomplete#same_filetypes.javascript = 'jquery'
-let g:neocomplete#same_filetypes.jquery = 'javascript'
-let g:neocomplete#same_filetypes.less = 'css'
-let g:neocomplete#same_filetypes.objc = 'c'
-let g:neocomplete#same_filetypes.perl = 'ref,man'
-let g:neocomplete#same_filetypes.tt2html = 'html,perl'
-let g:neocomplete#same_filetypes.zsh = 'sh'
-let g:neocomplete#same_filetypes._ = '_'
+let g:neocomplete#same_filetypes.jquery     = 'javascript'
+let g:neocomplete#same_filetypes.less       = 'css'
+let g:neocomplete#same_filetypes.objc       = 'c'
+let g:neocomplete#same_filetypes.perl       = 'ref,man'
+let g:neocomplete#same_filetypes.tt2html    = 'html,perl'
+let g:neocomplete#same_filetypes.zsh        = 'sh'
+let g:neocomplete#same_filetypes._          = '_'
 " }}}
 
 " === Keyword completion {{{
@@ -152,17 +152,14 @@ let g:neocomplete#force_omni_input_patterns.python =
 "      \ '[^. *\t]\.\w*\|\h\w*::\w*'
 " vim
 let g:neocomplete#sources#vim#complete_functions = {
-      \ 'Ref' : 'ref#complete',
-      \ 'Unite' : 'unite#complete_source',
-      \ 'VimShellExecute' :
-      \      'vimshell#vimshell_execute_complete',
-      \ 'VimShellInteractive' :
-      \      'vimshell#vimshell_execute_complete',
-      \ 'VimShellTerminal' :
-      \      'vimshell#vimshell_execute_complete',
-      \ 'VimShell' : 'vimshell#complete',
-      \ 'VimFiler' : 'vimfiler#complete',
-      \ 'Vinarise' : 'vinarise#complete',
+      \ 'Ref'                 : 'ref#complete',
+      \ 'Unite'               : 'unite#complete_source',
+      \ 'VimShellExecute'     : 'vimshell#vimshell_execute_complete',
+      \ 'VimShellInteractive' : 'vimshell#vimshell_execute_complete',
+      \ 'VimShellTerminal'    : 'vimshell#vimshell_execute_complete',
+      \ 'VimShell'            : 'vimshell#complete',
+      \ 'VimFiler'            : 'vimfiler#complete',
+      \ 'Vinarise'            : 'vinarise#complete',
       \ }
 " }}}
 
@@ -225,7 +222,7 @@ inoremap <expr><Down> pumvisible() ? "\<C-n>" : "\<Down>"
 " }}}
 
 " === Utility {{{
-" ファイル名を取得
+" Get filename.
 "   http://d.hatena.ne.jp/cooldaemon/searchdiary?word=snippets
 function! Filename(...)
   let filename = expand('%:t:r')
