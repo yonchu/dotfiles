@@ -73,34 +73,35 @@
 "   <Space>          <Plug>(vimfiler toggle mark selected lines
 " }}}
 
-" OS flag.
+" OS flags.
 let is_windows = has('win16') || has('win32') || has('win64')
 let is_cygwin = has('win32unix')
 let is_mac = !is_windows && !is_cygwin
       \ && (has('mac') || has('macunix') || has('gui_macvim')
       \ || (!executable('xdg-open') && system('uname') =~? '^darwin'))
 
+" Basic Settings.
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_ignore_pattern      = '^\%(\.git\|\.svn\)$'
+let g:vimfiler_time_format         = '%Y/%m/%d %H:%M:%S'
+
 " Profile Settings.
 call vimfiler#custom#profile('default', 'context', {
-      \ 'safe' : 1,
-      \ 'auto_expand' : 1,
-      \ 'edit_action' : 'tabopen',
-      \ 'parent' : 1,
-      \ 'status' : 1,
+      \ 'safe'       : 1,
+      \ 'auto_expand': 1,
+      \ 'edit_action': 'tabopen',
+      \ 'parent'     : 1,
+      \ 'status'     : 1,
       \ })
 
-" Basic Settings.
-let g:vimfiler_enable_clipboard = 0
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_ignore_pattern = '^\%(\.git\|\.svn\)$'
-let g:vimfiler_time_format = '%Y/%m/%d %H:%M:%S'
-
+" Drives.
 let g:vimfiler_detect_drives = is_windows ? [
       \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
       \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/'] :
       \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
       \ split(glob('/Users/*'), '\n')
 
+" SendTo menus.
 " %p : full path
 " %d : current directory
 " %f : filename
@@ -108,11 +109,11 @@ let g:vimfiler_detect_drives = is_windows ? [
 " %* : filenames
 " %# : filenames fullpath
 let g:vimfiler_sendto = {
-      \ 'unzip' : 'unzip %f',
-      \ 'zip' : 'zip -r %F.zip %*',
-      \ 'Inkscape' : 'inkspace',
-      \ 'GIMP' : 'gimp %*',
-      \ 'gedit' : 'gedit',
+      \ 'unzip'   : 'unzip %f',
+      \ 'zip'     : 'zip -r %F.zip %*',
+      \ 'Inkscape': 'inkspace',
+      \ 'GIMP'    : 'gimp %*',
+      \ 'gedit'   : 'gedit',
       \ }
 
 " Icons.
@@ -130,46 +131,27 @@ else
   let g:vimfiler_marked_file_icon = '✓'
 endif
 
+" QuickLook.
 let g:vimfiler_quick_look_command =
       \ is_windows ? 'maComfort.exe -ql' :
-      \ is_mac ? 'qlmanage -p' : 'gloobus-preview'
+      \ is_mac     ? 'qlmanage -p'       : 'gloobus-preview'
 
-" AutoCmd.
+" Local settings.
 autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
 function! s:vimfiler_my_settings() abort
   call vimfiler#set_execute_file('vim', ['vim', 'notepad'])
   call vimfiler#set_execute_file('txt', 'vim')
+  call vimfiler#set_execute_file('pdf', 'zathura')
 
-  " Overwrite settings.
-  nmap <buffer> q <Plug>(vimfiler_close)
   nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
-  nmap <buffer> p <Plug>(vimfiler_quick_look)
+  nmap <buffer> p     <Plug>(vimfiler_quick_look)
   nmap <buffer> <Tab> <Plug>(vimfiler_switch_to_other_window)
-  nmap <buffer> o <Plug>(vimfiler_expand_tree)
+  nmap <buffer> o     <Plug>(vimfiler_expand_tree)
+  nmap <buffer> <C-c> <Plug>(vimfiler_close)
 
   " Unite.
   nnoremap <silent><buffer> J
         \ <C-u>:Unite -buffer-name=files -default-action=lcd directory_mru<CR>
-
-  " Open and split window.
-  nnoremap <buffer> s :call vimfiler#mappings#do_action('my_split')<cr>
-  let s:my_action = { 'is_selectable' : 1 }
-  function! s:my_action.func(candidates)
-    wincmd p
-    exec 'split '. a:candidates[0].action__path
-  endfunction
-  call unite#custom_action('file', 'my_split', s:my_action)
-  unlet s:my_action
-
-  " Opent and split vertilacally window.
-  nnoremap <buffer> v :call vimfiler#mappings#do_action('my_vsplit')<cr>
-  let s:my_action = { 'is_selectable' : 1 }
-  function! s:my_action.func(candidates)
-    wincmd p
-    exec 'vsplit '. a:candidates[0].action__path
-  endfunction
-  call unite#custom_action('file', 'my_vsplit', s:my_action)
-  unlet s:my_action
 
   " Migemo search.
   if !empty(unite#get_filters('matcher_migemo'))
