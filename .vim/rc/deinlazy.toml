@@ -265,6 +265,9 @@ hook_add = '''
         \  tag tag/include\<CR>"
   nnoremap <silent><expr> [unite]tj  &filetype == 'help' ?
         \ ":\<C-u>pop\<CR>" : ":\<C-u>Unite jump\<CR>"
+  nnoremap <silent> [unite]ts :<C-u>NeoCompleteIncludeMakeCache<CR>
+        \ :UniteWithCursorWord -immediately -sync
+        \ -default-action=context_split tag/include<CR>
 
   " YankRound.
   nnoremap <silent> [unite]y
@@ -1454,7 +1457,7 @@ on_path = '^https\?://'
 [[plugins]]
 repo = 'thinca/vim-quickrun'
 on_map = [['n', '<Plug>']]
-on_cmd = 'QuickRun'
+on_cmd = ['QuickRun', 'QuickRunCancel']
 hook_add = '''
   " Execute and display the result for current buffer.
   nmap <silent> <Leader>r <Plug>(quickrun)
@@ -1463,7 +1466,15 @@ hook_add = '''
   " Execute with arguments.
   command! -nargs=+ QR :QuickRun '-args' <q-args>
   " Stop quickrun forcely.
-  nnoremap <expr><silent> <C-c> quickrun#is_running() ?  quickrun#sweep_sessions() : '<C-c>'
+  command! -nargs=0 QuickRunCancel call s:quickrun_cancel()
+  function! s:quickrun_cancel() abort
+    if quickrun#is_running()
+      echo 'Cancel Quickrun...'
+      quickrun#sweep_sessions()
+    else
+      echo 'QuickRun is not running.'
+    endif
+  endfunction
 '''
 hook_source = 'source ~/.vim/rc/plugins/quickrun.rc.vim'
 
