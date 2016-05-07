@@ -1,9 +1,6 @@
 " http://deris.hatenablog.jp/entry/2013/05/10/003430
 " https://gist.github.com/deris/5548058
-" Inspired by ujihisa's vimrc
 function! s:GitLogViewer()
-  " vnewだとコミットメッセージが切れてしまうのでnew
-  NeoBundleSource git-vim
   new
   VimProcRead git log -u 'ORIG_HEAD..HEAD'
   set filetype=git-log.git-diff
@@ -15,7 +12,7 @@ endfunction
 command! GitLogViewer call s:GitLogViewer()
 command! Glv call s:GitLogViewer()
 
-" git log表示時の折りたたみ用
+" Folding for git-log.
 function! FoldTextOfGitLog()
   let month_map = {
     \ 'Jan' : '01',
@@ -39,10 +36,8 @@ function! FoldTextOfGitLog()
   if getline(v:foldstart + 1) =~ '^Author:'
     let author_lnum = v:foldstart + 1
   elseif getline(v:foldstart + 2) =~ '^Author:'
-    " commitの次の行がMerge:の場合があるので
     let author_lnum = v:foldstart + 2
   else
-    " commitの下2行がどちらもAuthor:で始まらなければ諦めて終了
     return getline(v:foldstart)
   endif
 
@@ -62,4 +57,3 @@ function! FoldTextOfGitLog()
 
   return join([datestr, time, author, message], ' ')
 endfunction
-" }}}

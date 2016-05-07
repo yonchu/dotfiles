@@ -19,10 +19,7 @@ let g:watchdogs_checkers = {
       \  },
       \}
 
-" 自動実行
-" 全てのfiletypeを有効
-"let g:watchdogs_check_BufWritePost_enable = 0
-" filetype毎に指定
+" Auto run BufWritePost.
 let g:watchdogs_check_BufWritePost_enables = {
       \  'c'          : 0,
       \  'coffee'     : 3,
@@ -36,10 +33,8 @@ let g:watchdogs_check_BufWritePost_enables = {
       \  'scss'       : 1,
       \}
 
-" 一定時間キー入力がなかった場合にシンタックスチェックを行う
-" バッファに書き込み後、1度だけ行われる
-"let g:watchdogs_check_CursorHold_enable = 1
+" Auto run CursorMovedI.
 " let g:watchdogs_check_CursorHold_enables = {
-"       \  "haskell" : 1,
+"       \  'haskell' : 1,
 "       \  'coffee'  : 3,
 "       \}

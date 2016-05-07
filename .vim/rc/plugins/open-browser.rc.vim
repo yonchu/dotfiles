@@ -1,5 +1,4 @@
-nnoremap <Plug>(open-browser-wwwsearch)
-      \ :<C-u>call <SID>www_search()<CR>
+nnoremap <Plug>(open-browser-wwwsearch) :<C-u>call <SID>www_search()<CR>
 
 function! s:www_search()
   let search_word = input('Please input search word: ', '',
@@ -9,9 +8,7 @@ function! s:www_search()
   endif
 endfunction
 
-
 call operator#user#define('open-neobundlepath', 'OpenNeoBundlePath')
-
 function! OpenNeoBundlePath(motion_wise)
   if line("'[") != line("']")
     return
