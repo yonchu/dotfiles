@@ -133,8 +133,6 @@ let g:neocomplete#sources#omni#functions.go =
 " lua
 let g:neocomplete#sources#omni#input_patterns.lua =
       \ '\w\+[.:]\|require\s*(\?["'']\w*'
-let g:neocomplete#sources#omni#functions.lua =
-      \ 'xolox#lua#omnifunc'
 " perl
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " php
