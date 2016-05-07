@@ -952,6 +952,7 @@ nnoremap <silent> <F3> :<C-u>bn<CR>
 " Delete buffer.
 nnoremap <silent> <F4> :<C-u>call <SID>delete_buf()<CR>
 function! s:delete_buf() abort
+  let win_num = winnr('$')
   let prebuf = bufnr('#')
   bnext
   if bufnr('#') > 0 && bufnr('#') != prebuf && bufnr('%') != bufnr('#')
@@ -959,7 +960,7 @@ function! s:delete_buf() abort
   else
     echo 'Last buffer!'
   endif
-  if tabpagenr('$') != 1
+  if win_num == 1 && tabpagenr('$') > 1
     tabclose
   endif
 endfunction
