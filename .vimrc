@@ -799,19 +799,10 @@ autocmd MyAutoCmd FileType *
       \ endif
 " }}}
 
-" === Misc 3: Set filetype ==============================================={{{1
+" === Misc 3: FileType ==================================================={{{1
 augroup MyAutoCmdEx
   autocmd!
-  " Detect filetype.
-  " typescript.
-  autocmd BufRead,BufNewFile *.ts setlocal filetype=typescript
-  " less.
-  autocmd BufRead,BufNewFile *.less setlocal filetype=less
-  " applescript.
-  autocmd BufRead,BufNewFile *.applescript,*.scpt setlocal filetype=applescript
-  " markdown.
-  autocmd BufRead,BufNewFile *.md setlocal filetype=markdown
-
+  " TODO: .vim/ftplugin/after/xxx.vim
   " Set sw/sts/ts/et/tx/etc.
   " sw  : shiftwidth (インデント時に使用されるスペースの数)
   " sts : softtabstop (0でないなら、タブを入力時、その数値分だけ半角スペースを挿入)
