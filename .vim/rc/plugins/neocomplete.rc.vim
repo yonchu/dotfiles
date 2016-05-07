@@ -188,13 +188,13 @@ inoremap <silent><expr> <C-x><C-o>
       \ neocomplete#start_manual_complete('omni')
 
 " <CR>: neocomplete & neosnippet.
-inoremap <silent><expr><CR>
+imap <silent><expr> <CR>
       \ neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
       \ "\<C-y>" : "\<CR>"
 
 " <TAB>: completion.
-inoremap <silent><expr> <TAB>
+imap <silent><expr> <TAB>
       \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" :
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -203,7 +203,7 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
-snoremap <expr><TAB>
+smap <silent><expr> <TAB>
       \ neosnippet#expandable_or_jumpable() ?
       \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
