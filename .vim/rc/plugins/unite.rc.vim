@@ -43,7 +43,6 @@ endif
 if !exists('g:unite_source_menu_menus')
   let g:unite_source_menu_menus = {}
 endif
-
 " }}}
 
 " === Custom Settings. {{{
@@ -58,12 +57,16 @@ call unite#custom#profile('action', 'context', {
       \ 'start_insert' : 1,
       \ })
 
+" Default file action.
 call unite#custom#default_action('file', 'tabopen')
+
+" message.
+call unite#custom#source('message', 'sorters', 'sorter_reverse')
 
 " migemo.
 call unite#custom#source('line_migemo', 'matchers', 'matcher_migemo')
 
-" Custom filters.
+" Files.
 call unite#custom#source(
       \ 'buffer,file_rec,file_rec/async,file_rec/git', 'matchers',
       \ ['converter_relative_word', 'matcher_default', 'matcher_fuzzy'])
@@ -99,11 +102,7 @@ let g:unite_source_alias_aliases.mes = {
       \ 'source' : 'output',
       \ 'args'   : 'message',
       \ }
-" message を逆順に sort する
-call unite#custom#source('message', 'sorters', 'sorter_reverse')
-
 " vim :scriptnames
-" 読み込まれているスクリプトを読み込まれた順番どおりに全て表示する。
 let g:unite_source_alias_aliases.scriptnames = {
       \ 'source' : 'output',
       \ 'args'   : 'scriptnames',
@@ -112,7 +111,6 @@ let g:unite_source_alias_aliases.scriptnames = {
 
 " === My settings in AutoCmd. {{{
 autocmd MyAutoCmd FileType unite call s:unite_my_settings()
-
 function! s:unite_my_settings() abort
   " Directory partial match.
   call unite#custom#alias('file', 'h', 'left')
@@ -123,47 +121,49 @@ function! s:unite_my_settings() abort
   imap <buffer>  <Tab>     <Plug>(unite_complete)
   imap <buffer> '          <Plug>(unite_quick_match_default_action)
   nmap <buffer> '          <Plug>(unite_quick_match_default_action)
-  nmap <buffer> cd         <Plug>(unite_quick_match_default_action)
+  nmap <buffer> x          <Plug>(unite_quick_match_jump)
   nmap <buffer> <C-z>      <Plug>(unite_toggle_transpose_window)
   imap <buffer> <C-z>      <Plug>(unite_toggle_transpose_window)
   imap <buffer> <C-w>      <Plug>(unite_delete_backward_path)
   nmap <buffer> <C-j>      <Plug>(unite_toggle_auto_preview)
-  nnoremap <silent><buffer> <Tab>     <C-w>w
+  nmap <buffer> <C-c>      <Plug>(unite_exit)
+  imap <buffer> <C-c>      <ESC><Plug>(unite_exit)
+  nnoremap <silent><buffer> <Tab> <C-w>w
   nnoremap <silent><buffer><expr> l
         \ unite#smart_map('l', unite#do_action('default'))
   nnoremap <silent><buffer><expr> P
         \ unite#smart_map('P', unite#do_action('insert'))
+  nnoremap <silent><buffer><expr> cd    unite#do_action('lcd')
+  nnoremap <silent><buffer><expr> !     unite#do_action('start')
 
+  " r: replce or rename.
   let unite = unite#get_current_unite()
   if unite.profile_name =~# '^search' || unite.profile_name =~# '^grep'
     nnoremap <silent><buffer><expr> r     unite#do_action('replace')
   else
     nnoremap <silent><buffer><expr> r     unite#do_action('rename')
   endif
+
+  " Show line number in output/shellcmd.
   if has_key(unite, 'sources') && len(unite.sources) > 0
         \ && unite.sources[0].name =~# '^output/shellcmd'
     setl number
   endif
 
-  nnoremap <silent><buffer><expr> cd    unite#do_action('lcd')
-  nnoremap <silent><buffer><expr> !     unite#do_action('start')
-
-  nnoremap <buffer><expr> S
+  " Change current sorters.
+  nnoremap <buffer><expr> R
         \ unite#mappings#set_current_sorters(
-        \  empty(unite#mappings#get_current_sorters()) ?
-        \   ['sorter_reverse'] : [])
+        \ empty(unite#mappings#get_current_sorters()) ?
+        \ ['sorter_reverse'] : [])
   nnoremap <buffer><expr> cof
         \ unite#mappings#set_current_matchers(
         \ empty(unite#mappings#get_current_matchers()) ?
         \ ['matcher_fuzzy'] : [])
-
-  " Enable 'matcher_project_files'. + <C-r>
   nnoremap <buffer><expr> <C-a>
         \ unite#mappings#set_current_matchers(
         \ empty(unite#mappings#get_current_matchers()) ?
         \ ['matcher_project_files'] : [])
 
   nmap <buffer> <C-m> <Plug>(unite_print_message_log)
-  nmap <buffer> x     <Plug>(unite_quick_match_jump)
 endfunction
 " }}}
