@@ -4,6 +4,7 @@ let g:lightline = {
         \   'left': [
         \     ['mode', 'paste'],
         \     ['fugitive', 'gitgutter', 'filename'],
+        \     ['submode'],
         \   ],
         \   'right': [
         \     ['syntastic', 'lineinfo'],
@@ -34,6 +35,7 @@ let g:lightline = {
         \   'fileencoding' : 'LightLineFileencoding',
         \   'fileformat'   : 'LightLineFileformat',
         \   'charcode'     : 'LightLineCharCode',
+        \   'submode'      : 'LightLineSubmode',
         \   'fugitive'     : 'LightLineFugitive',
         \   'gitgutter'    : 'LightLineGitGutter',
         \   'search_status': 'anzu#search_status',
@@ -189,6 +191,16 @@ function! LightLineCharvaluehex()
     return ''
   endif
   return "'%{matchstr(getline('.'), '.', col('.')-1)}' 0x%04.4B"
+endfunction
+
+function! LightLineSubmode()
+  if !exists('*submode#current') || winwidth(0) <= 70
+    return ''
+  endif
+  let mark = 'Submode: '
+  let _ = submode#current()
+  return strlen(_) ? mark._ : ''
+  return
 endfunction
 
 let g:unite_force_overwrite_statusline = 0
