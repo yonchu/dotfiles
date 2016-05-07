@@ -370,9 +370,9 @@ repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
 on_map = [['nx', '<Plug>']]
 hook_add = '''
-  nmap R <Plug>(operator-replace)
-  xmap R <Plug>(operator-replace)
-  xmap p <Plug>(operator-replace)
+  nmap R  <Plug>(operator-replace)
+  xmap R  <Plug>(operator-replace)
+  xmap p  <Plug>(operator-replace)
   nmap cp <Plug>(operator-replace)iw
 '''
 
