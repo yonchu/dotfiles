@@ -171,6 +171,7 @@ hook_add = '''
         \ :<C-u>Unite -buffer-name=Change-jump change jump<CR>
 
   " Dein.
+  "   :Unite dein:!  Show verbose status
   nnoremap <silent> [unite]d
         \ :<C-u>Unite -start-insert -default-action=lcd dein<CR>
 
