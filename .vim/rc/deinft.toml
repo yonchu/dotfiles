@@ -126,6 +126,12 @@ rakefile = '''
 #   syntax sync minlines=500
 # '''
 
+tmux = '''
+  if hasmapto("TmuxExec")
+    nnoremap <silent><buffer> K :<C-u>call tmux#man()<CR>
+  endif
+'''
+
 # vim = '''
 #   if 5000 < line('$')
 #     " :help :syn-sync

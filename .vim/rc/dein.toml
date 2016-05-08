@@ -98,7 +98,7 @@ if = "has('conceal')"
 hook_add = '''
   " let g:indentLine_faster = 1
   let g:indentLine_fileTypeExclude = [
-    \   'help', 'tagbar', 'thumbnail', 'tweetvim', 'unite', 'vimfiler'
+    \   'help', 'man', 'tagbar', 'thumbnail', 'tweetvim', 'unite', 'vimfiler'
     \ ]
 '''
 
@@ -247,7 +247,7 @@ repo = 'cakebaker/scss-syntax.vim'
 on_ft = 'scss'
 
 [[plugins]]
-repo = 'zaiste/tmux.vim'
+repo = 'tmux-plugins/vim-tmux'
 on_ft = 'tmux'
 
 [[plugins]]
