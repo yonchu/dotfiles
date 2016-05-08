@@ -548,6 +548,7 @@ set virtualedit=block           " Allow virtual editing in Visual block mode.
 set updatetime=1000             " CursorHold time.
 set keywordprg=:help            " Program to use for the |K| command.
 set spelllang=en_us             " Language(s) to do spell checking for.
+set spelllang+=cjk              " Not spell checking Chinese, Japanese and other East Asian characters.
 set report=0                    " Threshold for reporting number of lines changed. (0:always)
 set nostartofline               " The cursor is kept in the same column (if possible) when move the cursor.
 set switchbuf=useopen           " This option controls the behavior when switching between buffers.
