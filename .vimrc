@@ -1323,6 +1323,9 @@ endif
 " }}}
 
 " === Commands ==========================================================={{{1
+" Manpage.
+command! -nargs=* Man delcommand Man | runtime ftplugin/man.vim | Man <args>
+
 " Toggle paste mode (:Pt).
 command! Pt setlocal paste! | setlocal paste?
 

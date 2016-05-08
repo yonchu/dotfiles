@@ -1253,6 +1253,9 @@ on_source = 'unite.vim'
 hook_add = '''
   silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
+  if has('mac')
+    let g:ref_man_cmd = "man -P cat"
+  endif
 '''
 hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
 
