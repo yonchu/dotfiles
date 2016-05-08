@@ -5,16 +5,12 @@
 #
 #*******************************************************************************
 
-#
 # profile設定(共通)
-#
 if [ -f ~/dotfiles/.profile ]; then
     source ~/dotfiles/.profile
 fi
 
-#
 # profile設定(OS固有)
-#
 case "${OSTYPE}" in
     # Mac(Unix)
     darwin*)
@@ -30,13 +26,11 @@ case "${OSTYPE}" in
     ;;
 esac
 
-#
 # .bashrc 読み込み
-#
 if [ -f ~/.bashrc ]; then
     source ~/.bashrc
 fi
 
-
-## complete message
+# Complete messages.
 echo ".bash_profile load completed...($SHELL)"
+

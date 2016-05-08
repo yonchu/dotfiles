@@ -6,25 +6,17 @@
 #
 #*******************************************************************************
 
-#
 # MacVim-KaoriYa
-#  デフォルトエディタに設定
-#
 if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ]; then
     export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
     export VISUAL=$EDITOR
-
     # Gitでコミット時に起動するエディタを指定
     # 未指定だとコミット時にエラーになる(絶対パス必須)
     export GIT_EDITOR=$EDITOR
 fi
 
-
-#
 # PATH =========================================================================
-#
 #  PATHの追加はここより後に行うこと
-#
 
 PATH=~/bin:~/dotfiles/bin:/usr/local/bin:/usr/local/sbin:$PATH
 PATH=$PATH:/usr/X11/bin
@@ -36,10 +28,7 @@ export MANPATH
 INFOPATH=/usr/local/share/info:/usr/share/info:$INFOPATH
 export INFOPATH
 
-
-#
 # Java
-#
 #export JAVA_HOME='/System/Library/Frameworks/JavaVM.framework/Home'
 export JAVA_HOME='/Library/Java/Home'
 export PATH=$JAVA_HOME/bin:$PATH
@@ -47,103 +36,67 @@ export CATALINA_HOME='/usr/local/Cellar/tomcat6/6.0.35/libexec'
 # デフォルトエンコーディングSJISをUTF-8へ
 export JAVA_OPTS='-Dfile.encoding=UTF-8'
 
-
-#
 # Maven
-#
 export MAVEN_VERSION='2.2.1'
 export MAVEN_HOME=/usr/local/Cellar/maven2/$MAVEN_VERSION/libexec
 #export PATH=$MAVEN_HOME/bin:$PATH
 export MAVEN_OPTS=-Xmx1024M
 
-
-#
 # MySQL
-#
 export MYSQL_HOME=/usr/local/mysql
 export PATH=$MYSQL_HOME/bin:$PATH
 
-
-#
 # Python
-#
-
 # 仮想環境でdistributeを使用(not setuptools)
 export VIRTUALENV_USE_DISTRIBUTE=true
-
 # VirtualEnv使用時にプロンプトを変更しない
 export VIRTUAL_ENV_DISABLE_PROMPT=true
-
 # virtualenv setting
 #if [ -f /usr/local/share/python/virtualenvwrapper.sh ]; then
    #export WORKON_HOME=$HOME/.virtualenvs
    #VIRTUALENVWRAPPER_PYTHON=py2.7.3
    #source /usr/local/share/python/virtualenvwrapper.sh
 #fi
-
 # Startupスクリプトを設定
 #  Pythonをインタラクティブモードで起動した場合に自動実行される
 export PYTHONSTARTUP=~/.pythonstartup
-
 # Pythonの外部ライブラリを指定
 export PYTHONPATH=./lib:~/lib/python
-
-## pyenv
+# pyenv
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 
-
-#
 # rvm
-#
 # Add RVM to PATH for scripting
 export PATH=$HOME/.rvm/bin:$PATH
 
-
-#
 # node
-#
 # homebrew版nodeのnpm
 export PATH=/usr/local/share/npm/bin:$PATH
 
-
-#
 # nodebrew
-#
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 # Default node version.
 export DEFAULT_NODE_VERSION="v0.10.31"
 
-
-#
 # Coreutils
 #  GNU版Coreutilsの使用
 #export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 
-
-#
 # FDK
 # Adobe Font Development Kit for OpenType (AFDKO)
-#
 # Initialization for FDK command line tools.
 export FDK_EXE=~/bin/FDK/Tools/osx
 export PATH=$PATH:$HOME/bin/FDK/Tools/osx
 
-
-#
 # Homebrew GitHub Api token
-#
 if [ -f ~/.brew_api_token ];then
     source ~/.brew_api_token
 fi
 
-
-#
 # zsh
-#
 export HELPDIR=/usr/local/share/zsh/help
 
-
-### Complete Messages
+# Complete messages.
 echo "Loading .profile.osx completed!!"
 

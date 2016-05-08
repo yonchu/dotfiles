@@ -57,6 +57,6 @@ if [ -d $HOME/.rvm ]; then
     export PATH=$HOME/.rvm/bin:$PATH
 fi
 
-### Complete Messages
+# Complete messages.
 echo "Loading .profile.linux completed!!"
 

@@ -17,9 +17,6 @@
 #
 #*******************************************************************************
 
-#
-# 基本エイリアス ----------------------------------------------
-#
 alias where="command -v"
 alias jl="jobs -l"
 
@@ -27,8 +24,6 @@ alias jl="jobs -l"
 alias cl='clear'
 alias quit='exit';
 
-
-#
 # ls
 #  Macではglsを使用
 #
@@ -56,7 +51,6 @@ alias quit='exit';
 #    --show-control-chars : Show non graphic characters as-is.
 #    --width=COL : Assume screen width instead of current value.
 #    --group-directories-first : Group directories before files.
-#
 case "${OSTYPE}" in
 freebsd*|darwin*)
     if type gls > /dev/null 2>&1; then
@@ -77,13 +71,9 @@ alias lld='ls -d'
 alias llt='ll -rt'
 alias lll='ll | less'
 
-
-#
 # cd
 #  -P シンボリックリンクをたどらず実ディレクトリに移動
 #  -L シンボリックリンクをたどったディレクトリに移動
-#
-# alias ..='cd ..'
 lvalue='.'
 rvalue=''
 for index in {1..9}; do
@@ -104,26 +94,20 @@ cd() {
     fi
 }
 
-#
 # pwd
 #  -P シンボリックリンクをたどらず実ディレクトリを表示
 #  -L シンボリックリンクをたどったディレクトリを表示
 alias pwd='pwd -P'
 
-
-#
-# df du
-#
+# df/du
 alias df='df -h'
 alias du='du -h'
 alias dus='du -s'
 alias ddu='du -sm ./* | sort -n | tail'
 
-#
 # mv rm cp
 #  確認つきファイル操作
 #  rm, mv, cp などのあぶない操作を確認つきにする
-#
 alias mv='mv -i'
 alias rm='rm -i'
 alias cp='cp -ir'
@@ -132,8 +116,6 @@ alias mvi='mv -i'
 alias rmi='rm -i'
 alias cpi='cp -ir'
 
-
-#
 # cp
 #  -p コピー元の所有者、所有者・グループ・アクセス権・アクセス時刻などを維持
 #  -a コピー元の所有者などの属性、パーミッション 、ディレクトリ構造、
@@ -141,8 +123,6 @@ alias cpi='cp -ir'
 #     可能な限りコピー元の情報をそのままるコピーする」-dpR と同じ
 alias cpa='cp -a'
 
-
-#
 # grep
 #  -i 大文字小文字を区別しない
 #  -n 各行の先頭にファイルの行番号を表示します
@@ -165,7 +145,6 @@ alias cpa='cp -a'
 #
 #  e.g.
 #   & grep -r searchword --include'*.txt' .
-#
 if grep --help 2> /dev/null | grep -q -- --exclude-dir; then
     # svn/gitディレクトリを無視
     alias grep='grep -niE --exclude-dir=.svn --exclude-dir=.git'
@@ -179,14 +158,10 @@ grepv () {
     grep "$@" | \vim -R -
 }
 
-
-#
 # find
-#
 #alias find=gfind
 alias findbig='find . -type f -exec ls -s {} \; | sort -n -r | head -5'
 alias findmod='find . -type f -mmin -10'
-
 
 alias lsthumbs='find . -type f -name 'Thumbs.db' -print0 | gxargs -0 ls -a'
 alias delthumbs='find . -type f -name 'Thumbs.db' -print0 | gxargs -0 rm -f'
@@ -209,15 +184,11 @@ alias delthumbs='find . -type f -name 'Thumbs.db' -print0 | gxargs -0 rm -f'
 # 問題なく正常に動作できる
 
 
-#
 # history
-#
 alias h='history 32'
 # 全履歴を表示
 history_all() { history -E 1 | less; }
 
-
-#
 # od
 #  16進数でのバイナリダンプコマンド
 #  -tx1 1バイトごとに区切って表示
@@ -228,16 +199,12 @@ alias od='od -tx1 -Ax -v'
 # 改行コード判定に使用
 alias oc='od -c'
 
-#
 # chmod
 #  644 rw-r--r--  ユーザ専用ファイル
 #  755 rwxr-xr-x  ディレクトリ
-#
 alias 644='chmod 644'
 alias 755='chmod 755'
 
-
-#
 # ps
 #  -a すべてのユーザを対象にする
 #  -u 実行したユーザを表示
@@ -245,25 +212,19 @@ alias 755='chmod 755'
 #  -f fork(フォーク：分岐)-プロセスの親子関係を表示(Mac非対応)
 #  -w 表示幅をオーバしても改行して表示する
 #  -L List the set of keywords available for the -O and -o options.
-#
 alias psa='ps auxw'
 alias pspgid='ps axwww -o "ppid pgid pid user fname args"'
 alias iops='ps auxwwww -L|awk "\$10 ~ /(D|STAT)/{print}"'
 
-
-#
 # top (for FreeBSD/Mac)
 #  -o rsize メモリ使用量でソートして表示
 #  -o cpu CPU使用率順に表示
 #  -O time セカンダリソートを実行時間
 #  -u "-o cpu -O time"と同じ
 #  -R -F topコマンドの負荷軽減
-#
 alias topm='top -o rsize'
 alias topc='top -R -F -u'
 
-
-#
 # diff
 #  -r ディクレクトリの再帰検索
 #  -t 入力ファイルでのタブによる位置あわせを保存するため、 出力のタブをスペースに展開
@@ -274,12 +235,9 @@ alias topc='top -R -F -u'
 #  -q 差分があるかどうかだけを報告し詳細を報告しない
 #  -u unified diff形式で出力
 #  --exclude=xx
-#
 alias dif='diff -tbBE'
 alias diffr='diff -r --exclude=.git --exclude=.svn'
 
-
-#
 # curl
 #  -O ファイルはローカルに保存
 #  -L リダイレクトを有効
@@ -290,14 +248,10 @@ alias diffr='diff -r --exclude=.git --exclude=.svn'
 #  -S -sと併用、失敗時にエラーメッセージを出力
 #  -# プログレスバー表示(DL詳細は見えなくなる)
 #  -v 詳細表示
-#
 alias cur='curl -OLv'
 alias curr='curl -OLkfsS'
 
-
-#
 # rsync
-#
 # options are:
 #  -a - archive mode
 #  -v - increase verbosity
@@ -315,8 +269,6 @@ alias curr='curl -OLkfsS'
 alias rsync='rsync -avzu'
 alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 
-
-#
 # tcpdump
 # options are:
 #   -n : Don't convert address to names.
@@ -328,79 +280,53 @@ alias cpv="rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --"
 #   port <PORT> : Port number.
 #   host <ADDRESS> : IP adress.
 #   <...> and <...>
-#
 alias tcpdump80='tcpdump port 80 -n -s 0'
 
-
-#
 # strace
-#
 alias strace_x='strace -s 9999 -fttTCxv'
 
-
-#
 # date
-#
 alias dates='date "+%Y-%m-%d %T.%N"'
 alias today="date '+%Y%m%d'"
 alias today_="date '+%Y-%m-%d'"
 alias now="date '+%Y%m%d_%H%M%S'"
 alias now_="date '+%Y-%m-%d_%H%M%S'"
 
-#
 # Japanese env
 #  ロケールに関する環境変数をすばやく切替えるためのエイリアス
-#
 alias utf='export LANG=ja_JP.UTF-8; export LANGUAGE=ja_JP.UTF-8; export LC_ALL=ja_JP.UTF-8'
 alias en='export LANG=en; export LANGUAGE=en; export LC_ALL=en'
 
-
-#
-# エイリアス(その他) -----------------------------------------------------
-#
-#
 # iptables
 alias liptables='iptables -L -n --line-numbers'
 
 # sudo スーパーユーザへ
 alias ssu='sudo -s'
 
-
-#
 # PATH
-#
 # 改行区切りで表示
 alias printpath='echo $PATH | tr ":" "\n"'
 # 重複削除
 alias organize_path='tr ":" "\n" | uniq | paste -d: -s -'
 
-
-#
 # lv
-#
 # -c カラー表示対応
 # -l 行番号表示
 alias lv='lv -cl'
 
-
-#
 # tree
-#
 # -N 日本語文字化け対応
 # -a 隠しファイルも表示
 # -I 例外設定(ワイルドカード)
 # -F ファイルの種類を表示
 alias tree="tree -F -N -a -I '.git|.svn'"
 
-
-#
 # man
 #  jman 日本語(FreeBSD系)
 #    http://www.fan.gr.jp/~sakai/softwares/unix#wordhighlight_id18
 #  lman 日本語(JM Project - Linux/GNU系)
 #    http://linuxjm.sourceforge.jp/
 #  wman ~/work/usr/local 配下にインストールしたコマンドのman
-#
 if type jman >/dev/null 2>&1; then
     alias jman='env LANG=ja_JP.UTF-8 jman'
     alias lman='env LANG=ja_JP.UTF-8 jman -M ~/work/usr/local/share/man'
@@ -421,7 +347,6 @@ man() {
         man "$@"
 }
 
-#
 # ack
 #  高機能検索(find + grep)
 #  -a 全てのファイルから検索(拡張子無しも含む) ただし--TYPEが無効
@@ -444,7 +369,6 @@ man() {
 #   e.g.
 #    $ ack 'pattern' -G .*\.txt
 #    $ ack hoge -G "\.(c|cpp|h)$"
-#
 alias acka='ack -a'
 alias ackn='ack -n'
 
@@ -453,20 +377,15 @@ ackv () {
     ack "$@" | \vim -R -
 }
 
-
-#
 # ag
 #   -z : Search in achives.
 #   -G <PATTERN>: Only search file names matching PATTERN
-#
 alias ag='ag -S --stats --pager "less -F"'
 alias agh='ag --hidden'
 agv () {
     \ag -S --stats --nogroup "$@" | \vim -R -
 }
 
-
-#
 # hw (highway)
 #
 alias hw='hw -i'
@@ -474,8 +393,6 @@ hwv () {
     \hw -i --nogroup --no-color "$@" | \vim -R -
 }
 
-
-#
 # nkf
 #  -g 文字コード判定
 #  $$: シェル自身のプロセスID
@@ -484,14 +401,14 @@ hwv () {
 # 文字コードを判定
 alias nkfg='nkf -g'
 
-# utf-8-LFに変換
+# utf-8-LF
 utf8() {
     for i in "$@"; do
         nkf -w -Lu $i >! /tmp/euc.$$
         mv -f /tmp/utf8.$$ $i
     done
 }
-# euc-LFに変換
+# euc-LF
 euc() {
     for i in "$@"; do
         nkf -e -Lu $i >! /tmp/euc.$$
@@ -506,7 +423,6 @@ sjis() {
         mv -f /tmp/euc.$$ $i
     done
 }
-
 
 # encode64
 encode64(){ echo -n "$1" | base64; }
@@ -535,7 +451,6 @@ mktar() {
     tar czf "$1.tar.gz" "$1"
 }
 
-
 # http://d.hatena.ne.jp/hirose31/20130227/1361929795
 https2text() { # FQDN[:PORT]
   case $1 in
@@ -551,8 +466,7 @@ https2text() { # FQDN[:PORT]
     openssl x509 -text
 }
 
-
-### Complete Messages
+# Complete Messages.
 echo "Loading .alias completed!!"
 
 # vim: ft=sh sw=4 sts=4 ts=4 et

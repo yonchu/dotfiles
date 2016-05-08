@@ -6,9 +6,7 @@
 #
 #*******************************************************************************
 
-#
 # LANG
-#
 export LANG=ja_JP.UTF-8
 case ${UID} in
     0)
@@ -18,26 +16,19 @@ case ${UID} in
         ;;
 esac
 
-#
 # LC_*
-#
 export LC_CTYPE=ja_JP.UTF-8
 export LC_TIME=C
 
-#
 # User Local Directory
-#
 USER_LOCAL=/usr/local
 if type brew > /dev/null 2>&1; then
     USER_LOCAL=$(brew --prefix)
 fi
 export USER_LOCAL
 
-
-#
 # Terminal configuration
 # http://journal.mycom.co.jp/column/zsh/009/index.html
-#
 case "${TERM}" in
     xterm)
         # オリジナルのTERM=xtermはカラー表示できない
@@ -92,32 +83,23 @@ case "${TERM}" in
         ;;
 esac
 
-
-#
 # 端末XON/XOFF制御を無効
 #  vimなどでC-s/C-qを使用するため
 #  ただし、C-s/C-qによる画面停止/再開が行えなくなる
 #  http://www.akamoz.jp/you/uni/shellscript.htm
 #  http://d.hatena.ne.jp/ksmemo/20110214/p1
-#
 if [ -t 0 ]; then
     stty -ixoff -ixon
 fi
 
-
-#
 # history setting
-#
 HISTSIZE=10000              # ヒストリに保存するコマンド(メモリ)
 HISTFILESIZE=100000         # ヒストリに保存するコマンド(ファイル)
 HISTCONTROL=ignoredups      # 入力が最後のヒストリと一致する場合は記録しない
 HISTTIMEFORMAT='%Y-%m-%d %T '
 export HISTSIZE HISTFILESIZE HISTCONTROL HISTTIMEFORMAT
 
-
-#
 # PAGER
-#
 export PAGER=less
 
 # lessのデフォルトオプションを設定
@@ -142,17 +124,11 @@ export LESSCHARSET=utf-8
 #export GIT_PAGER="lv -c -l"
 export GIT_PAGER="less -F"
 
-
-#
-# デフォルトエディタ
-#
+# Editor.
 export EDITOR=vim
 export VISUAL=vim
 
-
-#
 # grep
-#
 # オプション
 #  -i 大文字小文字を区別しない
 #  -n 各行の先頭にファイルの行番号を表示します
@@ -180,60 +156,39 @@ export GREP_OPTIONS
 #   41:バックグラウンドを赤
 export GREP_COLOR='1;37;41'
 
-
-#
 # BLOCKSIZE
 #  df・du コマンドなどが参照するブロックサイズ(デフォルト512バイト)
 #  k: 1キロバイト単位
-#
 export BLOCKSIZE=k
 
-
-#
 # rsync
 #  RSYNC_PASSWORDを使うと、自動でパスワードを入力できる
 #  便利だけど危険
 #  rsync では ssh を使う
-#
 #export RSYNC_PASSWORD=xxxx
 export RSYNC_RSH=ssh
 
-
-#
 # tree
 #  文字コード、ロケールを設定
 export TREE_CHARSET=UTF-8
 
-
-#
 # CVS
 #  cvs では ssh を使う
-#
 export CVS_RSH=ssh
 export CVSROOT=~/CVSROOT
 
-
-#
 # Subversion
-#
 # Subversionでチェックイン時に起動するエディタを指定
 export SVN_EDITOR=vim
 
-
-#
 # Git
-#
 # Gitでコミット時に起動するエディタを指定
 # 未指定だとコミット時にエラーになる(絶対パス必須)
 export GIT_EDITOR=/usr/bin/vim
 
-
-#
 # DropBox
-#
 export DROPBOX=~/Dropbox
 
-
-### Complete Messages
+# Complete messages.
 echo "Loading .profile completed!!"
 
