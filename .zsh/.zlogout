@@ -4,12 +4,12 @@
 #
 #  (in $ZDOTDIR : default $HOME)
 #
-#  finalize setup file for only interactive zsh when you log out
+#  Finalize setup file for only interactive zsh when you log out.
 #  Not read in for subsequent shells.
 #
 #******************************************************************************
 
-### Save session.
+# Save session.
 if [[ -n $TMUX ]]; then
     cat <<- EOF >| ~/.zsh_session
 	echo 'Restore zsh session...'
@@ -17,9 +17,9 @@ if [[ -n $TMUX ]]; then
 	EOF
 fi
 
-### Logout message.
-# If <<- is used instead of <<,
-# then all leading tabs are stripped from word and from the document.
+# Logout message.
+#   If <<- is used instead of <<,
+#   then all leading tabs are stripped from word and from the document.
 cat <<- 'EOF'
 
 Don't forget.

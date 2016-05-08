@@ -1,4 +1,4 @@
-### Introduction {{{
+###############################################################################
 #
 # .zalias
 #
@@ -17,11 +17,10 @@
 #   関数の名前/定義を表示
 #    $ declare -f <関数名>
 #
-########################################################################### }}}
+###############################################################################
 
 ### Basic aliases {{{
-#
-# 設定ファイルのリロード
+# Restart zsh.
 alias reload='exec zsh -l'
 
 # pushd/popd
@@ -37,13 +36,13 @@ cd_plus='cd +'
 setopt | grep -q 'pushdminus' && cd_plus='cd -'
 for index ({1..9}) alias "$index"="${cd_plus}${index}"; unset index cd_plus
 
-# history時間表示
+# history.(+time)
 alias history="history -i"
 
-# fpathを表示
+# Print fpath.
 alias printfpath='echo ${(j:\n:)fpath}'
 
-## man zshall
+# man zshall
 # zman [search word]
 zman() {
     if [[ -n $1 ]]; then
@@ -54,13 +53,13 @@ zman() {
     fi
 }
 
-# zsh 用語検索
+# zsh search word.
 # http://qiita.com/mollifier/items/14bbea7503910300b3ba
 zwman() {
     zman "^       $1"
 }
 
-# zsh フラグ検索
+# zsh search flag.
 zfman() {
     local w='^'
     w=${(r:8:)w}
@@ -70,11 +69,9 @@ zfman() {
 
 # vc command completion
 compdef _command vc
-
 # }}}
 
 ### Global aliases {{{
-#
 # 標準出力を表示しない
 alias -g NL='> /dev/null'
 # 標準出力/標準エラー出力を表示しない
@@ -92,7 +89,6 @@ alias -g V='| vim -R -'
 alias -g U=' --help | head'
 alias -g E=' --help | $PAGER'
 alias -g B='| cut | sort | uniq -c | sort -n'
-
 # }}}
 
 ### zmv {{{
@@ -133,14 +129,11 @@ alias -g B='| cut | sort | uniq -c | sort -n'
 #     ヘルプ
 #     $ man zshcontrib
 #     $ man zsh-lovers
-#
-#
 autoload -Uz zmv
 alias zmv="noglob zmv"
 alias zmvn="zmv -n"
 alias zmvw="zmv -w"
 alias zmvW="zmv -W"
-
 # }}}
 
 ### Directory aliases {{{
@@ -197,7 +190,6 @@ create_named_dir_in_links2() {
 # }}}
 
 ### Aliases according to extensions {{{
-#
 zsh_pager(){
     $(zsh_commandselector "${PAGER} lv less more cat") ${@+"$@"}
 }
@@ -267,7 +259,6 @@ set_aliases_for_ext
 # }}}
 
 ### Source configuration files {{{
-#
 # OS固有のalias設定
 case "${OSTYPE}" in
     # Mac(Unix)
@@ -277,12 +268,10 @@ case "${OSTYPE}" in
     linux*)
     ;;
 esac
-
 # }}}
 
-
-### Complete Messages
+# Complete Messages.
 echo "Loading .zalias completed!!"
 
-# vim: ft=zsh fdm=marker fdl=0
+# vim: ft=zsh
 

@@ -30,7 +30,6 @@
 #
 #************************************************************************** }}}
 
-
 ### Check for the minimum supported version {{{
 # OS X Moutain Lion : 4.3.11
 # CentOS 6 : 4.3.11
@@ -42,10 +41,7 @@ fi
 unset min_zsh_version
 # }}}
 
-
 ### Default shell configuration {{{
-#
-
 # Initialize colors.
 # Could use `$fg[red]' to get the code for foreground color red.
 autoload -Uz colors
@@ -158,16 +154,13 @@ setopt mail_warning
 # 全てのユーザのログイン・ログアウトを監視
 watch="all"
 
-## zsh editor
-#
+# zsh editor
 #autoload zed
-
 # }}}
-
 
 ### Keybind configuration {{{
 # $ bindkey で現在の割り当てを確認
-#
+
 # emacs like keybind
 bindkey -e
 # fn + delete の有効
@@ -273,7 +266,6 @@ function toggle-transient-rprompt(){
 zle -N toggle-transient-rprompt
 bindkey '^xr' toggle-transient-rprompt
 
-
 # Command Line Stack の改良版
 push_line_and_show_buffer_stack() {
     POSTDISPLAY="
@@ -307,7 +299,6 @@ cdup() {
 zle -N cdup
 bindkey '\^' cdup
 
-
 # 表示されているコマンドをクリップボードへ
 #  http://d.hatena.ne.jp/hiboma/20120315/1331821642
 pbcopy-buffer(){
@@ -319,7 +310,6 @@ pbcopy-buffer(){
 zle -N pbcopy-buffer
 bindkey '^x^p' pbcopy-buffer
 bindkey '^xp' pbcopy-buffer
-
 
 # http://d.hatena.ne.jp/kei_q/20110406/1302091565
 function do_enter() {
@@ -340,16 +330,13 @@ function do_enter() {
 }
 zle -N do_enter
 bindkey '^m' do_enter
-
 # }}}
 
-
 ### History configuration {{{
-#
 HISTFILE=~/.zsh_history
-HISTSIZE=10000   # メモリ内の履歴の数
+HISTSIZE=10000    # メモリ内の履歴の数
 SAVEHIST=1000000  # 保存される履歴の数
-LISTMAX=50       # 補完リストを尋ねる数(0=ウィンドウから溢れる時は尋ねる)
+LISTMAX=50        # 補完リストを尋ねる数(0=ウィンドウから溢れる時は尋ねる)
 # rootのコマンドはヒストリに追加しない
 if [ $UID = 0 ]; then
     unset HISTFILE
@@ -386,14 +373,10 @@ setopt append_history
 setopt hist_verify
 # !を使ったヒストリ展開を行う
 setopt bang_hist
-
 # }}}
 
-
 ### Completion configuration {{{
-#
 # 補完関数のパス(fpath)を登録
-#
 # 重複パスを登録しない
 typeset -U fpath
 #if type brew >/dev/null 2>&1; then
@@ -613,12 +596,9 @@ zstyle ":completion:*:*:cdr:*:*" menu select=2
 #
 #autoload -U predict-on
 #predict-on
-
 # }}}
 
-
 ## Alias configuration {{{
-#
 # aliasが補完される前に元のコマンドまで展開してチェック
 setopt complete_aliases     # aliased ls needs if file/dir completions work
 
@@ -630,12 +610,9 @@ expand-to-home-or-insert () {
         zle self-insert
     fi
 }
-
 # }}}
 
-
 ### Terminal configuration {{{
-#
 # ターミナル固有設定
 case "${TERM}" in
     kterm*|xterm*|screen*)
@@ -658,12 +635,9 @@ case "${TERM}" in
         add-zsh-hook precmd _change_terminal_title_precmd_hook
         ;;
 esac
-
 # }}}
 
-
 ### Misc {{{
-#
 # Define action when change directory.
 chpwd() {
     ls_abbrev 1>&2
@@ -707,11 +681,8 @@ ls_abbrev() {
 }
 # }}}
 
-
 ### Source configuration files {{{
-#
 # pluginの読み込み
-#
 if [ -d ~/.zsh/plugins ]; then
     for plugin in ~/.zsh/plugins/*.zsh; do
         if [ -f "$plugin" ]; then
@@ -721,33 +692,23 @@ if [ -d ~/.zsh/plugins ]; then
     done
 fi
 
-#
 # alias設定(共通)
-#
 if [ -f ~/dotfiles/.alias ]; then
     source ~/dotfiles/.alias
 fi
 
-#
 # alias設定(zsh固有)
-#
 if [ -f ~/.zsh/.zalias ]; then
     source ~/.zsh/.zalias
 fi
 
-#
 # local固有設定
-#
 if [ -f ~/dotfiles.local/.shrc.local ]; then
     source ~/dotfiles.local/.shrc.local
 fi
-
 # }}}
 
-
 ### Setup my theme {{{
-#
-
 # Theme.
 ZSH_THEME='yonchu'
 #ZSH_THEME='yonchu-2lines'
@@ -781,30 +742,24 @@ else
 fi
 # }}}
 
-
 ### tmux/screen automatically running {{{
-#
 #  ログイン時にtmux または screenが起動してない場合は自動的に起動
 #  デタッチ済みセッションが存在すればアタッチし、なければ新規セッションを生成
 #  tmuxを優先して起動し、tmuxが使えなければscreenを起動する
-#
 if [ -z "$SSH_CONNECTION" -a ${UID} -ne 0 -a -z "$TMUX" -a -z "$STY" ]; then
     if type tmuxx >/dev/null 2>&1; then
         tmuxx
     elif type tmux >/dev/null 2>&1; then
         if tmux has-session && tmux list-sessions | egrep -q '.*]$'; then
-            # デタッチ済みセッションが存在する
-            tmux attach && echo "tmux attached session "
+            tmux attach && echo "$(tmux -V) attached session."
         else
-            tmux new-session && echo "tmux created new session"
+            tmux new-session && echo "$(tmux -V) created new session."
         fi
     elif type screen >/dev/null 2>&1; then
         screen -rx || screen -D -RR
     fi
 fi
-
 # }}}
-
 
 ### pyenv automatically running {{{
 # pyenv
@@ -824,7 +779,6 @@ if type pyenv-virtualenv-init > /dev/null; then
 fi
 # }}}
 
-
 # Remove duplicate path.
 path=("${path[@]}")
 typeset -U precmd_functions preexec_functions chpwd_functions
@@ -836,6 +790,4 @@ echo '(」・ω・)」うー！(／・ω・)／にゃー！'
 
 # Print log
 log
-
-# vim: fdm=marker fdl=0
 
