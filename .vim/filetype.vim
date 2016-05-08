@@ -11,7 +11,7 @@ augroup filetypedetect
   " less.
   autocmd BufRead,BufNewFile *.less  setfiletype less
   " markdown.
-  autocmd BufRead,BufNewFile *.md    setfiletype markdown
+  autocmd BufRead,BufNewFile *.{md,mdwn,mkd,mkdn,mark*} setfiletype markdown
   " perl5.
   autocmd BufRead,BufNewfile *.p5    setfiletype perl
   " perl6.

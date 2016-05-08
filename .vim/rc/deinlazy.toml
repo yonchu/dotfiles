@@ -573,7 +573,7 @@ on_ft = ['python', 'python3', 'djangohtml']
 repo = 'mattn/emmet-vim'
 on_ft = [
   'html', 'xml', 'javascript', 'coffee', 'css', 'less',
-  'scss', 'sass', 'haml', 'markdown',
+  'scss', 'sass', 'haml', 'markdown', 'mkd'
 ]
 hook_source = 'source ~/.vim/rc/plugins/emmet.rc.vim'
 
@@ -618,8 +618,10 @@ hook_source = '''
 '''
 
 [[plugins]]
+# Source manually.
+# call dein#source('vim-markdown-quote-syntax')
 repo = 'joker1007/vim-markdown-quote-syntax'
-on_ft = ['markdown', 'mkd', 'md']
+#on_ft = ['markdown', 'mkd']
 
 [[plugins]]
 repo = 'hynek/vim-python-pep8-indent'
@@ -1417,7 +1419,7 @@ hook_add = '''
 [[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = 'context_filetype.vim'
-on_ft = ['markdown', 'mkd', 'md', 'help']
+on_ft = ['markdown', 'mkd', 'help']
 hook_source = '''
   " Execute by quickrun.
   nmap <Space>q <Plug>(precious-quickrun-op)

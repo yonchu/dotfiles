@@ -231,8 +231,16 @@ repo = 'groenewege/vim-less'
 on_ft = 'less'
 
 [[plugins]]
+# Mappings:
+#   gx:  <Plug>Markdown_OpenUrlUnderCursor
+#   ]]:  <Plug>Markdown_MoveToNextHeader
+#   [[:  <Plug>Markdown_MoveToPreviousHeader
+#   ][:  <Plug>Markdown_MoveToNextSiblingHeader
+#   []:  <Plug>Markdown_MoveToPreviousSiblingHeader
+#   ]c:  <Plug>Markdown_MoveToCurHeader
+#   ]u:  <Plug>Markdown_MoveToParentHeader
 repo = 'rcmdnk/vim-markdown'
-on_ft = ['markdown', 'mkd', 'md']
+on_ft = ['markdown', 'mkd']
 
 [[plugins]]
 repo = 'cakebaker/scss-syntax.vim'
