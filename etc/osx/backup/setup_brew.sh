@@ -77,7 +77,7 @@ echo 'Check brew doctor!!'
 brew doctor
 
 echo 'Setup brew completion!!'
-ln -s /usr/local/Library/Contributions/brew_zsh_completion.zsh /usr/local/share/zsh/functions/_brew
+# ln -s /usr/local/Library/Contributions/brew_zsh_completion.zsh /usr/local/share/zsh/site-functions/_brew
 
 echo 'Setup Homebrew completed!!'
 
