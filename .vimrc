@@ -1073,15 +1073,6 @@ nnoremap <buffer> ]q :cnext<CR>
 nnoremap <buffer> [q :cprevious<CR>
 
 " --- Folding. ---
-" TODO Unite-menu
-" Move         : zj / zk
-" Open         : zo or za (zO or zA)
-" Open(cursor) : zv
-" Close        : zc (zC)
-" All open     : zr (zR)
-" All close    : zm (zM)
-" Create       : zf
-" Delete       : zd
 " Move to the start/end of the current open fold.
 nnoremap zh [z
 nnoremap zl ]z
@@ -1260,6 +1251,7 @@ nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR>:HierClear<CR>:redraw!<CR><ESC>
 
 " Disable ZZ.
 nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
 
 " Disable <C-o> for screen/tmux.
 nnoremap <C-o>  <Nop>
