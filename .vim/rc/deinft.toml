@@ -46,6 +46,10 @@ hook_add = '''
   " }}}
 
   " ===== etc ===== {{{
+  " autodate.vim
+  let autodate_format = '%d %3m %Y'
+  let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
+
   " Update filetype automatically.
   autocmd MyAutoCmd BufWritePost * nested
         \ if &l:filetype ==# '' || &l:filetype ==# 'hybrid' || exists('b:ftdetect')
