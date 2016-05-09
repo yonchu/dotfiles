@@ -99,11 +99,6 @@ xnoremap ;  <Nop>
 nnoremap ,  <Nop>
 xnoremap ,  <Nop>
 
-" Anywhere SID.
-function! s:SID_PREFIX() abort
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
-
 augroup MyAutoCmd
   autocmd!
 augroup END
@@ -145,6 +140,47 @@ let g:loaded_man               = 1
 let g:loaded_matchit           = 1
 " }}}
 
+" === Define functions ==================================================={{{1
+" Anywhere SID.
+function! s:SID_PREFIX() abort
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+" Toggle options.
+function! ToggleOption(option_name) abort
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
+endfunction
+
+" Toggle variables.
+function! ToggleVariable(variable_name) abort
+  if eval(a:variable_name)
+    execute 'let' a:variable_name.' = 0'
+  else
+    execute 'let' a:variable_name.' = 1'
+  endif
+  echo printf('%s = %s', a:variable_name, eval(a:variable_name))
+endfunction
+
+" Execute with selected text.
+" (for open-browser.vim)
+"http://deris.hatenablog.jp/entry/2013/07/05/023835
+function! ExecuteWithSelectedText(command) abort
+  if a:command !~? '%s'
+    return
+  endif
+  let reg = '"'
+  let [save_reg, save_type] = [getreg(reg), getregtype(reg)]
+  normal! gvy
+  let selectedText = @"
+  call setreg(reg, save_reg, save_type)
+  if selectedText == ''
+    return
+  endif
+  execute printf(a:command, selectedText)
+endfunction
+" }}}
+"
 " === Dein ==============================================================={{{1
 
 " === Information {{{2
@@ -158,8 +194,9 @@ let g:loaded_matchit           = 1
 "   dein root: /.cache/dein
 "   dein repo: /.cache/dein/repos/github.com/Shougo/dein.vim
 " Plugin List:
-"   default: /.vim/rc/dein.toml
-"   lazy   : /.vim/rc/deinlazy.toml
+"   default : /.vim/rc/dein.toml
+"   lazy    : /.vim/rc/deinlazy.toml
+"   ftplugin: /.vim/rc/deinft.toml
 " Plugin Detail Settings:
 "   /.vim/rc/plugins/*
 " ======================================================================== }}}
@@ -494,12 +531,6 @@ set linebreak
 set breakat=\ \	;:,./!?
 " String to put at the start of lines that have been wrapped.
 let &showbreak = '> '
-" TODO
-" Disable auto wrap.
-autocmd MyAutoCmd FileType *
-      \ if &l:textwidth >= 70 && &filetype !=# 'help' |
-      \   setlocal textwidth=0 |
-      \ endif
 
 " Highlight current cursor line.
 set cursorline
@@ -783,24 +814,7 @@ augroup MySkeltonAu
 augroup END
 " }}}
 
-" === Misc 2 ============================================================ {{{1
-" autodate.vim
-let autodate_format = '%d %3m %Y'
-let autodate_keyword_pre = 'Last \%(Change\|Modified\) *:'
-
-" TODO
-" IndentLinesReset.
-autocmd MyAutoCmd FileType *
-      \ if exists(':IndentLinesReset') |
-      \   if index(g:indentLine_fileTypeExclude, &ft) >= 0 |
-      \     execute 'IndentLinesDisable' |
-      \   else |
-      \     execute 'IndentLinesReset' |
-      \   endif |
-      \ endif
-" }}}
-
-" === Misc 3: FileType ==================================================={{{1
+" === Misc 2: FileType ==================================================={{{1
 augroup MyAutoCmdEx
   autocmd!
   " TODO: .vim/ftplugin/after/xxx.vim
@@ -847,42 +861,6 @@ augroup MyAutoCmdEx
 augroup END
 " }}}
 
-" === Misc 4: Define functions ==========================================={{{1
-" Toggle options.
-function! ToggleOption(option_name) abort
-  execute 'setlocal' a:option_name.'!'
-  execute 'setlocal' a:option_name.'?'
-endfunction
-
-" Toggle variables.
-function! ToggleVariable(variable_name) abort
-  if eval(a:variable_name)
-    execute 'let' a:variable_name.' = 0'
-  else
-    execute 'let' a:variable_name.' = 1'
-  endif
-  echo printf('%s = %s', a:variable_name, eval(a:variable_name))
-endfunction
-
-" Execute with selected text.
-" (for open-browser.vim)
-"http://deris.hatenablog.jp/entry/2013/07/05/023835
-function! ExecuteWithSelectedText(command) abort
-  if a:command !~? '%s'
-    return
-  endif
-  let reg = '"'
-  let [save_reg, save_type] = [getreg(reg), getregtype(reg)]
-  normal! gvy
-  let selectedText = @"
-  call setreg(reg, save_reg, save_type)
-  if selectedText == ''
-    return
-  endif
-  execute printf(a:command, selectedText)
-endfunction
-" }}}
-
 " === Mappings 1: Edit ================================================== {{{1
 " Enclose easily.
 vnoremap { "zdi<C-V>{<C-R>z}<ESC>
@@ -924,11 +902,13 @@ nnoremap 9  $
 nnoremap (  %
 nnoremap )  %
 
-" Move to the last edit position.
+" Go to [count] older/newer position in change list.
 " g; <-> g,
 nnoremap <C-g> g;
-nnoremap gb    `[zz
-nnoremap gB    `.zz
+" To the position where the last change was made.
+nnoremap gb    `.zz
+" To the position where the cursor was the last time when Insert mode was stopped.
+nnoremap gB    `^zz
 
 " Select the last edit text.
 nnoremap <silent> <Leader>gc :<C-u>normal! `[v`]<CR>
@@ -1506,6 +1486,24 @@ command! -bang -complete=file -nargs=? WDos
 command! -bang -complete=file -nargs=? WMac
       \ write<bang> ++fileformat=mac <args>  | edit <args>
 " }}}
+
+" TODO
+" Disable auto wrap.
+autocmd MyAutoCmd FileType *
+      \ if &l:textwidth >= 70 && &filetype !=# 'help' |
+      \   setlocal textwidth=0 |
+      \ endif
+
+" TODO
+" IndentLinesReset.
+autocmd MyAutoCmd FileType *
+      \ if exists(':IndentLinesReset') |
+      \   if index(g:indentLine_fileTypeExclude, &ft) >= 0 |
+      \     execute 'IndentLinesDisable' |
+      \   else |
+      \     execute 'IndentLinesReset' |
+      \   endif |
+      \ endif
 
 set secure
 
