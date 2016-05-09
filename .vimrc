@@ -913,7 +913,9 @@ nnoremap <Up>   k
 
 " Move fast!
 nnoremap H  ^
+xnoremap H  ^
 nnoremap L  $
+xnoremap L  $h
 
 nnoremap 1  0
 nnoremap 0  ^
@@ -929,9 +931,9 @@ nnoremap gb    `[zz
 nnoremap gB    `.zz
 
 " Select the last edit text.
-nnoremap <Leader>gc :<C-u>normal! `[v`]<CR>
-vnoremap <Leader>gc :<C-u>normal gc<Enter>
-onoremap <Leader>gc :<C-u>normal gc<Enter>
+nnoremap <silent> <Leader>gc :<C-u>normal! `[v`]<CR>
+vnoremap <silent> <Leader>gc :<C-u>normal! `[v`]<CR>
+onoremap <silent> <Leader>gc :<C-u>normal! `[v`]<CR>
 " }}}
 
 " === Mappings 3: Buffer/Window/Tab ===================================== {{{1
@@ -1102,12 +1104,12 @@ endfunction
 " === Mappings 5: Search/Yank/Replace =================================== {{{1
 " --- Search ---
 " Move to a search result and redraw cursor line at center of window.
-silent! nnoremap <unique> n  nzz
-silent! nnoremap <unique> N  Nzz
-silent! nnoremap <unique> *  *Nzz
-silent! nnoremap <unique> #  #N
-silent! nnoremap <unique> g* g*N
-silent! nnoremap <unique> g# g#N
+silent! nnoremap <silent><unique> n  nzzzv
+silent! nnoremap <silent><unique> N  Nzzzv
+silent! nnoremap <silent><unique> *  *Nzzzv
+silent! nnoremap <silent><unique> #  #Nzzzv
+silent! nnoremap <silent><unique> g* g*Nzzzv
+silent! nnoremap <silent><unique> g# g#Nzzzv
 
 " Search with very magic.
 " http://deris.hatenablog.jp/entry/2013/05/15/024932
@@ -1254,7 +1256,8 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
 " Disable <C-o> for screen/tmux.
-nnoremap <C-o>  <Nop>
+nnoremap <C-o>     <Nop>
+nnoremap <Space>o  <C-o>
 
 " Increment.
 nmap <C-a> <SID>(increment)
