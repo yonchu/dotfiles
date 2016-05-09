@@ -1232,8 +1232,10 @@ hook_source = 'source ~/.vim/rc/plugins/git-vim.rc.vim'
 # ===== vim-ref ===== {{{
 [[plugins]]
 # Integrated reference viewer.
-# Default Refarence:
+# Default sources:
 #   clojure, erlang, man , perldoc , phpmanual , pydoc , redis , refe , rfc , webdict
+# External sources:
+#   https://github.com/thinca/vim-ref/wiki/sources
 # Ref command:
 #   :Ref [{options}] {source-name} [{query}]
 #   :RefHistory
