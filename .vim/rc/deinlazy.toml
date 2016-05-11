@@ -1117,9 +1117,9 @@ hook_add = '''
   " Search the input word with the browser
   nmap <Leader>gs <Plug>(open-browser-wwwsearch)
 
-  " Open Github page of neobundle path under the cursor.
+  " Open Github page of dein repo under the cursor.
   " http://deris.hatenablog.jp/entry/2013/07/05/023835
-  map <Leader>gz <Plug>(operator-open-neobundlepath)
+  nmap <Leader>gz <Plug>(open-browser-dein-repo)
 
   " Open Github page of selected repository.
   command! -range OpenBrowserGithub :<C-u>call ExecuteWithSelectedText('OpenBrowser https://github.com/%s')
