@@ -136,13 +136,6 @@ tmux = '''
   endif
 '''
 
-# vim = '''
-#   if 5000 < line('$')
-#     " :help :syn-sync
-#     syntax sync minlines=200
-#   endif
-# '''
-
 # xml = '''
 #   " Insert xml close tag automatically.
 #   inoremap <buffer> </ </<C-x><C-o>

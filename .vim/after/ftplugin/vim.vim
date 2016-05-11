@@ -24,4 +24,8 @@ let &l:path = join(map(split(&runtimepath, ','), 'v:val."/autoload"'), ',')
 setlocal suffixesadd=.vim
 setlocal includeexpr=fnamemodify(substitute(v:fname,'#','/','g'),':h')
 
+if 5000 < line('$')
+  syntax sync minlines=200
+endif
+
 let &cpo = s:save_cpo
