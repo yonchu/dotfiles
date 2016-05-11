@@ -17,6 +17,7 @@ set editing-mode emacs
 set expand-tilde off
 
 # 日本語関係
+set meta-flag on
 set input-meta on
 set convert-meta off
 set output-meta on
