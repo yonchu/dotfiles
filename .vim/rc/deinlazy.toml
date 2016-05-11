@@ -1362,6 +1362,21 @@ repo = 'tyru/capture.vim'
 on_cmd = 'Capture'
 
 [[plugins]]
+# Search Dash.app from Vim.
+# Usage:
+#   :Dash[!] [TERM] [KEYWORD]
+#   :Dash    Search for the word under the cursor in the docset corresponding
+#            to the current filetype.
+#   :Dash!   Search for the word under the cursor in all docsets (globally).
+#
+#   :DashKeywords   Shows the current buffer list of used keywords.
+#   :DashKeywords! [TERM...]  Sets the preferred docsets for lookup for
+#                             the current buffer, in the given order.
+repo = 'rizzatti/dash.vim'
+on_cmd = ['Dash', 'DashKeywords']
+if = "has('mac')"
+
+[[plugins]]
 # Print documents in echo area.
 repo = 'Shougo/echodoc.vim'
 on_event = 'InsertCharPre'

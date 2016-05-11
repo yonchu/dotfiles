@@ -1284,18 +1284,6 @@ if s:is_mac
       execute 'redraw!'
     endtry
   endfunction
-
-  " Search with Dash.app. (:Dash language:word)
-  command! -nargs=* Dash call <SID>dash(<f-args>)
-  function! s:dash(...) abort
-    let ft = &filetype
-    if &filetype == 'python'
-      let ft = ft.'2'
-    endif
-    let ft = ft.':'
-    let word = len(a:000) == 0 ? input('Dash search: ', ft.expand('<cword>')) : ft.join(a:000, ' ')
-    call system(printf("open dash://'%s'", word))
-  endfunction
 endif
 " }}}
 
