@@ -4,7 +4,7 @@
 if exists("b:did_ftplugin_qf")
   finish
 endif
-let b:did_ftplugin_af = 1
+let b:did_ftplugin_qf = 1
 
 noremap <buffer> p  <CR>zz<C-w>p
 
