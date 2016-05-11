@@ -106,13 +106,6 @@ applescript = '''
   inoremap <buffer> <S-CR>  ￢<CR>
 '''
 
-# TODO
-# help = '''
-#   setlocal iskeyword+=:
-#   setlocal iskeyword+=#
-#   setlocal iskeyword+=-
-# '''
-
 # html = '''
 #   setlocal includeexpr=substitute(v:fname,'^\\/','','')
 #   setlocal path+=./;/
