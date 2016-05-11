@@ -10,7 +10,8 @@
 #    $ percol /var/log/syslog
 #    $ ps aux | percol
 
-# type percol > /dev/null 2>&1 || { echo '...skip'; return; }
+type percol > /dev/null 2>&1 || { echo '...skip'; return; }
+type peco   > /dev/null 2>&1 && { echo '...skip'; return; }
 
 alias -g P='| percol --match-method migemo'
 
@@ -86,7 +87,7 @@ function percol-search-locate() {
             echo $SELECTED_FILE | sed 's/ /\\ /g'
         fi
     else
-        bultin locate
+        builtin locate
     fi
 }
 alias plocate='percol-search-locate'
