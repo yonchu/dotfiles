@@ -135,7 +135,7 @@ on_if = 'tabpagenr() > 1'
 # Unite Plugins.
 # https://github.com/Shougo/unite.vim/wiki/unite-plugins
 repo = 'Shougo/unite.vim'
-depends = ['neomru.vim', 'tabpagebuffer.vim']
+depends = ['neomru.vim', 'tabpagebuffer.vim', 'neosnippet.vim']
 on_cmd = 'Unite'
 hook_source = '''
   source ~/.vim/rc/plugins/unite.rc.vim
@@ -219,6 +219,14 @@ hook_add = '''
   " Menu.
   nnoremap <silent> [unite]mm
           \ :<C-u>Unite -buffer-name=menu -no-start-insert -resume menu<CR>
+
+  " Neosnippet.
+  nnoremap <silent> [unite]ns
+        \ :<C-u>Unite -buffer-name=neosnippet
+        \ neosnippet/user neosnippet/runtime<CR>
+  nnoremap <silent> [unite]nn
+        \ :<C-u>Unite -buffer-name=neosnippet
+        \ neosnippet<CR>
 
   " Outline.
   nnoremap <silent> [unite]o
