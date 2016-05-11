@@ -239,8 +239,10 @@ bindkey "^N" history-beginning-search-forward-end
 #bindkey "\\en" history-beginning-search-forward-end
 
 # glob(*)によるインクリメンタルサーチ
-bindkey '^R' history-incremental-pattern-search-backward
-bindkey '^S' history-incremental-pattern-search-forward
+bindkey '^SB'  history-incremental-pattern-search-backward
+bindkey '^S^B' history-incremental-pattern-search-backward
+bindkey '^SF'  history-incremental-pattern-search-forward
+bindkey '^S^F' history-incremental-pattern-search-forward
 
 # Command Line Stack [Esc]-[q]  -a: viins
 bindkey -a 'q' push-line
