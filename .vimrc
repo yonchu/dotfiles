@@ -985,8 +985,8 @@ nnoremap <silent> <C-Left>  :<C-u>tabp<CR>
 command! -nargs=* -complete=file E tabnew <args>
 
 silent! nunmap <Tab><Tab>
-nnoremap <silent> <Tab>   :call <SID>NextWindowOrTab()<CR>
-nnoremap <silent> <S-Tab> :call <SID>PreviousWindowOrTab()<CR>
+nnoremap <silent> <Tab>   :call <SID>NextTabWindowBuffer()<CR>
+nnoremap <silent> <S-Tab> :call <SID>PreviousTabWindowBuffer()<CR>
 
 function! s:NextWindow() abort
   if winnr('$') == 1
@@ -996,23 +996,23 @@ function! s:NextWindow() abort
   endif
 endfunction
 
-function! s:NextWindowOrTab() abort
-  if tabpagenr('$') == 1 && winnr('$') == 1
-    bnext
-  elseif winnr() < winnr("$")
+function! s:NextTabWindowBuffer() abort
+  if tabpagenr('$') > 1
+    tabnext
+  elseif winnr("$") > 1
     wincmd w
   else
-    tabnext
-    1wincmd w
+    bnext
   endif
 endfunction
 
-function! s:PreviousWindowOrTab() abort
-  if winnr() > 1
+function! s:PreviousTabWindowBuffer() abort
+  if tabpagenr('$') > 1
+    tabprevious
+  elseif winnr("$") > 1
     wincmd W
   else
-    tabprevious
-    execute winnr("$") . "wincmd w"
+    bprevious
   endif
 endfunction
 
@@ -1063,7 +1063,7 @@ nnoremap <expr> l foldclosed(line('.')) != -1 ? 'zo0' : 'l'
 " If press 'l' on fold, range fold open.
 xnoremap <expr> l foldclosed(line('.')) != -1 ? 'zogv0' : 'l'
 " Close foldings smartly.
-nnoremap <silent> zz :<C-u>call <SID>smart_foldcloser()<CR>
+nnoremap <silent> z<Space> :<C-u>call <SID>smart_foldcloser()<CR>
 function! s:smart_foldcloser() abort
   if foldlevel('.') == 0
     norm! zM
@@ -1196,7 +1196,7 @@ function! s:auto_close_bracket() abort
   inoremap <silent> <buffer> '' ''<Left>
   inoremap <silent> <buffer> <> <><Left>
 endfunction
-autocmd MyAutoCmd FileType python,coffee,javascript,html,vim,ruby,sh,zsh
+autocmd MyAutoCmd FileType python,coffee,javascript,html,vim,ruby,sh,zsh,text
       \ call s:auto_close_bracket()
 
 " --- Command-line mode keymappings. ---
@@ -1270,6 +1270,11 @@ endfunction
 
 " === Mappings 8: Mac =================================================== {{{1
 if s:is_mac
+  " --- Mappings ---
+  " Open the current file with Marked.app.
+  nnoremap <Leader>om :<C-u>silent !open -a Marked.app '%:p'<cr>:redraw!<cr>
+
+  " --- Commands ---
   " Open the current file with Chrome.
   command! -nargs=0 -bang ObCurrent silent<bang> call s:open_browser()
   function! s:open_browser() abort
@@ -1280,10 +1285,8 @@ if s:is_mac
     endtry
   endfunction
 
-  " Open the current file with Marked.app.
-  nnoremap <Leader>om :<C-u>silent !open -a Marked.app '%:p'<cr>:redraw!<cr>
-
   " Search with Dash.app. (:Dash language:word)
+  command! -nargs=* Dash call <SID>dash(<f-args>)
   function! s:dash(...) abort
     let ft = &filetype
     if &filetype == 'python'
@@ -1293,7 +1296,6 @@ if s:is_mac
     let word = len(a:000) == 0 ? input('Dash search: ', ft.expand('<cword>')) : ft.join(a:000, ' ')
     call system(printf("open dash://'%s'", word))
   endfunction
-  command! -nargs=* Dash call <SID>dash(<f-args>)
 endif
 " }}}
 
@@ -1316,6 +1318,8 @@ command! -nargs=0 QUIT  set t_te= t_ti= | quit | set t_te& t_ti&<CR>
 command! -nargs=0 SHELL set t_te= t_ti= | sh   | set t_te& t_ti&<CR>
 
 " Clear undo history (:ClearUndo/:W).
+command! -bar ClearUndo  call <SID>clear_undo()
+command! -bar -bang -nargs=? -complete=file W call <SID>clear_undo() | update<bang> <args>
 function! s:clear_undo() abort
   let old_undolevels = &undolevels
   setlocal undolevels=-1
@@ -1323,8 +1327,6 @@ function! s:clear_undo() abort
   let &l:undolevels = old_undolevels
   echom strftime('[%Y-%m-%d %H:%M:%S]').' Clear undo!'
 endfunction
-command! -bar ClearUndo  call <SID>clear_undo()
-command! -bar -bang -nargs=? -complete=file W call <SID>clear_undo() | update<bang> <args>
 
 " Change directory (:CD, :CdCurrent).
 " http://vim-jp.org/vim-users-jp/2009/09/08/Hack-69.html
@@ -1367,6 +1369,7 @@ endif
 
 " Get syntax information (:SyntaxInfo).
 " http://cohama.hateblo.jp/entry/2013/08/11/020849
+command! SyntaxInfo call s:get_syn_info()
 function! s:get_syn_id(transparent) abort
   let synid = synID(line("."), col("."), 1)
   if a:transparent
@@ -1403,11 +1406,12 @@ function! s:get_syn_info() abort
         \ " guifg: " . linkedSyn.guifg .
         \ " guibg: " . linkedSyn.guibg
 endfunction
-command! SyntaxInfo call s:get_syn_info()
 
 " Print separator.
 " :Separator 78, '='
 " :Line -
+command! -nargs=+ Separator call Separator(<args>)
+command! -nargs=1 Line execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 function! Separator(width, sep, ...) abort
   let register = v:register != '' ? v:register : '"'
   let title = eval('@'.register)
@@ -1424,8 +1428,6 @@ function! Separator(width, sep, ...) abort
   execute 'normal! 0d$'
   execute 'normal! i'.line
 endfunction
-command! -nargs=+ Separator call Separator(<args>)
-command! -nargs=1 Line execute 'normal! i'.(repeat(<f-args>, 79 - col('.')))
 
 " Format for Json file.(:Json, :Jq)
 " http://qiita.com/tomoemon/items/cc29b414a63e08cd4f89
