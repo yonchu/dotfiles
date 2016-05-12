@@ -91,7 +91,7 @@ on_ft = 'coffee'
 hook_source = '''
   let g:nodejs_complete_config = {
         \ 'js_compl_fn': 'jscomplete#CompleteJS',
-        \ 'max_node_compl_len': 15
+        \ 'max_node_compl_len': 15,
         \ }
   " Automatically open and close the popup menu / preview window.
   "au! MyAutoCmd CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
@@ -601,11 +601,11 @@ hook_source = '''
   let g:jedi#smart_auto_mappings = 0
   let g:jedi#show_call_signatures = 0
 
-  let g:jedi#goto_assignments_command = "<leader>gt"
-  let g:jedi#goto_definitions_command = "<leader>d"
-  let g:jedi#documentation_command = "<space>K"
-  let g:jedi#rename_command = "<leader>R"
-  let g:jedi#usages_command = "<leader>n"
+  let g:jedi#goto_assignments_command = '<leader>gt'
+  let g:jedi#goto_definitions_command = '<leader>d'
+  let g:jedi#documentation_command = '<space>K'
+  let g:jedi#rename_command = '<leader>R'
+  let g:jedi#usages_command = '<leader>n'
 
   autocmd MyAutoCmd FileType python setlocal omnifunc=jedi#completions'
 '''
@@ -622,8 +622,8 @@ on_cmd = 'JsDoc'
 repo = 'plasticscafe/vim-less-autocompile'
 on_ft = 'less'
 hook_source = '''
-  let g:less_autocompile=1
-  let g:less_compress=0
+  let g:less_autocompile = 1
+  let g:less_compress = 0
 '''
 
 [[plugins]]
@@ -761,14 +761,14 @@ hook_source = '''
 " Input ''  : Join without spaces.
 " Input ',' : Join with ', '.
   let g:jplus#input_config = {
-        \ "__DEFAULT__" : {
-        \   "delimiter_format" : " %d "
+        \ '__DEFAULT__' : {
+        \   'delimiter_format' : ' %d '
         \ },
-        \ "__EMPTY__" : {
-        \   "delimiter_format" : "%d"
+        \ '__EMPTY__' : {
+        \   'delimiter_format' : '%d'
         \ },
-        \ "," : {
-        \   "delimiter_format" : "%d "
+        \ ',' : {
+        \   'delimiter_format' : '%d '
         \ },
         \ }
 '''
@@ -799,10 +799,10 @@ hook_source = '''
     \   ['pick', 'reword', 'fixup', 'squash', 'edit', 'exec'],
     \   {
     \     '\<[a-z0-9]\+_\k\+\>': {
-    \       '_\(.\)': '\U\1'
+    \       '_\(.\)': '\U\1',
     \     },
     \     '\<[a-z0-9]\+[A-Z]\k\+\>': {
-    \       '\([A-Z]\)': '_\l\1'
+    \       '\([A-Z]\)': '_\l\1',
     \     },
     \   },
     \ ]
@@ -832,7 +832,7 @@ hook_source = '''
 repo = 'rking/ag.vim'
 on_cmd = 'Ag'
 hook_source = '''
-  let g:agprg="ag -S --nogroup --column"
+  let g:agprg = 'ag -S --nogroup --column'
 '''
 
 [[plugins]]
@@ -995,7 +995,7 @@ hook_source = '''
 repo = 'terryma/vim-multiple-cursors'
 on_cmd = 'MultipleCursorsFind'
 hook_source = '''
-  let g:multi_cursor_use_default_mapping=0
+  let g:multi_cursor_use_default_mapping = 0
 '''
 
 [[plugins]]
@@ -1015,7 +1015,7 @@ hook_add = '''
   noremap <Leader>ov :<C-u>OverCommandLine %s/<C-r>=substitute('<C-r>/', '^\\v\\|^\\<\\|\\>$', "", "g")<CR>/<CR>
 '''
 hook_source = '''
-    let g:over#command_line#paste_escape_chars = '/.*$^~'
+  let g:over#command_line#paste_escape_chars = '/.*$^~'
   let g:over#command_line#paste_filters = {
     \  "\n" : '\\n',
     \  "\r" : '\\r',
@@ -1063,7 +1063,7 @@ hook_add = '''
   nmap <Leader>y :<C-u>Unite yankround
 '''
 hook_source = '''
-  let g:yankround_dir = "~/.cache/yankround"
+  let g:yankround_dir = '~/.cache/yankround'
   let g:yankround_max_history	= 100
   let g:yankround_use_region_hl = 1
 '''
@@ -1264,7 +1264,7 @@ hook_add = '''
   silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   if has('mac')
-    let g:ref_man_cmd = "man -P cat"
+    let g:ref_man_cmd = 'man -P cat'
   endif
 '''
 hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
@@ -1457,7 +1457,7 @@ hook_source = '''
         \   '*' : 0,
         \}
   let g:precious_enable_switch_CursorMoved_i = {
-        \   '*' : 0
+        \   '*' : 0,
         \}
   autocmd MyAutoCmd InsertEnter * PreciousSwitch
   autocmd MyAutoCmd InsertLeave * PreciousReset

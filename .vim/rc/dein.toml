@@ -148,13 +148,13 @@ if = "!has('kaoriya')"
 #   * : Changed.
 repo = 'kyouryuukunn/vim-changed'
 hook_add = '''
-sign define SIGN_DEFAULT text=\
-function! s:Show_constant_sign()
-  if filereadable(expand("%:p"))
-    execute 'sign place 134893619283 line=1 name=SIGN_DEFAULT buffer=' . bufnr('%')
-  endif
-endfunction
-autocmd MyAutoCmd BufRead * call s:Show_constant_sign()
+  sign define SIGN_DEFAULT text=\
+  function! s:Show_constant_sign()
+    if filereadable(expand("%:p"))
+      execute 'sign place 134893619283 line=1 name=SIGN_DEFAULT buffer=' . bufnr('%')
+    endif
+  endfunction
+  autocmd MyAutoCmd BufRead * call s:Show_constant_sign()
 '''
 
 [[plugins]]
