@@ -184,7 +184,7 @@ function! ExecuteWithSelectedText(command) abort
   execute printf(a:command, selectedText)
 endfunction
 " }}}
-"
+
 " === Dein ==============================================================={{{1
 
 " === Information {{{2
