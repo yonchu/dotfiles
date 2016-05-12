@@ -1,53 +1,36 @@
-#*******************************************************************************
+# ******************************************************************************
 #
-# .inputrc
-#   readlineの設定ファイル
+# .inputrc (readline)
 #
-#*******************************************************************************
+# ******************************************************************************
 
-# キーバインド
-#  vi
-#  emacs (デフォルト)
+# Key bind mode.(vi/vi-insert/emacs)
 set editing-mode emacs
-#set keymap vi-insert
+# Bell.(autible/none/visible)
+set bell-style visible
+# Scroll.
+set horizontal-scroll-mode off
 
-# チルダをタブにより展開
-#  on 展開する
-#  off 展開しない(デフォルト)
+# Completion.
+set completion-ignore-case on
+# Expand ~.
 set expand-tilde off
 
-# 日本語関係
+# Japanese.
 set meta-flag on
 set input-meta on
 set convert-meta off
 set output-meta on
 
-# タブ補完時、大文字小文字無視
-#  on 無視
-#  off 無視しない
-set completion-ignore-case on
-
-# コンソールへの入力文字が画面の右端よりオーバー時の動作
-#  on コマンドラインが横にスクロールされる
-#  off コマンドラインは次の行にまたがって継続される(デフォルト)
-#  2行以上入力した時に表示が崩れるのでOFF
-set horizontal-scroll-mode off
-
-# ヒストリー補完機能を Ctrl+N, Ctrl+P に割り当てる
+# Key bind.
 "\C-p": history-search-backward
 "\C-n": history-search-forward
 
-# ビープ音を鳴らすかどうか
-#  audible ビープ音を鳴らす(デフォルト)
-#  none 鳴らさない
-#  visible 鳴らさない代わりに画面を点滅
-set bell-style visible
-
-# Home/Endが使えるようにする
+# Enable Home/End.
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
 
-# MySQL
+# MySQL.
 $if mysql
     "\C-xd": "show databases;"
     "\C-xt": "show tables;"
