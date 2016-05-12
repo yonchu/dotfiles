@@ -70,7 +70,11 @@ endif
 " vim directory.
 "   Windows   : $VIM/vimfiles
 "   Linux/Mac : ~/.vim
-let $DOTVIM = expand('~/.vim')
+if s:is_windows
+  let $DOTVIM = expand('~/vimfiles')
+else
+  let $DOTVIM = expand('~/.vim')
+endif
 
 " Set .gvimrc path.
 if !exists('$MYGVIMRC')
