@@ -1,76 +1,67 @@
-# Github公式gitignore
+# .gitignore
 # https://github.com/github/gitignore
 
-## General
-# シャープ付きファイル
+# Sharp.
 \#*#
 *#
 .#*
-# 一時ファイル
+
+# Swap.
 .*~
 *~
-# スワップファイル
 *.sw[po]
-# ログ
+
+# Log.
 *.log
 
-## Archive
+# Archives.
 *.zip
 *.tar.gz
 .bz2
 
+# Mac.
+.DS_Store
 
-### 言語固有
-## vim
-# vimのセッション情報
-Session.vim
+# Windows.
+Thumbs.db
 
-## C/C++
+# ActionScript.
+*.swf
+
+# C/C++.
 a.out
 *.o
 *.a
 
-## Java
+# Emacs Lisp.
+*.elc
+
+# Java.
 *.class
-# Package Files
 *.jar
 *.war
 *.ear
 
-## JavaScript
+# JavaScript.
 .tern-port
 
-## Python
+# Python.
 *.py[cod]
 .ropeproject
 
-## ActionScript
-*.swf
-
-## TeX/LaTeX
-*.dvi
-*.aux
-
-## Emacs Lisp
-# バイトコンパイルファイル
-*.elc
-
-## タグ
+# tags.
 tags
 TAGS
 
-## svn
+# svn.
 .svn
 
-# デバッグ情報付きバイナリファイル
+# TeX/LaTeX.
+*.dvi
+*.aux
+
+# Vim.
+Session.vim
+
+# etc.
 *.dSYM
-
-
-### OS固有
-## Mac
-# ファイル/ディレクトリ設定情報
-.DS_Store
-
-## Windows
-# 画像サムネイル情報
-Thumbs.db
