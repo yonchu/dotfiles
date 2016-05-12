@@ -46,8 +46,12 @@ if (( $+commands[fortune] )); then
     echo
     echo '===== fortune ====='
     fortune -a
-    echo
 fi
+if (( $+commands[w] )); then
+    echo '===== Login Status ====='
+    w
+fi
+echo
 
 # Restore session.
 if [[ -f ~/.zsh_session && \
