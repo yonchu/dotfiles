@@ -186,64 +186,12 @@ endfunction
 " }}}
 
 " === Dein ==============================================================={{{1
-
-" === Information {{{2
-" https://github.com/Shougo/dein.vim
-"
-" Install: call dein#check_install() | call dein#install()
-" Update:  call dein#check_update()  | call dein#update()
-" Clean:   call dein#check_clean()
-"
-" Directory:
-"   dein root: /.cache/dein
-"   dein repo: /.cache/dein/repos/github.com/Shougo/dein.vim
-" Plugin List:
-"   default : /.vim/rc/dein.toml
-"   lazy    : /.vim/rc/deinlazy.toml
-"   ftplugin: /.vim/rc/deinft.toml
-" Plugin Detail Settings:
-"   /.vim/rc/plugins/*
-" ======================================================================== }}}
-
-" === Dein Initialization {{{2
-let s:dein_dir = expand('$CACHE/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-" Load dein.
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    echoerr '[ERROR] Stop reading .vimrc: dein.vim not installed.'
-    echoerr '[ERROR] Please run the following commands:'
-    echoerr '$ mkdir -p ' . s:dein_repo_dir
-    echoerr '$ git clone https://github.com/Shougo/dein.vim ' . s:dein_repo_dir
-    " execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-    finish
-  endif
-  " Set runtimepath.
-  execute 'set runtimepath^=' . substitute(
-        \ fnamemodify(s:dein_repo_dir, ':p'), '/$', '', '')
+if filereadable(expand('~/.vim/rc/plugins/dein.rc.vim'))
+  execute 'source' expand('~/.vim/rc/plugins/dein.rc.vim')
 endif
-
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir, [expand('<sfile>')]
-        \ + split(glob('~/.vim/rc/*.toml'), '\n'))
-  call dein#load_toml('~/.vim/rc/dein.toml', {'lazy': 0})
-  call dein#load_toml('~/.vim/rc/deinlazy.toml', {'lazy' : 1})
-  call dein#load_toml('~/.vim/rc/deinft.toml')
-  call dein#end()
-  call dein#save_state()
-  if has('vim_starting') && !has('gui_running') && expand('%:t') ==# '.vimrc'
-    if dein#check_install()
-      call dein#install()
-    endif
-  endif
-endif
-" Call manually the 'hook_post_source' hooks.
-autocmd MyAutoCmd VimEnter * call dein#call_hook('post_source')
 
 syntax enable
 filetype plugin indent on
-" }}}
 " }}}
 
 " === Encoding ==========================================================={{{1
