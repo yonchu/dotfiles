@@ -37,9 +37,9 @@ if s:is_windows
   language messages ja_JP
 elseif s:is_mac
   " For Mac.
-  language messages ja_JP.UTF-8
-  language ctype ja_JP.UTF-8
-  language time ja_JP.UTF-8
+  language messages C
+  " language ctype C
+  language time C
 else
   " For Linux.
   language messages C
