@@ -706,6 +706,106 @@ hook_add = '''
 '''
 
 [[plugins]]
+# clever-f.vim extends f, F, t and T mappings for more convenience.
+# This extension makes a repeat easier and makes you forget the existence of ;.
+#   f{char}: Find {char} to the right.
+#   F{char}: Find {char} to the left.
+#   t{char}: Find {char} to the right.
+#   T{char}: Find {char} to the left.
+#   f<CR>  : Find repeat.
+repo = 'rhysd/clever-f.vim'
+on_map = ['<Plug>', 'f', 'F', 't', 'T']
+hook_source = ''''
+  let g:clever_f_smart_case = 1
+  let g:clever_f_fix_key_direction = 1
+  let g:clever_f_show_prompt = 1
+'''
+
+[[plugins]]
+# EasyMotion.
+#  - http://haya14busa.com/mastering-vim-easymotion/
+#  - http://haya14busa.com/vim-easymotion-ver-3-dot-0-overwin-motions/
+# MotionKeys: asdghklqwertyuiopzxcvbnmfj;  (Default)
+# Default Mappings:
+#   <Plug>(easymotion-prefix) | <Leader><Leader>
+#   <Plug>(easymotion-f)      | f{char}
+#   <Plug>(easymotion-F)      | F{char}
+#   <Plug>(easymotion-t)      | t{char}
+#   <Plug>(easymotion-T)      | T{char}
+#   <Plug>(easymotion-w)      | w
+#   <Plug>(easymotion-W)      | W
+#   <Plug>(easymotion-b)      | b
+#   <Plug>(easymotion-B)      | B
+#   <Plug>(easymotion-e)      | e
+#   <Plug>(easymotion-E)      | E
+#   <Plug>(easymotion-ge)     | ge
+#   <Plug>(easymotion-gE)     | gE
+#   <Plug>(easymotion-j)      | j
+#   <Plug>(easymotion-k)      | k
+#   <Plug>(easymotion-n)      | n
+#   <Plug>(easymotion-N)      | N
+#   <Plug>(easymotion-s)      | s
+#
+# Custom Mappings:
+#   <Plug>(easymotion-bd-f2)      | s
+#   <Plug>(easymotion-overwin-f2) | <Space><Space>
+#
+#   <Plug>(easymotion-overwin-line) | l
+#   <Plug>(easymotion-bd-jk)        | l
+#   <Plug>(easymotion-bd-jk)        | l
+#   <Plug>(easymotion-eol-bd-jk)    | L
+#
+#   <Plug>(easymotion-bd-fn) | /
+#   <Plug>(easymotion-bd-fn) | /
+#   <Plug>(easymotion-bd-fn) | /
+#
+#   <Plug>(easymotion-repeat) | <Space>
+#   <Plug>(easymotion-repeat) | <CR>
+#
+#   <Plug>(easymotion-next) | <C-n>
+#   <Plug>(easymotion-prev) | <C-p>
+#
+# Last Find Motion:         | f<CR>or s<CR>
+# Jump Fisrt:               | f{char} or s{char}{char} <CR>or<Space>
+# Etc:
+#   bidirection (*-bd-*)    | Find {char} to forward and backward at the same time.
+repo = 'easymotion/vim-easymotion'
+on_map = '<Plug>'
+hook_add = '''
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_startofline = 0
+
+  " Jump to first match with enter & space
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+
+  " 2-character search motion.
+  " s{char}{char} to move to {char}{char}
+  map  <Leader><Leader>s <Plug>(easymotion-bd-f2)
+  nmap <Space><Space>    <Plug>(easymotion-overwin-f2)
+
+  " Move to line.
+  nmap <Leader><Leader>l <Plug>(easymotion-overwin-line)
+  xmap <Leader><Leader>l <Plug>(easymotion-bd-jk)
+  omap <Leader><Leader>l <Plug>(easymotion-bd-jk)
+  map  <Leader><Leader>L <Plug>(easymotion-eol-bd-jk)
+
+  " n-character search motion.
+  " `<Tab>` & `<S-Tab>` to scroll up/down a page of next match.
+  nmap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
+  xmap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
+  omap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
+
+  " Repeat last motion.
+  map <Leader><Leader><Space> <Plug>(easymotion-repeat)
+  map <Leader><Leader><CR>    <Plug>(easymotion-repeat)
+
+  " Jump to next/previous match.
+  map <Leader><Leader><C-n> <Plug>(easymotion-next)
+  map <Leader><Leader><C-p> <Plug>(easymotion-prev)
+'''
+
+[[plugins]]
 # Change WORD motion(E,W,B) for Japanese text using TinySegmenter.
 repo = 'deton/jasegment.vim'
 on_map = ['<Plug>', 'W', 'B', 'E']
@@ -851,106 +951,6 @@ hook_add = '''
   nmap <silent><expr> #  '<Plug>(anzu-sharp):normal! zz<CR><Plug>(anzu-update-search-status-with-echo)'
   nmap <silent><expr> g* 'g*:normal! N<CR><Plug>(anzu-update-search-status-with-echo)'
   nmap <silent><expr> g# 'g#:normal! N<CR><Plug>(anzu-update-search-status-with-echo)'
-'''
-
-[[plugins]]
-# clever-f.vim extends f, F, t and T mappings for more convenience.
-# This extension makes a repeat easier and makes you forget the existence of ;.
-#   f{char}: Find {char} to the right.
-#   F{char}: Find {char} to the left.
-#   t{char}: Find {char} to the right.
-#   T{char}: Find {char} to the left.
-#   f<CR>  : Find repeat.
-repo = 'rhysd/clever-f.vim'
-on_map = ['<Plug>', 'f', 'F']
-hook_source = ''''
-  let g:clever_f_smart_case = 1
-  let g:clever_f_fix_key_direction = 1
-  let g:clever_f_show_prompt = 1
-'''
-
-[[plugins]]
-# EasyMotion.
-#  - http://haya14busa.com/mastering-vim-easymotion/
-#  - http://haya14busa.com/vim-easymotion-ver-3-dot-0-overwin-motions/
-# MotionKeys: asdghklqwertyuiopzxcvbnmfj;  (Default)
-# Default Mappings:
-#   <Plug>(easymotion-prefix) | <Leader><Leader>
-#   <Plug>(easymotion-f)      | f{char}
-#   <Plug>(easymotion-F)      | F{char}
-#   <Plug>(easymotion-t)      | t{char}
-#   <Plug>(easymotion-T)      | T{char}
-#   <Plug>(easymotion-w)      | w
-#   <Plug>(easymotion-W)      | W
-#   <Plug>(easymotion-b)      | b
-#   <Plug>(easymotion-B)      | B
-#   <Plug>(easymotion-e)      | e
-#   <Plug>(easymotion-E)      | E
-#   <Plug>(easymotion-ge)     | ge
-#   <Plug>(easymotion-gE)     | gE
-#   <Plug>(easymotion-j)      | j
-#   <Plug>(easymotion-k)      | k
-#   <Plug>(easymotion-n)      | n
-#   <Plug>(easymotion-N)      | N
-#   <Plug>(easymotion-s)      | s
-#
-# Custom Mappings:
-#   <Plug>(easymotion-bd-f2)      | s
-#   <Plug>(easymotion-overwin-f2) | <Space><Space>
-#
-#   <Plug>(easymotion-overwin-line) | l
-#   <Plug>(easymotion-bd-jk)        | l
-#   <Plug>(easymotion-bd-jk)        | l
-#   <Plug>(easymotion-eol-bd-jk)    | L
-#
-#   <Plug>(easymotion-bd-fn) | /
-#   <Plug>(easymotion-bd-fn) | /
-#   <Plug>(easymotion-bd-fn) | /
-#
-#   <Plug>(easymotion-repeat) | <Space>
-#   <Plug>(easymotion-repeat) | <CR>
-#
-#   <Plug>(easymotion-next) | <C-n>
-#   <Plug>(easymotion-prev) | <C-p>
-#
-# Last Find Motion:         | f<CR>or s<CR>
-# Jump Fisrt:               | f{char} or s{char}{char} <CR>or<Space>
-# Etc:
-#   bidirection (*-bd-*)    | Find {char} to forward and backward at the same time.
-repo = 'easymotion/vim-easymotion'
-on_map = '<Plug>'
-hook_add = '''
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_startofline = 0
-
-  " Jump to first match with enter & space
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-
-  " 2-character search motion.
-  " s{char}{char} to move to {char}{char}
-  map  <Leader><Leader>s <Plug>(easymotion-bd-f2)
-  nmap <Space><Space>    <Plug>(easymotion-overwin-f2)
-
-  " Move to line.
-  nmap <Leader><Leader>l <Plug>(easymotion-overwin-line)
-  xmap <Leader><Leader>l <Plug>(easymotion-bd-jk)
-  omap <Leader><Leader>l <Plug>(easymotion-bd-jk)
-  map  <Leader><Leader>L <Plug>(easymotion-eol-bd-jk)
-
-  " n-character search motion.
-  " `<Tab>` & `<S-Tab>` to scroll up/down a page of next match.
-  nmap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
-  xmap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
-  omap <Leader><Leader>/ <Plug>(easymotion-bd-fn)
-
-  " Repeat last motion.
-  map <Leader><Leader><Space> <Plug>(easymotion-repeat)
-  map <Leader><Leader><CR>    <Plug>(easymotion-repeat)
-
-  " Jump to next/previous match.
-  map <Leader><Leader><C-n> <Plug>(easymotion-next)
-  map <Leader><Leader><C-p> <Plug>(easymotion-prev)
 '''
 
 [[plugins]]
