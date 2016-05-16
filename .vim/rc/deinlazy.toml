@@ -625,10 +625,25 @@ hook_source = '''
 '''
 
 [[plugins]]
-# Source manually.
-# call dein#source('vim-markdown-quote-syntax')
 repo = 'joker1007/vim-markdown-quote-syntax'
-#on_ft = ['markdown', 'mkd']
+hook_add = '''
+  " Source the plugin loading slowly when CursorHold.
+  function! s:source_vim_markdown_quote_syntax()
+    if (&ft ==# 'markdown' || &ft ==# 'mkd') &&
+          \ !dein#is_sourced('vim-markdown-quote-syntax')
+      echo 'Source vim-markdown-quote-syntax.'
+      call dein#source('vim-markdown-quote-syntax')
+    endif
+    augroup SourceMarkdownQuoteSyntaxAu
+      autocmd!
+    augroup END
+    augroup! SourceMarkdownQuoteSyntaxAu
+  endfunction
+  augroup SourceMarkdownQuoteSyntaxAu
+    autocmd!
+    autocmd CursorHold * call s:source_vim_markdown_quote_syntax()
+  augroup END
+'''
 
 [[plugins]]
 repo = 'hynek/vim-python-pep8-indent'
