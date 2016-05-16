@@ -922,9 +922,7 @@ hook_source = '''
 #   :LAg, LAgAdd
 #   :AgFile
 #   :AgHelp
-#
-#   If [!] is not given the first error is jumped to.
-#
+# In the quickfix window, you can use:
 #   o    to open (same as enter)
 #   go   to preview file (open but maintain focus on ack.vim results)
 #   t    to open in new tab
@@ -1112,6 +1110,14 @@ hook_add = '''
 # http://d.hatena.ne.jp/tell-k/20110606/1307369935
 repo = 'tell-k/vim-browsereload-mac'
 if = "has('mac')"
+on_cmd = ['ChromeReload', 'ChromeReloadStart', 'ChromeReloadStop']
+hook_source = '''
+  if !empty($ITERM_PROFILE)
+    let g:returnApp = 'iTerm'
+  elseif has('gui_running')
+    let g:returnApp = 'MacVim'
+  endif
+'''
 
 [[plugins]]
 # Open URI with your favorite browser from your most favorite editor.
