@@ -60,7 +60,7 @@ autocmd MyAutoCmd VimEnter * call dein#call_hook('post_source')
 command! -nargs=0 -bang DeinClean call s:dein_clean(<bang>0)
 function! s:dein_clean(force) abort
   if !exists('*delete')
-    echom 'ERORR: delete() is not found.'
+    echoerr '[ERORR] delete() is not found.'
     return
   endif
   let del_all = a:force
@@ -93,7 +93,7 @@ function! s:dein_clean(force) abort
     " Delete plugin directory.
     echom printf('[%d/%d] Delete: %s', i, len(del_list), p)
     if delete(p, 'rf') != 0
-      echom 'ERROR: Failed to delete the plugins: ' . p
+      echoerr '[ERROR] Failed to delete the plugins: ' . p
     endif
   endfor
 endfunction
