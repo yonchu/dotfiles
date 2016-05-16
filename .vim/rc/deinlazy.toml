@@ -418,8 +418,6 @@ hook_add = '''
   vmap <C-v> <Plug>(expand_region_shrink)
 '''
 hook_source = '''
-  map K <Plug>(expand_region_expand)
-  map J <Plug>(expand_region_shrink)
   call expand_region#custom_text_objects({
         \ 'iu'  :1,
         \ 'au'  :1,
