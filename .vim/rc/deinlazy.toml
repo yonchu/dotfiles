@@ -945,8 +945,8 @@ on_map = '<Plug>'
 hook_add = '''
   nmap <silent><expr> n  '<Plug>(anzu-n):normal! zz<CR><Plug>(anzu-update-search-status-with-echo)'
   nmap <silent><expr> N  '<Plug>(anzu-N):normal! zz<CR><Plug>(anzu-update-search-status-with-echo)'
-  nmap <silent><expr> *  '<Plug>(anzu-star):normal! zz<CR><Plug>(anzu-update-search-status-with-echo)'
-  nmap <silent><expr> #  '<Plug>(anzu-sharp):normal! zz<CR><Plug>(anzu-update-search-status-with-echo)'
+  nmap <silent><expr> *  '<Plug>(anzu-star):normal! Nzz<CR><Plug>(anzu-update-search-status-with-echo)'
+  nmap <silent><expr> #  '<Plug>(anzu-sharp):normal! Nzz<CR><Plug>(anzu-update-search-status-with-echo)'
   nmap <silent><expr> g* 'g*:normal! N<CR><Plug>(anzu-update-search-status-with-echo)'
   nmap <silent><expr> g# 'g#:normal! N<CR><Plug>(anzu-update-search-status-with-echo)'
 '''
@@ -1274,9 +1274,10 @@ hook_source = 'source ~/.vim/rc/plugins/git-vim.rc.vim'
 #   <C-o>          <Plug>(ref-back)
 #   <C-i>          <Plug>(ref-forward)
 repo = 'thinca/vim-ref'
+depends = ['ref-javadoc', 'ref-sources.vim']
+on_source = 'unite.vim'
 on_map = [['n', '<Plug>'], ['n', 'K']]
 on_cmd = ['Ref', 'RefHistory']
-on_source = 'unite.vim'
 hook_add = '''
   silent! nmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
   silent! vmap <silent> <unique> <Leader>k <Plug>(ref-keyword)
@@ -1288,12 +1289,10 @@ hook_source = 'source ~/.vim/rc/plugins/ref.rc.vim'
 
 [[plugins]]
 repo = 'pekepeke/ref-javadoc'
-on_cmd = 'Ref'
 
 [[plugins]]
 # vim-ref source for javascript/jquery.
 repo = 'mojako/ref-sources.vim'
-on_cmd = 'Ref'
 # }}}
 
 # ===== Syntax Checker ===== {{{
