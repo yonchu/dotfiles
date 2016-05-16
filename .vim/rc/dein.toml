@@ -37,6 +37,13 @@ repo = 'kana/vim-operator-user'
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
+repo = 'kana/vim-gf-user'
+
+[[plugins]]
+# Go to a hunk from diff output.
+repo = 'kana/vim-gf-diff'
+
+[[plugins]]
 repo = 'itchyny/vim-parenmatch'
 if = '(v:version == 704 && has("patch786")) || v:version >= 705'
 

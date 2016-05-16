@@ -673,6 +673,8 @@ repo = 'todesking/ruby_hl_lvar.vim'
 on_ft = 'ruby'
 
 [[plugins]]
+# :SassCompile    Compile the current file according to config.rb.
+# :CompassConfig  Edit compas config file (config.rb).
 repo = 'AtsushiM/sass-compile.vim'
 on_ft = 'sass'
 
@@ -702,16 +704,6 @@ hook_add = '''
   nmap gj j
   nmap gk k
 '''
-
-[[plugins]]
-# A framework to open a file by context.
-repo = 'kana/vim-gf-user'
-on_ft = ['diff', 'git', 'gitcommit', 'git-status', 'git-log', 'git-diff']
-
-[[plugins]]
-# Go to a hunk from diff output.
-repo = 'kana/vim-gf-diff'
-depends = 'vim-gf-user'
 
 [[plugins]]
 # Change WORD motion(E,W,B) for Japanese text using TinySegmenter.
