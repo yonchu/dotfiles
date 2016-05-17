@@ -772,8 +772,8 @@ hook_source = ''''
 repo = 'easymotion/vim-easymotion'
 on_map = '<Plug>'
 hook_add = '''
+  let g:EasyMotion_add_search_history = 0
   let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_startofline = 0
 
   " Jump to first match with enter & space
   let g:EasyMotion_enter_jump_first = 1
@@ -781,14 +781,12 @@ hook_add = '''
 
   " 2-character search motion.
   " s{char}{char} to move to {char}{char}
-  map  <Leader><Leader>s <Plug>(easymotion-bd-f2)
-  nmap <Space><Space>    <Plug>(easymotion-overwin-f2)
+  map  <Space><Space>    <Plug>(easymotion-bd-f2)
+  nmap <Leader><Leader>s <Plug>(easymotion-overwin-f2)
 
   " Move to line.
-  nmap <Leader><Leader>l <Plug>(easymotion-overwin-line)
-  xmap <Leader><Leader>l <Plug>(easymotion-bd-jk)
-  omap <Leader><Leader>l <Plug>(easymotion-bd-jk)
-  map  <Leader><Leader>L <Plug>(easymotion-eol-bd-jk)
+  map <Leader><Leader>l <Plug>(easymotion-bd-jk)
+  map <Leader><Leader>L <Plug>(easymotion-eol-bd-jk)
 
   " n-character search motion.
   " `<Tab>` & `<S-Tab>` to scroll up/down a page of next match.
