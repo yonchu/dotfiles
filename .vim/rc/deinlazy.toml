@@ -1409,6 +1409,7 @@ hook_add = 'let g:echodoc_enable_at_startup = 1'
 #   :EditorConfigReload   Reload the EditorConfig conf files.
 repo = 'editorconfig/editorconfig-vim'
 if = "has('python')"
+on_if = "!empty(findfile('.editorconfig', fnameescape(fnamemodify(expand('%:p'), ':h')) . ';'))"
 on_ft = 'dosini'
 on_cmd = 'EditorConfigReload'
 hook_source = '''

@@ -1212,6 +1212,16 @@ endif
 " }}}
 
 " === Commands ==========================================================={{{1
+" Reload.
+command! -nargs=0 -bang Reload call s:reload_file('<bang>')
+function! s:reload_file(bang) abort
+  if !empty(a:bang)
+    EditorConfigReload
+  endif
+  IndentLinesReset
+  syntax sync fromstart
+endfunction
+
 " Manpage.
 command! -nargs=* Man delcommand Man | runtime ftplugin/man.vim | Man <args>
 
