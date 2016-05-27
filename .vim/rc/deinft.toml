@@ -106,11 +106,6 @@ applescript = '''
   inoremap <buffer> <S-CR>  ￢<CR>
 '''
 
-# html = '''
-#   setlocal includeexpr=substitute(v:fname,'^\\/','','')
-#   setlocal path+=./;/
-# '''
-
 php = '''
   setlocal path+=/usr/local/share/pear
 '''
