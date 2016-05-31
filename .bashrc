@@ -6,7 +6,7 @@
 #*******************************************************************************
 
 # If not running interactively, don't do anything
-test -z "$PS1" && return
+[[ $- != *i* ]] && return
 
 if [[ ! "$0" =~ -.* ]]; then
     # Running on subshell.
