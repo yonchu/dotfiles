@@ -778,6 +778,7 @@ augroup MyAutoCmdEx
   " tw  : textwidth
   autocmd FileType gitcommit setlocal tw=72
   autocmd FileType make      setlocal noet
+  autocmd FileType asp,html,jsp,perl,php,xml syntax sync minlines=500 maxlines=1000
 
   autocmd FileType diff,qf,qfreplace,quickrun,
         \git,gitv,gitcommit,git-status,git-log,git-diff
