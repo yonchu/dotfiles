@@ -76,7 +76,7 @@ call unite#custom#source(
       \  'matcher_hide_hidden_files', 'matcher_hide_current_file'])
 call unite#custom#source(
       \ 'file_rec,file_rec/async,file_rec/git,file_mru', 'converters',
-      \ ['converter_file_directory'])
+      \ ['converter_uniq_word','converter_word_abbr'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 " }}}
 
