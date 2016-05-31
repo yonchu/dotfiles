@@ -82,34 +82,26 @@ function _permission_for_pwd() {
     echo -E "(%F{red}$_st%f)"
 }
 
-DEFAULT_PROMPT='%{${reset_color}%}'
-#DEFAULT_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
-DEFAULT_PROMPT+='[%{${fg_bold[magenta]}%}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")%{${reset_color}%}'
-DEFAULT_PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}${PROMPT_HOST_COLOR}%m%{${reset_color}%}'
-DEFAULT_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}:'
-# DEFAULT_PROMPT+='$(_permission_for_pwd)'
+## Left prompt
+PROMPT='%{${reset_color}%}'
+#PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
+PROMPT+='[%{${fg_bold[magenta]}%}'
+PROMPT+='${WINDOW:+"#$WINDOW "}'
+PROMPT+='$([ -n "$TMUX" ] && tmux display -p "#I-#P " 2> /dev/null)'
+PROMPT+='%{${reset_color}%}'
+PROMPT+='%{${fg[green]}%}%n%{${reset_color}%}%{${fg[yellow]}%}❖ %{${reset_color}%}${PROMPT_HOST_COLOR}%m%{${reset_color}%}'
+PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}:'
+# PROMPT+='$(_permission_for_pwd)'
 if [[ -z $_prompt_way ]] || promptway > /dev/null 2>&1; then
-    DEFAULT_PROMPT+='${_prompt_way}'
-    # DEFAULT_PROMPT+='${_prompt_way}$(_backward_basename)'
+    PROMPT+='${_prompt_way}'
+    # PROMPT+='${_prompt_way}$(_backward_basename)'
 else
-    DEFAULT_PROMPT+='%~'
+    PROMPT+='%~'
 fi
-DEFAULT_PROMPT+='%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
-
-VI_CMD_PROMPT='%{${reset_color}%}'
-VI_CMD_PROMPT+='%{${fg_bold[yellow]}%}$(_client_ip)%{${reset_color}%}'
-VI_CMD_PROMPT+='[%{${fg_bold[magenta]}%}${WINDOW:+"#$WINDOW "}$([ -n "$TMUX" ] && tmux display -p "#I-#P ")%{${reset_color}%}'
-VI_CMD_PROMPT+='%{${fg[yellow]}%}%n%{${reset_color}%}%{${fg[green]}%}❖ %{${reset_color}%}%{${fg[yellow]}%}%m%{${reset_color}%}'
-VI_CMD_PROMPT+='%{${fg_bold[red]}%}%(1j,(%j),)%{${reset_color}%}'
-VI_CMD_PROMPT+=':%~%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
+PROMPT+='%{${reset_color}%}]%(?.%{${fg[blue]}%}${PROMPT_NORMAL_SYMBOL}.%{${fg[red]}%}${PROMPT_ERROR_SYMBOL}) %{${reset_color}%}'
 
 # For tmux-powerline
-TMUX_POWERLINE_PROMPT_INFO='$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-DEFAULT_PROMPT+=$TMUX_POWERLINE_PROMPT_INFO
-VI_CMD_PROMPT+=$TMUX_POWERLINE_PROMPT_INFO
-
-# Left prompt
-PROMPT=$DEFAULT_PROMPT
+PROMPT+='$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" 2> /dev/null | tr -d %) "$PWD" 2> /dev/null)'
 
 ## Right prompt
 RPROMPT='%{${reset_color}%}'
@@ -124,26 +116,6 @@ RPROMPT+='[%{${fg[magenta]}%}%D{%y/%m/%d %H:%M:%S}%{${reset_color}%}]'
 
 # Correct prompt
 SPROMPT='%{${reset_color}%}%{${fg[red]}%}%r <- こっちにしとけって[n,y,a,e]:%{${reset_color}%}'
-
-
-# Vi入力モードでPROMPTの色を変える
-# http://memo.officebrook.net/20090226.html
-function zle-line-init zle-keymap-select {
-    case $KEYMAP in
-    vicmd)
-        # viコマンドモード
-        PROMPT=${VI_CMD_PROMPT}
-        ;;
-    main|viins)
-        # viインサートモード
-        PROMPT=${DEFAULT_PROMPT}
-        ;;
-    esac
-    zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
-
 
 # SSH
 #  http://d.hatena.ne.jp/kakurasan/20070611/p1
