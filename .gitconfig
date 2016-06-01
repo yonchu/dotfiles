@@ -31,6 +31,7 @@
   # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
   default = upstream
 [pull]
+  ff = only
   #rebase = true    # from 1.7.9
 [diff]
   tool = vimdiff
@@ -39,7 +40,7 @@
 [merge]
   stat = true
   tool = vimdiff
-  #ff = false       # from 1.7.6
+  ff = false
 [mergetool "p4merge"]
   cmd             = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   keepTemporaries = false
