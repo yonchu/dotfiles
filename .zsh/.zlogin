@@ -48,6 +48,7 @@ if (( $+commands[fortune] )); then
     fortune -a
 fi
 if (( $+commands[w] )); then
+    echo
     echo '===== Login Status ====='
     w
 fi
