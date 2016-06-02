@@ -1,12 +1,9 @@
 [include]
-  # ローカル設定 (from 1.7.10)
   path = ~/.gitconfig.local
 [user]
-  #name = xxxxx
-  #email = xxxxx
+  # name  = xxxxx
+  # email = xxxxx
 [color]
-  # color設定
-  # 自動で色をつけるコマンドを設定
   status      = auto
   diff        = auto
   branch      = auto
@@ -19,28 +16,24 @@
   editor       = /usr/bin/vim     # 絶対パス指定必須
   quotepath    = false            # 日本語のファイル名表示に対応
 [branch]
-  #autosetuprebase = always       # pullは常に--rebaseで
+  # autosetuprebase = always      # pullは常に--rebaseで
+  # autosetupmerge  = false       # リモートの追跡ブランチを自動設定しない
 [help]
   autocorrect = 1
 [commit]
   template = ~/.gittemplates/commit-template
-  #cleanup = whitespace
 [push]
-  # defaultのpush先はtrackingしているリポジトリ
-  # git push はデフォルトでは、同じブランチ名がリモート上にあるならそれらを全てpushしてしまう
-  # この振る舞いを現在のブランチのみの push に限定することで誤ってpushしてしまうのを防止
-  default = upstream
+  default = upstream  # Default "simple" in Git 2.0.
 [pull]
   ff = only
-  #rebase = true    # from 1.7.9
 [diff]
   tool = vimdiff
   algorithm = histogram
-  #external = p4diff
+  # external = p4diff
 [merge]
   stat = true
   tool = vimdiff
-  ff = false
+  ff   = false
 [mergetool "p4merge"]
   cmd             = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
   keepTemporaries = false
@@ -64,35 +57,35 @@
   ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
 
   # config
-  cfl  = config --global --list   # グローバルConfigを参照
-  cfll = config --local  --list   # ローカルConfigを参照
-  cfe  = config --global -e       # グローバルConfigを編集
-  cfel = config --local  -e       # ローカルConfigを編集
-  ed   = config --global -e       # グローバルConfigを編集
+  cfl  = config --global --list  # グローバルConfigを参照
+  cfll = config --local  --list  # ローカルConfigを参照
+  cfe  = config --global -e      # グローバルConfigを編集
+  cfel = config --local  -e      # ローカルConfigを編集
+  ed   = config --global -e      # グローバルConfigを編集
 
   # status
-  s    = status -sb                # シンプル表示, ブランチ情報も表示
+  s    = status -sb              # シンプル表示, ブランチ情報も表示
   st   = status
   stv  = status -v
   stvv = status -v -v
-  si   = status -b --ignored       # .gitignoreで無視されたファイルも表示
+  si   = status -b --ignored     # .gitignoreで無視されたファイルも表示
 
   # show
   sh   = show
-  shr  = remote -v           # リモートリポジトリの一覧(URL付き)
-  shro = remote show origin  # リモートリポジトリの詳細表示(origin)
-  shrg = remote show github  # リモートリポジトリの詳細表示(github)
+  shr  = remote -v               # リモートリポジトリの一覧(URL付き)
+  shro = remote show origin      # リモートリポジトリの詳細表示(origin)
+  shrg = remote show github      # リモートリポジトリの詳細表示(github)
 
   sb   = show-branch --all --color
 
   # remote
-  remadd = remote add        # git remote add origin <https://..., git://...>
+  remadd = remote add   # git remote add origin <https://..., git://...>
 
   # ls-files
-  ls-fu = ls-files -u       # コンフリクトしたファイルの一覧
+  ls-fu = ls-files -u   # コンフリクトしたファイルの一覧
 
   # ls-tree
-  ls-th = ls-tree HEAD      # treeを表示
+  ls-th = ls-tree HEAD  # treeを表示
 
   # clone
   clone = clone --recursive
@@ -128,16 +121,16 @@
   rbi5 = rebase -i HEAD^^^^^
 
   # merge
-  mn  = merge --no-ff                      # FFでもマージコミットを強制作成
-  mergetool-def = mergetool -y             # デフォルトのマージツールでマージ
+  mn  = merge --no-ff                       # FFでもマージコミットを強制作成
+  mergetool-def = mergetool -y              # デフォルトのマージツールでマージ
   mergetool-p4  = mergetool --tool=p4merge  # p4mergeでマージ
 
   # add
   add = add -v
   ad  = add -v
-  adp = add -p              # ハンク毎にadd
-  addall = add -A           # 全てadd：add . && add -u
-  adN = add -N              # ファイルの内容を登録せずファイルが追加されたということだけを記録
+  adp = add -p                # ハンク毎にadd
+  addall = add -A             # 全てadd：add . && add -u
+  adN = add -N                # ファイルの内容を登録せずファイルが追加されたということだけを記録
 
   # commit
   c   = commit -v             # diffも表示
@@ -156,10 +149,10 @@
 
   # branch関連
   br   = branch -vv
-  bra  = branch -avv         # originも含めた全てのbranchを表示
-  brm  = branch --merged     # merge済みのbranchを表示
-  brn  = branch --no-merged  # mergeしてないbranchを表示
-  brr  = branch -rvv         # remote branchを表示
+  bra  = branch -avv          # originも含めた全てのbranchを表示
+  brm  = branch --merged      # merge済みのbranchを表示
+  brn  = branch --no-merged   # mergeしてないbranchを表示
+  brr  = branch -rvv          # remote branchを表示
   # git branch を最終更新時間でソート
   brt  = "!f() { for i in `git branch | colrm 1 2` ; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i ; done ; }; f | sort -r"
   # ローカルブランチとリモートブランチを削除
@@ -315,23 +308,18 @@
 
   # ag: http://moznion.hatenadiary.com/entry/2014/08/14/124358
   ag = "!git ls-files | xargs ag --pager=\"less -F -R\" --nogroup --color-match=0\\;31 --color-path=0\\;0 --no-numbers"
-
 [http]
   sslVerify = false
-
 [gui]
   # gitkの文字エンコード
   encoding = utf-8
-
 [web]
   # Set in .gitconfig.local
   #browser = google-chrome
-
 [browse-remote "github.com"]
   top = https://{host}/{path}
   ref = https://{host}/{path}/tree/{short_ref}
   rev = https://{host}/{path}/commit/{commit}
   file = "https://{host}/{path}/blob/{short_rev}/{file}{line && \"#L%d\" % line}"
-
 [credential]
   helper = osxkeychain
