@@ -60,11 +60,11 @@ bindkey '^Qh' zaw-history
 bindkey '^Qr' zaw-cdr
 bindkey '^Qt' zaw-cdd
 bindkey '^Qd' zaw-dirstack
-bindkey '^Qgf' zaw-git-files
 bindkey '^Qgd' zaw-git-directories
+bindkey '^Qgf' zaw-git-files
 bindkey '^Qgl' zaw-git-log
+bindkey '^Qgm' zaw-git-modified-files
 bindkey '^Qgs' zaw-git-show-branch
-
 
 ## zaw-src-cdd
 # http://blog.kentarok.org/entry/2012/03/24/221522
@@ -107,3 +107,15 @@ source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-log/zaw-git-log.zsh
 # https://github.com/yonchu/zaw-src-git-show-branch
 source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-show-branch/zaw-git-show-branch.zsh
 
+## zaw-src-git-modified-files
+function zaw-src-git-modified-files() {
+    git rev-parse -q --is-inside-work-tree > /dev/null 2>&1 || return 1
+    candidates=()
+    candidates+=(${(f)"$(git diff --name-only 2>/dev/null)"})
+    candidates+=(${(f)"$(git diff --name-only --staged 2>/dev/null)"})
+    candidates=(${(iou)candidates[@]})
+    actions=(zaw-callback-append-to-buffer)
+    act_descriptions=("git-modified-files for zaw")
+    options+=(-m)
+}
+zaw-register-src -n git-modified-files zaw-src-git-modified-files
