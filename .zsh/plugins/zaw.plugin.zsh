@@ -20,28 +20,39 @@
 #   $ zaw-print-src
 #   source name      shortcut widget name
 #   ----------------------------------------
-#   ack                     zaw-ack
-#   applications            zaw-applications
-#   bookmark                zaw-bookmark
-#   cdd                     zaw-cdd
-#   cdr                     zaw-cdr
-#   dirstack                zaw-dirstack
-#   git-branches            zaw-git-branches
-#   git-directories         zaw-git-directories
-#   git-files               zaw-git-files
-#   git-files-legacy        zaw-git-files-legacy
-#   git-log                 zaw-git-log
+#   aliases          zaw-aliases
+#   applications     zaw-applications
+#   bookmark         zaw-bookmark
+#   cdd              zaw-cdd
+#   cdr              zaw-cdr
+#   command-output   zaw-command-output
+#   commands         zaw-commands
+#   dirstack         zaw-dirstack
+#   fasd             zaw-fasd
+#   fasd-directories zaw-fasd-directories
+#   fasd-files       zaw-fasd-files
+#   functions        zaw-functions
+#   git-branches     zaw-git-branches
+#   git-directories  zaw-git-directories
+#   git-files        zaw-git-files
+#   git-files-legacy zaw-git-files-legacy
+#   git-log          zaw-git-log
 #   git-recent-all-branches zaw-git-recent-all-branches
-#   git-recent-branches     zaw-git-recent-branches
-#   git-show-branch         zaw-git-show-branch
-#   git-status              zaw-git-status
-#   history                 zaw-history
-#   open-file               zaw-open-file
-#   perldoc                 zaw-perldoc
-#   process                 zaw-process
-#   screens                 zaw-screens
-#   ssh-hosts               zaw-ssh-hosts
-#   tmux                    zaw-tmux
+#   git-recent-branches zaw-git-recent-branches
+#   git-reflog       zaw-git-reflog
+#   git-show-branch  zaw-git-show-branch
+#   git-status       zaw-git-status
+#   history          zaw-history
+#   locate           zaw-locate
+#   open-file        zaw-open-file
+#   perldoc          zaw-perldoc
+#   process          zaw-process
+#   programs         zaw-programs
+#   screens          zaw-screens
+#   searcher         zaw-searcher
+#   ssh-hosts        zaw-ssh-hosts
+#   tmux             zaw-tmux
+#   widgets          zaw-widgets
 
 [ -f ~/.zsh/plugins/zaw/zaw.zsh ] || { echo '...skip'; return; }
 
@@ -54,12 +65,12 @@ zstyle ':filter-select' max-lines $(($LINES / 2))
 ## Bindkey
 bindkey -r '^Q'
 bindkey '^Q^q' zaw
-bindkey '^Qq' zaw
+bindkey '^Qq'  zaw
 
-bindkey '^Qh' zaw-history
-bindkey '^Qr' zaw-cdr
-bindkey '^Qt' zaw-cdd
-bindkey '^Qd' zaw-dirstack
+bindkey '^Qh'  zaw-history
+bindkey '^Qr'  zaw-cdr
+bindkey '^Qt'  zaw-cdd
+bindkey '^Qd'  zaw-dirstack
 bindkey '^Qgd' zaw-git-directories
 bindkey '^Qgf' zaw-git-files
 bindkey '^Qgl' zaw-git-log
