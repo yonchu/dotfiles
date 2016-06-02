@@ -1227,6 +1227,10 @@ hook_post_source = '''
 # Shows a git diff in the gutter (sign column) and stages/undoes hunks.
 #   ]c  jump to next hunk (change).
 #   [c  jump to previous hunk (change).
+#   <Leader>hs  Stage the hunk.
+#   <Leader>hs  Undo.
+#   <Leader>hp  Preview a hunk's changes
+#   ic/ac       Hunk text object.
 repo = 'airblade/vim-gitgutter'
 on_idle = 1
 hook_source = '''
