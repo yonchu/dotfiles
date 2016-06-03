@@ -6,11 +6,13 @@
 #  履歴を使ったディレクトリ移動
 #  コマンド割り当て(j,c)
 #
-#    -h  show this help
-#    -c  restrict matches to subdirectories of the current directory
-#    -l  list dirs (matching args if given)
-#    -r  sort dirs by rank
-#    -t  sort dirs by recency
+#    -c     restrict matches to subdirectories of the current directory
+#    -e     echo the best match, don't cd
+#    -h     show a brief help message
+#    -l     list only
+#    -r     match by rank only
+#    -t     match by recent access only
+#    -x     remove the current directory from the datafile
 
 [ -f ~/.zsh/plugins/z/z.sh ] || { echo '...skip'; return; }
 
@@ -23,5 +25,4 @@ compdef __z_cmd "$_Z_CMD"
 compdef __z_cmd c
 
 alias c='_z_cmd'
-alias jr='_z_cmd -r'
 
