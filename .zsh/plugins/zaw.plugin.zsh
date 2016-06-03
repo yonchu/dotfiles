@@ -107,6 +107,19 @@ function zaw-src-dirstack() {
 }
 zaw-register-src -n dirstack zaw-src-dirstack
 
+## zaw-src-git-modified-files
+function zaw-src-git-modified-files() {
+    git rev-parse -q --is-inside-work-tree > /dev/null 2>&1 || return 1
+    candidates=()
+    candidates+=(${(f)"$(git diff --name-only 2>/dev/null)"})
+    candidates+=(${(f)"$(git diff --name-only --staged 2>/dev/null)"})
+    candidates=(${(iou)candidates[@]})
+    actions=(zaw-callback-append-to-buffer)
+    act_descriptions=("git-modified-files for zaw")
+    options+=(-m)
+}
+
+zaw-register-src -n git-modified-files zaw-src-git-modified-files
 ## zaw-src-git-dirs
 # http://d.hatena.ne.jp/syohex/20121219/1355925874
 # https://github.com/syohex/zaw-git-directories
@@ -124,15 +137,3 @@ source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-show-branch/zaw-git-show-bran
 # https://github.com/NigoroJr/zaw-z
 source "${${funcsourcetrace[1]%:*}:h}"/zaw-z/zaw-z.zsh
 
-## zaw-src-git-modified-files
-function zaw-src-git-modified-files() {
-    git rev-parse -q --is-inside-work-tree > /dev/null 2>&1 || return 1
-    candidates=()
-    candidates+=(${(f)"$(git diff --name-only 2>/dev/null)"})
-    candidates+=(${(f)"$(git diff --name-only --staged 2>/dev/null)"})
-    candidates=(${(iou)candidates[@]})
-    actions=(zaw-callback-append-to-buffer)
-    act_descriptions=("git-modified-files for zaw")
-    options+=(-m)
-}
-zaw-register-src -n git-modified-files zaw-src-git-modified-files
