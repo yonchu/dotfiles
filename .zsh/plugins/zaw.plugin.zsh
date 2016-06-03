@@ -71,6 +71,8 @@ bindkey '^Qh'  zaw-history
 bindkey '^Qr'  zaw-cdr
 bindkey '^Qt'  zaw-cdd
 bindkey '^Qd'  zaw-dirstack
+bindkey '^Qz'  zaw-z
+bindkey '^Qj'  zaw-z
 bindkey '^Qgd' zaw-git-directories
 bindkey '^Qgf' zaw-git-files
 bindkey '^Qgl' zaw-git-log
@@ -117,6 +119,10 @@ source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-log/zaw-git-log.zsh
 ## zaw-src-git-show-branch
 # https://github.com/yonchu/zaw-src-git-show-branch
 source "${${funcsourcetrace[1]%:*}:h}"/zaw-src-git-show-branch/zaw-git-show-branch.zsh
+
+## zaw-z
+# https://github.com/NigoroJr/zaw-z
+source "${${funcsourcetrace[1]%:*}:h}"/zaw-z/zaw-z.zsh
 
 ## zaw-src-git-modified-files
 function zaw-src-git-modified-files() {

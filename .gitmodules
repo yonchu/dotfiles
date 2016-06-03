@@ -73,3 +73,6 @@
 [submodule ".zsh/completions/hw-zsh-completion"]
 	path = .zsh/completions/hw-zsh-completion
 	url = https://github.com/yonchu/hw-zsh-completion.git
+[submodule ".zsh/plugins/zaw-z"]
+	path = .zsh/plugins/zaw-z
+	url = https://github.com/NigoroJr/zaw-z.git
